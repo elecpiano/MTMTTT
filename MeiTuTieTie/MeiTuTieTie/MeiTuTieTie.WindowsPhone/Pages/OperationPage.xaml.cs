@@ -32,6 +32,7 @@ namespace MeiTuTieTie.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            sprite1.DataContext = "/Assets/TestImages/TestImage001.jpg";
         }
     }
 }
