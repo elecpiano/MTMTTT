@@ -13,7 +13,7 @@
     <Grid x:Name="layoutRoot" Background="White">
         
         <Grid x:Name="outerPanel" RenderTransformOrigin="0.5,0.5" 
-              MaxWidth="240" MaxHeight="400" HorizontalAlignment="Center" VerticalAlignment="Center">
+              MaxWidth="200" MaxHeight="300" HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RenderTransform>
                 <CompositeTransform x:Name="outerTransform" />
             </Grid.RenderTransform>
@@ -28,10 +28,6 @@
                    ManipulationMode="TranslateX,TranslateY,Rotate,Scale"
                    ManipulationDelta="image_ManipulationDelta"
                        LayoutUpdated="image_LayoutUpdated"/>
-
-                <Ellipse x:Name="centerPoint" Fill="Red"
-                       VerticalAlignment="Center" HorizontalAlignment="Center"
-                       Width="1" Height="1"/>
                 
                 <Grid x:Name="handle" RenderTransformOrigin="0.5,0.5"
                      VerticalAlignment="Bottom" HorizontalAlignment="Right"
@@ -39,13 +35,21 @@
                     <Grid.RenderTransform>
                         <CompositeTransform x:Name="handleTransform"/>
                     </Grid.RenderTransform>
-                    <Ellipse Fill="LightBlue" Width="48" Height="48"/>
+                    <Ellipse Fill="Blue" Width="48" Height="48"/>
                     <Ellipse x:Name="handlePoint" Fill="Red" Width="1" Height="1"/>
                 </Grid>
                 
             </Grid>
 
         </Grid>
+
+        <Ellipse x:Name="centerPoint" Fill="Red"
+                       VerticalAlignment="Center" HorizontalAlignment="Center"
+                       Width="1" Height="1" RenderTransformOrigin="0.5,0.5">
+            <Ellipse.RenderTransform>
+                <CompositeTransform x:Name="centerPointTransform"/>
+            </Ellipse.RenderTransform>
+        </Ellipse>
 
         <Ellipse x:Name="handleGhost" Fill="#80ff0000"
                        VerticalAlignment="Top" HorizontalAlignment="Left"

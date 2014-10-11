@@ -35,8 +35,14 @@ namespace MeiTuTieTie.Controls
 
             if (isDrag)
             {
-                outerTransform.TranslateX += e.Delta.Translation.X;
-                outerTransform.TranslateY += e.Delta.Translation.Y;
+                var x = e.Delta.Translation.X;
+                var y = e.Delta.Translation.Y;
+
+                outerTransform.TranslateX += x;
+                outerTransform.TranslateY += y;
+
+                centerPointTransform.TranslateX += x;
+                centerPointTransform.TranslateY += y;
             }
             else
             {
@@ -55,33 +61,36 @@ namespace MeiTuTieTie.Controls
 
         private void ghost_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            //old positions
-            var oldPoint = handleGhost.TransformToVisual(centerPoint).TransformPoint(ZERO_POINT);
-            var oldDistance = Math.Sqrt(oldPoint.X * oldPoint.X + oldPoint.Y * oldPoint.Y);
-            var oldAngle = GetAngle(oldPoint.X, oldPoint.Y);
-
             ghostTransform.TranslateX += e.Delta.Translation.X;
             ghostTransform.TranslateY += e.Delta.Translation.Y;
+
+            //old positions
+            var oldPoint = handle.TransformToVisual(centerPoint).TransformPoint(ZERO_POINT);
+            var oldDistance = Math.Sqrt(oldPoint.X * oldPoint.X + oldPoint.Y * oldPoint.Y);
+            var oldAngle = GetAngle(oldPoint.X, oldPoint.Y);
 
             //new positions
             var newPoint = handleGhost.TransformToVisual(centerPoint).TransformPoint(ZERO_POINT);
             var newDistance = Math.Sqrt(newPoint.X * newPoint.X + newPoint.Y * newPoint.Y);
             var newAngle = GetAngle(newPoint.X, newPoint.Y);
 
+            //update rotation
+            var rotation_delta = newAngle - oldAngle;
+            outerTransform.Rotation += rotation_delta;
+            e.Handled = true;
+
             return;
 
             //update scale
-            var scale = newDistance / oldDistance;
-            innerTransform.ScaleX *= scale;
-            innerTransform.ScaleY *= scale;
-            g_scale *= scale;
+            var scale_delta = newDistance / oldDistance;
+            outerTransform.ScaleX *= scale_delta;
+            outerTransform.ScaleY *= scale_delta;
+            g_scale *= scale_delta;
 
             UpdateHandleScale();
 
-            //update rotation
-            innerTransform.Rotation += (newAngle - oldAngle);
+            return;
 
-            e.Handled = true;
         }
 
         private void UpdateHandleScale()
