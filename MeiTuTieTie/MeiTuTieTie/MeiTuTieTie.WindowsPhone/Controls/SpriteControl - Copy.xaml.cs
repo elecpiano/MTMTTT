@@ -21,7 +21,6 @@ namespace MeiTuTieTie.Controls
     {
         Point ZERO_POINT = new Point(0, 0);
         double g_scale = 1d;
-        double g_rotation = 0d;
 
         public SpriteControl()
         {
@@ -35,40 +34,36 @@ namespace MeiTuTieTie.Controls
 
             if (isDrag)
             {
-                outerTransform.TranslateX += e.Delta.Translation.X;
-                outerTransform.TranslateY += e.Delta.Translation.Y;
+                transform.TranslateX += e.Delta.Translation.X;
+                transform.TranslateY += e.Delta.Translation.Y;
             }
             else
             {
-                g_rotation += e.Delta.Rotation;
+                transform.Rotation += e.Delta.Rotation;
+                transform.ScaleX *= e.Delta.Scale;
+                transform.ScaleY *= e.Delta.Scale;
                 g_scale *= e.Delta.Scale;
-
-                outerTransform.Rotation += e.Delta.Rotation;
-                outerTransform.ScaleX *= e.Delta.Scale;
-                outerTransform.ScaleY *= e.Delta.Scale;
 
                 UpdateHandleScale();
             }
-
-            SyncGhostPosition();
         }
 
-        private void ghost_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        private void handle_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             //old positions
             var oldPoint = handleGhost.TransformToVisual(centerPoint).TransformPoint(ZERO_POINT);
             var oldDistance = Math.Sqrt(oldPoint.X * oldPoint.X + oldPoint.Y * oldPoint.Y);
             var oldAngle = GetAngle(oldPoint.X, oldPoint.Y);
 
-            ghostTransform.TranslateX += e.Delta.Translation.X;
-            ghostTransform.TranslateY += e.Delta.Translation.Y;
+            handleGhostTransform.TranslateX += e.Delta.Translation.X;
+            handleGhostTransform.TranslateY += e.Delta.Translation.Y;
 
             //new positions
             var newPoint = handleGhost.TransformToVisual(centerPoint).TransformPoint(ZERO_POINT);
             var newDistance = Math.Sqrt(newPoint.X * newPoint.X + newPoint.Y * newPoint.Y);
             var newAngle = GetAngle(newPoint.X, newPoint.Y);
 
-            return;
+            
 
             //update scale
             var scale = newDistance / oldDistance;
@@ -88,22 +83,7 @@ namespace MeiTuTieTie.Controls
         {
             //keep the handle size unchanged
             handleTransform.ScaleX = handleTransform.ScaleY = 1d / g_scale;
-            //handleGhostTransform.ScaleX = handleGhostTransform.ScaleY = 1d / g_scale;
-        }
-
-        private void image_LayoutUpdated(object sender, object e)
-        {
-            //var point = handle.TransformToVisual(layoutRoot).TransformPoint(ZERO_POINT);
-            //ghostTransform.TranslateX = point.X;
-            //ghostTransform.TranslateY = point.Y;
-            SyncGhostPosition();
-        }
-
-        private void SyncGhostPosition()
-        {
-            var point = handlePoint.TransformToVisual(layoutRoot).TransformPoint(ZERO_POINT);
-            ghostTransform.TranslateX = point.X;
-            ghostTransform.TranslateY = point.Y;
+            handleGhostTransform.ScaleX = handleGhostTransform.ScaleY = 1d / g_scale;
         }
 
         private double GetAngle(double x, double y)
@@ -124,6 +104,19 @@ namespace MeiTuTieTie.Controls
             return angle * 180 / Math.PI;
         }
 
+        private void handle_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+
+        }
+
+        private void image_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            return;
+            //reset ghost
+            //var point = handlePoint.TransformToVisual(centerPoint).TransformPoint(ZERO_POINT);
+            //handleGhostTransform.TranslateX = point.X;
+            //handleGhostTransform.TranslateY = point.Y;
+        }
 
     }
 }
