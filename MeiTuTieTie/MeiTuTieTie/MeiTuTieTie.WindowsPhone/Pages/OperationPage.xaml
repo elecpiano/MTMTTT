@@ -11,5 +11,6 @@
         <TextBlock Text="Operation Page" FontSize="32"/>
         <Grid x:Name="stagePanel" Background="Gray" Margin="20,50,20,20"/>
 
+        <Button Content="OK" Click="OK_Click" VerticalAlignment="Bottom"/>
     </Grid>
 </Page>

@@ -1,5 +1,6 @@
 ﻿using MeiTuTieTie.Common;
 using MeiTuTieTie.Controls;
+using MeiTuTieTie.Utils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -37,15 +38,20 @@ namespace MeiTuTieTie.Pages
             
             sprite = new SpriteControl();
             sprite.SetImage("/Assets/TestImages/TestImage001.jpg");
-            stagePanel.Children.Add(sprite);
+            sprite.SetContainer(stagePanel);
 
             sprite = new SpriteControl();
             sprite.SetImage("/Assets/TestImages/TestImage001.jpg");
-            stagePanel.Children.Add(sprite);
+            sprite.SetContainer(stagePanel);
 
             sprite = new SpriteControl();
             sprite.SetImage("/Assets/TestImages/TestImage001.jpg");
-            stagePanel.Children.Add(sprite);
+            sprite.SetContainer(stagePanel);
+        }
+
+        private void OK_Click(object sender, RoutedEventArgs e)
+        {
+            ImageHelper.CaptureToMediaLibrary(this.stagePanel, "1.jpg");
         }
     }
 }

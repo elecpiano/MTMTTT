@@ -10,10 +10,11 @@
     d:DesignWidth="400"
     >
 
-    <Grid x:Name="layoutRoot" Background="Transparent">
+    <Grid x:Name="layoutRoot">
 
         <Grid x:Name="contentPanel" RenderTransformOrigin="0.5,0.5" 
-              MaxWidth="150" MaxHeight="200" HorizontalAlignment="Center" VerticalAlignment="Center">
+              MaxWidth="150" MaxHeight="200" 
+              HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RenderTransform>
                 <CompositeTransform x:Name="contentTransform" />
             </Grid.RenderTransform>
@@ -32,15 +33,26 @@
                 </Ellipse.RenderTransform>
             </Ellipse>
 
-        </Grid>
-
-        <Ellipse x:Name="centerPoint" Fill="Red"
+            <Ellipse x:Name="centerPoint" Fill="Red"
                        VerticalAlignment="Center" HorizontalAlignment="Center"
                        Width="1" Height="1" RenderTransformOrigin="0.5,0.5">
-            <Ellipse.RenderTransform>
-                <CompositeTransform x:Name="centerPointTransform"/>
-            </Ellipse.RenderTransform>
-        </Ellipse>
+                <Ellipse.RenderTransform>
+                    <CompositeTransform x:Name="centerPointTransform"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+
+            <Grid x:Name="removeButton"
+              VerticalAlignment="Top" HorizontalAlignment="Left"
+              Width="48" Height="48" Margin="-24,-24,0,0"
+              RenderTransformOrigin="0.5,0.5"
+              Tapped="removeButton_Tapped">
+                <Grid.RenderTransform>
+                    <CompositeTransform x:Name="removeTransform"/>
+                </Grid.RenderTransform>
+                <Ellipse Fill="#33ff0000" Width="48" Height="48"/>
+            </Grid>
+
+        </Grid>
 
         <Grid x:Name="handle" 
                        VerticalAlignment="Top" HorizontalAlignment="Left"
@@ -51,7 +63,7 @@
             <Grid.RenderTransform>
                 <CompositeTransform x:Name="handleTransform"/>
             </Grid.RenderTransform>
-            <Ellipse Fill="#33ff0000" Width="48" Height="48"/>
+            <Ellipse Fill="#330000ff" Width="48" Height="48"/>
             <Ellipse x:Name="handlePoint" Fill="Red" Width="1" Height="1"
                      VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>

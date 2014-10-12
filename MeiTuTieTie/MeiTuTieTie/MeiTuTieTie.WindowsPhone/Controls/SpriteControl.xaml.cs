@@ -27,6 +27,8 @@ namespace MeiTuTieTie.Controls
 
         #region Manipulation
 
+        Grid container;
+
         Point ZERO_POINT = new Point(0, 0);
         double g_scale = 1d;
         double g_rotation = 0d;
@@ -43,8 +45,8 @@ namespace MeiTuTieTie.Controls
             contentTransform.TranslateX = g_pos_x;
             contentTransform.TranslateY = g_pos_y;
 
-            centerPointTransform.TranslateX = g_pos_x;
-            centerPointTransform.TranslateY = g_pos_y;
+            //centerPointTransform.TranslateX = g_pos_x;
+            //centerPointTransform.TranslateY = g_pos_y;
         }
 
         private void SetRotation(double delta_r = 0d)
@@ -53,15 +55,17 @@ namespace MeiTuTieTie.Controls
             contentTransform.Rotation = g_rotation;
         }
 
-        private void SetScale(double delta_scale = 0d)
+        private void SetScale(double delta_scale = 1d)
         {
             g_scale *= delta_scale;
 
             contentTransform.ScaleX = g_scale;
             contentTransform.ScaleY = g_scale;
 
-            //keep the RBPoint size unchanged
+            //keep the points' size unchanged, to avoid accumulated errors
             RBTransform.ScaleX = RBTransform.ScaleY = 1d / g_scale;
+            centerPointTransform.ScaleX = centerPointTransform.ScaleY = 1d / g_scale;
+            removeTransform.ScaleX = removeTransform.ScaleY = 1d / g_scale;
         }
 
         private void image_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -104,7 +108,14 @@ namespace MeiTuTieTie.Controls
             var scale_delta = newDistance / oldDistance;
             SetScale(scale_delta);
 
+            SyncHandlePosition();
+
             e.Handled = true;
+        }
+
+        private void removeButton_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            RemoveFromContainer();
         }
 
         private void image_LayoutUpdated(object sender, object e)
@@ -112,11 +123,12 @@ namespace MeiTuTieTie.Controls
             SyncHandlePosition();
             SetRotation();
             SetPosition();
+            SetScale();
         }
 
         private void SyncHandlePosition()
         {
-            var point = RBPoint.TransformToVisual(layoutRoot).TransformPoint(ZERO_POINT);
+            Point point = RBPoint.TransformToVisual(container).TransformPoint(ZERO_POINT);
             handleTransform.TranslateX = point.X;
             handleTransform.TranslateY = point.Y;
         }
@@ -145,9 +157,10 @@ namespace MeiTuTieTie.Controls
 
         private void RandomAppear()
         {
-            g_rotation = RANDOM.NextDouble() * 60d - 30d;
-            g_pos_x = RANDOM.NextDouble() * 100d - 50d;
-            g_pos_y = RANDOM.NextDouble() * 80d - 40d;
+            g_rotation = RANDOM.NextDouble() * 90d - 45d;
+            g_pos_x = RANDOM.NextDouble() * 160d - 80d;
+            g_pos_y = RANDOM.NextDouble() * 240d - 120d;
+            g_scale = RANDOM.NextDouble() * 0.3d + 0.8d;
         }
 
         #endregion
@@ -159,6 +172,25 @@ namespace MeiTuTieTie.Controls
             this.image.DataContext = source;
         }
 
+        public void SetContainer(Grid grid)
+        {
+            container = grid;
+
+            layoutRoot.Children.Remove(contentPanel);
+            container.Children.Add(contentPanel);
+
+            layoutRoot.Children.Remove(handle);
+            container.Children.Add(handle);
+        }
+
+        public void RemoveFromContainer()
+        {
+            container.Children.Remove(contentPanel);
+            container.Children.Remove(handle);
+        }
+
         #endregion
+
+        
     }
 }

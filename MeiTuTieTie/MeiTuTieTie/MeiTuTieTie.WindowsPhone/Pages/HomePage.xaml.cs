@@ -31,9 +31,8 @@ namespace MeiTuTieTie.Pages
             Frame.Navigate(typeof(OperationPage), "single");
         }
 
-        private async void multiPic_Click(object sender, RoutedEventArgs e)
+        private void multiPic_Click(object sender, RoutedEventArgs e)
         {
-            
         }
 
         private void boutique_Click(object sender, RoutedEventArgs e)
@@ -46,30 +45,5 @@ namespace MeiTuTieTie.Pages
 
         }
 
-        private async void CaptureToMediaLibrary(FrameworkElement uiElement, string fileName)
-        {
-            RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap();
-            await renderTargetBitmap.RenderAsync(uiElement, (int)uiElement.ActualWidth, (int)uiElement.ActualHeight);
-            var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
-
-            // Encode the image to file
-            StorageFolder folder = KnownFolders.SavedPictures;
-            var file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
-            using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
-            {
-                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
-
-                encoder.SetPixelData(
-                    BitmapPixelFormat.Bgra8,
-                    BitmapAlphaMode.Ignore,
-                    (uint)renderTargetBitmap.PixelWidth,
-                    (uint)renderTargetBitmap.PixelHeight,
-                    DisplayInformation.GetForCurrentView().LogicalDpi,
-                    DisplayInformation.GetForCurrentView().LogicalDpi,
-                    pixelBuffer.ToArray());
-
-                await encoder.FlushAsync();
-            }
-        }
     }
 }
