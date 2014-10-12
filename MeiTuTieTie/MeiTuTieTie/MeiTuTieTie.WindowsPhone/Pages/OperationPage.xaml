@@ -9,8 +9,7 @@
 
     <Grid>
         <TextBlock Text="Operation Page" FontSize="32"/>
-        <Grid x:Name="stagePanel" Background="Gray" Margin="20,50,20,20">
-            <controls:SpriteControl x:Name="sprite1"/>
-        </Grid>
+        <Grid x:Name="stagePanel" Background="Gray" Margin="20,50,20,20"/>
+
     </Grid>
 </Page>

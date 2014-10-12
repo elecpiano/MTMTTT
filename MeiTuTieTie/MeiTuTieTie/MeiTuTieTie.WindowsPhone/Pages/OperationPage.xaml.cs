@@ -1,4 +1,5 @@
 ﻿using MeiTuTieTie.Common;
+using MeiTuTieTie.Controls;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -32,7 +33,19 @@ namespace MeiTuTieTie.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            sprite1.DataContext = "/Assets/TestImages/TestImage001.jpg";
+            SpriteControl sprite;
+            
+            sprite = new SpriteControl();
+            sprite.SetImage("/Assets/TestImages/TestImage001.jpg");
+            stagePanel.Children.Add(sprite);
+
+            sprite = new SpriteControl();
+            sprite.SetImage("/Assets/TestImages/TestImage001.jpg");
+            stagePanel.Children.Add(sprite);
+
+            sprite = new SpriteControl();
+            sprite.SetImage("/Assets/TestImages/TestImage001.jpg");
+            stagePanel.Children.Add(sprite);
         }
     }
 }

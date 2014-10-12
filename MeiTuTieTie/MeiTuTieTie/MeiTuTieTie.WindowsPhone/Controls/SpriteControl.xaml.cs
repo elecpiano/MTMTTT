@@ -13,106 +13,112 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The User Control item template is documented at http://go.microsoft.com/fwlink/?LinkId=234236
-
 namespace MeiTuTieTie.Controls
 {
     public sealed partial class SpriteControl : UserControl
     {
-        Point ZERO_POINT = new Point(0, 0);
-        double g_scale = 1d;
-        double g_rotation = 0d;
+        private static Random RANDOM = new Random();
 
         public SpriteControl()
         {
             this.InitializeComponent();
+            RandomAppear();
         }
 
+        #region Manipulation
+
+        Point ZERO_POINT = new Point(0, 0);
+        double g_scale = 1d;
+        double g_rotation = 0d;
+        double g_pos_x = 0d;
+        double g_pos_y = 0d;
+
         bool isDrag = false;
+
+        private void SetPosition(double delta_x = 0d, double delta_y = 0d)
+        {
+            g_pos_x += delta_x;
+            g_pos_y += delta_y;
+
+            contentTransform.TranslateX = g_pos_x;
+            contentTransform.TranslateY = g_pos_y;
+
+            centerPointTransform.TranslateX = g_pos_x;
+            centerPointTransform.TranslateY = g_pos_y;
+        }
+
+        private void SetRotation(double delta_r = 0d)
+        {
+            g_rotation += delta_r;
+            contentTransform.Rotation = g_rotation;
+        }
+
+        private void SetScale(double delta_scale = 0d)
+        {
+            g_scale *= delta_scale;
+
+            contentTransform.ScaleX = g_scale;
+            contentTransform.ScaleY = g_scale;
+
+            //keep the RBPoint size unchanged
+            RBTransform.ScaleX = RBTransform.ScaleY = 1d / g_scale;
+        }
+
         private void image_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             isDrag = e.Delta.Rotation == 0 && e.Delta.Expansion == 0;
 
             if (isDrag)
             {
-                var x = e.Delta.Translation.X;
-                var y = e.Delta.Translation.Y;
-
-                outerTransform.TranslateX += x;
-                outerTransform.TranslateY += y;
-
-                centerPointTransform.TranslateX += x;
-                centerPointTransform.TranslateY += y;
+                SetPosition(e.Delta.Translation.X, e.Delta.Translation.Y);
             }
             else
             {
-                g_rotation += e.Delta.Rotation;
-                g_scale *= e.Delta.Scale;
-
-                outerTransform.Rotation += e.Delta.Rotation;
-                outerTransform.ScaleX *= e.Delta.Scale;
-                outerTransform.ScaleY *= e.Delta.Scale;
-
-                UpdateHandleScale();
+                SetScale(e.Delta.Scale);
+                SetRotation(e.Delta.Rotation);
             }
 
-            SyncGhostPosition();
+            SyncHandlePosition();
         }
 
-        private void ghost_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        private void handle_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            ghostTransform.TranslateX += e.Delta.Translation.X;
-            ghostTransform.TranslateY += e.Delta.Translation.Y;
+            handleTransform.TranslateX += e.Delta.Translation.X;
+            handleTransform.TranslateY += e.Delta.Translation.Y;
 
-            //old positions
-            var oldPoint = handle.TransformToVisual(centerPoint).TransformPoint(ZERO_POINT);
+            //RB position
+            var oldPoint = RBPoint.TransformToVisual(centerPoint).TransformPoint(ZERO_POINT);
             var oldDistance = Math.Sqrt(oldPoint.X * oldPoint.X + oldPoint.Y * oldPoint.Y);
             var oldAngle = GetAngle(oldPoint.X, oldPoint.Y);
 
-            //new positions
-            var newPoint = handleGhost.TransformToVisual(centerPoint).TransformPoint(ZERO_POINT);
+            //Handle position
+            var newPoint = handlePoint.TransformToVisual(centerPoint).TransformPoint(ZERO_POINT);
             var newDistance = Math.Sqrt(newPoint.X * newPoint.X + newPoint.Y * newPoint.Y);
             var newAngle = GetAngle(newPoint.X, newPoint.Y);
 
             //update rotation
             var rotation_delta = newAngle - oldAngle;
-            outerTransform.Rotation += rotation_delta;
-            e.Handled = true;
-
-            return;
+            SetRotation(rotation_delta);
 
             //update scale
             var scale_delta = newDistance / oldDistance;
-            outerTransform.ScaleX *= scale_delta;
-            outerTransform.ScaleY *= scale_delta;
-            g_scale *= scale_delta;
+            SetScale(scale_delta);
 
-            UpdateHandleScale();
-
-            return;
-
-        }
-
-        private void UpdateHandleScale()
-        {
-            //keep the handle size unchanged
-            handleTransform.ScaleX = handleTransform.ScaleY = 1d / g_scale;
-            //handleGhostTransform.ScaleX = handleGhostTransform.ScaleY = 1d / g_scale;
+            e.Handled = true;
         }
 
         private void image_LayoutUpdated(object sender, object e)
         {
-            //var point = handle.TransformToVisual(layoutRoot).TransformPoint(ZERO_POINT);
-            //ghostTransform.TranslateX = point.X;
-            //ghostTransform.TranslateY = point.Y;
-            SyncGhostPosition();
+            SyncHandlePosition();
+            SetRotation();
+            SetPosition();
         }
 
-        private void SyncGhostPosition()
+        private void SyncHandlePosition()
         {
-            var point = handlePoint.TransformToVisual(layoutRoot).TransformPoint(ZERO_POINT);
-            ghostTransform.TranslateX = point.X;
-            ghostTransform.TranslateY = point.Y;
+            var point = RBPoint.TransformToVisual(layoutRoot).TransformPoint(ZERO_POINT);
+            handleTransform.TranslateX = point.X;
+            handleTransform.TranslateY = point.Y;
         }
 
         private double GetAngle(double x, double y)
@@ -133,6 +139,26 @@ namespace MeiTuTieTie.Controls
             return angle * 180 / Math.PI;
         }
 
+        #endregion
 
+        #region Randomize
+
+        private void RandomAppear()
+        {
+            g_rotation = RANDOM.NextDouble() * 60d - 30d;
+            g_pos_x = RANDOM.NextDouble() * 100d - 50d;
+            g_pos_y = RANDOM.NextDouble() * 80d - 40d;
+        }
+
+        #endregion
+
+        #region Public Method
+
+        public void SetImage(string source)
+        {
+            this.image.DataContext = source;
+        }
+
+        #endregion
     }
 }
