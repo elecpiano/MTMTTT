@@ -8,9 +8,8 @@
     mc:Ignorable="d">
 
     <Grid>
-        <TextBlock Text="Operation Page" FontSize="32"/>
-        <Grid x:Name="stagePanel" Background="Gray" Margin="20,50,20,20"/>
+        <Grid x:Name="stagePanel" Background="Wheat" Margin="0"/>
 
-        <Button Content="OK" Click="OK_Click" VerticalAlignment="Bottom"/>
+        <Button Content="OK" Click="OK_Click" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="12,0,12,0"/>
     </Grid>
 </Page>

@@ -19,5 +19,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\ObservableDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\ImageHelper.cs" />
   </ItemGroup>
 </Project>

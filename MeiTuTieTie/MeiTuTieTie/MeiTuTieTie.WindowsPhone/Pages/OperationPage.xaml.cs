@@ -24,6 +24,8 @@ namespace MeiTuTieTie.Pages
 
         private readonly NavigationHelper navigationHelper;
 
+        private List<SpriteControl> spriteList = new List<SpriteControl>();
+
         #endregion
 
         public OperationPage()
@@ -34,25 +36,25 @@ namespace MeiTuTieTie.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            SpriteControl sprite;
-            
-            sprite = new SpriteControl();
-            sprite.SetImage("/Assets/TestImages/TestImage001.jpg");
-            sprite.SetContainer(stagePanel);
+            SpriteControl sprite = null;
 
-            sprite = new SpriteControl();
-            sprite.SetImage("/Assets/TestImages/TestImage001.jpg");
-            sprite.SetContainer(stagePanel);
-
-            sprite = new SpriteControl();
-            sprite.SetImage("/Assets/TestImages/TestImage001.jpg");
-            sprite.SetContainer(stagePanel);
+            for (int i = 0; i < 4; i++)
+            {
+                sprite = new SpriteControl();
+                sprite.SetImage("/Assets/TestImages/TestImage001.jpg");
+                sprite.SetContainer(stagePanel);
+                spriteList.Add(sprite);
+            }
 
             sprite.HandleVisible = true;
         }
 
         private void OK_Click(object sender, RoutedEventArgs e)
         {
+            foreach (var sprite in spriteList)
+            {
+                sprite.HandleVisible = false;
+            }
             ImageHelper.CaptureToMediaLibrary(this.stagePanel, "1.jpg");
         }
     }

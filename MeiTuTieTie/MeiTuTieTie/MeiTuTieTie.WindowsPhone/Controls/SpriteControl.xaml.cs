@@ -80,9 +80,6 @@ namespace MeiTuTieTie.Controls
 
             contentTransform.TranslateX = g_pos_x;
             contentTransform.TranslateY = g_pos_y;
-
-            //centerPointTransform.TranslateX = g_pos_x;
-            //centerPointTransform.TranslateY = g_pos_y;
         }
 
         private void SetRotation(double delta_r = 0d)
@@ -99,9 +96,9 @@ namespace MeiTuTieTie.Controls
             contentTransform.ScaleY = g_scale;
 
             //keep the points' size unchanged, to avoid accumulated errors
+            LTTransform.ScaleX = LTTransform.ScaleY = 1d / g_scale;
             RBTransform.ScaleX = RBTransform.ScaleY = 1d / g_scale;
             centerPointTransform.ScaleX = centerPointTransform.ScaleY = 1d / g_scale;
-            removeTransform.ScaleX = removeTransform.ScaleY = 1d / g_scale;
         }
 
         private void image_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -161,10 +158,10 @@ namespace MeiTuTieTie.Controls
 
         private void image_LayoutUpdated(object sender, object e)
         {
-            SyncHandlePosition();
             SetRotation();
             SetPosition();
             SetScale();
+            SyncHandlePosition();
         }
 
         private void SyncHandlePosition()
@@ -172,6 +169,10 @@ namespace MeiTuTieTie.Controls
             Point point = RBPoint.TransformToVisual(container).TransformPoint(ZERO_POINT);
             handleTransform.TranslateX = point.X;
             handleTransform.TranslateY = point.Y;
+
+            point = LTPoint.TransformToVisual(container).TransformPoint(ZERO_POINT);
+            removeTransform.TranslateX = point.X;
+            removeTransform.TranslateY = point.Y;
         }
 
         private double GetAngle(double x, double y)
@@ -222,6 +223,11 @@ namespace MeiTuTieTie.Controls
 
             layoutRoot.Children.Remove(handle);
             container.Children.Add(handle);
+            handle.SetValue(Canvas.ZIndexProperty, 999);
+
+            layoutRoot.Children.Remove(removeButton);
+            container.Children.Add(removeButton);
+            removeButton.SetValue(Canvas.ZIndexProperty, 999);
 
             Sprites.Add(this);
         }
@@ -230,6 +236,7 @@ namespace MeiTuTieTie.Controls
         {
             container.Children.Remove(contentPanel);
             container.Children.Remove(handle);
+            container.Children.Remove(removeButton);
         }
 
         #endregion

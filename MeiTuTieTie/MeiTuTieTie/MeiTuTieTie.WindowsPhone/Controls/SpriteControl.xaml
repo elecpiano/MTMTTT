@@ -26,6 +26,14 @@
                    ManipulationDelta="image_ManipulationDelta"
                    LayoutUpdated="image_LayoutUpdated"/>
 
+            <Ellipse x:Name="LTPoint" Fill="Red" 
+                         Width="1" Height="1"
+                         VerticalAlignment="Top" HorizontalAlignment="Left">
+                <Ellipse.RenderTransform>
+                    <CompositeTransform x:Name="LTTransform"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+
             <Ellipse x:Name="RBPoint" Fill="Red" 
                          Width="1" Height="1"
                          VerticalAlignment="Bottom" HorizontalAlignment="Right">
@@ -42,17 +50,17 @@
                 </Ellipse.RenderTransform>
             </Ellipse>
 
-            <Grid x:Name="removeButton" Visibility="Collapsed"
+        </Grid>
+        
+        <Grid x:Name="removeButton" Visibility="Collapsed"
               VerticalAlignment="Top" HorizontalAlignment="Left"
               Width="48" Height="48" Margin="-24,-24,0,0"
               RenderTransformOrigin="0.5,0.5"
               Tapped="removeButton_Tapped">
-                <Grid.RenderTransform>
-                    <CompositeTransform x:Name="removeTransform"/>
-                </Grid.RenderTransform>
-                <Ellipse Fill="#33ff0000" Width="48" Height="48"/>
-            </Grid>
-
+            <Grid.RenderTransform>
+                <CompositeTransform x:Name="removeTransform"/>
+            </Grid.RenderTransform>
+            <Ellipse Fill="#33ff0000" Width="48" Height="48"/>
         </Grid>
 
         <Grid x:Name="handle" Visibility="Collapsed"
