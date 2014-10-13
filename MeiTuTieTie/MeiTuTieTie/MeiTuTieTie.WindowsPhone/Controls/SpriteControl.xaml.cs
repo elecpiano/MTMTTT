@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml;
+using MeiTuTieTie.Animations;
 
 namespace MeiTuTieTie.Controls
 {
@@ -21,8 +22,13 @@ namespace MeiTuTieTie.Controls
         #region Property
 
         private static Random RANDOM = new Random();
-
         private static List<SpriteControl> Sprites = new List<SpriteControl>();
+        private const double APPEAR_DURATION = 900d;
+
+        private FrameworkElement _contentPanel = null;
+        private FrameworkElement _handle = null;
+        private FrameworkElement _removeButton = null;
+        private Grid _container = null;
 
         private bool _HandleVisible = false;
         public bool HandleVisible
@@ -36,8 +42,8 @@ namespace MeiTuTieTie.Controls
                 if (_HandleVisible != value)
                 {
                     _HandleVisible = value;
-                    handle.Visibility = _HandleVisible ? Visibility.Visible : Visibility.Collapsed;
-                    removeButton.Visibility = _HandleVisible ? Visibility.Visible : Visibility.Collapsed;
+                    _handle.Visibility = _HandleVisible ? Visibility.Visible : Visibility.Collapsed;
+                    _removeButton.Visibility = _HandleVisible ? Visibility.Visible : Visibility.Collapsed;
 
                     if (_HandleVisible)
                     {
@@ -58,12 +64,12 @@ namespace MeiTuTieTie.Controls
         public SpriteControl()
         {
             this.InitializeComponent();
-            RandomAppear();
+            _contentPanel = contentPanel;
+            _handle = handle;
+            _removeButton = removeButton;
         }
 
         #region Manipulation
-
-        Grid container;
 
         Point ZERO_POINT = new Point(0, 0);
         double g_scale = 1d;
@@ -166,11 +172,11 @@ namespace MeiTuTieTie.Controls
 
         private void SyncHandlePosition()
         {
-            Point point = RBPoint.TransformToVisual(container).TransformPoint(ZERO_POINT);
+            Point point = RBPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
             handleTransform.TranslateX = point.X;
             handleTransform.TranslateY = point.Y;
 
-            point = LTPoint.TransformToVisual(container).TransformPoint(ZERO_POINT);
+            point = LTPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
             removeTransform.TranslateX = point.X;
             removeTransform.TranslateY = point.Y;
         }
@@ -216,34 +222,49 @@ namespace MeiTuTieTie.Controls
 
         public void SetContainer(Grid grid)
         {
-            container = grid;
+            _container = grid;
 
-            layoutRoot.Children.Remove(contentPanel);
-            container.Children.Add(contentPanel);
+            _contentPanel.Name = string.Empty;
+            layoutRoot.Children.Remove(_contentPanel);
+            _container.Children.Add(_contentPanel);
 
-            layoutRoot.Children.Remove(handle);
-            container.Children.Add(handle);
-            handle.SetValue(Canvas.ZIndexProperty, 999);
+            layoutRoot.Children.Remove(_handle);
+            _container.Children.Add(_handle);
+            _handle.SetValue(Canvas.ZIndexProperty, 999);
 
-            layoutRoot.Children.Remove(removeButton);
-            container.Children.Add(removeButton);
-            removeButton.SetValue(Canvas.ZIndexProperty, 999);
+            layoutRoot.Children.Remove(_removeButton);
+            _container.Children.Add(_removeButton);
+            _removeButton.SetValue(Canvas.ZIndexProperty, 999);
 
             Sprites.Add(this);
         }
 
         public void RemoveFromContainer()
         {
-            container.Children.Remove(contentPanel);
-            container.Children.Remove(handle);
-            container.Children.Remove(removeButton);
+            _container.Children.Remove(_contentPanel);
+            _container.Children.Remove(_handle);
+            _container.Children.Remove(_removeButton);
+        }
+
+        public void Appear()
+        {
+            this.HandleVisible = false;
+
+            double from_x = RANDOM.NextDouble() * 160d - 80d;
+            double from_y = RANDOM.NextDouble() * 240d - 120d;
+            MoveAnimation.MoveFromTo(this, from_x, from_y, 0d, 0d, APPEAR_DURATION, null,
+                fe =>
+                {
+                    //ActuallyAddToContainer();
+                    //this.HandleVisible = true;
+                });
+
+            double rotation = RANDOM.NextDouble() * 90d - 45d;
+
+            RotateAnimation.RotateFromTo(this, 0d, rotation, APPEAR_DURATION);
         }
 
         #endregion
-
-
-
-
 
     }
 }

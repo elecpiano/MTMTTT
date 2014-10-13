@@ -1,4 +1,5 @@
-﻿using MeiTuTieTie.Common;
+﻿using MeiTuTieTie.Animations;
+using MeiTuTieTie.Common;
 using MeiTuTieTie.Controls;
 using MeiTuTieTie.Utils;
 using System;
@@ -42,8 +43,9 @@ namespace MeiTuTieTie.Pages
             {
                 sprite = new SpriteControl();
                 sprite.SetImage("/Assets/TestImages/TestImage001.jpg");
-                sprite.SetContainer(stagePanel);
                 spriteList.Add(sprite);
+
+                sprite.SetContainer(stagePanel);
             }
 
             sprite.HandleVisible = true;
@@ -51,11 +53,12 @@ namespace MeiTuTieTie.Pages
 
         private void OK_Click(object sender, RoutedEventArgs e)
         {
+
             foreach (var sprite in spriteList)
             {
                 sprite.HandleVisible = false;
             }
-            ImageHelper.CaptureToMediaLibrary(this.stagePanel, "1.jpg");
+            //ImageHelper.CaptureToMediaLibrary(this.stagePanel, "1.jpg");
         }
     }
 }
