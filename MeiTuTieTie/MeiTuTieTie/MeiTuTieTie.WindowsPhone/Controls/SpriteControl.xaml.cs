@@ -12,12 +12,48 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml;
 
 namespace MeiTuTieTie.Controls
 {
     public sealed partial class SpriteControl : UserControl
     {
+        #region Property
+
         private static Random RANDOM = new Random();
+
+        private static List<SpriteControl> Sprites = new List<SpriteControl>();
+
+        private bool _HandleVisible = false;
+        public bool HandleVisible
+        {
+            get
+            {
+                return _HandleVisible;
+            }
+            set
+            {
+                if (_HandleVisible != value)
+                {
+                    _HandleVisible = value;
+                    handle.Visibility = _HandleVisible ? Visibility.Visible : Visibility.Collapsed;
+                    removeButton.Visibility = _HandleVisible ? Visibility.Visible : Visibility.Collapsed;
+
+                    if (_HandleVisible)
+                    {
+                        foreach (var sprite in Sprites)
+                        {
+                            if (sprite != this)
+                            {
+                                sprite.HandleVisible = false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        #endregion
 
         public SpriteControl()
         {
@@ -118,6 +154,11 @@ namespace MeiTuTieTie.Controls
             RemoveFromContainer();
         }
 
+        private void image_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            HandleVisible = true;
+        }
+
         private void image_LayoutUpdated(object sender, object e)
         {
             SyncHandlePosition();
@@ -181,6 +222,8 @@ namespace MeiTuTieTie.Controls
 
             layoutRoot.Children.Remove(handle);
             container.Children.Add(handle);
+
+            Sprites.Add(this);
         }
 
         public void RemoveFromContainer()
@@ -191,6 +234,9 @@ namespace MeiTuTieTie.Controls
 
         #endregion
 
-        
+
+
+
+
     }
 }

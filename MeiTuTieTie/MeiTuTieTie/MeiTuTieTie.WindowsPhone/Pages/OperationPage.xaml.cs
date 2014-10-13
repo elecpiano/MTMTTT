@@ -47,6 +47,8 @@ namespace MeiTuTieTie.Pages
             sprite = new SpriteControl();
             sprite.SetImage("/Assets/TestImages/TestImage001.jpg");
             sprite.SetContainer(stagePanel);
+
+            sprite.HandleVisible = true;
         }
 
         private void OK_Click(object sender, RoutedEventArgs e)

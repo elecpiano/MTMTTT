@@ -21,9 +21,10 @@
 
             <Image x:Name="image" Stretch="Uniform" Source="{Binding}"
                    CacheMode="BitmapCache" 
+                   PointerPressed="image_PointerPressed"
                    ManipulationMode="TranslateX,TranslateY,Rotate,Scale"
                    ManipulationDelta="image_ManipulationDelta"
-                       LayoutUpdated="image_LayoutUpdated"/>
+                   LayoutUpdated="image_LayoutUpdated"/>
 
             <Ellipse x:Name="RBPoint" Fill="Red" 
                          Width="1" Height="1"
@@ -41,7 +42,7 @@
                 </Ellipse.RenderTransform>
             </Ellipse>
 
-            <Grid x:Name="removeButton"
+            <Grid x:Name="removeButton" Visibility="Collapsed"
               VerticalAlignment="Top" HorizontalAlignment="Left"
               Width="48" Height="48" Margin="-24,-24,0,0"
               RenderTransformOrigin="0.5,0.5"
@@ -54,7 +55,7 @@
 
         </Grid>
 
-        <Grid x:Name="handle" 
+        <Grid x:Name="handle" Visibility="Collapsed"
                        VerticalAlignment="Top" HorizontalAlignment="Left"
                        Width="48" Height="48" Margin="-24,-24,0,0"
                        RenderTransformOrigin="0.5,0.5"
