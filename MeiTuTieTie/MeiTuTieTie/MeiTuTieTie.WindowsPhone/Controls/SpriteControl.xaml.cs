@@ -30,6 +30,8 @@ namespace MeiTuTieTie.Controls
         private FrameworkElement _removeButton = null;
         private FrameworkElement _border = null;
 
+        private CompositeTransform _contentTransform = null;
+
         private Grid _container = null;
 
         private bool _HandleVisible = false;
@@ -88,8 +90,11 @@ namespace MeiTuTieTie.Controls
             g_pos_x += delta_x;
             g_pos_y += delta_y;
 
-            contentTransform.TranslateX = g_pos_x;
-            contentTransform.TranslateY = g_pos_y;
+            if (_contentTransform != null)
+            {
+                _contentTransform.TranslateX = g_pos_x;
+                _contentTransform.TranslateY = g_pos_y;
+            }
 
             borderTransform.TranslateX = g_pos_x;
             borderTransform.TranslateY = g_pos_y;
@@ -98,7 +103,10 @@ namespace MeiTuTieTie.Controls
         private void SetRotation(double delta_r = 0d)
         {
             g_rotation += delta_r;
-            contentTransform.Rotation = g_rotation;
+            if (_contentTransform != null)
+            {
+                _contentTransform.Rotation = g_rotation;
+            }
             borderTransform.Rotation = g_rotation;
         }
 
@@ -106,8 +114,11 @@ namespace MeiTuTieTie.Controls
         {
             g_scale *= delta_scale;
 
-            contentTransform.ScaleX = g_scale;
-            contentTransform.ScaleY = g_scale;
+            if (_contentTransform != null)
+            {
+                _contentTransform.ScaleX = g_scale;
+                _contentTransform.ScaleY = g_scale;
+            }
             borderTransform.ScaleX = borderTransform.ScaleY = g_scale;
 
             //keep the points' size unchanged, to avoid accumulated errors
@@ -241,6 +252,12 @@ namespace MeiTuTieTie.Controls
             layoutRoot.Children.Remove(_contentPanel);
             _container.Children.Add(_contentPanel);
 
+            Appear();
+        }
+        public void ActuallyAddToContainer()
+        {
+            _contentTransform = _contentPanel.RenderTransform as CompositeTransform;
+
             //border
             layoutRoot.Children.Remove(_border);
             _container.Children.Add(_border);
@@ -271,18 +288,17 @@ namespace MeiTuTieTie.Controls
         {
             this.HandleVisible = false;
 
-            double from_x = RANDOM.NextDouble() * 160d - 80d;
-            double from_y = RANDOM.NextDouble() * 240d - 120d;
-            MoveAnimation.MoveFromTo(this, from_x, from_y, 0d, 0d, APPEAR_DURATION, null,
+            double from_x = 200d;// RANDOM.NextDouble() * 160d - 80d;
+            double from_y = 200d;// RANDOM.NextDouble() * 240d - 120d;
+            MoveAnimation.MoveFromTo(_contentPanel, from_x, from_y, 0d, 0d, APPEAR_DURATION, null,
                 fe =>
                 {
-                    //ActuallyAddToContainer();
+                    ActuallyAddToContainer();
                     //this.HandleVisible = true;
                 });
 
-            double rotation = RANDOM.NextDouble() * 90d - 45d;
-
-            RotateAnimation.RotateFromTo(this, 0d, rotation, APPEAR_DURATION);
+            //double rotation = RANDOM.NextDouble() * 90d - 45d;
+            //RotateAnimation.RotateFromTo(this, 0d, rotation, APPEAR_DURATION);
         }
 
         #endregion
