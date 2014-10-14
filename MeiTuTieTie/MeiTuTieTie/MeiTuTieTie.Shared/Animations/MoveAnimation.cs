@@ -152,7 +152,7 @@ namespace MeiTuTieTie.Animations
             EasingFunctionBase easing = null,
             Action<FrameworkElement> completed = null)
         {
-            EnstureTransform(cell);
+            EnsureTransform(cell);
 
             CompositeTransform transform = cell.RenderTransform as CompositeTransform;
             var fromX = transform.TranslateX;
@@ -170,7 +170,7 @@ namespace MeiTuTieTie.Animations
             EasingFunctionBase easing = null,
             Action<FrameworkElement> completed = null)
         {
-            EnstureTransform(cell);
+            EnsureTransform(cell);
 
             cell.RenderTransform.SetValue(CompositeTransform.TranslateXProperty, from_x);
             cell.RenderTransform.SetValue(CompositeTransform.TranslateYProperty, from_y);

@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Animations\AnimationBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animations\MoveAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animations\RotateAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Animations\ScaleAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>

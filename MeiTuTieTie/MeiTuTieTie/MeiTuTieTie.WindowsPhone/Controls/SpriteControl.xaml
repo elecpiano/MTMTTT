@@ -10,16 +10,14 @@
     d:DesignWidth="400"
     >
 
-    <Grid x:Name="layoutRoot" RenderTransformOrigin="0.5,0.5">
-    	<Grid.RenderTransform>
-    		<CompositeTransform/>
-    	</Grid.RenderTransform>
+    <Grid x:Name="layoutRoot">
 
         <Grid x:Name="contentPanel" RenderTransformOrigin="0.5,0.5" 
               MaxWidth="150" MaxHeight="200" 
               HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RenderTransform>
-                <CompositeTransform x:Name="contentTransform" />
+                <!--<CompositeTransform x:Name="contentTransform" />-->
+                <CompositeTransform/>
             </Grid.RenderTransform>
 
             <Image x:Name="image" Stretch="Uniform" Source="{Binding}"
@@ -33,7 +31,8 @@
                          Width="1" Height="1"
                          VerticalAlignment="Top" HorizontalAlignment="Left">
                 <Ellipse.RenderTransform>
-                    <CompositeTransform x:Name="LTTransform"/>
+                    <!--<CompositeTransform x:Name="LTTransform"/>-->
+                    <CompositeTransform/>
                 </Ellipse.RenderTransform>
             </Ellipse>
 
@@ -41,7 +40,8 @@
                          Width="1" Height="1"
                          VerticalAlignment="Bottom" HorizontalAlignment="Right">
                 <Ellipse.RenderTransform>
-                    <CompositeTransform x:Name="RBTransform"/>
+                    <!--<CompositeTransform x:Name="RBTransform"/>-->
+                    <CompositeTransform/>
                 </Ellipse.RenderTransform>
             </Ellipse>
 
@@ -49,7 +49,8 @@
                        VerticalAlignment="Center" HorizontalAlignment="Center"
                        Width="1" Height="1" RenderTransformOrigin="0.5,0.5">
                 <Ellipse.RenderTransform>
-                    <CompositeTransform x:Name="centerPointTransform"/>
+                    <!--<CompositeTransform x:Name="centerPointTransform"/>-->
+                    <CompositeTransform/>
                 </Ellipse.RenderTransform>
             </Ellipse>
 
@@ -58,7 +59,8 @@
         <Border x:Name="border" Visibility="Collapsed"
                 BorderThickness="1" BorderBrush="Orange" RenderTransformOrigin="0.5,0.5">
             <Border.RenderTransform>
-                <CompositeTransform x:Name="borderTransform" />
+                <!--<CompositeTransform x:Name="borderTransform" />-->
+                <CompositeTransform/>
             </Border.RenderTransform>
         </Border>
         
@@ -68,7 +70,8 @@
               RenderTransformOrigin="0.5,0.5"
               Tapped="removeButton_Tapped">
             <Grid.RenderTransform>
-                <CompositeTransform x:Name="removeTransform"/>
+                <!--<CompositeTransform x:Name="removeTransform"/>-->
+                <CompositeTransform/>
             </Grid.RenderTransform>
             <Ellipse Fill="#33ff0000" Width="48" Height="48"/>
         </Grid>
@@ -80,7 +83,8 @@
                      ManipulationMode="TranslateX,TranslateY"
                      ManipulationDelta="handle_ManipulationDelta">
             <Grid.RenderTransform>
-                <CompositeTransform x:Name="handleTransform"/>
+                <!--<CompositeTransform x:Name="handleTransform"/>-->
+                <CompositeTransform/>
             </Grid.RenderTransform>
             <Ellipse Fill="#330000ff" Width="48" Height="48"/>
             <Ellipse x:Name="handlePoint" Fill="Red" Width="1" Height="1"

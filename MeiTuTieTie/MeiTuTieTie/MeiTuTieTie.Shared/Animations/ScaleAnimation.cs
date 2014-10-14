@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows;
-using System.Windows.Media;
-using System.Windows.Media.Animation;
+using Windows.Foundation;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 
-namespace WinterOlympics2014WP.Animations
+namespace MeiTuTieTie.Animations
 {
     public class ScaleAnimation : AnimationBase
     {
@@ -56,7 +57,7 @@ namespace WinterOlympics2014WP.Animations
             _KeyFrame_x_to.Value = 1;
             _Animation_X.KeyFrames.Add(_KeyFrame_x_to);
 
-            Storyboard.SetTargetProperty(_Animation_X, new PropertyPath("(UIElement.RenderTransform).(CompositeTransform.ScaleX)"));
+            Storyboard.SetTargetProperty(_Animation_X, "(UIElement.RenderTransform).(CompositeTransform.ScaleX)");
             _Storyboard.Children.Add(_Animation_X);
 
             /***animation y***/
@@ -74,19 +75,13 @@ namespace WinterOlympics2014WP.Animations
             _KeyFrame_y_to.Value = 1;
             _Animation_Y.KeyFrames.Add(_KeyFrame_y_to);
 
-            Storyboard.SetTargetProperty(_Animation_Y, new PropertyPath("(UIElement.RenderTransform).(CompositeTransform.ScaleY)"));
+            Storyboard.SetTargetProperty(_Animation_Y, "(UIElement.RenderTransform).(CompositeTransform.ScaleY)");
             _Storyboard.Children.Add(_Animation_Y);
         }
 
         public static void SetScale(FrameworkElement cell, double x, double y)
         {
-            CompositeTransform transform = cell.RenderTransform as CompositeTransform;
-            if (transform == null)
-            {
-                cell.RenderTransform = transform = new CompositeTransform();
-                cell.RenderTransformOrigin = new Point(0.5d, 0.5d);
-            }
-
+            EnsureTransform(cell);
             cell.RenderTransform.SetValue(CompositeTransform.ScaleXProperty, x);
             cell.RenderTransform.SetValue(CompositeTransform.ScaleYProperty, y);
         }
@@ -94,7 +89,7 @@ namespace WinterOlympics2014WP.Animations
         public static ScaleAnimation ScaleFromTo(FrameworkElement cell,
                 double from_x, double from_y,
                 double to_x, double to_y,
-                TimeSpan duration, Action<FrameworkElement> completed)
+                double duration, Action<FrameworkElement> completed=null)
         {
             ScaleAnimation animation = null;
             if (AnimationPool.Count == 0)
@@ -110,7 +105,7 @@ namespace WinterOlympics2014WP.Animations
             return animation;
         }
 
-        public static ScaleAnimation ScaleTo(FrameworkElement cell, double targetX, double targetY, TimeSpan duration, Action<FrameworkElement> completed)
+        public static ScaleAnimation ScaleTo(FrameworkElement cell, double targetX, double targetY, double duration, Action<FrameworkElement> completed=null)
         {
             ScaleAnimation animation = null;
             if (AnimationPool.Count == 0)
@@ -129,26 +124,18 @@ namespace WinterOlympics2014WP.Animations
         public void InstanceScaleFromTo(FrameworkElement cell,
                 double from_x, double from_y,
                 double to_x, double to_y,
-                TimeSpan duration, Action<FrameworkElement> completed)
+                double duration, Action<FrameworkElement> completed=null)
         {
-            //CompositeTransform transform = cell.RenderTransform as CompositeTransform;
-            //if (transform == null)
-            //{
-            //    cell.RenderTransform = transform = new CompositeTransform();
-            //    cell.RenderTransformOrigin = new Point(0.5d, 0.5d);
-            //}
-            //cell.RenderTransform.SetValue(CompositeTransform.ScaleXProperty, from_x);
-            //cell.RenderTransform.SetValue(CompositeTransform.ScaleYProperty, from_y);
             SetScale(cell, from_x, from_y);
             this.InstanceScaleTo(cell, to_x, to_y, duration, completed);
         }
 
-        public void InstanceScaleTo(FrameworkElement cell, double targetX, double targetY, TimeSpan duration, Action<FrameworkElement> completed)
+        public void InstanceScaleTo(FrameworkElement cell, double targetX, double targetY, double duration, Action<FrameworkElement> completed=null)
         {
             this.Animate(cell, duration, targetX, targetY, completed);
         }
 
-        private void Animate(FrameworkElement cell, TimeSpan duration, double targetX, double targetY, Action<FrameworkElement> completed)
+        private void Animate(FrameworkElement cell, double duration, double targetX, double targetY, Action<FrameworkElement> completed=null)
         {
             AnimationTarget = cell;
             AnimationCompleted = completed;
@@ -165,8 +152,8 @@ namespace WinterOlympics2014WP.Animations
             }
 
             /*time*/
-            _KeyFrame_x_to.KeyTime = KeyTime.FromTimeSpan(duration);
-            _KeyFrame_y_to.KeyTime = KeyTime.FromTimeSpan(duration);
+            _KeyFrame_x_to.KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(duration));
+            _KeyFrame_y_to.KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(duration));
 
             /*value*/
             CompositeTransform transform = cell.RenderTransform as CompositeTransform;
@@ -183,8 +170,6 @@ namespace WinterOlympics2014WP.Animations
 
         private void _Storyboard_Completed(object sender, object e)
         {
-            //this.AnimationTarget.RenderTransform.SetValue(CompositeTransform.ScaleXProperty, TargetX);
-            //this.AnimationTarget.RenderTransform.SetValue(CompositeTransform.ScaleYProperty, TargetY);
             SetScale(this.AnimationTarget, TargetX, TargetY);
 
             if (AnimationCompleted != null)

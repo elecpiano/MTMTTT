@@ -30,7 +30,7 @@ namespace MeiTuTieTie.Animations
             this._Storyboard.Stop();
         }
 
-        protected void EnstureTransform(FrameworkElement cell)
+        protected static void EnsureTransform(FrameworkElement cell)
         {
             CompositeTransform transform = cell.RenderTransform as CompositeTransform;
             if (transform == null)

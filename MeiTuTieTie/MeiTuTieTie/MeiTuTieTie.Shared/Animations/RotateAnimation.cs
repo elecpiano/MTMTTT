@@ -115,7 +115,7 @@ namespace MeiTuTieTie.Animations
 
         public void InstanceRotateBy(FrameworkElement cell, double by, double duration, Action<FrameworkElement> completed = null)
         {
-            EnstureTransform(cell);
+            EnsureTransform(cell);
 
             CompositeTransform transform = cell.RenderTransform as CompositeTransform;
             var from = transform.Rotation;
@@ -129,7 +129,7 @@ namespace MeiTuTieTie.Animations
             double to,
             double duration, Action<FrameworkElement> completed = null)
         {
-            EnstureTransform(cell);
+            EnsureTransform(cell);
 
             cell.RenderTransform.SetValue(CompositeTransform.RotationProperty, from);
             this.InstanceRotateTo(cell, to, duration, completed);

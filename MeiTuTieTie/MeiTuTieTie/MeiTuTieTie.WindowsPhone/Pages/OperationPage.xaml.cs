@@ -37,28 +37,38 @@ namespace MeiTuTieTie.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+
+        }
+
+        private void OK_Click(object sender, RoutedEventArgs e)
+        {
+            ThrowPhotos();
+
+            return;
+            foreach (var sprite in spriteList)
+            {
+                sprite.Selected = false;
+            }
+            //ImageHelper.CaptureToMediaLibrary(this.stagePanel, "1.jpg");
+        }
+
+        private void stageBackground_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            SpriteControl.DismissActiveSprite();
+        }
+
+        private void ThrowPhotos()
+        {
             SpriteControl sprite = null;
 
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < 2; i++)
             {
                 sprite = new SpriteControl();
                 sprite.SetImage("/Assets/TestImages/TestImage001.jpg");
                 spriteList.Add(sprite);
 
-                sprite.SetContainer(stagePanel);
+                sprite.SetContainer(stage);
             }
-
-            sprite.HandleVisible = true;
-        }
-
-        private void OK_Click(object sender, RoutedEventArgs e)
-        {
-
-            foreach (var sprite in spriteList)
-            {
-                sprite.HandleVisible = false;
-            }
-            //ImageHelper.CaptureToMediaLibrary(this.stagePanel, "1.jpg");
         }
     }
 }
