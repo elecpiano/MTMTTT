@@ -28,6 +28,8 @@ namespace MeiTuTieTie.Controls
         private FrameworkElement _contentPanel = null;
         private FrameworkElement _handle = null;
         private FrameworkElement _removeButton = null;
+        private FrameworkElement _border = null;
+
         private Grid _container = null;
 
         private bool _HandleVisible = false;
@@ -44,6 +46,7 @@ namespace MeiTuTieTie.Controls
                     _HandleVisible = value;
                     _handle.Visibility = _HandleVisible ? Visibility.Visible : Visibility.Collapsed;
                     _removeButton.Visibility = _HandleVisible ? Visibility.Visible : Visibility.Collapsed;
+                    _border.Visibility = _HandleVisible ? Visibility.Visible : Visibility.Collapsed;
 
                     if (_HandleVisible)
                     {
@@ -67,6 +70,7 @@ namespace MeiTuTieTie.Controls
             _contentPanel = contentPanel;
             _handle = handle;
             _removeButton = removeButton;
+            _border = border;
         }
 
         #region Manipulation
@@ -86,12 +90,16 @@ namespace MeiTuTieTie.Controls
 
             contentTransform.TranslateX = g_pos_x;
             contentTransform.TranslateY = g_pos_y;
+
+            borderTransform.TranslateX = g_pos_x;
+            borderTransform.TranslateY = g_pos_y;
         }
 
         private void SetRotation(double delta_r = 0d)
         {
             g_rotation += delta_r;
             contentTransform.Rotation = g_rotation;
+            borderTransform.Rotation = g_rotation;
         }
 
         private void SetScale(double delta_scale = 1d)
@@ -100,6 +108,7 @@ namespace MeiTuTieTie.Controls
 
             contentTransform.ScaleX = g_scale;
             contentTransform.ScaleY = g_scale;
+            borderTransform.ScaleX = borderTransform.ScaleY = g_scale;
 
             //keep the points' size unchanged, to avoid accumulated errors
             LTTransform.ScaleX = LTTransform.ScaleY = 1d / g_scale;
@@ -121,7 +130,7 @@ namespace MeiTuTieTie.Controls
                 SetRotation(e.Delta.Rotation);
             }
 
-            SyncHandlePosition();
+            SyncButtonsPosition();
         }
 
         private void handle_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -147,7 +156,7 @@ namespace MeiTuTieTie.Controls
             var scale_delta = newDistance / oldDistance;
             SetScale(scale_delta);
 
-            SyncHandlePosition();
+            SyncButtonsPosition();
 
             e.Handled = true;
         }
@@ -167,11 +176,14 @@ namespace MeiTuTieTie.Controls
             SetRotation();
             SetPosition();
             SetScale();
-            SyncHandlePosition();
+            SyncButtonsPosition();
         }
 
-        private void SyncHandlePosition()
+        private void SyncButtonsPosition()
         {
+            _border.Width = contentPanel.ActualWidth;
+            _border.Height = contentPanel.ActualHeight;
+
             Point point = RBPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
             handleTransform.TranslateX = point.X;
             handleTransform.TranslateY = point.Y;
@@ -224,14 +236,22 @@ namespace MeiTuTieTie.Controls
         {
             _container = grid;
 
+            //contentPanel
             _contentPanel.Name = string.Empty;
             layoutRoot.Children.Remove(_contentPanel);
             _container.Children.Add(_contentPanel);
 
+            //border
+            layoutRoot.Children.Remove(_border);
+            _container.Children.Add(_border);
+            _border.SetValue(Canvas.ZIndexProperty, 99);
+
+            //handle
             layoutRoot.Children.Remove(_handle);
             _container.Children.Add(_handle);
             _handle.SetValue(Canvas.ZIndexProperty, 999);
 
+            //remove button
             layoutRoot.Children.Remove(_removeButton);
             _container.Children.Add(_removeButton);
             _removeButton.SetValue(Canvas.ZIndexProperty, 999);
@@ -242,6 +262,7 @@ namespace MeiTuTieTie.Controls
         public void RemoveFromContainer()
         {
             _container.Children.Remove(_contentPanel);
+            _container.Children.Remove(_border);
             _container.Children.Remove(_handle);
             _container.Children.Remove(_removeButton);
         }
