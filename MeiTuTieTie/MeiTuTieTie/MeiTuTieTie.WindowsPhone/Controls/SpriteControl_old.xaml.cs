@@ -1,14 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
+using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+using Windows.UI.Xaml;
 using MeiTuTieTie.Animations;
-using Windows.UI.Xaml.Shapes;
-using Windows.UI;
-using Windows.UI.Xaml.Media.Imaging;
 
 namespace MeiTuTieTie.Controls
 {
@@ -87,118 +92,6 @@ namespace MeiTuTieTie.Controls
             _removeButton = removeButton;
             _border = border;
         }
-
-        #region Factory
-
-        private CompositeTransform EnsureTransform(FrameworkElement cell)
-        {
-            CompositeTransform transform = cell.RenderTransform as CompositeTransform;
-            if (transform == null)
-            {
-                cell.RenderTransform = transform = new CompositeTransform();
-                cell.RenderTransformOrigin = new Point(0.5d, 0.5d);
-            }
-            transform = cell.RenderTransform as CompositeTransform;
-            return transform;
-        }
-
-        private void CreateSprite()
-        {
-            //image
-            Image image = new Image();
-            image.Stretch = Stretch.Uniform;
-            image.CacheMode = new BitmapCache();
-            image.PointerPressed += this.image_PointerPressed;
-            image.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.Rotate | ManipulationModes.Scale;
-            image.ManipulationDelta += this.image_ManipulationDelta;
-            //TO-DO: instead of this, we can do this after the animation
-            image.LayoutUpdated += this.image_LayoutUpdated;
-            //TO-DO: set image source
-
-            //LTPoint
-            Ellipse LTPoint = new Ellipse();
-            LTPoint.Fill = new SolidColorBrush(Colors.Red);
-            LTPoint.Width = 1d;
-            LTPoint.Height = 1d;
-            LTPoint.VerticalAlignment = VerticalAlignment.Top;
-            LTPoint.HorizontalAlignment = HorizontalAlignment.Left;
-            EnsureTransform(LTPoint);
-
-            //RBPoint
-            Ellipse RBPoint = new Ellipse();
-            RBPoint.Fill = new SolidColorBrush(Colors.Red);
-            RBPoint.Width = 1d;
-            RBPoint.Height = 1d;
-            RBPoint.VerticalAlignment = VerticalAlignment.Bottom;
-            RBPoint.HorizontalAlignment = HorizontalAlignment.Right;
-            EnsureTransform(RBPoint);
-
-            //centerPoint
-            Ellipse centerPoint = new Ellipse();
-            centerPoint.Fill = new SolidColorBrush(Colors.Red);
-            centerPoint.Width = 1d;
-            centerPoint.Height = 1d;
-            centerPoint.VerticalAlignment = VerticalAlignment.Center;
-            centerPoint.HorizontalAlignment = HorizontalAlignment.Center;
-            EnsureTransform(centerPoint);
-
-            //contentPanel
-            Grid _contentPanel = new Grid();
-            _contentPanel.VerticalAlignment = VerticalAlignment.Center;
-            _contentPanel.HorizontalAlignment = HorizontalAlignment.Center;
-            _contentPanel.MaxWidth = 150d;
-            _contentPanel.MaxHeight = 200d;
-            EnsureTransform(_contentPanel);
-
-            _contentPanel.Children.Add(image);
-            _contentPanel.Children.Add(LTPoint);
-            _contentPanel.Children.Add(RBPoint);
-            _contentPanel.Children.Add(centerPoint);
-
-            //border
-            Border border = new Border();
-            border.Visibility = Visibility.Collapsed;
-            border.BorderThickness = new Thickness(1d);
-            border.BorderBrush = new SolidColorBrush(Colors.Orange);
-            EnsureTransform(border);
-
-            //removeButton
-            Image removeButton = new Image();
-            removeButton.Source = new BitmapImage(new Uri("/Assets/Images/Remove.png", UriKind.Relative));
-            removeButton.Visibility = Visibility.Collapsed;
-            removeButton.VerticalAlignment = VerticalAlignment.Top;
-            removeButton.HorizontalAlignment = HorizontalAlignment.Left;
-            removeButton.Width = 32d;
-            removeButton.Height = 32d;
-            removeButton.Margin = new Thickness(-16, -16, 0, 0);
-            removeButton.Tapped += this.removeButton_Tapped;
-            EnsureTransform(removeButton);
-
-            //handlePoint
-            Ellipse handlePoint = new Ellipse();
-            handlePoint.Fill = new SolidColorBrush(Colors.Red);
-            handlePoint.Width = 1d;
-            handlePoint.Height = 1d;
-            handlePoint.VerticalAlignment = VerticalAlignment.Center;
-            handlePoint.HorizontalAlignment = HorizontalAlignment.Center;
-
-            //handle
-            Grid handle = new Grid();
-            handle.Background = new ImageBrush() { ImageSource = new BitmapImage(new Uri("/Assets/Images/Rotate.png", UriKind.Relative)) };
-            handle.Visibility = Visibility.Collapsed;
-            handle.VerticalAlignment = VerticalAlignment.Top;
-            handle.HorizontalAlignment = HorizontalAlignment.Left;
-            handle.Width = 32d;
-            handle.Height = 32d;
-            handle.Margin = new Thickness(-16, -16, 0, 0);
-            handle.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
-            handle.ManipulationDelta += this.handle_ManipulationDelta;
-            EnsureTransform(handle);
-
-            handle.Children.Add(handlePoint);
-        }
-
-        #endregion
 
         #region Manipulation
 

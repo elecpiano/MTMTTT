@@ -1,20 +1,9 @@
-﻿using MeiTuTieTie.Animations;
-using MeiTuTieTie.Common;
+﻿using MeiTuTieTie.Common;
 using MeiTuTieTie.Controls;
-using MeiTuTieTie.Utils;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace MeiTuTieTie.Pages
@@ -61,10 +50,10 @@ namespace MeiTuTieTie.Pages
         {
             SpriteControl sprite = null;
 
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < 1; i++)
             {
                 sprite = new SpriteControl();
-                sprite.SetImage("/Assets/TestImages/TestImage001.jpg");
+                sprite.SetImage("ms-appx:///Assets/TestImages/TestImage001.jpg");
                 spriteList.Add(sprite);
 
                 sprite.SetContainer(stage);
