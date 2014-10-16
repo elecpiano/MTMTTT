@@ -37,5 +37,10 @@ namespace MeiTuTieTie.Utils
             }
         }
 
+        public static async void CaptureScreen()
+        {
+            //http://msdn.microsoft.com/en-us/library/windows/apps/xaml/dn642091.aspx
+        }
+
     }
 }

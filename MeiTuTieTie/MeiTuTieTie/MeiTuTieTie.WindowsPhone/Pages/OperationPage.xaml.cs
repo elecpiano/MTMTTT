@@ -42,15 +42,9 @@ namespace MeiTuTieTie.Pages
 
         private void OK_Click(object sender, RoutedEventArgs e)
         {
-            Frame rootFrame = Window.Current.Content as Frame;
-            var width = rootFrame.ActualWidth;
-            var height = rootFrame.Height;
-
             SpriteControl.DismissActiveSprite();
             string fileName = "MeiTuTieTie_"+ DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".png";
             ImageHelper.CaptureToMediaLibrary(this.stagePanel, fileName);
-
-
         }
 
         private void stageBackground_PointerPressed(object sender, PointerRoutedEventArgs e)
