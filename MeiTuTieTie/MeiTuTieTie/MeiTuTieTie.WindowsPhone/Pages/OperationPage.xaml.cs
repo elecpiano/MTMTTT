@@ -1,10 +1,17 @@
-﻿using MeiTuTieTie.Common;
+﻿using System;
+using MeiTuTieTie.Common;
 using MeiTuTieTie.Controls;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Windows.Foundation;
+using Windows.Storage;
+using Windows.Storage.Pickers;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
+using System.Collections.ObjectModel;
 
 namespace MeiTuTieTie.Pages
 {
@@ -29,16 +36,11 @@ namespace MeiTuTieTie.Pages
 
         }
 
-        private void OK_Click(object sender, RoutedEventArgs e)
+        private async void OK_Click(object sender, RoutedEventArgs e)
         {
-            ThrowPhotos();
-
+            ChoosePhotos();
             return;
-            foreach (var sprite in spriteList)
-            {
-                sprite.Selected = false;
-            }
-            //ImageHelper.CaptureToMediaLibrary(this.stagePanel, "1.jpg");
+            ThrowPhotos();
         }
 
         private void stageBackground_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -58,6 +60,35 @@ namespace MeiTuTieTie.Pages
 
                 sprite.SetContainer(stage);
             }
+        }
+
+        ObservableCollection<BitmapImage> photoList = new ObservableCollection<BitmapImage>();
+        private async Task ChoosePhotos()
+        {
+
+            picList.ItemsSource = photoList;
+
+            //FileOpenPicker picker = new FileOpenPicker();
+            //picker.ViewMode = PickerViewMode.Thumbnail;
+            //picker.PickSingleFileAndContinue();
+            //if (picker.ContinuationData!=null && picker.ContinuationData.Values.Count==1)
+            //{
+            //    foreach (var value in picker.ContinuationData.Values)
+            //    {
+            //        BitmapImage bm = new BitmapImage();
+
+            //    }
+            //}
+
+            StorageFolder PictureFolder = KnownFolders.CameraRoll;
+            var files = await PictureFolder.GetFilesAsync();
+            foreach (var file in files)
+            {
+                BitmapImage bm = new BitmapImage();
+                var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.PicturesView);
+                bm.SetSource(thumbnail);
+                photoList.Add(bm);
+            };
         }
     }
 }

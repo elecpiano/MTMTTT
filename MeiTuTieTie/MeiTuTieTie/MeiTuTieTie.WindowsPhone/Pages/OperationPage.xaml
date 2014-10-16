@@ -12,6 +12,18 @@
             <Grid x:Name="stageBackground" Background="Wheat" PointerPressed="stageBackground_PointerPressed"/>
             <Grid x:Name="stage" />
         </Grid>
+        <ListBox x:Name="picList" VerticalAlignment="Top">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Image Width="90" Height="90" Margin="4" Source="{Binding}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ListBox>
 
         <Button Content="OK" Click="OK_Click" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="12,0,12,0"/>
     </Grid>
