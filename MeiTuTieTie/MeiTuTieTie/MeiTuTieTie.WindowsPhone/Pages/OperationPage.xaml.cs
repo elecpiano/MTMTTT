@@ -12,6 +12,9 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 using System.Collections.ObjectModel;
+using Windows.ApplicationModel.Activation;
+using Windows.Storage.Streams;
+using MeiTuTieTie.Utils;
 
 namespace MeiTuTieTie.Pages
 {
@@ -20,8 +23,9 @@ namespace MeiTuTieTie.Pages
         #region Property
 
         private readonly NavigationHelper navigationHelper;
-
         private List<SpriteControl> spriteList = new List<SpriteControl>();
+        private const string Continuation_Key_Operation = "Operation";
+        private const string Continuation_Operation_PickPhotos = "PickPhotos";
 
         #endregion
 
@@ -36,11 +40,17 @@ namespace MeiTuTieTie.Pages
 
         }
 
-        private async void OK_Click(object sender, RoutedEventArgs e)
+        private void OK_Click(object sender, RoutedEventArgs e)
         {
-            ChoosePhotos();
-            return;
-            ThrowPhotos();
+            Frame rootFrame = Window.Current.Content as Frame;
+            var width = rootFrame.ActualWidth;
+            var height = rootFrame.Height;
+
+            SpriteControl.DismissActiveSprite();
+            string fileName = "MeiTuTieTie_"+ DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".png";
+            ImageHelper.CaptureToMediaLibrary(this.stagePanel, fileName);
+
+
         }
 
         private void stageBackground_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -48,7 +58,7 @@ namespace MeiTuTieTie.Pages
             SpriteControl.DismissActiveSprite();
         }
 
-        private void ThrowPhotos()
+        private void InsertSprites()
         {
             SpriteControl sprite = null;
 
@@ -62,24 +72,42 @@ namespace MeiTuTieTie.Pages
             }
         }
 
-        ObservableCollection<BitmapImage> photoList = new ObservableCollection<BitmapImage>();
-        private async Task ChoosePhotos()
+
+        private async void PickPhotos()
         {
+            var picker = new FileOpenPicker();
+            picker.FileTypeFilter.Add(".jpg");
+            picker.FileTypeFilter.Add(".jpeg");
+            picker.FileTypeFilter.Add(".png");
+            picker.FileTypeFilter.Add(".gif");
+            picker.ContinuationData[Continuation_Key_Operation] = Continuation_Operation_PickPhotos;
+            picker.PickMultipleFilesAndContinue();
+        }
 
-            picList.ItemsSource = photoList;
+        public async void PickPhotosContiue(FileOpenPickerContinuationEventArgs args)
+        {
+            if (args.ContinuationData.ContainsKey(Continuation_Key_Operation)
+                && args.ContinuationData[Continuation_Key_Operation].ToString() == Continuation_Operation_PickPhotos)
+            {
+                foreach (var file in args.Files)
+                {
+                    IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
+                    BitmapImage bi = new BitmapImage();
+                    bi.SetSource(stream);
 
-            //FileOpenPicker picker = new FileOpenPicker();
-            //picker.ViewMode = PickerViewMode.Thumbnail;
-            //picker.PickSingleFileAndContinue();
-            //if (picker.ContinuationData!=null && picker.ContinuationData.Values.Count==1)
-            //{
-            //    foreach (var value in picker.ContinuationData.Values)
-            //    {
-            //        BitmapImage bm = new BitmapImage();
+                    //sprite
+                    SpriteControl sprite = new SpriteControl();
+                    sprite.SetImage(bi);
+                    spriteList.Add(sprite);
+                    sprite.SetContainer(stage);
+                }
+            }
+        }
 
-            //    }
-            //}
-
+        ObservableCollection<BitmapImage> photoList = new ObservableCollection<BitmapImage>();
+        private async void LoadPhotos()
+        {
+            picListBox.ItemsSource = photoList;
             StorageFolder PictureFolder = KnownFolders.CameraRoll;
             var files = await PictureFolder.GetFilesAsync();
             foreach (var file in files)
@@ -90,5 +118,11 @@ namespace MeiTuTieTie.Pages
                 photoList.Add(bm);
             };
         }
+
+        private void PickPhoto_Click(object sender, RoutedEventArgs e)
+        {
+            PickPhotos();
+        }
+
     }
 }

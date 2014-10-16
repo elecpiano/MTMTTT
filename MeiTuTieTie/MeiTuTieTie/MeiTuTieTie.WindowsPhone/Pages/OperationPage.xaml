@@ -8,11 +8,11 @@
     mc:Ignorable="d">
 
     <Grid>
-        <Grid>
+        <Grid x:Name="stagePanel">
             <Grid x:Name="stageBackground" Background="Wheat" PointerPressed="stageBackground_PointerPressed"/>
             <Grid x:Name="stage" />
         </Grid>
-        <ListBox x:Name="picList" VerticalAlignment="Top">
+        <ListBox x:Name="picListBox" VerticalAlignment="Top" Visibility="Collapsed">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal"/>
@@ -24,6 +24,7 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListBox>
+        <Button Content="PickPhoto" Click="PickPhoto_Click" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="12,0,12,0"/>
 
         <Button Content="OK" Click="OK_Click" VerticalAlignment="Bottom" HorizontalAlignment="Stretch" Margin="12,0,12,0"/>
     </Grid>

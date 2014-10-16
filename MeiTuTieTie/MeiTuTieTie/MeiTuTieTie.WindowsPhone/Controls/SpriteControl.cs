@@ -365,6 +365,11 @@ namespace MeiTuTieTie.Controls
             this.image.Source = new BitmapImage(new Uri(source, UriKind.Absolute));
         }
 
+        public void SetImage(BitmapImage bi)
+        {
+            this.image.Source = bi;
+        }
+
         public void SetContainer(Grid grid)
         {
             _container = grid;

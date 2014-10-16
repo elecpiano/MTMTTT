@@ -16,8 +16,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Navigation;
 
-// The Blank Application template is documented at http://go.microsoft.com/fwlink/?LinkId=234227
-
 namespace MeiTuTieTie
 {
     /// <summary>
@@ -105,6 +103,33 @@ namespace MeiTuTieTie
             Window.Current.Activate();
         }
 
+        protected override void OnActivated(IActivatedEventArgs args)
+        {
+            base.OnActivated(args);
+
+#if WINDOWS_PHONE_APP
+            if (args is FileOpenPickerContinuationEventArgs)
+            {
+                Frame rootFrame = Window.Current.Content as Frame;
+                var page = rootFrame.Content as MeiTuTieTie.Pages.OperationPage;
+                if (page == null)
+                {
+                    if (!rootFrame.Navigate(typeof(MeiTuTieTie.Pages.OperationPage)))
+                    {
+                        throw new Exception("Failed to create OperationPage");
+                    }
+                    page = rootFrame.Content as MeiTuTieTie.Pages.OperationPage;
+                }
+                
+                page.PickPhotosContiue((FileOpenPickerContinuationEventArgs)args);
+
+                //ensure the current window is active
+                Window.Current.Activate();
+            }
+#endif
+
+        }
+
 #if WINDOWS_PHONE_APP
         /// <summary>
         /// Restores the content transitions after the app has launched.
@@ -133,5 +158,7 @@ namespace MeiTuTieTie
             // TODO: Save application state and stop any background activity
             deferral.Complete();
         }
+
+
     }
 }
