@@ -9,6 +9,7 @@ using MeiTuTieTie.Animations;
 using Windows.UI.Xaml.Shapes;
 using Windows.UI;
 using Windows.UI.Xaml.Media.Imaging;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace MeiTuTieTie.Controls
 {
@@ -18,7 +19,11 @@ namespace MeiTuTieTie.Controls
 
         private static Random RANDOM = new Random();
         private static List<SpriteControl> Sprites = new List<SpriteControl>();
-        private const double APPEAR_DURATION = 500d;
+        private const double APPEAR_DURATION = 900d;
+        private static PowerEase EASING;
+        private const int BORDER_INACTIVE_Z_INDEX = 99;
+        private const int BORDER_ACTIVE_Z_INDEX = 100;
+        private const int BUTTON_Z_INDEX = 999;
 
         private Grid contentPanel = null;
         private Image image = null;
@@ -54,11 +59,12 @@ namespace MeiTuTieTie.Controls
                     _Selected = value;
                     handle.Visibility = _Selected ? Visibility.Visible : Visibility.Collapsed;
                     removeButton.Visibility = _Selected ? Visibility.Visible : Visibility.Collapsed;
-                    border.Visibility = _Selected ? Visibility.Visible : Visibility.Collapsed;
+                    border.Opacity = _Selected ? 1d : 0d;
 
                     if (_Selected)
                     {
                         SelectedSprite = this;
+                        border.SetValue(Canvas.ZIndexProperty, BORDER_ACTIVE_Z_INDEX);
                         foreach (var sprite in Sprites)
                         {
                             if (sprite != this)
@@ -69,6 +75,7 @@ namespace MeiTuTieTie.Controls
                     }
                     else
                     {
+                        border.SetValue(Canvas.ZIndexProperty, BORDER_INACTIVE_Z_INDEX);
                         if (SelectedSprite == this)
                         {
                             SelectedSprite = null;
@@ -107,9 +114,6 @@ namespace MeiTuTieTie.Controls
             image = new Image();
             image.Stretch = Stretch.Uniform;
             image.CacheMode = new BitmapCache();
-            image.PointerPressed += this.image_PointerPressed;
-            image.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.Rotate | ManipulationModes.Scale;
-            image.ManipulationDelta += this.image_ManipulationDelta;
 
             //LTPoint
             LTPoint = new Ellipse();
@@ -153,9 +157,13 @@ namespace MeiTuTieTie.Controls
 
             //border
             border = new Border();
-            border.Visibility = Visibility.Collapsed;
+            border.Opacity = 0d;
             border.BorderThickness = new Thickness(1d);
             border.BorderBrush = new SolidColorBrush(Colors.Orange);
+            border.Background = new SolidColorBrush(Color.FromArgb(0,255,255,255));
+            border.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.Rotate | ManipulationModes.Scale;
+            border.ManipulationDelta += this.border_ManipulationDelta;
+            border.PointerPressed += this.border_PointerPressed;
             EnsureTransform(border);
 
             //removeButton
@@ -242,7 +250,7 @@ namespace MeiTuTieTie.Controls
             _centerPointTransform.ScaleX = _centerPointTransform.ScaleY = 1d / g_scale;
         }
 
-        private void image_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        private void border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             isDrag = e.Delta.Rotation == 0 && e.Delta.Expansion == 0;
 
@@ -292,7 +300,7 @@ namespace MeiTuTieTie.Controls
             RemoveFromContainer();
         }
 
-        private void image_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private void border_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             Selected = true;
             e.Handled = true;
@@ -382,16 +390,16 @@ namespace MeiTuTieTie.Controls
 
             //border
             _container.Children.Add(border);
-            border.SetValue(Canvas.ZIndexProperty, 99);
+            border.SetValue(Canvas.ZIndexProperty, BORDER_INACTIVE_Z_INDEX);
 
 
             //handle
             _container.Children.Add(handle);
-            handle.SetValue(Canvas.ZIndexProperty, 999);
+            handle.SetValue(Canvas.ZIndexProperty, BUTTON_Z_INDEX);
 
             //remove button
             _container.Children.Add(removeButton);
-            removeButton.SetValue(Canvas.ZIndexProperty, 999);
+            removeButton.SetValue(Canvas.ZIndexProperty, BUTTON_Z_INDEX);
 
 
             Appear();
@@ -414,7 +422,7 @@ namespace MeiTuTieTie.Controls
 
             double from_x = RANDOM.NextDouble() * 160d - 80d;
             double from_y = RANDOM.NextDouble() * 240d - 120d;
-            MoveAnimation.MoveFromTo(contentPanel, from_x, from_y, g_pos_x, g_pos_y, APPEAR_DURATION, null,
+            MoveAnimation.MoveFromTo(contentPanel, from_x, from_y, g_pos_x, g_pos_y, APPEAR_DURATION, EASING,
                 fe =>
                 {
                     PrepareForManipulation();

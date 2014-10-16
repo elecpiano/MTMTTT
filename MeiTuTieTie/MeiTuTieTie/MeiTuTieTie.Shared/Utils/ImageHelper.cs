@@ -14,7 +14,7 @@ namespace MeiTuTieTie.Utils
         public static async void CaptureToMediaLibrary(FrameworkElement uiElement, string fileName)
         {
             RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap();
-            await renderTargetBitmap.RenderAsync(uiElement, (int)uiElement.ActualWidth, (int)uiElement.ActualHeight);
+            await renderTargetBitmap.RenderAsync(uiElement);//, (int)uiElement.ActualWidth, (int)uiElement.ActualHeight);
             var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
 
             // Encode the image to file
