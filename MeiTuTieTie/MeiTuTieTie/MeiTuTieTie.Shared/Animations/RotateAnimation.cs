@@ -178,6 +178,7 @@ namespace MeiTuTieTie.Animations
             }
 
             AnimationPool.Push(this);
+            AnimationTarget = null;
         }
 
         #endregion
