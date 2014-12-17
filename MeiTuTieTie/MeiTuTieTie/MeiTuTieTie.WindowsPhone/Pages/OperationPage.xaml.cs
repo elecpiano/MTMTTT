@@ -1,8 +1,7 @@
 ﻿using System;
-using MeiTuTieTie.Common;
+using Shared.Common;
 using MeiTuTieTie.Controls;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage;
 using Windows.Storage.Pickers;
@@ -10,11 +9,10 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
-using Windows.UI.Xaml.Navigation;
 using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage.Streams;
-using MeiTuTieTie.Utils;
+using Shared.Utility;
 using Windows.UI.Xaml.Media;
 
 namespace MeiTuTieTie.Pages

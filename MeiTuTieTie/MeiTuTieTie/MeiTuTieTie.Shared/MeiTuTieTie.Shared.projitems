@@ -12,10 +12,10 @@
     <ApplicationDefinition Include="$(MSBuildThisFileDirectory)App.xaml">
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="$(MSBuildThisFileDirectory)Animations\AnimationBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Animations\MoveAnimation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Animations\RotateAnimation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Animations\ScaleAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Animation\AnimationBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Animation\MoveAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Animation\RotateAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Animation\ScaleAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
@@ -23,6 +23,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\ObservableDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Utils\ImageHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\ThemePack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\DataLoader.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\ImageHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\IsolatedStorageHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\JsonSerializer.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\NetworkHelper.cs" />
   </ItemGroup>
 </Project>

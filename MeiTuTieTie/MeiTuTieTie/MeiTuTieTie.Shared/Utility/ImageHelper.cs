@@ -7,7 +7,7 @@ using Windows.UI.Xaml.Media.Imaging;
 
 using System.Runtime.InteropServices.WindowsRuntime;
 
-namespace MeiTuTieTie.Utils
+namespace Shared.Utility
 {
     public class ImageHelper
     {

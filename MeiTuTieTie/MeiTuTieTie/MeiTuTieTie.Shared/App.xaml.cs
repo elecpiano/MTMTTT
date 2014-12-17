@@ -5,8 +5,10 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,6 +25,7 @@ namespace MeiTuTieTie
     /// </summary>
     public sealed partial class App : Application
     {
+
 #if WINDOWS_PHONE_APP
         private TransitionCollection transitions;
 #endif
@@ -35,6 +38,11 @@ namespace MeiTuTieTie
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+
+            //custom code
+            CurrentInstance = this;
+            this.UnhandledException += App_UnhandledException;
+            Shared.Utility.NetworkHelper.Current.StartListening();
         }
 
         /// <summary>
@@ -159,6 +167,37 @@ namespace MeiTuTieTie
             deferral.Complete();
         }
 
+        //custom code from here on
+
+        public static App CurrentInstance
+        {
+            get;
+            private set;
+        }
+
+        private Frame rootFrame;
+
+        public Frame RootFrame
+        {
+            get { return rootFrame; }
+            set { rootFrame = value; }
+        }
+
+        public async void RunAsync(Action action)
+        {
+            CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                if (action != null)
+                {
+                    action();
+                }
+            });
+        }
+
+        void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
 
     }
 }

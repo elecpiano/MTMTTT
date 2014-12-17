@@ -37,7 +37,7 @@ namespace MeiTuTieTie.Pages
 
         private void boutique_Click(object sender, RoutedEventArgs e)
         {
-
+            Frame.Navigate(typeof(BoutiquePage));
         }
 
         private void more_Click(object sender, RoutedEventArgs e)
