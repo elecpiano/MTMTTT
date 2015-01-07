@@ -15,6 +15,7 @@ using Windows.Storage.Streams;
 using Shared.Utility;
 using Windows.UI.Xaml.Media;
 using Shared.Model;
+using Windows.Phone.UI.Input;
 
 namespace MeiTuTieTie.Pages
 {
@@ -35,6 +36,16 @@ namespace MeiTuTieTie.Pages
         {
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+        }
+
+        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        {
+            if (themeDetailViewShown)
+            {
+                VisualStateManager.GoToState(this, "vsThemeDetailViewHidden", true);
+                themeDetailViewShown = false;
+            }
         }
 
         protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
@@ -60,8 +71,22 @@ namespace MeiTuTieTie.Pages
             dataLoader.Load(url, true, MODULE, CACHE_FILE,
                 data =>
                 {
-                    themeListBox.ItemsSource = data.allThemePacks;
+                    topThemeListBox.ItemsSource = data.topThemePacks;
+                    allThemeListBox.ItemsSource = data.allThemePacks;
                 });
+        }
+
+        #endregion
+
+        #region Theme Detail View
+
+        private bool themeDetailViewShown = false;
+
+        private void theme_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            themeDetailView.DataContext = sender.GetDataContext();
+            VisualStateManager.GoToState(this, "vsThemeDetailViewShown", true);
+            themeDetailViewShown = true;
         }
 
         #endregion

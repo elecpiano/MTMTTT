@@ -8,30 +8,76 @@
     mc:Ignorable="d">
 
     <Grid Background="White">
+    	<VisualStateManager.VisualStateGroups>
+    		<VisualStateGroup x:Name="vsgThemeDetailView">
+    			<VisualStateGroup.Transitions>
+    				<VisualTransition GeneratedDuration="0:0:0.3">
+    					<VisualTransition.GeneratedEasingFunction>
+    						<PowerEase EasingMode="EaseInOut"/>
+    					</VisualTransition.GeneratedEasingFunction>
+    				</VisualTransition>
+    			</VisualStateGroup.Transitions>
+                <VisualState x:Name="vsThemeDetailViewHidden"/>
+                <VisualState x:Name="vsThemeDetailViewShown">
+    				<Storyboard>
+    					<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="themeDetailView" d:IsOptimized="True"/>
+    				</Storyboard>
+    			</VisualState>
+    		</VisualStateGroup>
+    	</VisualStateManager.VisualStateGroups>
         <ScrollViewer>
-            <ItemsControl x:Name="themeListBox" Background="Transparent">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="{Binding thumbnailUrl}" Stretch="Uniform"
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <ScrollViewer Style="{StaticResource HorizontalScrollViewer_Style}" Margin="0,10,0,10">
+                    <ItemsControl x:Name="topThemeListBox" Background="Transparent">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <VirtualizingStackPanel/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Image Grid.Column="0" Source="{Binding thumbnailUrl}" Stretch="Uniform"
+                                       Height="100" Width="200" Margin="12,0,0,0"/>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+
+                <ItemsControl Grid.Row="1" x:Name="allThemeListBox" Background="Transparent">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Tapped="theme_Tapped">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Source="{Binding thumbnailUrl}" Stretch="Uniform"
                                    Height="72" Width="72" Margin="5"/>
-                            <TextBlock Grid.Column="1" Text="{Binding name}" Foreground="Black" FontSize="32"/>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                                <TextBlock Grid.Column="1" Text="{Binding name}" Style="{StaticResource BoutiqueList_ItemText_Style}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
         </ScrollViewer>
+
+        <controls:ThemeDetailView x:Name="themeDetailView" RenderTransformOrigin="0.5,0.5">
+            <controls:ThemeDetailView.RenderTransform>
+                <CompositeTransform TranslateX="400"/>
+            </controls:ThemeDetailView.RenderTransform>
+        </controls:ThemeDetailView>
     </Grid>
 </Page>

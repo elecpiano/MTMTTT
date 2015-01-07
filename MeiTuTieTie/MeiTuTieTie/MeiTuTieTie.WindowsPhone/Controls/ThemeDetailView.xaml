@@ -1,0 +1,46 @@
+﻿<UserControl
+    x:Class="MeiTuTieTie.Controls.ThemeDetailView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MeiTuTieTie.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="711"
+    d:DesignWidth="400">
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <Image Width="100" Height="100" Stretch="Uniform"
+                   Source="{Binding thumbnailUrl}"/>
+            <StackPanel Grid.Column="1" VerticalAlignment="Top">
+                <TextBlock Text="{Binding name}" Style="{StaticResource ThemeDetailPage_Title_Style}"/>
+                <TextBlock Style="{StaticResource ThemeDetailPage_SubTitle_Style}">
+                        <Run Text="{Binding zipSize}"/>
+                        <Run Text=" "/>
+                        <Run Text="{Binding count}"/>
+                        <Run Text="个"/>
+                </TextBlock>
+            </StackPanel>
+            <Grid Grid.Column="2">
+                <Rectangle Fill="LightGray" VerticalAlignment="Center"/>
+                <TextBlock Text="免费" Foreground="White" FontSize="16" Margin="5"/>
+            </Grid>
+        </Grid>
+
+        <ScrollViewer Grid.Row="1">
+            <WebView x:Name="webView" Source="{Binding previewUrl}"/>
+        </ScrollViewer>
+    </Grid>
+
+</UserControl>
