@@ -16,6 +16,7 @@ using Shared.Utility;
 using Windows.UI.Xaml.Media;
 using Shared.Model;
 using Windows.Phone.UI.Input;
+using Windows.UI.Xaml.Navigation;
 
 namespace MeiTuTieTie.Pages
 {
@@ -36,22 +37,33 @@ namespace MeiTuTieTie.Pages
         {
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
-            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            //HardwareButtons.BackPressed += HardwareButtons_BackPressed;
         }
 
-        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        //void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        //{
+        //}
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (themeDetailViewShown)
+            base.OnNavigatedTo(e);
+            if (e.NavigationMode == NavigationMode.New)
             {
-                VisualStateManager.GoToState(this, "vsThemeDetailViewHidden", true);
-                themeDetailViewShown = false;
+                LoadData();
             }
         }
 
-        protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            base.OnNavigatedTo(e);
-            LoadData();
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Disabled;
+            }
+            else
+            {
+                this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
+            }
+            base.OnNavigatingFrom(e);
         }
 
         #endregion
@@ -84,9 +96,7 @@ namespace MeiTuTieTie.Pages
 
         private void theme_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            themeDetailView.DataContext = sender.GetDataContext();
-            VisualStateManager.GoToState(this, "vsThemeDetailViewShown", true);
-            themeDetailViewShown = true;
+            Frame.Navigate(typeof(ThemeDetailPage),sender.GetDataContext());
         }
 
         #endregion

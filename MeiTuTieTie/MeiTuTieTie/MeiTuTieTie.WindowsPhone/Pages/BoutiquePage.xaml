@@ -5,26 +5,10 @@
     xmlns:controls="using:MeiTuTieTie.Controls" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    NavigationCacheMode="Enabled">
 
     <Grid Background="White">
-    	<VisualStateManager.VisualStateGroups>
-    		<VisualStateGroup x:Name="vsgThemeDetailView">
-    			<VisualStateGroup.Transitions>
-    				<VisualTransition GeneratedDuration="0:0:0.3">
-    					<VisualTransition.GeneratedEasingFunction>
-    						<PowerEase EasingMode="EaseInOut"/>
-    					</VisualTransition.GeneratedEasingFunction>
-    				</VisualTransition>
-    			</VisualStateGroup.Transitions>
-                <VisualState x:Name="vsThemeDetailViewHidden"/>
-                <VisualState x:Name="vsThemeDetailViewShown">
-    				<Storyboard>
-    					<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="themeDetailView" d:IsOptimized="True"/>
-    				</Storyboard>
-    			</VisualState>
-    		</VisualStateGroup>
-    	</VisualStateManager.VisualStateGroups>
         <ScrollViewer>
             <Grid>
                 <Grid.RowDefinitions>
@@ -74,10 +58,5 @@
             </Grid>
         </ScrollViewer>
 
-        <controls:ThemeDetailView x:Name="themeDetailView" RenderTransformOrigin="0.5,0.5">
-            <controls:ThemeDetailView.RenderTransform>
-                <CompositeTransform TranslateX="400"/>
-            </controls:ThemeDetailView.RenderTransform>
-        </controls:ThemeDetailView>
     </Grid>
 </Page>
