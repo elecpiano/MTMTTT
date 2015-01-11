@@ -10,6 +10,8 @@
     <Grid x:Name="rootGrid" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -20,7 +22,7 @@
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <Image Width="100" Height="100" Stretch="Uniform"
-                   Source="{Binding thumbnailUrl}"/>
+                   Source="{Binding thumbnailUrl}" Margin="12,12,0,0"/>
             <StackPanel Grid.Column="1" VerticalAlignment="Top">
                 <TextBlock Text="{Binding name}" Style="{StaticResource ThemeDetailPage_Title_Style}"/>
                 <TextBlock Style="{StaticResource ThemeDetailPage_SubTitle_Style}">
@@ -36,7 +38,25 @@
             </Grid>
         </Grid>
 
-        <ScrollViewer Grid.Row="1">
+        <Button x:Name="downloadButton" Grid.Row="1" Content="下载" 
+                Background="LightGreen" HorizontalAlignment="Stretch" Margin="12,12,12,0"
+                Click="download_Click" />
+
+        <Grid x:Name="progressPanel" Grid.Row="1" Margin="12,12,12,0" Visibility="Collapsed">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <ProgressBar x:Name="progressBar" Height="20"/>
+            <Image Grid.Column="1" Source="/Assets/Images/Remove.png" 
+                   Stretch="Uniform" Height="32" Margin="12,0,0,0"
+                   Tapped="cancelDownload_Click"/>
+        </Grid>
+
+        <TextBlock Text="{Binding description}" Grid.Row="2" Margin="12,12,12,12"
+                   Style="{StaticResource ThemeDetailPage_Description_Style}"/>
+        
+        <ScrollViewer Grid.Row="3">
             <WebView x:Name="webView" Source="{Binding previewUrl}"/>
         </ScrollViewer>
     </Grid>

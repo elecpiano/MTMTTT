@@ -24,6 +24,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ThemePack.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\FileDownloader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\DataLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\DataContextGetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\ImageHelper.cs" />

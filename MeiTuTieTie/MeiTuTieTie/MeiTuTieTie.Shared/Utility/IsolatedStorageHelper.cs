@@ -12,6 +12,25 @@ namespace Shared.Utility
     {
         public const string USER_DATA_FOLDER_NAME = "udata";
 
+        public static async Task<StorageFile> CreateFileAsync(string folderName, string fileName)
+        {
+            if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
+            {
+                folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
+            }
+
+            // Get the local folder.
+            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+
+            // Create a new folder
+            var dataFolder = await local.CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
+
+            // Create a new file
+            var file = await dataFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+
+            return file;
+        }
+
         public static async Task WriteToFileAsync(string folderName, string fileName, string content)
         {
             if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
