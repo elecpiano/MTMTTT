@@ -10,11 +10,20 @@ namespace Shared.Utility
     {
         private DownloadOperation activeDownload;
         private CancellationTokenSource cts;
-        private ProgressBar progressBar;
+        private ProgressBar progressBarControl;
+        private Action onCompleteAction;
+        private StorageFile destinationFile;
 
-        public async void Download(string url, string module, string file, ProgressBar pBar, Action callback)
+        public async void Download(string url, string module, string file, ProgressBar progressBar, Action onComplete)
         {
-            progressBar = pBar;
+            progressBarControl = progressBar;
+            onCompleteAction = onComplete;
+
+            if (cts == null)
+            {
+                cts = new CancellationTokenSource();
+            }
+
             if (progressBar != null)
             {
                 progressBar.Maximum = 100d;
@@ -23,16 +32,29 @@ namespace Shared.Utility
             try
             {
                 Uri source = new Uri(url, UriKind.Absolute);
-                StorageFile destinationFile = await IsolatedStorageHelper.CreateFileAsync(module, file);
+                destinationFile = await IsolatedStorageHelper.CreateFileAsync(module, file);
                 BackgroundDownloader downloader = new BackgroundDownloader();
                 DownloadOperation download = downloader.CreateDownload(source, destinationFile);
-                download.Priority = BackgroundTransferPriority.High;
+                //download.Priority = BackgroundTransferPriority.High;
+
                 // Attach progress and completion handlers.
                 HandleDownloadAsync(download);
             }
             catch (Exception)
             {
             }
+        }
+
+        public void Cancel()
+        {
+            if (cts != null)
+            {
+                cts.Cancel();
+                cts.Dispose();
+                cts = null;
+            }
+
+            destinationFile.DeleteAsync();
         }
 
         private async void HandleDownloadAsync(DownloadOperation download)
@@ -58,9 +80,18 @@ namespace Shared.Utility
             {
                 percent = download.Progress.BytesReceived * 100 / download.Progress.TotalBytesToReceive;
             }
-            if (progressBar != null)
+            if (progressBarControl != null)
             {
-                progressBar.Value = percent;
+                progressBarControl.Value = percent;
+            }
+
+            /* it's strange that following code does not work,
+             * if (download.Progress.Status == BackgroundTransferStatus.Completed)
+             * so i had to use the byte number to determine the completion
+             */
+            if (download.Progress.BytesReceived == download.Progress.TotalBytesToReceive && onCompleteAction != null)
+            {
+                onCompleteAction();
             }
         }
 

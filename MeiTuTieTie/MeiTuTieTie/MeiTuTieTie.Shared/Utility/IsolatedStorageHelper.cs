@@ -213,6 +213,22 @@ namespace Shared.Utility
                 await dataFolder.DeleteAsync();
             }
         }
+
+        public static async Task DeleteFileAsync(string folderName, string fileName)
+        {
+            if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
+            {
+                folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
+            }
+
+            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+            if (local != null)
+            {
+                var dataFolder = await local.GetFolderAsync(folderName);
+                var file = await dataFolder.GetFileAsync(fileName);
+                await file.DeleteAsync();
+            }
+        }
     }
 
 }

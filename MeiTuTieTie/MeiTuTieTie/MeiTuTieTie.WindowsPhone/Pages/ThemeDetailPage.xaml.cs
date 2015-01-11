@@ -61,8 +61,8 @@ namespace MeiTuTieTie.Pages
                 fileDownloader.Download(theme.zipUrl, MODULE, fileName, progressBar,
                     () =>
                     {
-                        int i = 0;
-                        i++;
+                        progressPanel.Visibility = Visibility.Collapsed;
+                        downloadButton.Visibility = Visibility.Visible;
                     });
             }
         }
@@ -78,9 +78,9 @@ namespace MeiTuTieTie.Pages
 
         private void cancelDownload_Click(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
+            fileDownloader.Cancel();
             progressPanel.Visibility = Visibility.Collapsed;
             downloadButton.Visibility = Visibility.Visible;
-
         }
 
     }
