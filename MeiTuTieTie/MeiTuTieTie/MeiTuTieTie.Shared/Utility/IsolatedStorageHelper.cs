@@ -31,6 +31,22 @@ namespace Shared.Utility
             return file;
         }
 
+        public static async Task<StorageFolder> CreateFolderAsync(string folderName)
+        {
+            if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
+            {
+                folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
+            }
+
+            // Get the local folder.
+            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+
+            // Create a new folder
+            var dataFolder = await local.CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
+
+            return dataFolder;
+        }
+
         public static async Task WriteToFileAsync(string folderName, string fileName, string content)
         {
             if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))

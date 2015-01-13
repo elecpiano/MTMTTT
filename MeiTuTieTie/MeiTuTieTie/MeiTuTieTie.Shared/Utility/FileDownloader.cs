@@ -3,6 +3,7 @@ using Windows.Networking.BackgroundTransfer;
 using Windows.Storage;
 using System.Threading;
 using Windows.UI.Xaml.Controls;
+using System.Threading.Tasks;
 
 namespace Shared.Utility
 {
@@ -11,13 +12,13 @@ namespace Shared.Utility
         private DownloadOperation activeDownload;
         private CancellationTokenSource cts;
         private ProgressBar progressBarControl;
-        private Action onCompleteAction;
+        //private Action onCompleteAction;
         private StorageFile destinationFile;
 
-        public async void Download(string url, string module, string file, ProgressBar progressBar, Action onComplete)
+        public async Task<StorageFile> Download(string url, string module, string file, ProgressBar progressBar)//, Action onComplete)
         {
             progressBarControl = progressBar;
-            onCompleteAction = onComplete;
+            //onCompleteAction = onComplete;
 
             if (cts == null)
             {
@@ -38,14 +39,16 @@ namespace Shared.Utility
                 //download.Priority = BackgroundTransferPriority.High;
 
                 // Attach progress and completion handlers.
-                HandleDownloadAsync(download);
+                await HandleDownloadAsync(download);
             }
             catch (Exception)
             {
             }
+
+            return destinationFile;
         }
 
-        public void Cancel()
+        public async void Cancel()
         {
             if (cts != null)
             {
@@ -54,10 +57,10 @@ namespace Shared.Utility
                 cts = null;
             }
 
-            destinationFile.DeleteAsync();
+            await destinationFile.DeleteAsync();
         }
 
-        private async void HandleDownloadAsync(DownloadOperation download)
+        private async Task HandleDownloadAsync(DownloadOperation download)
         {
             try
             {
@@ -89,10 +92,10 @@ namespace Shared.Utility
              * if (download.Progress.Status == BackgroundTransferStatus.Completed)
              * so i had to use the byte number to determine the completion
              */
-            if (download.Progress.BytesReceived == download.Progress.TotalBytesToReceive && onCompleteAction != null)
-            {
-                onCompleteAction();
-            }
+            //if (download.Progress.BytesReceived == download.Progress.TotalBytesToReceive && onCompleteAction != null)
+            //{
+            //    onCompleteAction();
+            //}
         }
 
     }

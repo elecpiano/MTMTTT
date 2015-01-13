@@ -4,6 +4,9 @@ using Windows.UI.Xaml.Navigation;
 using Windows.UI.Xaml;
 using Shared.Utility;
 using Shared.Model;
+using System.Threading.Tasks;
+using Windows.Storage;
+using System;
 
 namespace MeiTuTieTie.Pages
 {
@@ -47,7 +50,7 @@ namespace MeiTuTieTie.Pages
 
         FileDownloader fileDownloader = null;
 
-        private void Download()
+        private async void Download()
         {
             if (fileDownloader == null)
             {
@@ -58,12 +61,28 @@ namespace MeiTuTieTie.Pages
             if (theme != null)
             {
                 string fileName = string.Format(THEME_FILE_FORMAT, theme.id);
-                fileDownloader.Download(theme.zipUrl, MODULE, fileName, progressBar,
-                    () =>
-                    {
-                        progressPanel.Visibility = Visibility.Collapsed;
-                        downloadButton.Visibility = Visibility.Visible;
-                    });
+                var storageFile = await fileDownloader.Download(theme.zipUrl, MODULE, fileName, progressBar);
+                progressPanel.Visibility = Visibility.Collapsed;
+                downloadButton.Visibility = Visibility.Visible;
+
+                string unZipfolderName = string.Format("theme\\{0}",fileName);
+                await UnZip(storageFile, fileName);
+            }
+        }
+
+        #endregion
+
+        #region Zip
+        
+        private async Task UnZip(StorageFile zipFile, string folderName)
+        {
+            try
+            {
+                var folder = await IsolatedStorageHelper.CreateFolderAsync(folderName);
+                await ZipHelper.UnZipFileAsync(zipFile, folder);
+            }
+            catch (Exception ex)
+            {
             }
         }
 
