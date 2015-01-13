@@ -41,6 +41,13 @@ namespace Shared.Utility
             // Get the local folder.
             StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
 
+            //string[] folderNameList = folderName.Split('\\');
+            //StorageFolder folder = local;
+            //for (int i = 0; i < folderNameList.Length; i++)
+            //{
+            //    folder = await folder.CreateFolderAsync(folderNameList[i], CreationCollisionOption.OpenIfExists);
+            //}
+
             // Create a new folder
             var dataFolder = await local.CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
 

@@ -15,7 +15,7 @@ namespace MeiTuTieTie.Pages
         #region Property
 
         public const string MODULE = "theme";
-        public const string THEME_FILE_FORMAT = "theme_pack_{0}";
+        public const string THEME_FILE_FORMAT = "theme_pack_{0}.zip";
 
         private readonly NavigationHelper navigationHelper;
 
@@ -58,6 +58,7 @@ namespace MeiTuTieTie.Pages
             }
 
             ThemePack theme = this.rootGrid.GetDataContext<ThemePack>();
+
             if (theme != null)
             {
                 string fileName = string.Format(THEME_FILE_FORMAT, theme.id);
@@ -65,8 +66,8 @@ namespace MeiTuTieTie.Pages
                 progressPanel.Visibility = Visibility.Collapsed;
                 downloadButton.Visibility = Visibility.Visible;
 
-                string unZipfolderName = string.Format("theme\\{0}",fileName);
-                await UnZip(storageFile, fileName);
+                string unZipfolderName = string.Format("theme\\{0}", theme.id);
+                await UnZip(storageFile, unZipfolderName);
             }
         }
 
