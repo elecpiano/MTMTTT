@@ -21,10 +21,20 @@ namespace MeiTuTieTie.Pages
 {
     public sealed partial class HomePage : Page
     {
+        #region Lifecycle
+
         public HomePage()
         {
             this.InitializeComponent();
         }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            UpdateScreenSize();
+        }
+        
+        #endregion
 
         private void singlePic_Click(object sender, RoutedEventArgs e)
         {
@@ -44,6 +54,15 @@ namespace MeiTuTieTie.Pages
         {
 
         }
+
+        #region Screen Size Related
+
+        private void UpdateScreenSize()
+        {
+            Application.Current.Resources["ScreenWidthHalf"] = Window.Current.Bounds.Width * 0.5d;
+        }
+
+        #endregion
 
     }
 }

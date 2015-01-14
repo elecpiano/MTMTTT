@@ -4,6 +4,9 @@
     xmlns:System="clr-namespace:System;assembly=mscorlib" 
     >
 
+    <!--screen-->
+    <x:Double x:Key="ScreenWidthHalf">200</x:Double>
+
     <!--textblock base-->
     <Style x:Key="TextBlockBase" TargetType="TextBlock">
         <!--<Setter Property="FontFamily" Value="Rosewood Std Regular"/>-->
