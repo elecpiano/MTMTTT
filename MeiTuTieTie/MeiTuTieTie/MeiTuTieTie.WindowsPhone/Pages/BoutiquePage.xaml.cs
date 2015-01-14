@@ -101,5 +101,21 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
+        #region App Bar
+
+        private void BuildAppBar()
+        {
+            AppBarButton myThemesButton = new AppBarButton();
+            myThemesButton.Label = "分类";
+            myThemesButton.Icon = new SymbolIcon(Symbol.Favorite);
+            myThemesButton.Click += myThemesButton_Click;
+        }
+
+        void myThemesButton_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        #endregion
+
     }
 }

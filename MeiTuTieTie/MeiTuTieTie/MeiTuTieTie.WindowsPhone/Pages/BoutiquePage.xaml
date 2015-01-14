@@ -11,6 +11,12 @@
     <Page.Resources>
     </Page.Resources>
 
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="Favorite" Label="我的主题" Click="myThemesButton_Click"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+
     <Grid Background="White">
         <ScrollViewer>
             <Grid>
