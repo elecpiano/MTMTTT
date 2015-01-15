@@ -42,7 +42,7 @@ namespace MeiTuTieTie.Pages
             RectangleGeometry cropArea = new RectangleGeometry() { Rect = new Rect(0d, 0d, stagePanel.ActualWidth, stagePanel.ActualHeight) };
             stage.Clip = cropArea;
 
-            string fileName = "MeiTuTieTie_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".png";
+            string fileName = "MeiTuTieTie_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".jpg";
             ImageHelper.CaptureToMediaLibrary(this.stagePanel, fileName, 640);
         }
 

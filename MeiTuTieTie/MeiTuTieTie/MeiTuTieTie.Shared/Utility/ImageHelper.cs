@@ -34,7 +34,7 @@ namespace Shared.Utility
             var file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
             using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
             {
-                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, stream);
+                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegXREncoderId, stream);
 
                 encoder.SetPixelData(
                     BitmapPixelFormat.Bgra8,
