@@ -20,7 +20,7 @@ using Windows.UI.Xaml.Navigation;
 
 namespace MeiTuTieTie.Pages
 {
-    public sealed partial class BoutiquePage : Page
+    public sealed partial class MyThemePage : Page
     {
         #region Property
 
@@ -28,21 +28,16 @@ namespace MeiTuTieTie.Pages
         public const string CACHE_FILE = "theme_data";
 
         private readonly NavigationHelper navigationHelper;
-        
+
         #endregion
 
         #region Lifecycle
 
-        public BoutiquePage()
+        public MyThemePage()
         {
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
-            //HardwareButtons.BackPressed += HardwareButtons_BackPressed;
         }
-
-        //void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
-        //{
-        //}
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -72,20 +67,14 @@ namespace MeiTuTieTie.Pages
 
         DataLoader<ThemePacksData> dataLoader = null;
 
-        private void LoadData()
+        private async void LoadData()
         {
-            if (dataLoader==null)
+            if (dataLoader == null)
             {
                 dataLoader = new DataLoader<ThemePacksData>();
             }
 
-            string url = "http://tietie.sucaimgr.meitu.com/json_file/android/allPacks.json";
-            dataLoader.Load(url, true, MODULE, CACHE_FILE,
-                data =>
-                {
-                    topThemeListBox.ItemsSource = data.topThemePacks;
-                    allThemeListBox.ItemsSource = data.allThemePacks;
-                });
+            var data = await dataLoader.LoadLocalData(MODULE, CACHE_FILE);
         }
 
         #endregion
@@ -96,24 +85,16 @@ namespace MeiTuTieTie.Pages
 
         private void theme_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            Frame.Navigate(typeof(ThemeDetailPage),sender.GetDataContext());
+            Frame.Navigate(typeof(ThemeDetailPage), sender.GetDataContext());
         }
 
         #endregion
 
         #region App Bar
 
-        private void BuildAppBar()
+        private void selectItems_Click(object sender, RoutedEventArgs e)
         {
-            AppBarButton myThemesButton = new AppBarButton();
-            myThemesButton.Label = "分类";
-            myThemesButton.Icon = new SymbolIcon(Symbol.Favorite);
-            myThemesButton.Click += myThemesButton_Click;
-        }
 
-        void myThemesButton_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(MyThemePage));
         }
 
         #endregion

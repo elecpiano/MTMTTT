@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Runtime.Serialization;
 using MeiTuTieTie;
+using System.Threading.Tasks;
 
 namespace Shared.Utility
 {
@@ -112,6 +113,31 @@ namespace Shared.Utility
                 Busy = false;
             }
         }
+
+        public async Task<T> LoadLocalData(string module, string file)
+        {
+            if ((string.IsNullOrEmpty(module) || string.IsNullOrEmpty(file)))
+            {
+                return null;
+            }
+
+            moduleName = module;
+            fileName = file;
+            T result = null;
+
+            //load cache
+            try
+            {
+                var cachedJson = await IsolatedStorageHelper.ReadFileAsync(moduleName, fileName);
+                result = JsonSerializer.Deserialize<T>(cachedJson);
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return result;
+        }
+
     }
 
 }

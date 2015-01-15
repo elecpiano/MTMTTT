@@ -84,6 +84,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\SpriteControl.cs" />
+    <Compile Include="Pages\MyThemePage.xaml.cs">
+      <DependentUpon>MyThemePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ThemeDetailPage.xaml.cs">
       <DependentUpon>ThemeDetailPage.xaml</DependentUpon>
     </Compile>
@@ -116,6 +119,10 @@
     <Content Include="Assets\WideLogo.scale-240.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Pages\MyThemePage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\ThemeDetailPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
