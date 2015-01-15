@@ -23,6 +23,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\ObservableDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Gadget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\MyTheme.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ThemePack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\FileDownloader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\DataLoader.cs" />
@@ -31,6 +33,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\IsolatedStorageHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\JsonSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\NetworkHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\XmlHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\ZipHelper.cs" />
   </ItemGroup>
 </Project>

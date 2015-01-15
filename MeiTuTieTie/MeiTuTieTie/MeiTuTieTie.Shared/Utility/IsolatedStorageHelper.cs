@@ -12,7 +12,7 @@ namespace Shared.Utility
     {
         public const string USER_DATA_FOLDER_NAME = "udata";
 
-        public static async Task<StorageFile> CreateFileAsync(string folderName, string fileName)
+        public static async Task<StorageFile> CreateFileAsync(string folderName, string fileName, CreationCollisionOption option)
         {
             if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
             {
@@ -26,9 +26,21 @@ namespace Shared.Utility
             var dataFolder = await local.CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
 
             // Create a new file
-            var file = await dataFolder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+            var file = await dataFolder.CreateFileAsync(fileName, option);
 
             return file;
+        }
+
+        public static async Task EnsureFileExistence(string folderName, string fileName)
+        {
+            if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
+            {
+                folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
+            }
+
+            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+            var dataFolder = await local.CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
+            await dataFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
         }
 
         public static async Task<StorageFolder> CreateFolderAsync(string folderName)
