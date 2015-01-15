@@ -7,15 +7,13 @@ using Shared.Model;
 using Windows.UI.Xaml.Navigation;
 using System.Xml.Serialization;
 using Windows.Graphics.Display;
+using Shared.Global;
 
 namespace MeiTuTieTie.Pages
 {
-    public sealed partial class MyThemePage : Page
+    public sealed partial class MyThemeDetailPage : Page
     {
         #region Property
-
-        public const string MODULE = "theme";
-        public const string CACHE_FILE = "theme_data";
 
         private readonly NavigationHelper navigationHelper;
 
@@ -23,7 +21,7 @@ namespace MeiTuTieTie.Pages
 
         #region Lifecycle
 
-        public MyThemePage()
+        public MyThemeDetailPage()
         {
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
@@ -64,29 +62,7 @@ namespace MeiTuTieTie.Pages
                 dataLoader = new DataLoader<ThemePacksData>();
             }
 
-            var data = await dataLoader.LoadLocalData(MODULE, CACHE_FILE);
-        }
-
-        #endregion
-
-        #region Theme Detail View
-
-        private bool themeDetailViewShown = false;
-
-        private void theme_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(ThemeDetailPage), sender.GetDataContext());
-        }
-
-        #endregion
-
-        #region App Bar
-
-        private void selectItems_Click(object sender, RoutedEventArgs e)
-        {
-            XmlSerializer serializer;
-
-            DisplayInformation di = DisplayInformation.GetForCurrentView();
+            var data = await dataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE);
         }
 
         #endregion

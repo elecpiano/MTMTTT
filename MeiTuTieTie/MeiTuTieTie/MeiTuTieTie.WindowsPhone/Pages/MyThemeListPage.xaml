@@ -1,0 +1,48 @@
+﻿<Page 
+    x:Class="MeiTuTieTie.Pages.MyThemeListPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:MeiTuTieTie.Controls" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    NavigationCacheMode="Required">
+
+    <Page.Resources>
+    </Page.Resources>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton Icon="List" Label="选择" Click="selectItems_Click"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid Background="White">
+        <ScrollViewer>
+            <ItemsControl Grid.Row="1" x:Name="myThemeListBox" Background="Transparent">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <VirtualizingStackPanel/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Tapped="theme_Tapped">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Source="{Binding thumbnailUrl}" Stretch="Uniform"
+                                   Height="72" Width="72" Margin="5"/>
+                            <TextBlock Grid.Column="1" Text="{Binding name}" Style="{StaticResource BoutiqueList_ItemText_Style}"/>
+                            <ToggleSwitch Grid.Column="4" VerticalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+    </Grid>
+</Page>

@@ -2,8 +2,12 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:System="clr-namespace:System;assembly=mscorlib" 
+    xmlns:sharedConverter="using:Shared.Converters"
     >
 
+    <!--converters-->
+    <sharedConverter:AnythingToVisibilityConverter x:Key="AnythingToVisibilityConverter"/>
+    
     <!--screen-->
     <x:Double x:Key="ScreenWidthHalf">200</x:Double>
 

@@ -128,6 +128,7 @@ namespace Shared.Utility
             //load cache
             try
             {
+                await IsolatedStorageHelper.EnsureFileExistence(moduleName, fileName);
                 var cachedJson = await IsolatedStorageHelper.ReadFileAsync(moduleName, fileName);
                 result = JsonSerializer.Deserialize<T>(cachedJson);
             }

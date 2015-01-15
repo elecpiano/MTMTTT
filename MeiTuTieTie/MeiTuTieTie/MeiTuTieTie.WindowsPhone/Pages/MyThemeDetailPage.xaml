@@ -1,5 +1,5 @@
 ﻿<Page 
-    x:Class="MeiTuTieTie.Pages.MyThemePage"
+    x:Class="MeiTuTieTie.Pages.MyThemeDetailPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:MeiTuTieTie.Controls" 
@@ -8,16 +8,8 @@
     mc:Ignorable="d"
     NavigationCacheMode="Enabled">
 
-    <Page.Resources>
-    </Page.Resources>
-
-    <Page.BottomAppBar>
-        <CommandBar>
-            <AppBarButton Icon="List" Label="选择" Click="selectItems_Click"/>
-        </CommandBar>
-    </Page.BottomAppBar>
-
     <Grid Background="White">
+        
         <ScrollViewer>
             <ItemsControl Grid.Row="1" x:Name="myThemeListBox" Background="Transparent">
                 <ItemsControl.ItemsPanel>
@@ -27,7 +19,7 @@
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <Grid Tapped="theme_Tapped">
+                        <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>

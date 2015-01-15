@@ -1,9 +1,10 @@
-﻿using System.Runtime.Serialization;
+﻿using Shared.Infrastructures;
+using System.Runtime.Serialization;
 
 namespace Shared.Model
 {
     [DataContract]
-    public class ThemePack
+    public class ThemePack : BindableBase
     {
         [DataMember]
         public string id { get; set; }
@@ -31,7 +32,16 @@ namespace Shared.Model
         public string description { get; set; }
         [DataMember]
         public string[] preview { get; set; }
-        
+
+        //extra members
+        private bool _Downloaded = false;
+        [IgnoreDataMember]
+        public bool Downloaded
+        {
+            get { return _Downloaded; }
+            set { base.SetProperty(ref _Downloaded, value); }
+        }
+
         [IgnoreDataMember]
         public int Count
         {

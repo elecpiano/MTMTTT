@@ -7,16 +7,14 @@ using Shared.Model;
 using System.Threading.Tasks;
 using Windows.Storage;
 using System;
+using Shared.Global;
+using System.Linq;
 
 namespace MeiTuTieTie.Pages
 {
     public sealed partial class ThemeDetailPage : Page
     {
         #region Property
-
-        public const string MODULE = "theme";
-        public const string THEME_PACK_ZIP_FILE_FORMAT = "theme_pack_{0}.zip";
-        public const string MY_THEME_DATA_FILE = "my_theme_data";
 
         private readonly NavigationHelper navigationHelper;
 
@@ -50,11 +48,12 @@ namespace MeiTuTieTie.Pages
         #region File Download
 
         FileDownloader fileDownloader = null;
+        bool downloadCanceled = false;
 
         private async void Download()
         {
             progressPanel.Visibility = Visibility.Visible;
-            downloadButton.Visibility = Visibility.Collapsed;
+            downloadPanel.Visibility = Visibility.Collapsed;
 
             if (fileDownloader == null)
             {
@@ -65,21 +64,29 @@ namespace MeiTuTieTie.Pages
 
             if (theme != null)
             {
-                string fileName = string.Format(THEME_PACK_ZIP_FILE_FORMAT, theme.id);
-                var storageFile = await fileDownloader.Download(theme.zipUrl, MODULE, fileName, progressBar);
-                progressPanel.Visibility = Visibility.Collapsed;
-                downloadButton.Visibility = Visibility.Visible;
+                string fileName = string.Format(Constants.THEME_PACK_ZIP_FILE_FORMAT, theme.id);
+                var storageFile = await fileDownloader.Download(theme.zipUrl, Constants.THEME_MODULE, fileName, progressBar);
+
+                if (downloadCanceled)
+                {
+                    return;
+                }
 
                 string unZipfolderName = string.Format("theme\\{0}", theme.id);
                 await UnZip(storageFile, unZipfolderName);
                 await AddMyThemeData(theme);
+
+                theme.Downloaded = true;
+
+                progressPanel.Visibility = Visibility.Collapsed;
+                downloadPanel.Visibility = Visibility.Visible;
             }
         }
 
         #endregion
 
         #region Zip
-        
+
         private async Task UnZip(StorageFile zipFile, string folderName)
         {
             try
@@ -94,23 +101,27 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
-        #region Update MyTheme Data
+        #region MyTheme Data
 
         DataLoader<MyThemeData> myThemeDataLoader = null;
 
         private async Task AddMyThemeData(ThemePack themePack)
         {
-            if (myThemeDataLoader==null)
+            if (myThemeDataLoader == null)
             {
                 myThemeDataLoader = new DataLoader<MyThemeData>();
             }
 
             //load data file
-            await IsolatedStorageHelper.EnsureFileExistence(MODULE, MY_THEME_DATA_FILE);
-            var data = await myThemeDataLoader.LoadLocalData(MODULE, MY_THEME_DATA_FILE);
-            if (data ==null)
+            var data = await myThemeDataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE);
+            if (data == null)
             {
                 data = new MyThemeData();
+            }
+
+            if (data.myThemes.Any(x=>x.id == themePack.id))
+            {
+                return;
             }
 
             //add new theme
@@ -118,11 +129,11 @@ namespace MeiTuTieTie.Pages
             newTheme.id = themePack.id;
             newTheme.name = themePack.name;
             newTheme.thumbnail = themePack.thumbnailUrl;
-            data.myThemes.Add(newTheme);
+            data.myThemes.Insert(0, newTheme);
 
             //save data
             string json = JsonSerializer.Serialize(data);
-            await IsolatedStorageHelper.WriteToFileAsync(MODULE, MY_THEME_DATA_FILE, json);
+            await IsolatedStorageHelper.WriteToFileAsync(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE, json);
         }
 
         #endregion
@@ -137,8 +148,10 @@ namespace MeiTuTieTie.Pages
         private void cancelDownload_Click(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             fileDownloader.Cancel();
+            downloadCanceled = true;
+
             progressPanel.Visibility = Visibility.Collapsed;
-            downloadButton.Visibility = Visibility.Visible;
+            downloadPanel.Visibility = Visibility.Visible;
         }
 
         #endregion

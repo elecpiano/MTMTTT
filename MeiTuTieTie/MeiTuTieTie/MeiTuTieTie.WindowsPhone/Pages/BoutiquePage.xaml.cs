@@ -1,31 +1,19 @@
-﻿using System;
-using Shared.Common;
-using MeiTuTieTie.Controls;
-using System.Collections.Generic;
-using Windows.Foundation;
-using Windows.Storage;
-using Windows.Storage.Pickers;
+﻿using Shared.Common;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
-using System.Collections.ObjectModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Storage.Streams;
 using Shared.Utility;
-using Windows.UI.Xaml.Media;
 using Shared.Model;
-using Windows.Phone.UI.Input;
 using Windows.UI.Xaml.Navigation;
+using Shared.Global;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MeiTuTieTie.Pages
 {
     public sealed partial class BoutiquePage : Page
     {
         #region Property
-
-        public const string MODULE = "theme";
-        public const string CACHE_FILE = "theme_data";
 
         private readonly NavigationHelper navigationHelper;
         
@@ -51,6 +39,10 @@ namespace MeiTuTieTie.Pages
             {
                 LoadData();
             }
+            else
+            {
+                UpdateData(themePackData);
+            }
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -61,7 +53,7 @@ namespace MeiTuTieTie.Pages
             }
             else
             {
-                this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
+                this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
             }
             base.OnNavigatingFrom(e);
         }
@@ -71,6 +63,8 @@ namespace MeiTuTieTie.Pages
         #region Data
 
         DataLoader<ThemePacksData> dataLoader = null;
+        DataLoader<MyThemeData> myThemeDataLoader = null;
+        ThemePacksData themePackData = null;
 
         private void LoadData()
         {
@@ -80,19 +74,53 @@ namespace MeiTuTieTie.Pages
             }
 
             string url = "http://tietie.sucaimgr.meitu.com/json_file/android/allPacks.json";
-            dataLoader.Load(url, true, MODULE, CACHE_FILE,
+            dataLoader.Load(url, true, Constants.THEME_MODULE, Constants.THEME_DATA_FILE,
                 data =>
                 {
-                    topThemeListBox.ItemsSource = data.topThemePacks;
-                    allThemeListBox.ItemsSource = data.allThemePacks;
+                    themePackData = data;
+                    ContinueLoadData(themePackData);
                 });
+        }
+
+        private async void ContinueLoadData(ThemePacksData data)
+        {
+            await UpdateData(data);
+            topThemeListBox.ItemsSource = data.topThemePacks;
+            allThemeListBox.ItemsSource = data.allThemePacks;
+        }
+
+        private async Task UpdateData(ThemePacksData data)
+        {
+            if (myThemeDataLoader == null)
+            {
+                myThemeDataLoader = new DataLoader<MyThemeData>();
+            }
+
+            //load data file
+            var myThemeData = await myThemeDataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE);
+            if (myThemeData != null)
+            {
+                foreach (var theme in data.topThemePacks)
+                {
+                    if (myThemeData.myThemes.Any(x=>x.id == theme.id))
+                    {
+                        theme.Downloaded = true;
+                    }
+                }
+
+                foreach (var theme in data.allThemePacks)
+                {
+                    if (myThemeData.myThemes.Any(x => x.id == theme.id))
+                    {
+                        theme.Downloaded = true;
+                    }
+                }
+            }
         }
 
         #endregion
 
         #region Theme Detail View
-
-        private bool themeDetailViewShown = false;
 
         private void theme_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -113,7 +141,7 @@ namespace MeiTuTieTie.Pages
 
         void myThemesButton_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(MyThemePage));
+            Frame.Navigate(typeof(MyThemeListPage));
         }
 
         #endregion

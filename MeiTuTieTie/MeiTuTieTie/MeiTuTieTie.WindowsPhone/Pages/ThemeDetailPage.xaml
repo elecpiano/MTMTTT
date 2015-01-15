@@ -10,7 +10,7 @@
     <Grid x:Name="rootGrid" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="72"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
@@ -38,11 +38,8 @@
             </Grid>
         </Grid>
 
-        <Button x:Name="downloadButton" Grid.Row="1" Content="下载" 
-                Background="LightGreen" HorizontalAlignment="Stretch" Margin="12,12,12,0"
-                Click="download_Click" />
-
-        <Grid x:Name="progressPanel" Grid.Row="1" Margin="12,12,12,0" Visibility="Collapsed">
+        <Grid x:Name="progressPanel" Grid.Row="1" Margin="12,12,12,0" 
+              Visibility="Collapsed">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
@@ -53,9 +50,24 @@
                    Tapped="cancelDownload_Click"/>
         </Grid>
 
+        <Grid x:Name="downloadPanel" Grid.Row="1" Margin="12,12,12,0">
+            <Button Grid.Row="1" Content="下载" 
+                    Background="LightGreen" 
+                    HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                    Visibility="{Binding Downloaded, Converter={StaticResource AnythingToVisibilityConverter}, ConverterParameter='neg'}"
+                    Click="download_Click" />
+
+            <Grid Grid.Row="1" Background="#ffe0e0e0" 
+                  Visibility="{Binding Downloaded, Converter={StaticResource AnythingToVisibilityConverter}}">
+                <TextBlock Text="已下载" Grid.Row="1" 
+                           Style="{StaticResource ThemeDetailPage_SubTitle_Style}"
+                           HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Grid>
+        </Grid>
+
         <TextBlock Text="{Binding description}" Grid.Row="2" Margin="12,12,12,12"
                    Style="{StaticResource ThemeDetailPage_Description_Style}"/>
-        
+
         <ScrollViewer Grid.Row="3">
             <WebView x:Name="webView" Source="{Binding previewUrl}"/>
         </ScrollViewer>

@@ -81,11 +81,15 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\SpriteControl.cs" />
-    <Compile Include="Pages\MyThemePage.xaml.cs">
-      <DependentUpon>MyThemePage.xaml</DependentUpon>
+    <Compile Include="Pages\MyThemeDetailPage.xaml.cs">
+      <DependentUpon>MyThemeDetailPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\MyThemeListPage.xaml.cs">
+      <DependentUpon>MyThemeListPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ThemeDetailPage.xaml.cs">
       <DependentUpon>ThemeDetailPage.xaml</DependentUpon>
@@ -119,7 +123,11 @@
     <Content Include="Assets\WideLogo.scale-240.png" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Pages\MyThemePage.xaml">
+    <Page Include="Pages\MyThemeDetailPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\MyThemeListPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
