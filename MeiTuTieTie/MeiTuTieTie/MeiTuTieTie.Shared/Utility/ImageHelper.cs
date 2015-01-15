@@ -4,17 +4,29 @@ using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Media.Imaging;
-
 using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace Shared.Utility
 {
     public class ImageHelper
     {
-        public static async void CaptureToMediaLibrary(FrameworkElement uiElement, string fileName)
+        public static async void CaptureToMediaLibrary(FrameworkElement uiElement, string fileName, double expectedWidth)
         {
+            double scale = 1.0d;
+            DisplayInformation di = DisplayInformation.GetForCurrentView();
+            
+#if WINDOWS_PHONE_APP
+            scale = di.RawPixelsPerViewPixel;
+#else
+            scale = (double)di.ResolutionScale * 0.01;
+#endif
+            double expectedHeight = expectedWidth * uiElement.ActualHeight / uiElement.ActualWidth;
+
+            double renderWidth = expectedWidth / scale;
+            double renderHeight = expectedHeight / scale;
+
             RenderTargetBitmap renderTargetBitmap = new RenderTargetBitmap();
-            await renderTargetBitmap.RenderAsync(uiElement);//, (int)uiElement.ActualWidth, (int)uiElement.ActualHeight);
+            await renderTargetBitmap.RenderAsync(uiElement, (int)renderWidth, (int)renderHeight);//, (int)uiElement.ActualWidth, (int)uiElement.ActualHeight);
             var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
 
             // Encode the image to file
@@ -29,8 +41,8 @@ namespace Shared.Utility
                     BitmapAlphaMode.Ignore,
                     (uint)renderTargetBitmap.PixelWidth,
                     (uint)renderTargetBitmap.PixelHeight,
-                    DisplayInformation.GetForCurrentView().LogicalDpi,
-                    DisplayInformation.GetForCurrentView().LogicalDpi,
+                    di.LogicalDpi,
+                    di.LogicalDpi,
                     pixelBuffer.ToArray());
 
                 await encoder.FlushAsync();

@@ -1,22 +1,12 @@
-﻿using System;
-using Shared.Common;
-using MeiTuTieTie.Controls;
-using System.Collections.Generic;
-using Windows.Foundation;
-using Windows.Storage;
-using Windows.Storage.Pickers;
+﻿using Shared.Common;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media.Imaging;
-using System.Collections.ObjectModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Storage.Streams;
 using Shared.Utility;
-using Windows.UI.Xaml.Media;
 using Shared.Model;
-using Windows.Phone.UI.Input;
 using Windows.UI.Xaml.Navigation;
+using System.Xml.Serialization;
+using Windows.Graphics.Display;
 
 namespace MeiTuTieTie.Pages
 {
@@ -94,7 +84,9 @@ namespace MeiTuTieTie.Pages
 
         private void selectItems_Click(object sender, RoutedEventArgs e)
         {
+            XmlSerializer serializer;
 
+            DisplayInformation di = DisplayInformation.GetForCurrentView();
         }
 
         #endregion

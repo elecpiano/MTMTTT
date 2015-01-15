@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.Utility;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -8,6 +9,7 @@ using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
 using Windows.Graphics.Imaging;
 using Windows.Storage;
+using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -26,6 +28,7 @@ namespace MeiTuTieTie.Pages
         public HomePage()
         {
             this.InitializeComponent();
+            HideStatusBar();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -34,6 +37,10 @@ namespace MeiTuTieTie.Pages
             UpdateScreenSize();
         }
         
+        #endregion
+
+        #region Tile Click
+
         #endregion
 
         private void singlePic_Click(object sender, RoutedEventArgs e)
@@ -60,6 +67,16 @@ namespace MeiTuTieTie.Pages
         private void UpdateScreenSize()
         {
             Application.Current.Resources["ScreenWidthHalf"] = Window.Current.Bounds.Width * 0.5d;
+        }
+
+        #endregion
+
+        #region StatusBar
+
+        private void HideStatusBar()
+        {
+            StatusBar statusBar = Windows.UI.ViewManagement.StatusBar.GetForCurrentView();
+            statusBar.HideAsync();
         }
 
         #endregion

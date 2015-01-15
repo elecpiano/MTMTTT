@@ -8,6 +8,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Graphics.Display;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -109,6 +110,7 @@ namespace MeiTuTieTie
 
             // Ensure the current window is active
             Window.Current.Activate();
+            CollectDeviceInformation();
         }
 
         protected override void OnActivated(IActivatedEventArgs args)
@@ -167,7 +169,11 @@ namespace MeiTuTieTie
             deferral.Complete();
         }
 
-        //custom code from here on
+
+        /************************ custom code from here on ************************/
+
+        public static double SCREEN_RESOLUTION_WIDTH = 0;
+        public static double SCREEN_RESOLUTION_HEIGHT = 0;
 
         public static App CurrentInstance
         {
@@ -181,6 +187,18 @@ namespace MeiTuTieTie
         {
             get { return rootFrame; }
             set { rootFrame = value; }
+        }
+
+        private void CollectDeviceInformation()
+        {
+            DisplayInformation di = DisplayInformation.GetForCurrentView();
+#if WINDOWS_PHONE_APP
+            SCREEN_RESOLUTION_WIDTH = (int)(Math.Round(di.RawPixelsPerViewPixel * Window.Current.Bounds.Width));
+            SCREEN_RESOLUTION_HEIGHT = (int)(Math.Round(di.RawPixelsPerViewPixel * Window.Current.Bounds.Height));
+#else
+            SCREEN_RESOLUTION_WIDTH = (int)di.ResolutionScale * 0.01 * Window.Current.Bounds.Width;
+            SCREEN_RESOLUTION_HEIGHT = (int)di.ResolutionScale * 0.01 * Window.Current.Bounds.Height;
+#endif
         }
 
         public async void RunAsync(Action action)

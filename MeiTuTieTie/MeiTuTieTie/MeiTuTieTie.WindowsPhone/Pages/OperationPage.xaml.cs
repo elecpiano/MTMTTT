@@ -42,8 +42,8 @@ namespace MeiTuTieTie.Pages
             RectangleGeometry cropArea = new RectangleGeometry() { Rect = new Rect(0d, 0d, stagePanel.ActualWidth, stagePanel.ActualHeight) };
             stage.Clip = cropArea;
 
-            string fileName = "MeiTuTieTie_"+ DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".png";
-            ImageHelper.CaptureToMediaLibrary(this.stagePanel, fileName);
+            string fileName = "MeiTuTieTie_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".png";
+            ImageHelper.CaptureToMediaLibrary(this.stagePanel, fileName, 640);
         }
 
         private void stageBackground_PointerPressed(object sender, PointerRoutedEventArgs e)
