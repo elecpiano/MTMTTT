@@ -52,6 +52,7 @@ namespace MeiTuTieTie.Pages
 
         private async void Download()
         {
+            this.progressBar.Value = 0;
             progressPanel.Visibility = Visibility.Visible;
             downloadPanel.Visibility = Visibility.Collapsed;
 
