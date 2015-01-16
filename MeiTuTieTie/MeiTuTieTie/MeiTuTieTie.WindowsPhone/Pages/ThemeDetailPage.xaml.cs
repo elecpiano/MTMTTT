@@ -73,9 +73,10 @@ namespace MeiTuTieTie.Pages
                     return;
                 }
 
-                string unZipfolderName = string.Format("theme\\{0}", theme.id);
+                string unZipfolderName = string.Format("{0}\\{1}", Constants.THEME_MODULE, theme.id);
                 await UnZip(storageFile, unZipfolderName);
                 await AddMyThemeData(theme);
+                await AddMaterialData(theme.id);
 
                 theme.Downloaded = true;
 
@@ -120,7 +121,7 @@ namespace MeiTuTieTie.Pages
                 data = new MyThemeData();
             }
 
-            if (data.myThemes.Any(x=>x.id == themePack.id))
+            if (data.myThemes.Any(x => x.id == themePack.id))
             {
                 return;
             }
@@ -135,6 +136,23 @@ namespace MeiTuTieTie.Pages
             //save data
             string json = JsonSerializer.Serialize(data);
             await IsolatedStorageHelper.WriteToFileAsync(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE, json);
+        }
+
+        #endregion
+
+        #region Gadget Data
+
+        DataLoader<MaterialData> materialDataLoader = null;
+        private async Task AddMaterialData(string themeID)
+        {
+            MaterialData md = new MaterialData();
+            Material m = new Material() { image = "img", themePackID = "pack1", thumbnail = "thm", type = "tp", visible = true };
+            md.materials.Add(m);
+            var xx = XmlHelper.SerializeToString<MaterialData>(md);
+
+            //load materials file
+            string path = string.Format("{0}\\{1}", themeID, Constants.MATERIAL_FILE_FORMAT);
+            MaterialData materials = await XmlHelper.Deserialize<MaterialData>(Constants.THEME_MODULE, path);
         }
 
         #endregion

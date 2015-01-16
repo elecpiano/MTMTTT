@@ -29,7 +29,7 @@
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" Source="{Binding thumbnailUrl}" Stretch="Uniform"
                                    Height="72" Width="72" Margin="5"/>
-                            <TextBlock Grid.Column="1" Text="{Binding name}" Style="{StaticResource BoutiqueList_ItemText_Style}"/>
+                            <TextBlock Grid.Column="1" Text="{Binding name}"/>
                             <ToggleSwitch Grid.Column="4" VerticalAlignment="Center"/>
                         </Grid>
                     </DataTemplate>

@@ -1,20 +1,37 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Shared.Model
 {
-    [DataContract]
-    public class Gadget
+    [DataContract(Name="material")]
+    public class Material
     {
         [DataMember]
         public string themePackID { get; set; }
-        [DataMember]
+
+        [DataMember(Name="id")]
         public string type { get; set; }
-        [DataMember]
-        public string name { get; set; }
-        [DataMember]
+        
+        [DataMember(Name = "name")]
+        public string image { get; set; }
+        
+        [DataMember(Name = "thumbnailname")]
         public string thumbnail { get; set; }
+        
         [DataMember]
         public bool visible { get; set; }
+    }
+
+    [DataContract]
+    public class MaterialData
+    {
+        public MaterialData()
+        {
+            materials = new List<Material>();
+        }
+
+        [DataMember(Name = "materials")]
+        public List<Material> materials { get; set; }
     }
 
 }

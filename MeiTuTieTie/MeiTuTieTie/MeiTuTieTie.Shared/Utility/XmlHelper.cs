@@ -12,7 +12,7 @@ namespace Shared.Utility
     {
         public static async void Serialize<T>(IStorageFile file, T obj)
         {
-            using(IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+            using (IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite))
             {
                 XmlSerializer xs = new XmlSerializer(typeof(T));
                 xs.Serialize(stream.AsStreamForWrite(), obj);
@@ -26,6 +26,22 @@ namespace Shared.Utility
             {
                 XmlSerializer xs = new XmlSerializer(typeof(T));
                 val = (T)xs.Deserialize(stream.AsStreamForRead());
+            }
+            return val;
+        }
+
+        public static async Task<T> Deserialize<T>(string folder, string file)
+        {
+            T val;
+
+            string content = await IsolatedStorageHelper.ReadFileAsync(folder, file);
+            using (StringReader sr = new StringReader(content))
+            {
+                XmlSerializer xs = new XmlSerializer(typeof(T));
+                var obj = xs.Deserialize(sr);
+                int i = 0;
+                i++;
+                val = (T)xs.Deserialize(sr);
             }
             return val;
         }

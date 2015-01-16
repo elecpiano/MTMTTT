@@ -32,7 +32,7 @@ namespace MeiTuTieTie.Pages
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.New)
             {
-                LoadData();
+                LoadData(e.Parameter as MyTheme);
             }
         }
 
@@ -55,7 +55,7 @@ namespace MeiTuTieTie.Pages
 
         DataLoader<ThemePacksData> dataLoader = null;
 
-        private async void LoadData()
+        private async void LoadData(MyTheme theme)
         {
             if (dataLoader == null)
             {
@@ -63,6 +63,7 @@ namespace MeiTuTieTie.Pages
             }
 
             var data = await dataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE);
+
         }
 
         #endregion
