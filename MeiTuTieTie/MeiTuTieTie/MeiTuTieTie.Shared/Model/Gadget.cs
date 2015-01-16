@@ -1,37 +1,37 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
+using System.Xml.Serialization;
 
 namespace Shared.Model
 {
-    [DataContract(Name="material")]
     public class Material
     {
-        [DataMember]
+        [XmlElement]
         public string themePackID { get; set; }
 
-        [DataMember(Name="id")]
+        [XmlElement(ElementName = "id")]
         public string type { get; set; }
-        
-        [DataMember(Name = "name")]
+
+        [XmlElement(ElementName = "name")]
         public string image { get; set; }
-        
-        [DataMember(Name = "thumbnailname")]
+
+        [XmlElement(ElementName = "thumbnailname")]
         public string thumbnail { get; set; }
-        
-        [DataMember]
+
+        [XmlElement]
         public bool visible { get; set; }
     }
 
-    [DataContract]
-    public class MaterialData
+    [XmlRoot("materials")]
+    public class MaterialGroup// : List<material>
     {
-        public MaterialData()
+        public MaterialGroup()
         {
-            materials = new List<Material>();
+            Materials = new List<Material>();
         }
 
-        [DataMember(Name = "materials")]
-        public List<Material> materials { get; set; }
+        [XmlElement("material")]
+        public List<Material> Materials { get; set; }
     }
 
 }

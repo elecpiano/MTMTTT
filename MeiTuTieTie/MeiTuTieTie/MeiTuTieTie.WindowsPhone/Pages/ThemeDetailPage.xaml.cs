@@ -9,6 +9,9 @@ using Windows.Storage;
 using System;
 using Shared.Global;
 using System.Linq;
+using System.Collections.Generic;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace MeiTuTieTie.Pages
 {
@@ -31,7 +34,17 @@ namespace MeiTuTieTie.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
             LoadData(e.Parameter);
+            return;
+
+            MaterialGroup mg = new MaterialGroup();
+            Material m = new Material() { image = "img", themePackID = "pack1", thumbnail = "thm", type = "tp", visible = true };
+            mg.Materials.Add(m);
+            mg.Materials.Add(m);
+            var xx = XmlHelper.SerializeToString<MaterialGroup>(mg);
+
+            return;
         }
 
         #endregion
@@ -140,19 +153,36 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
-        #region Gadget Data
+        #region Material Data
 
-        DataLoader<MaterialData> materialDataLoader = null;
+        DataLoader<MaterialGroup> materialDataLoader = null;
         private async Task AddMaterialData(string themeID)
         {
-            MaterialData md = new MaterialData();
-            Material m = new Material() { image = "img", themePackID = "pack1", thumbnail = "thm", type = "tp", visible = true };
-            md.materials.Add(m);
-            var xx = XmlHelper.SerializeToString<MaterialData>(md);
+            //read theme pack materials file (xml)
+            string path = string.Format("{0}\\{1}", themeID, "materials.xml");
+            MaterialGroup newMaterials = await XmlHelper.Deserialize<MaterialGroup>(Constants.THEME_MODULE, path);
 
-            //load materials file
-            string path = string.Format("{0}\\{1}", themeID, Constants.MATERIAL_FILE_FORMAT);
-            MaterialData materials = await XmlHelper.Deserialize<MaterialData>(Constants.THEME_MODULE, path);
+            //load my material file
+            if (materialDataLoader == null)
+            {
+                materialDataLoader = new DataLoader<MaterialGroup>();
+            }
+            var myMaterials = await materialDataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_MATERIAL_FILE);
+            if (myMaterials == null)
+            {
+                myMaterials = new MaterialGroup();
+            }
+
+            //add new materials
+            foreach (var m in newMaterials.Materials)
+            {
+                m.themePackID = themeID;
+                myMaterials.Materials.Add(m);
+            }
+
+            //save data
+            string json = JsonSerializer.Serialize(myMaterials);
+            await IsolatedStorageHelper.WriteToFileAsync(Constants.THEME_MODULE, Constants.MY_MATERIAL_FILE, json);
         }
 
         #endregion
@@ -161,6 +191,7 @@ namespace MeiTuTieTie.Pages
 
         private void download_Click(object sender, Windows.UI.Xaml.RoutedEventArgs e)
         {
+            //Test();
             Download();
         }
 
@@ -174,6 +205,30 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
+
+        private async Task<MaterialGroup> Test()
+        {
+            MaterialGroup val;
+            string content = string.Empty;
+
+            var uri = new System.Uri("ms-appx:///Assets/materials.xml");
+            var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
+            var stream = await file.OpenStreamForReadAsync();
+
+            using (StreamReader streamReader = new StreamReader(stream))
+            {
+                content = streamReader.ReadToEnd();
+            }
+
+            using (StringReader sr = new StringReader(content))
+            {
+                XmlSerializer xs = new XmlSerializer(typeof(MaterialGroup));
+                val = (MaterialGroup)xs.Deserialize(sr);
+            }
+
+            return val;
+        }
+
 
     }
 }

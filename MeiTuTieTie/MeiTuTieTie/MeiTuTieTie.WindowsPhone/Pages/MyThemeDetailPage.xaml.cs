@@ -8,6 +8,7 @@ using Windows.UI.Xaml.Navigation;
 using System.Xml.Serialization;
 using Windows.Graphics.Display;
 using Shared.Global;
+using System.Linq;
 
 namespace MeiTuTieTie.Pages
 {
@@ -32,7 +33,7 @@ namespace MeiTuTieTie.Pages
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.New)
             {
-                LoadData(e.Parameter as MyTheme);
+                LoadData(((MyTheme)e.Parameter).id);
             }
         }
 
@@ -53,17 +54,26 @@ namespace MeiTuTieTie.Pages
 
         #region Data
 
-        DataLoader<ThemePacksData> dataLoader = null;
+        DataLoader<MaterialGroup> materialDataLoader = null;
 
-        private async void LoadData(MyTheme theme)
+        private async void LoadData(string themeID)
         {
-            if (dataLoader == null)
+            if (materialDataLoader == null)
             {
-                dataLoader = new DataLoader<ThemePacksData>();
+                materialDataLoader = new DataLoader<MaterialGroup>();
             }
 
-            var data = await dataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE);
+            var myMaterials = await materialDataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_MATERIAL_FILE);
+            if (myMaterials == null)
+            {
+                myMaterials = new MaterialGroup();
+            }
 
+            var materials = from m in myMaterials.Materials
+                            where m.themePackID.Equals(themeID)
+                            select m;
+
+            this.myMaterialListBox.ItemsSource = materials;
         }
 
         #endregion

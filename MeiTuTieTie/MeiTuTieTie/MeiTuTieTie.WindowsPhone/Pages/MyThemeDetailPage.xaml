@@ -11,7 +11,7 @@
     <Grid Background="White">
         
         <ScrollViewer>
-            <ItemsControl Grid.Row="1" x:Name="myThemeListBox" Background="Transparent">
+            <ItemsControl Grid.Row="1" x:Name="myMaterialListBox" Background="Transparent">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel/>
@@ -29,8 +29,7 @@
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" Source="{Binding thumbnailUrl}" Stretch="Uniform"
                                    Height="72" Width="72" Margin="5"/>
-                            <TextBlock Grid.Column="1" Text="{Binding name}"/>
-                            <ToggleSwitch Grid.Column="4" VerticalAlignment="Center"/>
+                            <TextBlock Grid.Column="1" Text="{Binding image}" Style="{StaticResource ThemeDetailPage_SubTitle_Style}"/>
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

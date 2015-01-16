@@ -1,0 +1,332 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<materials>
+
+	
+
+	<material>
+		<id>biankuang</id>
+		<name>biankuang_01.png</name>
+		<thumbnailname>thumbnail_biankuang_01.png</thumbnailname>
+	</material>
+
+	<material>
+		<id>biankuang</id>
+		<name>biankuang_02.png</name>
+		<thumbnailname>thumbnail_biankuang_02.png</thumbnailname>
+	</material>
+
+
+	<material>
+		<id>biankuang</id>
+		<name>biankuang_03.png</name>
+		<thumbnailname>thumbnail_biankuang_03.png</thumbnailname>
+	</material>
+
+	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<material>
+		<id>beijing</id>
+		<name>beijing_01.jpg</name>
+		<thumbnailname>thumbnail_beijing_01.png</thumbnailname>
+	</material>
+	<material>
+		<id>beijing</id>
+		<name>beijing_02.jpg</name>
+		<thumbnailname>thumbnail_beijing_02.png</thumbnailname>
+	</material>
+        <material>
+		<id>beijing</id>
+		<name>beijing_03.jpg</name>
+		<thumbnailname>thumbnail_beijing_03.png</thumbnailname>
+	</material>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<material>
+		<id>keai</id>
+		<name>keai_01.png</name>
+		<thumbnailname>thumbnail_keai_01.png</thumbnailname>
+	</material>
+	<material>
+		<id>keai</id>
+		<name>keai_02.png</name>
+		<thumbnailname>thumbnail_keai_02.png</thumbnailname>
+	</material>
+	<material>
+		<id>keai</id>
+		<name>keai_03.png</name>
+		<thumbnailname>thumbnail_keai_03.png</thumbnailname>
+	</material>
+	<material>
+		<id>keai</id>
+		<name>keai_04.png</name>
+		<thumbnailname>thumbnail_keai_04.png</thumbnailname>
+	</material>
+	<material>
+		<id>keai</id>
+		<name>keai_05.png</name>
+		<thumbnailname>thumbnail_keai_05.png</thumbnailname>
+	</material>
+	<material>
+		<id>keai</id>
+		<name>keai_06.png</name>
+		<thumbnailname>thumbnail_keai_06.png</thumbnailname>
+	</material>
+	<material>
+		<id>keai</id>
+		<name>keai_07.png</name>
+		<thumbnailname>thumbnail_keai_07.png</thumbnailname>
+	</material>	
+	<material>
+		<id>keai</id>
+		<name>keai_08.png</name>
+		<thumbnailname>thumbnail_keai_08.png</thumbnailname>
+	</material>
+	<material>
+		<id>keai</id>
+		<name>keai_09.png</name>
+		<thumbnailname>thumbnail_keai_09.png</thumbnailname>
+	</material>
+	<material>
+		<id>keai</id>
+		<name>keai_10.png</name>
+		<thumbnailname>thumbnail_keai_10.png</thumbnailname>
+	</material>
+	<material>
+		<id>keai</id>
+		<name>keai_11.png</name>
+		<thumbnailname>thumbnail_keai_11.png</thumbnailname>
+	</material>
+	<material>
+		<id>keai</id>
+		<name>keai_12.png</name>
+		<thumbnailname>thumbnail_keai_12.png</thumbnailname>
+	</material>
+	<material>
+		<id>keai</id>
+		<name>keai_13.png</name>
+		<thumbnailname>thumbnail_keai_13.png</thumbnailname>
+	</material>
+	<material>
+		<id>keai</id>
+		<name>keai_14.png</name>
+		<thumbnailname>thumbnail_keai_14.png</thumbnailname>
+	</material>
+	<material>
+		<id>keai</id>
+		<name>keai_15.png</name>
+		<thumbnailname>thumbnail_keai_15.png</thumbnailname>
+	</material>	
+
+	<material>
+		<id>keai</id>
+		<name>keai_16.png</name>
+		<thumbnailname>thumbnail_keai_16.png</thumbnailname>
+	</material>	
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	<material>
+		<id>wenzi</id>
+		<name>wenzi_01.png</name>
+		<thumbnailname>thumbnail_wenzi_01.png</thumbnailname>
+	</material>
+
+	<material>
+		<id>wenzi</id>
+		<name>wenzi_02.png</name>
+		<thumbnailname>thumbnail_wenzi_02.png</thumbnailname>
+	</material>
+        <material>
+		<id>wenzi</id>
+		<name>wenzi_03.png</name>
+		<thumbnailname>thumbnail_wenzi_03.png</thumbnailname>
+	</material>
+
+
+
+
+	<material>
+		<id>wenzi</id>
+		<name>wenzi_04.png</name>
+		<thumbnailname>thumbnail_wenzi_04.png</thumbnailname>
+	</material>
+
+	<material>
+		<id>wenzi</id>
+		<name>wenzi_05.png</name>
+		<thumbnailname>thumbnail_wenzi_05.png</thumbnailname>
+	</material>
+        <material>
+		<id>wenzi</id>
+		<name>wenzi_06.png</name>
+		<thumbnailname>thumbnail_wenzi_06.png</thumbnailname>
+	</material>
+
+
+
+
+
+
+
+
+
+
+
+
+
+        <material>
+		<id>katongxingxiang</id>
+		<name>katongxingxiang_01.png</name>
+		<thumbnailname>thumbnail_katongxingxiang_01.png</thumbnailname>
+	</material>
+	
+        <material>
+		<id>katongxingxiang</id>
+		<name>katongxingxiang_02.png</name>
+		<thumbnailname>thumbnail_katongxingxiang_02.png</thumbnailname>
+	</material>
+
+
+        <material>
+		<id>katongxingxiang</id>
+		<name>katongxingxiang_03.png</name>
+		<thumbnailname>thumbnail_katongxingxiang_03.png</thumbnailname>
+	</material>
+
+
+        <material>
+		<id>katongxingxiang</id>
+		<name>katongxingxiang_04.png</name>
+		<thumbnailname>thumbnail_katongxingxiang_04.png</thumbnailname>
+	</material>
+
+
+        <material>
+		<id>katongxingxiang</id>
+		<name>katongxingxiang_05.png</name>
+		<thumbnailname>thumbnail_katongxingxiang_05.png</thumbnailname>
+	</material>
+
+
+
+        <material>
+		<id>katongxingxiang</id>
+		<name>katongxingxiang_06.png</name>
+		<thumbnailname>thumbnail_katongxingxiang_06.png</thumbnailname>
+	</material>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</materials>
