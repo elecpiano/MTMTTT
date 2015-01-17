@@ -10,23 +10,23 @@ namespace Shared.Utility
 {
     public class IsolatedStorageHelper
     {
-        public const string USER_DATA_FOLDER_NAME = "udata";
+        //public const string USER_DATA_FOLDER_NAME = "udata";
 
-        public static string EnsureUserDataRoot(string folderName)
-        {
-            if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
-            {
-                folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
-            }
-            return folderName;
-        }
+        //public static string EnsureUserDataRoot(string folderName)
+        //{
+        //    if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
+        //    {
+        //        folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
+        //    }
+        //    return folderName;
+        //}
 
         public static async Task<StorageFile> GetFileAsync(string folderName, string fileName, CreationCollisionOption option)
         {
-            if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
-            {
-                folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
-            }
+            //if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
+            //{
+            //    folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
+            //}
 
             // Get the local folder.
             StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
@@ -42,10 +42,10 @@ namespace Shared.Utility
 
         public static async Task<StorageFolder> GetFolderAsync(string folderName)
         {
-            if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
-            {
-                folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
-            }
+            //if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
+            //{
+            //    folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
+            //}
 
             // Get the local folder.
             StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
@@ -65,10 +65,10 @@ namespace Shared.Utility
 
         public static async Task WriteToFileAsync(string folderName, string fileName, string content)
         {
-            if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
-            {
-                folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
-            }
+            //if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
+            //{
+            //    folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
+            //}
 
             // Get the local folder.
             StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
@@ -88,6 +88,31 @@ namespace Shared.Utility
                     await writer.StoreAsync();
                 }
             }
+        }
+
+        public static async Task<string> ReadFileAsync(string filePath)
+        {
+            //if (!filePath.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
+            //{
+            //    filePath = USER_DATA_FOLDER_NAME + "\\" + filePath;
+            //}
+
+            try
+            {
+                StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+                var storageFile = await local.CreateFileAsync(filePath, CreationCollisionOption.OpenIfExists);
+                using (var stream = await storageFile.OpenStreamForReadAsync())
+                {
+                    using (StreamReader streamReader = new StreamReader(stream))
+                    {
+                        return streamReader.ReadToEnd();
+                    }
+                }
+            }
+            catch (FileNotFoundException)
+            {
+            }
+            return null;
         }
 
         public static async Task<string> ReadFileAsync(string folderName, string fileName)
@@ -116,8 +141,8 @@ namespace Shared.Utility
         public static async Task<ulong> GetUserDataSizeAsync()
         {
             StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
-            var folder = await local.CreateFolderAsync(USER_DATA_FOLDER_NAME, CreationCollisionOption.OpenIfExists);
-            return await GetFolderSizeAsync(folder);
+            //var folder = await local.CreateFolderAsync(USER_DATA_FOLDER_NAME, CreationCollisionOption.OpenIfExists);
+            return await GetFolderSizeAsync(local);
         }
 
         public static async Task<ulong> GetUserDataSizeAsync(params string[] excludedFolders)
@@ -130,9 +155,8 @@ namespace Shared.Utility
                 return totalSize;
             }
 
-
-            var folder = await local.CreateFolderAsync(USER_DATA_FOLDER_NAME, CreationCollisionOption.OpenIfExists);
-            var subFolders = await folder.GetFoldersAsync();
+            //var folder = await local.CreateFolderAsync(USER_DATA_FOLDER_NAME, CreationCollisionOption.OpenIfExists);
+            var subFolders = await local.GetFoldersAsync();
             foreach (var subFolder in subFolders)
             {
                 if (!excludedFolders.Contains(subFolder.Name))
@@ -171,10 +195,10 @@ namespace Shared.Utility
         public static async Task ClearUserDataAsync()
         {
             StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
-            var folder = await local.GetFolderAsync(USER_DATA_FOLDER_NAME);
-            if (folder != null)
+            //var folder = await local.GetFolderAsync(USER_DATA_FOLDER_NAME);
+            if (local != null)
             {
-                await folder.DeleteAsync(StorageDeleteOption.PermanentDelete);
+                await local.DeleteAsync(StorageDeleteOption.PermanentDelete);
             }
         }
 
@@ -186,10 +210,10 @@ namespace Shared.Utility
                 return;
             }
 
-            var folder = await local.GetFolderAsync(USER_DATA_FOLDER_NAME);
-            if (folder != null)
+            //var folder = await local.GetFolderAsync(USER_DATA_FOLDER_NAME);
+            if (local != null)
             {
-                var subFolders = await folder.GetFoldersAsync();
+                var subFolders = await local.GetFoldersAsync();
                 foreach (var subFolder in subFolders)
                 {
                     if (!excludedFolders.Contains(subFolder.Name))
@@ -202,10 +226,10 @@ namespace Shared.Utility
 
         public static async Task DeleteFolderAsync(string folderName)
         {
-            if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
-            {
-                folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
-            }
+            //if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
+            //{
+            //    folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
+            //}
 
             StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
             if (local != null)
@@ -217,10 +241,10 @@ namespace Shared.Utility
 
         public static async Task DeleteFileAsync(string folderName, string fileName)
         {
-            if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
-            {
-                folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
-            }
+            //if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
+            //{
+            //    folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
+            //}
 
             StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
             if (local != null)

@@ -159,9 +159,9 @@ namespace Shared.Utility
         public static async Task<string> DownloadThumbnail(string uri, string extension)
         {
             string fileName = Guid.NewGuid().ToString() + extension;
-            string folderName = IsolatedStorageHelper.EnsureUserDataRoot(Constants.THUMBNAIL_FOLDER);
-            await Download(uri, folderName, fileName);
-            string fullPath = Path.Combine(folderName, fileName);
+            //string folderName = IsolatedStorageHelper.EnsureUserDataRoot(Constants.THUMBNAIL_FOLDER);
+            await Download(uri, Constants.THUMBNAIL_FOLDER, fileName);
+            string fullPath = Path.Combine(Constants.THUMBNAIL_FOLDER, fileName);
             return fullPath;
         }
     }

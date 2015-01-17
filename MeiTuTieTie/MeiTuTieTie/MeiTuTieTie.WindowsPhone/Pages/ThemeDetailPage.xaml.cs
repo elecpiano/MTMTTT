@@ -90,7 +90,7 @@ namespace MeiTuTieTie.Pages
                 await UnZip(storageFile, unZipfolderName);
                 //string thumbnailPath = await ImageHelper.DownloadThumbnail(theme.thumbnailUrl, ".png");
                 await AddMyThemeData(theme);//, thumbnailPath);
-                await AddMaterialData(theme.id);
+                await AddMaterialData(theme, unZipfolderName);
 
                 theme.Downloaded = true;
 
@@ -157,11 +157,11 @@ namespace MeiTuTieTie.Pages
         #region Material Data
 
         DataLoader<MaterialGroup> materialDataLoader = null;
-        private async Task AddMaterialData(string themeID)
+        private async Task AddMaterialData(ThemePack theme, string folder)
         {
             //read theme pack materials file (xml)
-            string path = string.Format("{0}\\{1}", themeID, "materials.xml");
-            MaterialGroup newMaterials = await XmlHelper.Deserialize<MaterialGroup>(Constants.THEME_MODULE, path);
+            string path = Path.Combine(folder,"materials.xml");
+            MaterialGroup newMaterials = await XmlHelper.Deserialize<MaterialGroup>(path);
 
             //load my material file
             if (materialDataLoader == null)
@@ -177,7 +177,12 @@ namespace MeiTuTieTie.Pages
             //add new materials
             foreach (var m in newMaterials.Materials)
             {
-                m.themePackID = themeID;
+                m.themePackID = theme.id;
+
+                //thumbnail
+                string thumbnailPath = Path.Combine(folder, m.thumbnail);
+                m.thumbnail = thumbnailPath;
+
                 myMaterials.Materials.Add(m);
             }
 

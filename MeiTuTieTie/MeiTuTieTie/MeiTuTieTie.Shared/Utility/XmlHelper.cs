@@ -49,11 +49,11 @@ namespace Shared.Utility
             return val;
         }
 
-        public static async Task<T> Deserialize<T>(string folder, string file)
+        public static async Task<T> Deserialize<T>(string file)
         {
             T val;
 
-            string content = await IsolatedStorageHelper.ReadFileAsync(folder, file);
+            string content = await IsolatedStorageHelper.ReadFileAsync(file);
             using (StringReader sr = new StringReader(content))
             {
                 XmlSerializer xs = new XmlSerializer(typeof(T));
