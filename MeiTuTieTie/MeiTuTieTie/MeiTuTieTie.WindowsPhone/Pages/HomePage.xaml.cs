@@ -1,9 +1,15 @@
-﻿using Shared.Utility;
+﻿using Shared.Model;
+using Shared.Utility;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Linq;
+using System.Xml.Serialization;
+using Windows.Data.Xml.Dom;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.Graphics.Display;
@@ -36,12 +42,10 @@ namespace MeiTuTieTie.Pages
             base.OnNavigatedTo(e);
             UpdateScreenSize();
         }
-        
+
         #endregion
 
         #region Tile Click
-
-        #endregion
 
         private void singlePic_Click(object sender, RoutedEventArgs e)
         {
@@ -50,6 +54,7 @@ namespace MeiTuTieTie.Pages
 
         private void multiPic_Click(object sender, RoutedEventArgs e)
         {
+            Test4();
         }
 
         private void boutique_Click(object sender, RoutedEventArgs e)
@@ -61,6 +66,8 @@ namespace MeiTuTieTie.Pages
         {
 
         }
+
+        #endregion
 
         #region Screen Size Related
 
@@ -80,6 +87,135 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
+
+        private async Task<MaterialGroup> Test()
+        {
+            MaterialGroup val;
+            string content = string.Empty;
+
+            var uri = new System.Uri("ms-appx:///Assets/materials.xml");
+            var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
+            var stream = await file.OpenStreamForReadAsync();
+
+            using (StreamReader streamReader = new StreamReader(stream))
+            {
+                content = streamReader.ReadToEnd();
+            }
+
+            using (StringReader sr = new StringReader(content))
+            {
+                XmlSerializer xs = new XmlSerializer(typeof(MaterialGroup));
+                val = (MaterialGroup)xs.Deserialize(sr);
+            }
+
+            return val;
+        }
+
+        private async Task Test2()
+        {
+            MaterialGroup val;
+            string content = string.Empty;
+
+            var uri = new System.Uri("ms-appx:///Assets/materials.xml");
+            var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
+            var stream = await file.OpenStreamForReadAsync();
+
+            try
+            {
+
+                XDocument xdoc = XDocument.Load(stream);
+                var elements = xdoc.Elements();
+                foreach (var node in elements)
+                {
+                    var xxx = node.Element("thumbnailname");
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
+
+        private async Task Test3()
+        {
+            MaterialGroup val;
+            string content = string.Empty;
+
+            var uri = new System.Uri("ms-appx:///Assets/materials.xml");
+            var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
+            var stream = await file.OpenStreamForReadAsync();
+            using (StreamReader streamReader = new StreamReader(stream))
+            {
+                content = streamReader.ReadToEnd();
+            }
+
+            try
+            {
+                XmlDocument xdoc = new XmlDocument();
+                xdoc.LoadXml(content);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
+
+        private async Task Test4()
+        {
+            MaterialGroup val;
+            string content = string.Empty;
+
+            var uri = new System.Uri("ms-appx:///Assets/materials.xml");
+            var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
+            var stream = await file.OpenStreamForReadAsync();
+            using (StreamReader streamReader = new StreamReader(stream))
+            {
+                content = streamReader.ReadToEnd();
+            }
+
+            try
+            {
+                Material material = null;
+                string id = string.Empty;
+                string name = string.Empty;
+                string thumbnailname = string.Empty;
+
+                XmlHelper.FastIterate(content,
+                    (propertyName,propertyValue) =>
+                    {
+                        switch (propertyName)
+                        {
+                            case "id":
+                                id = propertyValue;
+                                break;
+                            case "name":
+                                name = propertyValue;
+                                break;
+                            case "thumbnailname":
+                                thumbnailname = propertyValue;
+                                break;
+                            case "material":
+                                material = new Material();
+                                material.type = id;
+                                material.image = name;
+                                material.thumbnail = thumbnailname;
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
+        }
 
     }
 }

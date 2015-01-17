@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
@@ -28,9 +30,9 @@ namespace Shared.Utility
     {
         public static async void Serialize<T>(IStorageFile file, T obj)
         {
-            using(IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+            using (IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.ReadWrite))
             {
-                using(StreamWriter writer = new StreamWriter(stream.AsStreamForWrite(), Encoding.UTF8))
+                using (StreamWriter writer = new StreamWriter(stream.AsStreamForWrite(), Encoding.UTF8))
                 {
                     XmlSerializer xs = new XmlSerializer(typeof(T));
                     xs.Serialize(writer, obj);
@@ -84,5 +86,143 @@ namespace Shared.Utility
             return val;
 
         }
+
+        public static void FastIterate(string content, Action<string, string> actionOnEachNode)
+        {
+            if (content.Contains("?>"))
+            {
+                int from = content.IndexOf("?>");
+                content = content.Substring(from + 2);
+            }
+
+            string nodeName = string.Empty;
+            string nodeValue = string.Empty;
+            int maxIndex = content.Length - 1;
+            int i = 0;
+            XmlParsingStatus status = XmlParsingStatus.NodeEnded;
+
+            while (i < maxIndex)
+            {
+                switch (status)
+                {
+                    case XmlParsingStatus.BeginningOrEnd:
+                        if (content[i] == '/')
+                        {
+                            status = XmlParsingStatus.EndOfNodeDetected;
+                        }
+                        else
+                        {
+                            status = XmlParsingStatus.BeginningOfNodeDetected;
+                        }
+                        break;
+                    case XmlParsingStatus.BeginningOfNodeDetected:
+                        if (content[i] == '>')
+                        {
+                            status = XmlParsingStatus.ValueCollecting;
+                            nodeValue = string.Empty;
+                        }
+                        break;
+                    case XmlParsingStatus.ValueCollecting:
+                        if (content[i] == '<')
+                        {
+                            status = XmlParsingStatus.BeginningOrEnd;
+                        }
+                        else
+                        {
+                            nodeValue += content[i];
+                        }
+                        break;
+                    case XmlParsingStatus.EndOfNodeDetected:
+                        if (content[i] == '>')
+                        {
+                            status = XmlParsingStatus.NodeEnded;
+                            actionOnEachNode(nodeName, nodeValue);
+                            nodeName = string.Empty;
+                            nodeValue = string.Empty;
+                        }
+                        else
+                        {
+                            nodeName += content[i];
+                        }
+                        break;
+                    case XmlParsingStatus.NodeEnded:
+                        if (content[i] == '<')
+                        {
+                            status = XmlParsingStatus.BeginningOrEnd;
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
+                i++;
+            }
+        }
+
+        public enum XmlParsingStatus
+        {
+            BeginningOrEnd,
+            BeginningOfNodeDetected,
+            ValueCollecting,
+            EndOfNodeDetected,
+            NodeEnded
+        }
+
+        /* incomplete version of using reflection
+        
+        public static void FastIterate<T>(string content, Action<T> actionOnEachItem) where T : class
+        {
+            if (content.Contains("?>"))
+            {
+                int from = content.IndexOf("?>");
+                content = content.Substring(from);
+            }
+
+            var properties = typeof(T).GetRuntimeProperties();
+            Dictionary<string, PropertyInfo> propertyDictionary = new Dictionary<string, PropertyInfo>();
+            string className = (typeof(T)).ToString();
+            bool beginningOfElementDetected = false;
+            string elementName = string.Empty;
+            int maxIndex = content.Length - 1;
+            int i = 0;
+            T obj = null;
+
+            while (i < maxIndex)
+            {
+                if (beginningOfElementDetected)
+                {
+                    if (content[i] == '>')
+                    {
+                        if (elementName == className)
+                        {
+                            obj = Activator.CreateInstance<T>();
+                        }
+                        elementName = string.Empty;
+                        beginningOfElementDetected = false;
+                    }
+                    else
+                    {
+                        elementName += content[i];
+                    }
+                    continue;
+                }
+                
+                if (content[i] == '<')
+                {
+                    beginningOfElementDetected = true;
+                    continue;
+                }
+            }
+        }
+
+        private void SetProperties(Dictionary<string, PropertyInfo> propertyDictionary, object obj, string propertyName, object propertyValue)
+        {
+            if (propertyDictionary.ContainsKey(propertyName))
+            {
+                propertyDictionary[propertyName].SetValue(obj, propertyValue);
+            }
+        }
+    
+        */
     }
 }

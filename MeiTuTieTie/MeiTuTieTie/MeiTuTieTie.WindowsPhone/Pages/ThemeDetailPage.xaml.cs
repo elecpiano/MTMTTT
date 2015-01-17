@@ -212,28 +212,6 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
-        private async Task<MaterialGroup> Test()
-        {
-            MaterialGroup val;
-            string content = string.Empty;
-
-            var uri = new System.Uri("ms-appx:///Assets/materials.xml");
-            var file = await Windows.Storage.StorageFile.GetFileFromApplicationUriAsync(uri);
-            var stream = await file.OpenStreamForReadAsync();
-
-            using (StreamReader streamReader = new StreamReader(stream))
-            {
-                content = streamReader.ReadToEnd();
-            }
-
-            using (StringReader sr = new StringReader(content))
-            {
-                XmlSerializer xs = new XmlSerializer(typeof(MaterialGroup));
-                val = (MaterialGroup)xs.Deserialize(sr);
-            }
-
-            return val;
-        }
 
 
     }
