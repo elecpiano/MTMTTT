@@ -26,13 +26,14 @@
     <Compile Include="$(MSBuildThisFileDirectory)Converters\AnythingToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Global\Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructures\BindableBase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Model\Gadget.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Material.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\MyTheme.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ThemePack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\FileDownloader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\DataLoader.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\DataContextGetter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\ImageHelper.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utility\IsoImg.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\IsolatedStorageHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\JsonSerializer.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\NetworkHelper.cs" />

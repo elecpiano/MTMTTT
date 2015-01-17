@@ -26,7 +26,7 @@
 
     <!--boutique page-->
     <Style x:Key="BoutiqueList_ItemText_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
-        <Setter Property="FontSize" Value="32"/>
+        <Setter Property="FontSize" Value="24"/>
         <Setter Property="Foreground" Value="#ff000000"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Left"/>

@@ -33,7 +33,7 @@ namespace Shared.Utility
             try
             {
                 Uri source = new Uri(url, UriKind.Absolute);
-                destinationFile = await IsolatedStorageHelper.CreateFileAsync(module, file, CreationCollisionOption.ReplaceExisting);
+                destinationFile = await IsolatedStorageHelper.GetFileAsync(module, file, CreationCollisionOption.ReplaceExisting);
                 BackgroundDownloader downloader = new BackgroundDownloader();
                 DownloadOperation download = downloader.CreateDownload(source, destinationFile);
                 //download.Priority = BackgroundTransferPriority.High;

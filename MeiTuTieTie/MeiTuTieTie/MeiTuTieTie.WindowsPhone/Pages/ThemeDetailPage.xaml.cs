@@ -88,7 +88,8 @@ namespace MeiTuTieTie.Pages
 
                 string unZipfolderName = string.Format("{0}\\{1}", Constants.THEME_MODULE, theme.id);
                 await UnZip(storageFile, unZipfolderName);
-                await AddMyThemeData(theme);
+                string thumbnailPath = await ImageHelper.DownloadThumbnail(theme.thumbnailUrl, ".png");
+                await AddMyThemeData(theme, thumbnailPath);
                 await AddMaterialData(theme.id);
 
                 theme.Downloaded = true;
@@ -106,7 +107,7 @@ namespace MeiTuTieTie.Pages
         {
             try
             {
-                var folder = await IsolatedStorageHelper.CreateFolderAsync(folderName);
+                var folder = await IsolatedStorageHelper.GetFolderAsync(folderName);
                 await ZipHelper.UnZipFileAsync(zipFile, folder);
             }
             catch (Exception ex)
@@ -120,7 +121,7 @@ namespace MeiTuTieTie.Pages
 
         DataLoader<MyThemeData> myThemeDataLoader = null;
 
-        private async Task AddMyThemeData(ThemePack themePack)
+        private async Task AddMyThemeData(ThemePack themePack, string thumbnailPath)
         {
             if (myThemeDataLoader == null)
             {
@@ -143,7 +144,7 @@ namespace MeiTuTieTie.Pages
             MyTheme newTheme = new MyTheme();
             newTheme.id = themePack.id;
             newTheme.name = themePack.name;
-            newTheme.thumbnail = themePack.thumbnailUrl;
+            newTheme.thumbnail = thumbnailPath;
             data.myThemes.Insert(0, newTheme);
 
             //save data

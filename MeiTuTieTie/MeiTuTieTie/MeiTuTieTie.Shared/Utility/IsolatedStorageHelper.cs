@@ -12,7 +12,16 @@ namespace Shared.Utility
     {
         public const string USER_DATA_FOLDER_NAME = "udata";
 
-        public static async Task<StorageFile> CreateFileAsync(string folderName, string fileName, CreationCollisionOption option)
+        public static string EnsureUserDataRoot(string folderName)
+        {
+            if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
+            {
+                folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
+            }
+            return folderName;
+        }
+
+        public static async Task<StorageFile> GetFileAsync(string folderName, string fileName, CreationCollisionOption option)
         {
             if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
             {
@@ -31,19 +40,7 @@ namespace Shared.Utility
             return file;
         }
 
-        public static async Task EnsureFileExistence(string folderName, string fileName)
-        {
-            if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
-            {
-                folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
-            }
-
-            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
-            var dataFolder = await local.CreateFolderAsync(folderName, CreationCollisionOption.OpenIfExists);
-            await dataFolder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
-        }
-
-        public static async Task<StorageFolder> CreateFolderAsync(string folderName)
+        public static async Task<StorageFolder> GetFolderAsync(string folderName)
         {
             if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
             {
@@ -95,54 +92,23 @@ namespace Shared.Utility
 
         public static async Task<string> ReadFileAsync(string folderName, string fileName)
         {
-            if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
+            try
             {
-                folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
-            }
+                var storageFile = await GetFileAsync(folderName, fileName, CreationCollisionOption.OpenIfExists);
 
-            // Get the local folder.
-            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
-
-            if (local != null)
-            {
-                // Get the DataFolder folder.
-                StorageFolder dataFolder = null;
-
-                try
+                // Read the data.
+                using (var stream = await storageFile.OpenStreamForReadAsync())
                 {
-                    dataFolder = await local.GetFolderAsync(folderName);
-                }
-                catch (FileNotFoundException)
-                {
-                    return null;
-                }
-
-                if (dataFolder == null)
-                {
-                    return null;
-                }
-
-                try
-                {
-
-                    // Get the file.
-                    var file = await dataFolder.OpenStreamForReadAsync(fileName);
-
-                    if (file == null)
-                    {
-                        return null;
-                    }
-
-                    // Read the data.
-                    using (StreamReader streamReader = new StreamReader(file))
+                    using (StreamReader streamReader = new StreamReader(stream))
                     {
                         return streamReader.ReadToEnd();
                     }
                 }
-                catch (FileNotFoundException)
-                {
-                    return null;
-                }
+
+            }
+            catch (FileNotFoundException)
+            {
+                return null;
             }
             return null;
         }
@@ -239,7 +205,7 @@ namespace Shared.Utility
             if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
             {
                 folderName = USER_DATA_FOLDER_NAME + "\\" + folderName;
-            } 
+            }
 
             StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
             if (local != null)

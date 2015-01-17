@@ -128,9 +128,13 @@ namespace Shared.Utility
             //load cache
             try
             {
-                await IsolatedStorageHelper.EnsureFileExistence(moduleName, fileName);
-                var cachedJson = await IsolatedStorageHelper.ReadFileAsync(moduleName, fileName);
-                result = JsonSerializer.Deserialize<T>(cachedJson);
+                //ensure file existence
+                //await IsolatedStorageHelper.GetFileAsync(moduleName, fileName, Windows.Storage.CreationCollisionOption.OpenIfExists);
+                var json = await IsolatedStorageHelper.ReadFileAsync(moduleName, fileName);
+                if (!string.IsNullOrEmpty(json))
+                {
+                    result = JsonSerializer.Deserialize<T>(json);
+                }
             }
             catch (Exception ex)
             {
