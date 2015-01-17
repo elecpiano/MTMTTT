@@ -23,7 +23,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\ObservableDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Converters\AnythingToVisibilityConverter.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Converter\AnythingToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Global\Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructures\BindableBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Material.cs" />
@@ -39,5 +39,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\NetworkHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\XmlHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\ZipHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="$(MSBuildThisFileDirectory)Control\" />
   </ItemGroup>
 </Project>

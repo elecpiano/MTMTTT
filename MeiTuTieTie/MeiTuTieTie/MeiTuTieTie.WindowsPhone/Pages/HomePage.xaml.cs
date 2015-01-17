@@ -209,10 +209,8 @@ namespace MeiTuTieTie.Pages
                         }
                     });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw;
             }
 
         }

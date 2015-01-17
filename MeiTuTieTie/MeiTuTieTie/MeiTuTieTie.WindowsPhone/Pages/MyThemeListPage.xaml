@@ -30,15 +30,14 @@
                     <DataTemplate>
                         <Grid Tapped="theme_Tapped">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="82"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0"
-                                   Source="{Binding thumbnail}"
-                                   Stretch="Uniform" Height="72" Width="72" Margin="5"/>
+                            <Image Grid.Column="0" Source="{Binding thumbnail}"
+                                   Stretch="Uniform" Height="72" Width="72" Margin="5,5,5,5"/>
                             <!--util:IsoImg.Path="{Binding thumbnail}"-->
                             <TextBlock Grid.Column="1" Text="{Binding name}" Style="{StaticResource BoutiqueList_ItemText_Style}"/>
                             <ToggleSwitch Grid.Column="4" VerticalAlignment="Center"/>

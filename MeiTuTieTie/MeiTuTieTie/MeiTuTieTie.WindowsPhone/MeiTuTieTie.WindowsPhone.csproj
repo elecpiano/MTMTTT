@@ -85,6 +85,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\SpriteControl.cs" />
+    <Compile Include="Controls\TripleSwitch.xaml.cs">
+      <DependentUpon>TripleSwitch.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MyThemeDetailPage.xaml.cs">
       <DependentUpon>MyThemeDetailPage.xaml</DependentUpon>
     </Compile>
@@ -124,6 +127,10 @@
     <Content Include="Assets\WideLogo.scale-240.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Controls\TripleSwitch.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\MyThemeDetailPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

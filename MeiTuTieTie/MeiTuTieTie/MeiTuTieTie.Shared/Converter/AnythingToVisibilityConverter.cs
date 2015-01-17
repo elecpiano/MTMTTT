@@ -2,7 +2,7 @@
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Data;
 
-namespace Shared.Converters
+namespace Shared.Converter
 {
     /// <summary>
     /// Value converter that translates true to <see cref="Visibility.Visible"/> and false to

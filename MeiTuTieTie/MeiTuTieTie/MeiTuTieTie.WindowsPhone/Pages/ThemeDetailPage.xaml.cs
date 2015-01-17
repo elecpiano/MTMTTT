@@ -36,15 +36,6 @@ namespace MeiTuTieTie.Pages
             base.OnNavigatedTo(e);
 
             LoadData(e.Parameter);
-            return;
-
-            MaterialGroup mg = new MaterialGroup();
-            Material m = new Material() { image = "img", themePackID = "pack1", thumbnail = "thm", type = "tp", visible = true };
-            mg.Materials.Add(m);
-            mg.Materials.Add(m);
-            var xx = XmlHelper.SerializeToString<MaterialGroup>(mg);
-
-            return;
         }
 
         #endregion
@@ -161,7 +152,8 @@ namespace MeiTuTieTie.Pages
         {
             //read theme pack materials file (xml)
             string path = Path.Combine(folder,"materials.xml");
-            MaterialGroup newMaterials = await XmlHelper.Deserialize<MaterialGroup>(path);
+            //MaterialGroup newMaterials = await XmlHelper.Deserialize<MaterialGroup>(path);/* the xml file is incomplete sometimes */
+            MaterialGroup newMaterials = await LoadMaterialXML(path);
 
             //load my material file
             if (materialDataLoader == null)
@@ -189,6 +181,49 @@ namespace MeiTuTieTie.Pages
             //save data
             string json = JsonSerializer.Serialize(myMaterials);
             await IsolatedStorageHelper.WriteToFileAsync(Constants.THEME_MODULE, Constants.MY_MATERIAL_FILE, json);
+        }
+
+        private async Task<MaterialGroup> LoadMaterialXML(string file)
+        {
+            MaterialGroup materialGroup = new MaterialGroup();
+            try
+            {
+                Material material = null;
+                string id = string.Empty;
+                string name = string.Empty;
+                string thumbnailname = string.Empty;
+
+                await XmlHelper.FastIterate(file,
+                    (propertyName, propertyValue) =>
+                    {
+                        switch (propertyName)
+                        {
+                            case "id":
+                                id = propertyValue;
+                                break;
+                            case "name":
+                                name = propertyValue;
+                                break;
+                            case "thumbnailname":
+                                thumbnailname = propertyValue;
+                                break;
+                            case "material":
+                                material = new Material();
+                                material.type = id;
+                                material.image = name;
+                                material.thumbnail = thumbnailname;
+                                materialGroup.Materials.Add(material);
+                                break;
+                            default:
+                                break;
+                        }
+                    });
+            }
+            catch (Exception)
+            {
+            }
+
+            return materialGroup;
         }
 
         #endregion

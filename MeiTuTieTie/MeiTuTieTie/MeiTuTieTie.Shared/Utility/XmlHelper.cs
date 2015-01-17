@@ -87,8 +87,10 @@ namespace Shared.Utility
 
         }
 
-        public static void FastIterate(string content, Action<string, string> actionOnEachNode)
+        public static async Task FastIterate(string file, Action<string, string> actionOnEachNode)
         {
+            string content = await IsolatedStorageHelper.ReadFileAsync(file);
+
             if (content.Contains("?>"))
             {
                 int from = content.IndexOf("?>");
