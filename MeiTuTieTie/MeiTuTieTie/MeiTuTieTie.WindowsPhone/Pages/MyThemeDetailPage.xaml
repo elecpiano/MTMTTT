@@ -35,6 +35,7 @@
                             <TextBlock Grid.Column="1" Text="{Binding image}" Style="{StaticResource ThemeDetailPage_SubTitle_Style}"/>
                             <sharedControl:ImageSwitch Grid.Column="4"
                                                        Checked="{Binding visible}"
+                                                       Enabled="{Binding ThemeEnabled}"
                                                        VerticalAlignment="Center"
                                                        CheckStateChanged="ImageSwitch_CheckStateChanged"/>
 

@@ -33,7 +33,7 @@ namespace MeiTuTieTie.Pages
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.New)
             {
-                LoadData(((MyTheme)e.Parameter).id);
+                LoadData((MyTheme)e.Parameter);
             }
         }
 
@@ -60,7 +60,7 @@ namespace MeiTuTieTie.Pages
         DataLoader<MaterialGroup> materialDataLoader = null;
         MaterialGroup myMaterials = null;
 
-        private async void LoadData(string themeID)
+        private async void LoadData(MyTheme theme)
         {
             if (materialDataLoader == null)
             {
@@ -74,8 +74,13 @@ namespace MeiTuTieTie.Pages
             }
 
             var materials = from m in myMaterials.Materials
-                            where m.themePackID.Equals(themeID)
+                            where m.themePackID.Equals(theme.id)
                             select m;
+
+            foreach (var material in materials)
+            {
+                material.ThemeEnabled = theme.visible;
+            }
 
             this.myMaterialListBox.ItemsSource = materials;
         }

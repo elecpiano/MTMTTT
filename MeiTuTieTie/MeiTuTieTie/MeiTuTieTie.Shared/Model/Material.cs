@@ -26,6 +26,15 @@ namespace Shared.Model
             get { return _visible; }
             set { SetProperty(ref _visible, value); }
         }
+
+        private bool _themeEnabled = true;
+        [XmlIgnore]
+        [IgnoreDataMember]
+        public bool ThemeEnabled
+        {
+            get { return _themeEnabled; }
+            set { SetProperty(ref _themeEnabled, value); }
+        }
     }
 
     [XmlRoot("materials")]
