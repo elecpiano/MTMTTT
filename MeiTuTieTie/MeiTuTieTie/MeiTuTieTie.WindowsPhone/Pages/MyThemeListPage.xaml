@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:controls="using:MeiTuTieTie.Controls" 
     xmlns:util="using:Shared.Utility"
+    xmlns:sharedControl="using:Shared.Control"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
@@ -40,7 +41,10 @@
                                    Stretch="Uniform" Height="72" Width="72" Margin="5,5,5,5"/>
                             <!--util:IsoImg.Path="{Binding thumbnail}"-->
                             <TextBlock Grid.Column="1" Text="{Binding name}" Style="{StaticResource BoutiqueList_ItemText_Style}"/>
-                            <ToggleSwitch Grid.Column="4" VerticalAlignment="Center"/>
+                            <sharedControl:ImageSwitch Grid.Column="4"
+                                                       Checked="{Binding visible}"
+                                                       VerticalAlignment="Center"
+                                                       CheckStateChanged="ImageSwitch_CheckStateChanged"/>
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

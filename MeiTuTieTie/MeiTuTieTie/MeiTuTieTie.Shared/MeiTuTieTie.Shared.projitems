@@ -23,7 +23,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\ObservableDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Control\Class.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Control\ImageSwitch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Converter\AnythingToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Global\Constants.cs" />

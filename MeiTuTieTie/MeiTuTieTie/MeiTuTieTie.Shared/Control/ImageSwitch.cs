@@ -77,12 +77,12 @@ namespace Shared.Control
             if (newValue)
             {
                 VisualStateManager.GoToState(control, "Checked", true);
-                control.KnobMove(true);
+                control.KnobMove(true, true);
             }
             else
             {
                 VisualStateManager.GoToState(control, "UnChecked", true);
-                control.KnobMove(false);
+                control.KnobMove(false, true);
             }
         }
 
@@ -127,12 +127,12 @@ namespace Shared.Control
             if (this.Checked == true)
             {
                 VisualStateManager.GoToState(this, "Checked", false);
-                KnobMove(true);
+                KnobMove(true, false);
             }
             else
             {
                 VisualStateManager.GoToState(this, "UnChecked", false);
-                KnobMove(false);
+                KnobMove(false, false);
             }
 
             if (this.Enabled == true)
@@ -145,14 +145,9 @@ namespace Shared.Control
             }
 
             this.ManipulationMode = Windows.UI.Xaml.Input.ManipulationModes.TranslateX;
-            this.ManipulationStarting += ImageSwitch_ManipulationStarting;
+            this.ManipulationStarted += ImageSwitch_ManipulationStarted;
             this.ManipulationCompleted += ImageSwitch_ManipulationCompleted;
             this.Tapped += ImageSwitch_Tapped;
-        }
-
-        void ImageSwitch_ManipulationStarting(object sender, Windows.UI.Xaml.Input.ManipulationStartingRoutedEventArgs e)
-        {
-            this.ManipulationDelta += ImageSwitch_ManipulationDelta;
         }
 
         void ImageSwitch_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
@@ -160,19 +155,25 @@ namespace Shared.Control
             this.ManipulationDelta -= ImageSwitch_ManipulationDelta;
         }
 
+        void ImageSwitch_ManipulationStarted(object sender, Windows.UI.Xaml.Input.ManipulationStartedRoutedEventArgs e)
+        {
+            this.ManipulationDelta += ImageSwitch_ManipulationDelta;
+        }
+
         void ImageSwitch_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             CheckStateChanged(this, !this.Checked);
+            e.Handled = true;
         }
 
         void ImageSwitch_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
         {
-            if (e.Cumulative.Translation.X > 3)
+            if (e.Cumulative.Translation.X > 1d)
             {
                 CheckStateChanged(this, true);
                 this.ManipulationDelta -= ImageSwitch_ManipulationDelta;
             }
-            else if (e.Cumulative.Translation.X < -3)
+            else if (e.Cumulative.Translation.X < -1d)
             {
                 CheckStateChanged(this, false);
                 this.ManipulationDelta -= ImageSwitch_ManipulationDelta;
@@ -190,10 +191,20 @@ namespace Shared.Control
 
         #region Knob Animation
 
-        private void KnobMove(bool right)
+        private void KnobMove(bool right, bool useTransition)
         {
-            double moveBy = this.ActualWidth * (right ? 0.5 : 0);
-            MoveAnimation.MoveTo(knob, moveBy, 0, 200d);
+            if (knob != null)
+            {
+                double pos_x = this.Width * (right ? 0.5 : 0);
+                if (useTransition)
+                {
+                    MoveAnimation.MoveTo(knob, pos_x, 0, 200d);
+                }
+                else
+                {
+                    MoveAnimation.MoveTo(knob, pos_x, 0);
+                }
+            }
         }
 
         #endregion

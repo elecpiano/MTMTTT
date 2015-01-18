@@ -105,6 +105,14 @@ namespace Shared.Animation
             return animation;
         }
 
+        public static void MoveTo(FrameworkElement cell, double x, double y)
+        {
+            EnsureTransform(cell);
+
+            cell.RenderTransform.SetValue(CompositeTransform.TranslateXProperty, x);
+            cell.RenderTransform.SetValue(CompositeTransform.TranslateYProperty, y);
+        }
+
         public static MoveAnimation MoveBy(FrameworkElement cell,
             double x, double y,
             double duration,
@@ -123,6 +131,19 @@ namespace Shared.Animation
 
             animation.InstanceMoveBy(cell, x, y, duration, easing, completed);
             return animation;
+        }
+
+        public static void MoveBy(FrameworkElement cell, double x, double y)
+        {
+            EnsureTransform(cell);
+
+            CompositeTransform transform = cell.RenderTransform as CompositeTransform;
+            var fromX = transform.TranslateX;
+            var toX = fromX + x;
+            var fromY = transform.TranslateY;
+            var toY = fromY + y;
+
+            MoveTo(cell, toX, toY);
         }
 
         public static MoveAnimation MoveFromTo(FrameworkElement cell,

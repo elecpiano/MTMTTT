@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Shared.Infrastructures;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Shared.Model
 {
     [DataContract]
-    public class MyTheme
+    public class MyTheme : BindableBase
     {
         public MyTheme()
         {
@@ -17,8 +18,14 @@ namespace Shared.Model
         public string name { get; set; }
         [DataMember]
         public string thumbnail { get; set; }
+
+        private bool _visible = false;
         [DataMember]
-        public bool visible { get; set; }
+        public bool visible
+        {
+            get { return _visible; }
+            set { SetProperty(ref _visible, value); }
+        }
     }
 
     [DataContract]
