@@ -15,7 +15,7 @@ namespace Shared.Utility
         //private Action onCompleteAction;
         private StorageFile destinationFile;
 
-        public async Task<StorageFile> Download(string url, string module, string file, ProgressBar progressBar)//, Action onComplete)
+        public async Task<StorageFile> Download(string url, string module, string file, ProgressBar progressBar)
         {
             progressBarControl = progressBar;
             //onCompleteAction = onComplete;
@@ -41,7 +41,7 @@ namespace Shared.Utility
                 // Attach progress and completion handlers.
                 await HandleDownloadAsync(download);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
             }
 

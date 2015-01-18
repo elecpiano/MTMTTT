@@ -41,7 +41,7 @@ namespace MeiTuTieTie.Pages
             }
             else
             {
-                UpdateData(themePackData);
+                CheckDownloaded(themePackData);
             }
         }
 
@@ -84,12 +84,12 @@ namespace MeiTuTieTie.Pages
 
         private async void ContinueLoadData(ThemePacksData data)
         {
-            await UpdateData(data);
+            await CheckDownloaded(data);
             topThemeListBox.ItemsSource = data.topThemePacks;
             allThemeListBox.ItemsSource = data.allThemePacks;
         }
 
-        private async Task UpdateData(ThemePacksData data)
+        private async Task CheckDownloaded(ThemePacksData data)
         {
             if (myThemeDataLoader == null)
             {

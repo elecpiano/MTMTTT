@@ -53,13 +53,24 @@ namespace MeiTuTieTie.Pages
 
         FileDownloader fileDownloader = null;
         bool downloadCanceled = false;
+        bool somethingWrong = false;
 
         private async void Download()
         {
-            this.progressBar.Value = 0;
             progressPanel.Visibility = Visibility.Visible;
             downloadPanel.Visibility = Visibility.Collapsed;
 
+            bool downloadSucceed = await ActualDownload();
+
+            progressPanel.Visibility = Visibility.Collapsed;
+            downloadPanel.Visibility = Visibility.Visible;
+        }
+
+        private async Task<bool> ActualDownload()
+        {
+            somethingWrong = false;
+            this.progressBar.Value = 0;
+            
             if (fileDownloader == null)
             {
                 fileDownloader = new FileDownloader();
@@ -67,27 +78,52 @@ namespace MeiTuTieTie.Pages
 
             ThemePack theme = this.rootGrid.GetDataContext<ThemePack>();
 
-            if (theme != null)
+            if (theme == null)
             {
-                string fileName = string.Format(Constants.THEME_PACK_ZIP_FILE_FORMAT, theme.id);
-                var storageFile = await fileDownloader.Download(theme.zipUrl, Constants.THEME_MODULE, fileName, progressBar);
-
-                if (downloadCanceled)
-                {
-                    return;
-                }
-
-                string unZipfolderName = string.Format("{0}\\{1}", Constants.THEME_MODULE, theme.id);
-                await UnZip(storageFile, unZipfolderName);
-                //string thumbnailPath = await ImageHelper.DownloadThumbnail(theme.thumbnailUrl, ".png");
-                await AddMyThemeData(theme);//, thumbnailPath);
-                await AddMaterialData(theme, unZipfolderName);
-
-                theme.Downloaded = true;
-
-                progressPanel.Visibility = Visibility.Collapsed;
-                downloadPanel.Visibility = Visibility.Visible;
+                return false;
             }
+
+            //download
+            string fileName = string.Format(Constants.THEME_PACK_ZIP_FILE_FORMAT, theme.id);
+            var storageFile = await fileDownloader.Download(theme.zipUrl, Constants.THEME_MODULE, fileName, progressBar);
+            if (storageFile==null)
+            {
+                somethingWrong = true;
+            }
+
+            if (downloadCanceled || somethingWrong)
+            {
+                return false;
+            }
+
+            //unzip
+            string unZipfolderName = string.Format("{0}\\{1}", Constants.THEME_MODULE, theme.id);
+            await UnZip(storageFile, unZipfolderName);
+            if (somethingWrong)
+            {
+                return false;
+            }
+
+            //add materials data
+            await AddMaterialData(theme, unZipfolderName);
+            if (somethingWrong)
+            {
+                return false;
+            }
+
+            // claim downloaded
+            await AddMyThemeData(theme);
+
+            if (somethingWrong)
+            {
+                return false;
+            }
+            else
+            {
+                theme.Downloaded = true;
+            }
+
+            return true;
         }
 
         #endregion
@@ -103,6 +139,7 @@ namespace MeiTuTieTie.Pages
             }
             catch (Exception ex)
             {
+                somethingWrong = true;
             }
         }
 
@@ -112,35 +149,42 @@ namespace MeiTuTieTie.Pages
 
         DataLoader<MyThemeData> myThemeDataLoader = null;
 
-        private async Task AddMyThemeData(ThemePack themePack)//, string thumbnailPath)
+        private async Task AddMyThemeData(ThemePack themePack)
         {
-            if (myThemeDataLoader == null)
+            try
             {
-                myThemeDataLoader = new DataLoader<MyThemeData>();
-            }
+                if (myThemeDataLoader == null)
+                {
+                    myThemeDataLoader = new DataLoader<MyThemeData>();
+                }
 
-            //load data file
-            var data = await myThemeDataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE);
-            if (data == null)
+                //load data file
+                var data = await myThemeDataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE);
+                if (data == null)
+                {
+                    data = new MyThemeData();
+                }
+
+                if (data.myThemes.Any(x => x.id == themePack.id))
+                {
+                    return;
+                }
+
+                //add new theme
+                MyTheme newTheme = new MyTheme();
+                newTheme.id = themePack.id;
+                newTheme.name = themePack.name;
+                newTheme.thumbnail = themePack.thumbnailUrl;
+                data.myThemes.Insert(0, newTheme);
+
+                //save data
+                string json = JsonSerializer.Serialize(data);
+                await IsolatedStorageHelper.WriteToFileAsync(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE, json);
+            }
+            catch (Exception ex)
             {
-                data = new MyThemeData();
+                somethingWrong = true;
             }
-
-            if (data.myThemes.Any(x => x.id == themePack.id))
-            {
-                return;
-            }
-
-            //add new theme
-            MyTheme newTheme = new MyTheme();
-            newTheme.id = themePack.id;
-            newTheme.name = themePack.name;
-            newTheme.thumbnail = themePack.thumbnailUrl;// thumbnailPath;
-            data.myThemes.Insert(0, newTheme);
-
-            //save data
-            string json = JsonSerializer.Serialize(data);
-            await IsolatedStorageHelper.WriteToFileAsync(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE, json);
         }
 
         #endregion
@@ -151,36 +195,44 @@ namespace MeiTuTieTie.Pages
         private async Task AddMaterialData(ThemePack theme, string folder)
         {
             //read theme pack materials file (xml)
-            string path = Path.Combine(folder,"materials.xml");
-            //MaterialGroup newMaterials = await XmlHelper.Deserialize<MaterialGroup>(path);/* the xml file is incomplete sometimes */
-            MaterialGroup newMaterials = await LoadMaterialXML(path);
+            string path = Path.Combine(folder, "materials.xml");
 
-            //load my material file
-            if (materialDataLoader == null)
+            try
             {
-                materialDataLoader = new DataLoader<MaterialGroup>();
+                //MaterialGroup newMaterials = await XmlHelper.Deserialize<MaterialGroup>(path); /* the xml file is incomplete sometimes */
+                MaterialGroup newMaterials = await LoadMaterialXML(path);
+
+                //load my material file
+                if (materialDataLoader == null)
+                {
+                    materialDataLoader = new DataLoader<MaterialGroup>();
+                }
+                var myMaterials = await materialDataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_MATERIAL_FILE);
+                if (myMaterials == null)
+                {
+                    myMaterials = new MaterialGroup();
+                }
+
+                //add new materials
+                foreach (var m in newMaterials.Materials)
+                {
+                    m.themePackID = theme.id;
+
+                    //thumbnail full path
+                    string thumbnailPath = Path.Combine(folder, m.thumbnail);
+                    m.thumbnail = thumbnailPath;
+
+                    myMaterials.Materials.Add(m);
+                }
+
+                //save data
+                string json = JsonSerializer.Serialize(myMaterials);
+                await IsolatedStorageHelper.WriteToFileAsync(Constants.THEME_MODULE, Constants.MY_MATERIAL_FILE, json);
             }
-            var myMaterials = await materialDataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_MATERIAL_FILE);
-            if (myMaterials == null)
+            catch (Exception ex)
             {
-                myMaterials = new MaterialGroup();
+                somethingWrong = true;
             }
-
-            //add new materials
-            foreach (var m in newMaterials.Materials)
-            {
-                m.themePackID = theme.id;
-
-                //thumbnail
-                string thumbnailPath = Path.Combine(folder, m.thumbnail);
-                m.thumbnail = thumbnailPath;
-
-                myMaterials.Materials.Add(m);
-            }
-
-            //save data
-            string json = JsonSerializer.Serialize(myMaterials);
-            await IsolatedStorageHelper.WriteToFileAsync(Constants.THEME_MODULE, Constants.MY_MATERIAL_FILE, json);
         }
 
         private async Task<MaterialGroup> LoadMaterialXML(string file)
