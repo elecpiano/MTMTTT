@@ -12,7 +12,10 @@
 
     <Grid>
         <!--buttons-->
-        <Grid x:Name="buttonsPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Gray">
+        <Grid x:Name="buttonsPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Gray" RenderTransformOrigin="0.5,0.5">
+        	<Grid.RenderTransform>
+        		<CompositeTransform/>
+        	</Grid.RenderTransform>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -27,7 +30,7 @@
             <Button Grid.Row="1" Grid.Column="1" Content="更多功能" Width="120" Height="120" Margin="20" Background="SeaGreen" Click="more_Click"/>
         </Grid>
         
-        <sharedControl:ImageSwitch VerticalAlignment="Bottom" Width="100" 
+        <sharedControl:ImageSwitch x:Name="imageSwitch" VerticalAlignment="Bottom"
                                    CheckStateChanged="ImageSwitch_CheckStateChanged"
                                    Enabled="True"/>
 

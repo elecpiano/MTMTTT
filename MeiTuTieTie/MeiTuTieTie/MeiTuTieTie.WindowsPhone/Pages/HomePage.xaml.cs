@@ -55,7 +55,7 @@ namespace MeiTuTieTie.Pages
 
         private void multiPic_Click(object sender, RoutedEventArgs e)
         {
-            Test4();
+            Test5();
         }
 
         private void boutique_Click(object sender, RoutedEventArgs e)
@@ -65,7 +65,6 @@ namespace MeiTuTieTie.Pages
 
         private void more_Click(object sender, RoutedEventArgs e)
         {
-
         }
 
         #endregion
@@ -213,7 +212,11 @@ namespace MeiTuTieTie.Pages
             catch (Exception)
             {
             }
+        }
 
+        private void Test5()
+        {
+            this.imageSwitch.Checked = !this.imageSwitch.Checked;
         }
 
         private void ImageSwitch_CheckStateChanged(ImageSwitch sender, bool suggestedState)

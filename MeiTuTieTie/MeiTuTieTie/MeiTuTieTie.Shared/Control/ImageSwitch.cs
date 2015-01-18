@@ -1,12 +1,26 @@
-﻿using Windows.UI.Xaml;
+﻿using Shared.Animation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Animation;
 
 namespace Shared.Control
 {
     public class ImageSwitch : ContentControl
     {
         #region Property
+
+        public ImageSource KnobImage
+        {
+            get { return (ImageSource)GetValue(KnobImageProperty); }
+            set
+            {
+                SetValue(KnobImageProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty KnobImageProperty =
+            DependencyProperty.Register("KnobImage", typeof(ImageSource), typeof(ImageSwitch), new PropertyMetadata(null));
 
         public ImageSource CheckedImage
         {
@@ -44,7 +58,6 @@ namespace Shared.Control
         public static readonly DependencyProperty DisabledCheckedImageProperty =
             DependencyProperty.Register("DisabledCheckedImage", typeof(ImageSource), typeof(ImageSwitch), new PropertyMetadata(null));
 
-
         public bool Checked
         {
             get { return (bool)GetValue(CheckedProperty); }
@@ -64,10 +77,12 @@ namespace Shared.Control
             if (newValue)
             {
                 VisualStateManager.GoToState(control, "Checked", true);
+                control.KnobMove(true);
             }
             else
             {
                 VisualStateManager.GoToState(control, "UnChecked", true);
+                control.KnobMove(false);
             }
         }
 
@@ -101,17 +116,23 @@ namespace Shared.Control
 
         #region Constructor
 
+        Grid knob = null;
+
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
 
+            knob = this.GetTemplateChild("knob") as Grid;
+
             if (this.Checked == true)
             {
                 VisualStateManager.GoToState(this, "Checked", false);
+                KnobMove(true);
             }
             else
             {
                 VisualStateManager.GoToState(this, "UnChecked", false);
+                KnobMove(false);
             }
 
             if (this.Enabled == true)
@@ -164,6 +185,16 @@ namespace Shared.Control
 
         public delegate void CheckStateChangedEventHandler(ImageSwitch sender, bool suggestedState);
         public event CheckStateChangedEventHandler CheckStateChanged;
+
+        #endregion
+
+        #region Knob Animation
+
+        private void KnobMove(bool right)
+        {
+            double moveBy = this.ActualWidth * (right ? 0.5 : 0);
+            MoveAnimation.MoveTo(knob, moveBy, 0, 200d);
+        }
 
         #endregion
 

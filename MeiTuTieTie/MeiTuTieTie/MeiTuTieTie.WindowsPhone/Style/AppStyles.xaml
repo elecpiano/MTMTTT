@@ -8,7 +8,7 @@
 
     <!--converters-->
     <sharedConverter:AnythingToVisibilityConverter x:Key="AnythingToVisibilityConverter"/>
-    
+
     <!--screen-->
     <x:Double x:Key="ScreenWidthHalf">200</x:Double>
 
@@ -16,7 +16,7 @@
     <Style x:Key="TextBlockBase" TargetType="TextBlock">
         <!--<Setter Property="FontFamily" Value="Rosewood Std Regular"/>-->
     </Style>
-    
+
     <!--common-->
     <Style x:Key="HorizontalScrollViewer_Style" TargetType="ScrollViewer">
         <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
@@ -24,7 +24,7 @@
         <Setter Property="VerticalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="VerticalScrollMode" Value="Disabled"/>
     </Style>
-    
+
     <!--image switch-->
     <Style x:Name="ImageSwitch_Default_Style" TargetType="sharedControl:ImageSwitch">
         <Setter Property="Template">
@@ -83,6 +83,12 @@
                             <Grid x:Name="unCheckedPanel">
                                 <Image x:Name="unCheckedImage" Source="{TemplateBinding UnCheckedImage}" Stretch="Uniform" Margin="{TemplateBinding Padding}"/>
                             </Grid>
+                            <Grid x:Name="knob" RenderTransformOrigin="0.5,0.5" HorizontalAlignment="Left" VerticalAlignment="Center">
+                                <Grid.RenderTransform>
+                                    <CompositeTransform/>
+                                </Grid.RenderTransform>
+                                <Image x:Name="knobImage" Source="{TemplateBinding KnobImage}" Stretch="Uniform" Margin="{TemplateBinding Padding}"/>
+                            </Grid>
                         </Grid>
 
                     </Grid>
@@ -92,9 +98,12 @@
     </Style>
 
     <Style TargetType="sharedControl:ImageSwitch" BasedOn="{StaticResource ImageSwitch_Default_Style}">
+        <Setter Property="KnobImage" Value="/Assets/ImageSwitch/SwitchKnob.png"/>
         <Setter Property="CheckedImage" Value="/Assets/ImageSwitch/SwitchShow.png"/>
         <Setter Property="UnCheckedImage" Value="/Assets/ImageSwitch/SwitchHide.png"/>
         <Setter Property="DisabledCheckedImage" Value="/Assets/ImageSwitch/SwitchDisabledShow.png"/>
+        <Setter Property="Height" Value="60"/>
+        <Setter Property="Width" Value="120"/>
     </Style>
 
     <!--boutique page-->
@@ -121,6 +130,6 @@
         <Setter Property="FontSize" Value="16"/>
         <Setter Property="Foreground" Value="#ff808080"/>
     </Style>
-    
+
 
 </ResourceDictionary>
