@@ -47,6 +47,9 @@ namespace MeiTuTieTie.Pages
             {
                 this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
             }
+
+            SaveData();
+
             base.OnNavigatingFrom(e);
         }
 
@@ -55,6 +58,7 @@ namespace MeiTuTieTie.Pages
         #region Data
 
         DataLoader<MaterialGroup> materialDataLoader = null;
+        MaterialGroup myMaterials = null;
 
         private async void LoadData(string themeID)
         {
@@ -63,7 +67,7 @@ namespace MeiTuTieTie.Pages
                 materialDataLoader = new DataLoader<MaterialGroup>();
             }
 
-            var myMaterials = await materialDataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_MATERIAL_FILE);
+            myMaterials = await materialDataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_MATERIAL_FILE);
             if (myMaterials == null)
             {
                 myMaterials = new MaterialGroup();
@@ -75,8 +79,22 @@ namespace MeiTuTieTie.Pages
 
             this.myMaterialListBox.ItemsSource = materials;
         }
+        private async void SaveData()
+        {
+            string json = JsonSerializer.Serialize(myMaterials);
+            await IsolatedStorageHelper.WriteToFileAsync(Constants.THEME_MODULE, Constants.MY_MATERIAL_FILE, json);
+        }
 
         #endregion
+
+        private void ImageSwitch_CheckStateChanged(Shared.Control.ImageSwitch sender, bool suggestedState)
+        {
+            Material material = sender.GetDataContext<Material>();
+            if (material != null)
+            {
+                material.visible = !material.visible;
+            }
+        }
 
     }
 }

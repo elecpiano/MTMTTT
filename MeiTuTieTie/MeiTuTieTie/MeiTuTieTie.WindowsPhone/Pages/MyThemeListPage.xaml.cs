@@ -54,6 +54,7 @@ namespace MeiTuTieTie.Pages
         #region Data
 
         DataLoader<MyThemeData> dataLoader = null;
+        MyThemeData myThemeData = null;
 
         private async void LoadData()
         {
@@ -62,11 +63,17 @@ namespace MeiTuTieTie.Pages
                 dataLoader = new DataLoader<MyThemeData>();
             }
 
-            var data = await dataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE);
-            if (data!=null)
+            myThemeData = await dataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE);
+            if (myThemeData != null)
             {
-                myThemeListBox.ItemsSource = data.myThemes;
+                myThemeListBox.ItemsSource = myThemeData.myThemes;
             }
+        }
+
+        private async void SaveData()
+        {
+            string json = JsonSerializer.Serialize(myThemeData);
+            await IsolatedStorageHelper.WriteToFileAsync(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE, json);
         }
 
         #endregion
@@ -94,10 +101,11 @@ namespace MeiTuTieTie.Pages
         private void ImageSwitch_CheckStateChanged(Shared.Control.ImageSwitch sender, bool suggestedState)
         {
             MyTheme theme = sender.GetDataContext<MyTheme>();
-            if (theme!=null)
+            if (theme != null)
             {
                 theme.visible = !theme.visible;
             }
+            SaveData();
         }
 
     }

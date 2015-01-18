@@ -1,10 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using Shared.Infrastructures;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 using System.Xml.Serialization;
 
 namespace Shared.Model
 {
-    public class Material
+    public class Material : BindableBase
     {
         [XmlElement]
         public string themePackID { get; set; }
@@ -18,8 +19,13 @@ namespace Shared.Model
         [XmlElement(ElementName = "thumbnailname")]
         public string thumbnail { get; set; }
 
+        private bool _visible = false;
         [XmlElement]
-        public bool visible { get; set; }
+        public bool visible
+        {
+            get { return _visible; }
+            set { SetProperty(ref _visible, value); }
+        }
     }
 
     [XmlRoot("materials")]
