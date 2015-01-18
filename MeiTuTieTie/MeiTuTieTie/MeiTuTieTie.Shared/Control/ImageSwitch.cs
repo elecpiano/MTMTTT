@@ -32,6 +32,19 @@ namespace Shared.Control
         public static readonly DependencyProperty UnCheckedImageProperty =
             DependencyProperty.Register("UnCheckedImage", typeof(ImageSource), typeof(ImageSwitch), new PropertyMetadata(null));
 
+        public ImageSource DisabledCheckedImage
+        {
+            get { return (ImageSource)GetValue(DisabledCheckedImageProperty); }
+            set
+            {
+                SetValue(DisabledCheckedImageProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty DisabledCheckedImageProperty =
+            DependencyProperty.Register("DisabledCheckedImage", typeof(ImageSource), typeof(ImageSwitch), new PropertyMetadata(null));
+
+
         public bool Checked
         {
             get { return (bool)GetValue(CheckedProperty); }
@@ -58,6 +71,32 @@ namespace Shared.Control
             }
         }
 
+        public bool Enabled
+        {
+            get { return (bool)GetValue(EnabledProperty); }
+            set
+            {
+                SetValue(EnabledProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty EnabledProperty =
+            DependencyProperty.Register("Enabled", typeof(bool), typeof(ImageSwitch), new PropertyMetadata(true, OnEnabledPropertyChanged));
+
+        private static void OnEnabledPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            ImageSwitch control = d as ImageSwitch;
+            bool newValue = (bool)e.NewValue;
+            if (newValue)
+            {
+                VisualStateManager.GoToState(control, "Enabled", true);
+            }
+            else
+            {
+                VisualStateManager.GoToState(control, "Disabled", true);
+            }
+        }
+
         #endregion
 
         #region Constructor
@@ -65,6 +104,7 @@ namespace Shared.Control
         protected override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
+
             if (this.Checked == true)
             {
                 VisualStateManager.GoToState(this, "Checked", false);
@@ -73,7 +113,57 @@ namespace Shared.Control
             {
                 VisualStateManager.GoToState(this, "UnChecked", false);
             }
+
+            if (this.Enabled == true)
+            {
+                VisualStateManager.GoToState(this, "Enabled", false);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "Disabled", false);
+            }
+
+            this.ManipulationMode = Windows.UI.Xaml.Input.ManipulationModes.TranslateX;
+            this.ManipulationStarting += ImageSwitch_ManipulationStarting;
+            this.ManipulationCompleted += ImageSwitch_ManipulationCompleted;
+            this.Tapped += ImageSwitch_Tapped;
         }
+
+        void ImageSwitch_ManipulationStarting(object sender, Windows.UI.Xaml.Input.ManipulationStartingRoutedEventArgs e)
+        {
+            this.ManipulationDelta += ImageSwitch_ManipulationDelta;
+        }
+
+        void ImageSwitch_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
+        {
+            this.ManipulationDelta -= ImageSwitch_ManipulationDelta;
+        }
+
+        void ImageSwitch_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            CheckStateChanged(this, !this.Checked);
+        }
+
+        void ImageSwitch_ManipulationDelta(object sender, Windows.UI.Xaml.Input.ManipulationDeltaRoutedEventArgs e)
+        {
+            if (e.Cumulative.Translation.X > 3)
+            {
+                CheckStateChanged(this, true);
+                this.ManipulationDelta -= ImageSwitch_ManipulationDelta;
+            }
+            else if (e.Cumulative.Translation.X < -3)
+            {
+                CheckStateChanged(this, false);
+                this.ManipulationDelta -= ImageSwitch_ManipulationDelta;
+            }
+        }
+
+        #endregion
+
+        #region Event
+
+        public delegate void CheckStateChangedEventHandler(ImageSwitch sender, bool suggestedState);
+        public event CheckStateChangedEventHandler CheckStateChanged;
 
         #endregion
 

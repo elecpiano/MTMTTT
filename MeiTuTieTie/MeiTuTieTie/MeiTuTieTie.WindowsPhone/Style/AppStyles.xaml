@@ -26,7 +26,7 @@
     </Style>
     
     <!--image switch-->
-    <Style TargetType="sharedControl:ImageSwitch">
+    <Style x:Name="ImageSwitch_Default_Style" TargetType="sharedControl:ImageSwitch">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="sharedControl:ImageSwitch">
@@ -52,25 +52,49 @@
                                 <VisualState x:Name="UnChecked"/>
                                 <VisualState x:Name="Checked">
                                     <Storyboard>
-                                        <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="unCheckedBackground" />
-                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="checkedBackground" />
+                                        <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="unCheckedPanel" />
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="checkedPanel" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
+                            <VisualStateGroup x:Name="EnableStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0:0:0.2"/>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Enabled"/>
+                                <VisualState x:Name="Disabled">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="checkedImage" />
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="disabledCheckedImage" />
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+
                         </VisualStateManager.VisualStateGroups>
 
                         <Grid x:Name="content" Background="#00000000" RenderTransformOrigin="0.5,0.5" >
                             <Grid.RenderTransform>
                                 <CompositeTransform/>
                             </Grid.RenderTransform>
-                            <Image x:Name="checkedImage" Source="{TemplateBinding CheckedImage}" Stretch="None" Margin="{TemplateBinding Padding}" Opacity="0"/>
-                            <Image x:Name="unCheckedImage" Source="{TemplateBinding UnCheckedImage}" Stretch="None" Margin="{TemplateBinding Padding}"/>
+                            <Grid x:Name="checkedPanel" Opacity="0">
+                                <Image x:Name="checkedImage" Source="{TemplateBinding CheckedImage}" Stretch="Uniform" Margin="{TemplateBinding Padding}"/>
+                                <Image x:Name="disabledCheckedImage" Source="{TemplateBinding DisabledCheckedImage}" Stretch="Uniform" Margin="{TemplateBinding Padding}" Opacity="0"/>
+                            </Grid>
+                            <Grid x:Name="unCheckedPanel">
+                                <Image x:Name="unCheckedImage" Source="{TemplateBinding UnCheckedImage}" Stretch="Uniform" Margin="{TemplateBinding Padding}"/>
+                            </Grid>
                         </Grid>
 
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style TargetType="sharedControl:ImageSwitch" BasedOn="{StaticResource ImageSwitch_Default_Style}">
+        <Setter Property="CheckedImage" Value="/Assets/ImageSwitch/SwitchShow.png"/>
+        <Setter Property="UnCheckedImage" Value="/Assets/ImageSwitch/SwitchHide.png"/>
+        <Setter Property="DisabledCheckedImage" Value="/Assets/ImageSwitch/SwitchDisabledShow.png"/>
     </Style>
 
     <!--boutique page-->

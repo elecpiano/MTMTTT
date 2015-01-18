@@ -1,4 +1,5 @@
-﻿using Shared.Model;
+﻿using Shared.Control;
+using Shared.Model;
 using Shared.Utility;
 using System;
 using System.Collections.Generic;
@@ -213,6 +214,15 @@ namespace MeiTuTieTie.Pages
             {
             }
 
+        }
+
+        private void ImageSwitch_CheckStateChanged(ImageSwitch sender, bool suggestedState)
+        {
+            ImageSwitch control = sender as ImageSwitch;
+            if (control.Checked != suggestedState)
+            {
+                control.Checked = !control.Checked;
+            }
         }
 
     }
