@@ -14,7 +14,7 @@
                 <ItemsControl ItemsSource="{Binding}">
                     <ItemsControl.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <WrapGrid Orientation="Horizontal" HorizontalAlignment="Center"/>
+                            <WrapGrid Orientation="Horizontal" HorizontalAlignment="Left"/>
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
