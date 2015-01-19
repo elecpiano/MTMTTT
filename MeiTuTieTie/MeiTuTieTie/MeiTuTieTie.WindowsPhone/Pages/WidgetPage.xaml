@@ -11,17 +11,19 @@
     <Grid x:Name="rootGrid" Background="White">
         <Pivot>
             <PivotItem Header="keai" Margin="0" Padding="0">
-                <ScrollViewer Background="Blue">
-                    <ItemsControl x:Name="listBox_keai" Margin="6">
+                <ScrollViewer >
+                    <ItemsControl x:Name="listBox_keai" Margin="0">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
-                                <WrapGrid Background="Gray" Orientation="Horizontal" />
+                                <WrapGrid Orientation="Horizontal" HorizontalAlignment="Center"/>
                             </ItemsPanelTemplate>
                         </ItemsControl.ItemsPanel>
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
-                                <Image Width="{StaticResource MaterialWidth}" Height="{StaticResource MaterialWidth}" Stretch="Uniform"
-                                       util:IsoImg.Path="{Binding image}" Margin="6"/>
+                                <Grid Width="{StaticResource MaterialWidth}" Height="{StaticResource MaterialWidth}">
+                                    <Image Stretch="Uniform"
+                                           util:IsoImg.Path="{Binding image}" Margin="12"/>
+                                </Grid>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
