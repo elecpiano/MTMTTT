@@ -39,12 +39,13 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
-        #region MyTheme Data
+        #region Data
 
         DataLoader<MyThemeData> myThemeDataLoader = null;
         DataLoader<MaterialGroup> materialDataLoader = null;
         List<Material> materials_all;
         Dictionary<string, List<Material>> material_dict;
+        Dictionary<string, FrameworkElement> panel_dict = new Dictionary<string, FrameworkElement>();
 
         private async Task LoadData()
         {
@@ -88,7 +89,10 @@ namespace MeiTuTieTie.Pages
                 }
             }
 
-            listBox_keai.ItemsSource = material_dict[MaterialType.keai.ToString()];
+            foreach (var key in panel_dict.Keys)
+            {
+                panel_dict[key].DataContext = material_dict[key];
+            }
         }
 
         private async Task LoadMaterial(MyTheme theme)
@@ -124,10 +128,15 @@ namespace MeiTuTieTie.Pages
                     material_dict[key].Add(m);
                 }
             }
-
         }
 
         #endregion
+
+        private void PivotItem_Loaded(object sender, RoutedEventArgs e)
+        {
+            FrameworkElement control = sender as FrameworkElement;
+            panel_dict.Add(control.Tag.ToString(), control);
+        }
 
     }
 

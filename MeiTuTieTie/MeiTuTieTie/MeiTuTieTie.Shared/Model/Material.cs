@@ -51,11 +51,12 @@ namespace Shared.Model
 
     public enum MaterialType
     {
-        biankuang,
         keai,
-        katongxingxiang,
+        wenzi,
         gaoxiaobiaoqing,
-        wenzi
+        zhedang,
+        katongxingxiang,
+        biankuang
     }
 
 }

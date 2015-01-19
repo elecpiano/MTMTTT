@@ -8,27 +8,42 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <ControlTemplate x:Name="widgetPivotItemTemplate" TargetType="PivotItem">
+            <ScrollViewer>
+                <ItemsControl ItemsSource="{Binding}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapGrid Orientation="Horizontal" HorizontalAlignment="Center"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="{StaticResource MaterialWidth}" Height="{StaticResource MaterialWidth}">
+                                <Image Stretch="Uniform"
+                                       util:IsoImg.Path="{Binding image}" Margin="12"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </ControlTemplate>
+    </Page.Resources>
+
     <Grid x:Name="rootGrid" Background="White">
         <Pivot>
-            <PivotItem Header="keai" Margin="0" Padding="0">
-                <ScrollViewer >
-                    <ItemsControl x:Name="listBox_keai" Margin="0">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <WrapGrid Orientation="Horizontal" HorizontalAlignment="Center"/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Grid Width="{StaticResource MaterialWidth}" Height="{StaticResource MaterialWidth}">
-                                    <Image Stretch="Uniform"
-                                           util:IsoImg.Path="{Binding image}" Margin="12"/>
-                                </Grid>
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
-                </ScrollViewer>
-            </PivotItem>
+            <Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding}" Foreground="Black" FontSize="24"/>
+                    </Grid>
+                </DataTemplate>
+            </Pivot.HeaderTemplate>
+            <PivotItem Template="{StaticResource widgetPivotItemTemplate}" Loaded="PivotItem_Loaded" Header="可爱" Tag="keai"/>
+            <PivotItem Template="{StaticResource widgetPivotItemTemplate}" Loaded="PivotItem_Loaded" Header="文字模板" Tag="wenzi"/>
+            <PivotItem Template="{StaticResource widgetPivotItemTemplate}" Loaded="PivotItem_Loaded" Header="搞笑表情" Tag="gaoxiaobiaoqing"/>
+            <PivotItem Template="{StaticResource widgetPivotItemTemplate}" Loaded="PivotItem_Loaded" Header="遮挡物" Tag="zhedang"/>
+            <PivotItem Template="{StaticResource widgetPivotItemTemplate}" Loaded="PivotItem_Loaded" Header="卡通形象" Tag="katongxingxiang"/>
         </Pivot>
     </Grid>
 
