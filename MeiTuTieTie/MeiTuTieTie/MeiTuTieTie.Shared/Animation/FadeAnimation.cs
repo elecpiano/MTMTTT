@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Windows;
-using System.Windows.Media.Animation;
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Media.Animation;
 
-namespace WinterOlympics2014WP.Animations
+namespace Shared.Animation
 {
     public class FadeAnimation : AnimationBase
     {
@@ -50,11 +51,11 @@ namespace WinterOlympics2014WP.Animations
             _KeyFrame_to.Value = 0;
             _Animation.KeyFrames.Add(_KeyFrame_to);
 
-            Storyboard.SetTargetProperty(_Animation, new PropertyPath("(UIElement.Opacity)"));
+            Storyboard.SetTargetProperty(_Animation, "(UIElement.Opacity)");
             _Storyboard.Children.Add(_Animation);
         }
 
-        public static FadeAnimation Fade(FrameworkElement element, double from, double to, TimeSpan duration, Action<FrameworkElement> completed)
+        public static FadeAnimation Fade(FrameworkElement element, double from, double to, double duration, Action<FrameworkElement> completed = null)
         {
             FadeAnimation animation = null;
             if (AnimationPool.Count == 0)
@@ -70,12 +71,12 @@ namespace WinterOlympics2014WP.Animations
             return animation;
         }
 
-        public void InstanceFade(FrameworkElement element, double from, double to, TimeSpan duration, Action<FrameworkElement> completed)
+        public void InstanceFade(FrameworkElement element, double from, double to, double duration, Action<FrameworkElement> completed = null)
         {
             this.Animate(element, from, to, duration, completed);
         }
 
-        private void Animate(FrameworkElement element, double from, double to, TimeSpan duration, Action<FrameworkElement> completed)
+        private void Animate(FrameworkElement element, double from, double to, double duration, Action<FrameworkElement> completed = null)
         {
             AnimationTarget = element;
             TargetOpacity = to;
@@ -91,7 +92,7 @@ namespace WinterOlympics2014WP.Animations
             }
 
             /*time*/
-            _KeyFrame_to.KeyTime = KeyTime.FromTimeSpan(duration);
+            _KeyFrame_to.KeyTime = KeyTime.FromTimeSpan(TimeSpan.FromMilliseconds(duration));
 
             /*value*/
             _KeyFrame_from.Value = from;
@@ -109,11 +110,12 @@ namespace WinterOlympics2014WP.Animations
                 AnimationCompleted(AnimationTarget);
             }
             AnimationPool.Push(this);
+            AnimationTarget = null;
         }
 
         public void Stop()
         {
-            if (_Storyboard!=null)
+            if (_Storyboard != null)
             {
                 _Storyboard.Stop();
             }

@@ -13,6 +13,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="$(MSBuildThisFileDirectory)Animation\AnimationBase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Animation\FadeAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animation\MoveAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animation\RotateAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animation\ScaleAnimation.cs" />

@@ -14,10 +14,15 @@ namespace Shared.Model
 
         [DataMember]
         public string id { get; set; }
+
         [DataMember]
         public string name { get; set; }
+
         [DataMember]
         public string thumbnail { get; set; }
+
+        [DataMember]
+        public int materialCount { get; set; }
 
         private bool _visible = false;
         [DataMember]

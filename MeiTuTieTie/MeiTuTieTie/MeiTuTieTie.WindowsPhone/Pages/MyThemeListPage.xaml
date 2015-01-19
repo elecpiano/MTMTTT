@@ -14,70 +14,58 @@
     </Page.Resources>
 
     <Page.BottomAppBar>
-        <CommandBar>
-            <AppBarButton Icon="List" Label="选择" Click="selectItems_Click"/>
+        <CommandBar x:Name="bottomAppBar">
+            <!--<AppBarButton Icon="List" Label="选择" Click="selectItems_Click"/>-->
         </CommandBar>
     </Page.BottomAppBar>
 
     <Grid Background="White">
-        <ScrollViewer Visibility="Collapsed">
-            <ItemsControl Grid.Row="1" x:Name="xxx" Background="Transparent">
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <VirtualizingStackPanel/>
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Grid Tapped="theme_Tapped">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="82"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="{Binding thumbnail}"
+        <ScrollViewer>
+            <Grid>
+                <ItemsControl Grid.Row="1" x:Name="myThemeListBox" Background="Transparent" RenderTransformOrigin="0.5,0.5"
+                          Margin="0,0,-64,0">
+                    <ItemsControl.RenderTransform>
+                        <CompositeTransform TranslateX="-64"/>
+                    </ItemsControl.RenderTransform>
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Tapped="theme_Tapped">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="64"/>
+                                    <ColumnDefinition Width="82"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <CheckBox Grid.Column="0" Style="{StaticResource BigCheckBoxStyle}"/>
+                                <Image Grid.Column="1" Source="{Binding thumbnail}"
                                    Stretch="Uniform" Height="72" Width="72" Margin="5,5,5,5"/>
-                            <!--util:IsoImg.Path="{Binding thumbnail}"-->
-                            <TextBlock Grid.Column="1" Text="{Binding name}" Style="{StaticResource BoutiqueList_ItemText_Style}"/>
-                            <sharedControl:ImageSwitch Grid.Column="4"
-                                                       Checked="{Binding visible}"
-                                                       VerticalAlignment="Center"
-                                                       CheckStateChanged="ImageSwitch_CheckStateChanged"/>
-                        </Grid>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
+                                <TextBlock Grid.Column="2" Text="{Binding name}" Style="{StaticResource BoutiqueList_ItemName_Style}"/>
+                                <TextBlock Grid.Column="3" Style="{StaticResource BoutiqueList_MaterialCount_Style}">
+                                    <Run Text="("/>
+                                    <Run Text="{Binding materialCount}"/>
+                                    <Run Text="个"/>
+                                    <Run Text=")"/>
+                                </TextBlock>
+                                <sharedControl:ImageSwitch Grid.Column="5" Margin="0,0,12,0"
+                                                           Checked="{Binding visible}"
+                                                           VerticalAlignment="Center"
+                                                           CheckStateChanged="ImageSwitch_CheckStateChanged"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+                
+                <Grid x:Name="switchMask" Width="92" Background="#ffffffff" 
+                      HorizontalAlignment="Right" IsHitTestVisible="False"
+                      Opacity="0"/>
+            </Grid>
         </ScrollViewer>
-
-        <ListView x:Name="myThemeListBox" SelectionMode="Multiple">
-            <ListView.ItemContainerStyle>
-                <Style TargetType="ListViewItem">
-                    <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
-                </Style>
-            </ListView.ItemContainerStyle>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Grid Tapped="theme_Tapped">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="82"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <Image Grid.Column="0" Source="{Binding thumbnail}"
-                               Stretch="Uniform" Height="72" Width="72" Margin="5,5,5,5"/>
-                        <TextBlock Grid.Column="1" Text="{Binding name}" Style="{StaticResource BoutiqueList_ItemText_Style}"/>
-                        <sharedControl:ImageSwitch Grid.Column="4"
-                                                   Checked="{Binding visible}"
-                                                   VerticalAlignment="Center"
-                                                   CheckStateChanged="ImageSwitch_CheckStateChanged"/>
-                    </Grid>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ListView>
-
     </Grid>
 </Page>

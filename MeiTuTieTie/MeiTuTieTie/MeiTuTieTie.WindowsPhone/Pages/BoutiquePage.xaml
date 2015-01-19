@@ -62,10 +62,10 @@
                                 </Grid.ColumnDefinitions>
                                 <Image Grid.Column="0" Source="{Binding thumbnailUrl}" Stretch="Uniform"
                                    Height="72" Width="72" Margin="5"/>
-                                <TextBlock Grid.Column="1" Text="{Binding name}" Style="{StaticResource BoutiqueList_ItemText_Style}"/>
-                                <TextBlock Grid.Column="3" Text="免费" Style="{StaticResource BoutiqueList_ItemText_Style}"
+                                <TextBlock Grid.Column="1" Text="{Binding name}" Style="{StaticResource BoutiqueList_ItemName_Style}"/>
+                                <TextBlock Grid.Column="3" Text="免费" Style="{StaticResource BoutiqueList_ItemName_Style}"
                                            Visibility="{Binding Downloaded, Converter={StaticResource AnythingToVisibilityConverter}, ConverterParameter='neg'}"/>
-                                <TextBlock Grid.Column="3" Text="已下载" Style="{StaticResource BoutiqueList_ItemText_Style}"
+                                <TextBlock Grid.Column="3" Text="已下载" Style="{StaticResource BoutiqueList_ItemName_Style}"
                                            Visibility="{Binding Downloaded, Converter={StaticResource AnythingToVisibilityConverter}}"/>
                             </Grid>
                         </DataTemplate>

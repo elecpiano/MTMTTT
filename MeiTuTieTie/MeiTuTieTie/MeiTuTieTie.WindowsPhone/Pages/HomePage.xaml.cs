@@ -55,7 +55,7 @@ namespace MeiTuTieTie.Pages
 
         private void multiPic_Click(object sender, RoutedEventArgs e)
         {
-            Test5();
+            Test4();
         }
 
         private void boutique_Click(object sender, RoutedEventArgs e)
@@ -215,19 +215,19 @@ namespace MeiTuTieTie.Pages
             }
         }
 
-        private void Test5()
-        {
-            this.imageSwitch.Checked = !this.imageSwitch.Checked;
-        }
+        //private void Test5()
+        //{
+        //    this.imageSwitch.Checked = !this.imageSwitch.Checked;
+        //}
 
-        private void ImageSwitch_CheckStateChanged(ImageSwitch sender, bool suggestedState)
-        {
-            ImageSwitch control = sender as ImageSwitch;
-            if (control.Checked != suggestedState)
-            {
-                control.Checked = !control.Checked;
-            }
-        }
+        //private void ImageSwitch_CheckStateChanged(ImageSwitch sender, bool suggestedState)
+        //{
+        //    ImageSwitch control = sender as ImageSwitch;
+        //    if (control.Checked != suggestedState)
+        //    {
+        //        control.Checked = !control.Checked;
+        //    }
+        //}
 
     }
 }

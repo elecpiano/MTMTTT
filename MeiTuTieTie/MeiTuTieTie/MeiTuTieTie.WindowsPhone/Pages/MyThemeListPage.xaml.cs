@@ -8,6 +8,9 @@ using Windows.UI.Xaml.Navigation;
 using System.Xml.Serialization;
 using Windows.Graphics.Display;
 using Shared.Global;
+using Shared.Animation;
+using Windows.UI.Xaml.Media.Animation;
+using Windows.Phone.UI.Input;
 
 namespace MeiTuTieTie.Pages
 {
@@ -25,6 +28,16 @@ namespace MeiTuTieTie.Pages
         {
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
+            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+        }
+
+        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        {
+            if (listEditing)
+            {
+                EndEditList();
+                e.Handled = true;
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -34,6 +47,7 @@ namespace MeiTuTieTie.Pages
             {
                 LoadData();
             }
+            BuildBottomAppBar_Normal();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -82,18 +96,12 @@ namespace MeiTuTieTie.Pages
 
         private void theme_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            if (listEditing)
+            {
+                return;
+            }
+
             Frame.Navigate(typeof(MyThemeDetailPage), sender.GetDataContext());
-        }
-
-        #endregion
-
-        #region App Bar
-
-        private void selectItems_Click(object sender, RoutedEventArgs e)
-        {
-            XmlSerializer serializer;
-
-            DisplayInformation di = DisplayInformation.GetForCurrentView();
         }
 
         #endregion
@@ -114,8 +122,93 @@ namespace MeiTuTieTie.Pages
 
         #region Edit List
 
+        private bool listEditing = false;
+        PowerEase easingFunction = new PowerEase();
 
+        private void StartEditList()
+        {
+            listEditing = true;
+            MoveAnimation.MoveTo(this.myThemeListBox, 0d, 0d, 200d, easingFunction,
+                fe =>
+                {
+                });
+            FadeAnimation.Fade(this.switchMask, 0d, 1d, 200d);
+        }
+
+        private void EndEditList()
+        {
+            MoveAnimation.MoveTo(this.myThemeListBox, -64d, 0d, 200d, easingFunction,
+                fe =>
+                {
+                });
+            FadeAnimation.Fade(this.switchMask, 1d, 0d, 200d);
+            listEditing = false;
+        }
 
         #endregion
+
+        #region AppBar
+
+        AppBarButton appBarButton_edit = null;
+        AppBarButton appBarButton_delete = null;
+        AppBarButton appBarButton_cancel = null;
+
+        private void BuildBottomAppBar_Normal()
+        {
+            this.bottomAppBar.PrimaryCommands.Clear();
+
+            //normal
+            if (appBarButton_edit == null)
+            {
+                appBarButton_edit = new AppBarButton();
+                appBarButton_edit.Label = "选择";
+                appBarButton_edit.Icon = new SymbolIcon(Symbol.List);
+                appBarButton_edit.Click += AppbarButton_Edit;
+            }
+            this.bottomAppBar.PrimaryCommands.Add(appBarButton_edit);
+        }
+
+        private void BuildBottomAppBar_Edit()
+        {
+            this.bottomAppBar.PrimaryCommands.Clear();
+
+            //delete
+            if (appBarButton_delete == null)
+            {
+                appBarButton_delete = new AppBarButton();
+                appBarButton_delete.Label = "删除";
+                appBarButton_delete.Icon = new SymbolIcon(Symbol.Delete);
+                appBarButton_delete.Click += AppbarButton_Delete;
+            }
+            this.bottomAppBar.PrimaryCommands.Add(appBarButton_delete);
+
+            //cancel
+            if (appBarButton_cancel == null)
+            {
+                appBarButton_cancel = new AppBarButton();
+                appBarButton_cancel.Label = "取消选择";
+                appBarButton_cancel.Icon = new SymbolIcon(Symbol.Cancel);
+                appBarButton_cancel.Click += AppbarButton_Cancel;
+            }
+            this.bottomAppBar.PrimaryCommands.Add(appBarButton_cancel);
+        }
+
+        void AppbarButton_Edit(object sender, RoutedEventArgs e)
+        {
+            StartEditList();
+            BuildBottomAppBar_Edit();
+        }
+
+        void AppbarButton_Cancel(object sender, RoutedEventArgs e)
+        {
+            EndEditList();
+            BuildBottomAppBar_Normal();
+        }
+        void AppbarButton_Delete(object sender, RoutedEventArgs e)
+        {
+        }
+
+        #endregion
+
     }
 }

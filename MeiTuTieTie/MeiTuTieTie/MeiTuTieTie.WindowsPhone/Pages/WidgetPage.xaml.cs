@@ -109,21 +109,20 @@ namespace MeiTuTieTie.Pages
                 materialGroup = new MaterialGroup();
             }
 
-            foreach (var m in materialGroup.Materials)
+            var visibleMaterials = materialGroup.Materials.Where(x => x.visible);
+
+            foreach (var m in visibleMaterials)
             {
-                if (m.visible)
-                {
-                    materials_all.Add(m);
-                }
+                materials_all.Add(m);
             }
 
             var types = Enum.GetValues(typeof(MaterialType));
             foreach (var type in types)
             {
                 var key = type.ToString();
-                var materials = materials_all.Where(x => x.type == key).ToList();
+                var mList = visibleMaterials.Where(x => x.type == key);
 
-                foreach (var m in materials)
+                foreach (var m in mList)
                 {
                     material_dict[key].Add(m);
                 }

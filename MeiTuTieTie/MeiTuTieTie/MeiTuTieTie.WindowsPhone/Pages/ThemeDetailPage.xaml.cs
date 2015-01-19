@@ -105,14 +105,14 @@ namespace MeiTuTieTie.Pages
             }
 
             //add materials data
-            await AddMaterialData_SplitFile(theme, unZipfolderName);
+            int materialCount = await AddMaterialData_SplitFile(theme, unZipfolderName);
             if (somethingWrong)
             {
                 return false;
             }
 
             // claim downloaded
-            await AddMyThemeData(theme);
+            await AddMyThemeData(theme, materialCount);
 
             if (somethingWrong)
             {
@@ -149,7 +149,7 @@ namespace MeiTuTieTie.Pages
 
         DataLoader<MyThemeData> myThemeDataLoader = null;
 
-        private async Task AddMyThemeData(ThemePack themePack)
+        private async Task AddMyThemeData(ThemePack themePack, int materialCount)
         {
             try
             {
@@ -175,6 +175,7 @@ namespace MeiTuTieTie.Pages
                 newTheme.id = themePack.id;
                 newTheme.name = themePack.name;
                 newTheme.thumbnail = themePack.thumbnailUrl;
+                newTheme.materialCount = materialCount;
                 data.myThemes.Insert(0, newTheme);
 
                 //save data
@@ -200,7 +201,7 @@ namespace MeiTuTieTie.Pages
             try
             {
                 //MaterialGroup newMaterials = await XmlHelper.Deserialize<MaterialGroup>(path); /* the xml file is incomplete sometimes */
-                MaterialGroup newMaterials = await LoadMaterialXML(path);
+                List<Material> newMaterials = await LoadMaterialXML(path);
 
                 //load my material file
                 if (materialDataLoader == null)
@@ -214,7 +215,7 @@ namespace MeiTuTieTie.Pages
                 }
 
                 //add new materials
-                foreach (var m in newMaterials.Materials)
+                foreach (var m in newMaterials)
                 {
                     m.themePackID = theme.id;
 
@@ -239,15 +240,18 @@ namespace MeiTuTieTie.Pages
             }
         }
 
-        private async Task AddMaterialData_SplitFile(ThemePack theme, string folder)
+        private async Task<int> AddMaterialData_SplitFile(ThemePack theme, string folder)
         {
+            int materialCount = 0;
+
             //read theme pack materials file (xml)
             string xmlFilePath = Path.Combine(folder, "materials.xml");
 
             try
             {
                 //MaterialGroup newMaterials = await XmlHelper.Deserialize<MaterialGroup>(path); /* the xml file is incomplete sometimes */
-                MaterialGroup newMaterials = await LoadMaterialXML(xmlFilePath);
+                List<Material> newMaterials = await LoadMaterialXML(xmlFilePath);
+                materialCount = newMaterials.Count;
 
                 //load my material file
                 if (materialDataLoader == null)
@@ -263,7 +267,7 @@ namespace MeiTuTieTie.Pages
                 }
 
                 //add new materials
-                foreach (var m in newMaterials.Materials)
+                foreach (var m in newMaterials)
                 {
                     m.themePackID = theme.id;
 
@@ -286,12 +290,15 @@ namespace MeiTuTieTie.Pages
             {
                 somethingWrong = true;
             }
+
+            return materialCount;
         }
 
 
-        private async Task<MaterialGroup> LoadMaterialXML(string file)
+        private async Task<List<Material>> LoadMaterialXML(string file)
         {
-            MaterialGroup materialGroup = new MaterialGroup();
+            //MaterialGroup materialGroup = new MaterialGroup();
+            List<Material> materials = new List<Material>();
             try
             {
                 Material material = null;
@@ -318,7 +325,8 @@ namespace MeiTuTieTie.Pages
                                 material.type = id;
                                 material.image = name;
                                 material.thumbnail = thumbnailname;
-                                materialGroup.Materials.Add(material);
+                                //materialGroup.Materials.Add(material);
+                                materials.Add(material);
                                 break;
                             default:
                                 break;
@@ -329,7 +337,8 @@ namespace MeiTuTieTie.Pages
             {
             }
 
-            return materialGroup;
+            //return materialGroup;
+            return materials;
         }
 
         #endregion
