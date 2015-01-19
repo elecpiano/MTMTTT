@@ -19,7 +19,7 @@ namespace Shared.Model
         [XmlElement(ElementName = "thumbnailname")]
         public string thumbnail { get; set; }
 
-        private bool _visible = false;
+        private bool _visible = true;
         [XmlElement]
         public bool visible
         {
@@ -47,6 +47,15 @@ namespace Shared.Model
 
         [XmlElement("material")]
         public List<Material> Materials { get; set; }
+    }
+
+    public enum MaterialType
+    {
+        biankuang,
+        keai,
+        katongxingxiang,
+        gaoxiaobiaoqing,
+        wenzi
     }
 
 }

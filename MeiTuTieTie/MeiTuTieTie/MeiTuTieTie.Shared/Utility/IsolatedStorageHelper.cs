@@ -90,6 +90,25 @@ namespace Shared.Utility
             }
         }
 
+        public static async Task WriteToFileAsync(string filePath, string content)
+        {
+            // Get the local folder.
+            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+
+            // Create a new file
+            var file = await local.CreateFileAsync(filePath, CreationCollisionOption.ReplaceExisting);
+
+            // Write the data
+            using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+            {
+                using (DataWriter writer = new DataWriter(stream))
+                {
+                    writer.WriteString(content);
+                    await writer.StoreAsync();
+                }
+            }
+        }
+
         public static async Task<string> ReadFileAsync(string filePath)
         {
             //if (!filePath.StartsWith(USER_DATA_FOLDER_NAME + "\\"))

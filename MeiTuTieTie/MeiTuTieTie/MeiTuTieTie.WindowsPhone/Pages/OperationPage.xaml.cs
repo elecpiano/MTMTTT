@@ -117,5 +117,10 @@ namespace MeiTuTieTie.Pages
             PickPhotos();
         }
 
+        private void Widget_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(WidgetPage));
+        }
+
     }
 }

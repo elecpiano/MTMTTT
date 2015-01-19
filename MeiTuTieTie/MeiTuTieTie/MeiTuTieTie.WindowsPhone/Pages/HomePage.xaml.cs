@@ -74,6 +74,7 @@ namespace MeiTuTieTie.Pages
         private void UpdateScreenSize()
         {
             Application.Current.Resources["ScreenWidthHalf"] = Window.Current.Bounds.Width * 0.5d;
+            Application.Current.Resources["MaterialWidth"] = (Window.Current.Bounds.Width - 48d) / 3d;
         }
 
         #endregion
@@ -185,7 +186,7 @@ namespace MeiTuTieTie.Pages
                 string thumbnailname = string.Empty;
 
                 XmlHelper.FastIterate(content,
-                    (propertyName,propertyValue) =>
+                    (propertyName, propertyValue) =>
                     {
                         switch (propertyName)
                         {

@@ -121,8 +121,6 @@ namespace Shared.Utility
                 return null;
             }
 
-            moduleName = module;
-            fileName = file;
             T result = null;
 
             //load cache
@@ -130,7 +128,7 @@ namespace Shared.Utility
             {
                 //ensure file existence
                 //await IsolatedStorageHelper.GetFileAsync(moduleName, fileName, Windows.Storage.CreationCollisionOption.OpenIfExists);
-                var json = await IsolatedStorageHelper.ReadFileAsync(moduleName, fileName);
+                var json = await IsolatedStorageHelper.ReadFileAsync(module, file);
                 if (!string.IsNullOrEmpty(json))
                 {
                     result = JsonSerializer.Deserialize<T>(json);
@@ -142,6 +140,32 @@ namespace Shared.Utility
 
             return result;
         }
+
+        public async Task<T> LoadLocalData(string filePath)
+        {
+            if (string.IsNullOrEmpty(filePath))
+            {
+                return null;
+            }
+
+            T result = null;
+
+            //load cache
+            try
+            {
+                var json = await IsolatedStorageHelper.ReadFileAsync(filePath);
+                if (!string.IsNullOrEmpty(json))
+                {
+                    result = JsonSerializer.Deserialize<T>(json);
+                }
+            }
+            catch (Exception ex)
+            {
+            }
+
+            return result;
+        }
+
 
     }
 

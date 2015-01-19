@@ -20,8 +20,8 @@
     </Page.BottomAppBar>
 
     <Grid Background="White">
-        <ScrollViewer>
-            <ItemsControl Grid.Row="1" x:Name="myThemeListBox" Background="Transparent">
+        <ScrollViewer Visibility="Collapsed">
+            <ItemsControl Grid.Row="1" x:Name="xxx" Background="Transparent">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
                         <VirtualizingStackPanel/>
@@ -50,5 +50,34 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+
+        <ListView x:Name="myThemeListBox" SelectionMode="Multiple">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="IsSelected" Value="{Binding IsSelected}"/>
+                </Style>
+            </ListView.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Tapped="theme_Tapped">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="82"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="{Binding thumbnail}"
+                               Stretch="Uniform" Height="72" Width="72" Margin="5,5,5,5"/>
+                        <TextBlock Grid.Column="1" Text="{Binding name}" Style="{StaticResource BoutiqueList_ItemText_Style}"/>
+                        <sharedControl:ImageSwitch Grid.Column="4"
+                                                   Checked="{Binding visible}"
+                                                   VerticalAlignment="Center"
+                                                   CheckStateChanged="ImageSwitch_CheckStateChanged"/>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ListView>
+
     </Grid>
 </Page>

@@ -91,6 +91,9 @@
     <Compile Include="Pages\MyThemeListPage.xaml.cs">
       <DependentUpon>MyThemeListPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\WidgetPage.xaml.cs">
+      <DependentUpon>WidgetPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ThemeDetailPage.xaml.cs">
       <DependentUpon>ThemeDetailPage.xaml</DependentUpon>
     </Compile>
@@ -133,6 +136,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\MyThemeListPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\WidgetPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

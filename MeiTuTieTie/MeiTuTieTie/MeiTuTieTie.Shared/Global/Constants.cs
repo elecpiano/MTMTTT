@@ -11,6 +11,7 @@ namespace Shared.Global
         public const string THEME_DATA_FILE = "theme_data.txt";
         public const string THEME_PACK_ZIP_FILE_FORMAT = "theme_pack_{0}.zip";
         public const string MY_MATERIAL_FILE = "my_materials_data.txt";
+        public const string MATERIAL_DATA_FILE = "material_data.txt";
         public const string MY_THEME_DATA_FILE = "my_theme_data.txt";
 
     }

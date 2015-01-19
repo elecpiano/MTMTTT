@@ -98,15 +98,24 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
+        #region Theme Visibility Control
+
         private void ImageSwitch_CheckStateChanged(Shared.Control.ImageSwitch sender, bool suggestedState)
         {
             MyTheme theme = sender.GetDataContext<MyTheme>();
             if (theme != null)
             {
                 theme.visible = !theme.visible;
+                SaveData();
             }
-            SaveData();
         }
 
+        #endregion
+
+        #region Edit List
+
+
+
+        #endregion
     }
 }

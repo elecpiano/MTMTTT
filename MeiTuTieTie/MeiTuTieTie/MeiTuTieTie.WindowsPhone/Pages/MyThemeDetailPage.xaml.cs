@@ -9,6 +9,7 @@ using System.Xml.Serialization;
 using Windows.Graphics.Display;
 using Shared.Global;
 using System.Linq;
+using System.IO;
 
 namespace MeiTuTieTie.Pages
 {
@@ -33,7 +34,7 @@ namespace MeiTuTieTie.Pages
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.New)
             {
-                LoadData((MyTheme)e.Parameter);
+                LoadData_SplitFile((MyTheme)e.Parameter);
             }
         }
 
@@ -48,8 +49,6 @@ namespace MeiTuTieTie.Pages
                 this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
             }
 
-            SaveData();
-
             base.OnNavigatingFrom(e);
         }
 
@@ -58,22 +57,23 @@ namespace MeiTuTieTie.Pages
         #region Data
 
         DataLoader<MaterialGroup> materialDataLoader = null;
-        MaterialGroup myMaterials = null;
+        MaterialGroup materialGroup = null;
+        string materialFilePath = string.Empty;
 
-        private async void LoadData(MyTheme theme)
+        private async void LoadData_SingleFile(MyTheme theme)
         {
             if (materialDataLoader == null)
             {
                 materialDataLoader = new DataLoader<MaterialGroup>();
             }
 
-            myMaterials = await materialDataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_MATERIAL_FILE);
-            if (myMaterials == null)
+            materialGroup = await materialDataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_MATERIAL_FILE);
+            if (materialGroup == null)
             {
-                myMaterials = new MaterialGroup();
+                materialGroup = new MaterialGroup();
             }
 
-            var materials = from m in myMaterials.Materials
+            var materials = from m in materialGroup.Materials
                             where m.themePackID.Equals(theme.id)
                             select m;
 
@@ -84,10 +84,39 @@ namespace MeiTuTieTie.Pages
 
             this.myMaterialListBox.ItemsSource = materials;
         }
+
+        private async void LoadData_SplitFile(MyTheme theme)
+        {
+            if (materialDataLoader == null)
+            {
+                materialDataLoader = new DataLoader<MaterialGroup>();
+            }
+
+            materialFilePath = Path.Combine(Constants.THEME_MODULE, theme.id, Constants.MATERIAL_DATA_FILE);
+            materialGroup = await materialDataLoader.LoadLocalData(materialFilePath);
+            if (materialGroup == null)
+            {
+                materialGroup = new MaterialGroup();
+            }
+
+            var materials = from m in materialGroup.Materials
+                            where m.themePackID.Equals(theme.id)
+                            select m;
+
+            foreach (var material in materials)
+            {
+                material.ThemeEnabled = theme.visible;
+            }
+
+            this.myMaterialListBox.ItemsSource = materials;
+        }
+
+
         private async void SaveData()
         {
-            string json = JsonSerializer.Serialize(myMaterials);
-            await IsolatedStorageHelper.WriteToFileAsync(Constants.THEME_MODULE, Constants.MY_MATERIAL_FILE, json);
+            string json = JsonSerializer.Serialize(materialGroup);
+            //await IsolatedStorageHelper.WriteToFileAsync(Constants.THEME_MODULE, Constants.MY_MATERIAL_FILE, json);
+            await IsolatedStorageHelper.WriteToFileAsync(materialFilePath, json);
         }
 
         #endregion
@@ -98,6 +127,7 @@ namespace MeiTuTieTie.Pages
             if (material != null)
             {
                 material.visible = !material.visible;
+                SaveData();
             }
         }
 

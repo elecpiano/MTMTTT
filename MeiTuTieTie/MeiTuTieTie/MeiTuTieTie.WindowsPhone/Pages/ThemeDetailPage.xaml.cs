@@ -70,7 +70,7 @@ namespace MeiTuTieTie.Pages
         {
             somethingWrong = false;
             this.progressBar.Value = 0;
-            
+
             if (fileDownloader == null)
             {
                 fileDownloader = new FileDownloader();
@@ -86,7 +86,7 @@ namespace MeiTuTieTie.Pages
             //download
             string fileName = string.Format(Constants.THEME_PACK_ZIP_FILE_FORMAT, theme.id);
             var storageFile = await fileDownloader.Download(theme.zipUrl, Constants.THEME_MODULE, fileName, progressBar);
-            if (storageFile==null)
+            if (storageFile == null)
             {
                 somethingWrong = true;
             }
@@ -105,7 +105,7 @@ namespace MeiTuTieTie.Pages
             }
 
             //add materials data
-            await AddMaterialData(theme, unZipfolderName);
+            await AddMaterialData_SplitFile(theme, unZipfolderName);
             if (somethingWrong)
             {
                 return false;
@@ -192,7 +192,7 @@ namespace MeiTuTieTie.Pages
         #region Material Data
 
         DataLoader<MaterialGroup> materialDataLoader = null;
-        private async Task AddMaterialData(ThemePack theme, string folder)
+        private async Task AddMaterialData_SingleFile(ThemePack theme, string folder)
         {
             //read theme pack materials file (xml)
             string path = Path.Combine(folder, "materials.xml");
@@ -218,6 +218,10 @@ namespace MeiTuTieTie.Pages
                 {
                     m.themePackID = theme.id;
 
+                    //image full path
+                    string imagePath = Path.Combine(folder, m.image);
+                    m.image = imagePath;
+
                     //thumbnail full path
                     string thumbnailPath = Path.Combine(folder, m.thumbnail);
                     m.thumbnail = thumbnailPath;
@@ -234,6 +238,56 @@ namespace MeiTuTieTie.Pages
                 somethingWrong = true;
             }
         }
+
+        private async Task AddMaterialData_SplitFile(ThemePack theme, string folder)
+        {
+            //read theme pack materials file (xml)
+            string xmlFilePath = Path.Combine(folder, "materials.xml");
+
+            try
+            {
+                //MaterialGroup newMaterials = await XmlHelper.Deserialize<MaterialGroup>(path); /* the xml file is incomplete sometimes */
+                MaterialGroup newMaterials = await LoadMaterialXML(xmlFilePath);
+
+                //load my material file
+                if (materialDataLoader == null)
+                {
+                    materialDataLoader = new DataLoader<MaterialGroup>();
+                }
+
+                string materialFilePath = Path.Combine(folder, Constants.MATERIAL_DATA_FILE);
+                var materialGroup = await materialDataLoader.LoadLocalData(materialFilePath);
+                if (materialGroup == null)
+                {
+                    materialGroup = new MaterialGroup();
+                }
+
+                //add new materials
+                foreach (var m in newMaterials.Materials)
+                {
+                    m.themePackID = theme.id;
+
+                    //image full path
+                    string imagePath = Path.Combine(folder, m.image);
+                    m.image = imagePath;
+
+                    //thumbnail full path
+                    string thumbnailPath = Path.Combine(folder, m.thumbnail);
+                    m.thumbnail = thumbnailPath;
+
+                    materialGroup.Materials.Add(m);
+                }
+
+                //save data
+                string json = JsonSerializer.Serialize(materialGroup);
+                await IsolatedStorageHelper.WriteToFileAsync(materialFilePath, json);
+            }
+            catch (Exception ex)
+            {
+                somethingWrong = true;
+            }
+        }
+
 
         private async Task<MaterialGroup> LoadMaterialXML(string file)
         {
@@ -298,8 +352,6 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
-
-
 
     }
 }
