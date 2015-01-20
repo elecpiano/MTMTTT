@@ -19,9 +19,35 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="{StaticResource MaterialWidth}" Height="{StaticResource MaterialWidth}">
+                            <Grid >
                                 <Image Stretch="Uniform"
                                        util:IsoImg.Path="{Binding image}" Margin="12"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </ControlTemplate>
+
+        <ControlTemplate x:Name="widgetPivotItemTemplate_performance" TargetType="PivotItem">
+            <ScrollViewer>
+                <ItemsControl ItemsSource="{Binding}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <VirtualizingStackPanel/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Height="{StaticResource MaterialHeight}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Image Grid.Column="0" Stretch="Uniform" util:IsoImg.Path="{Binding ItemOne.thumbnail}" Margin="12,0,0,12"/>
+                                <Image Grid.Column="1" Stretch="Uniform" util:IsoImg.Path="{Binding ItemTwo.thumbnail}" Margin="12,0,0,12"/>
+                                <Image Grid.Column="2" Stretch="Uniform" util:IsoImg.Path="{Binding ItemThree.thumbnail}" Margin="12,0,12,12"/>
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
@@ -39,12 +65,13 @@
                     </Grid>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
-            <PivotItem Template="{StaticResource widgetPivotItemTemplate}" Loaded="PivotItem_Loaded" Header="可爱" Tag="keai"/>
-            <PivotItem Template="{StaticResource widgetPivotItemTemplate}" Loaded="PivotItem_Loaded" Header="文字模板" Tag="wenzi"/>
-            <PivotItem Template="{StaticResource widgetPivotItemTemplate}" Loaded="PivotItem_Loaded" Header="搞笑表情" Tag="gaoxiaobiaoqing"/>
-            <PivotItem Template="{StaticResource widgetPivotItemTemplate}" Loaded="PivotItem_Loaded" Header="遮挡物" Tag="zhedang"/>
-            <PivotItem Template="{StaticResource widgetPivotItemTemplate}" Loaded="PivotItem_Loaded" Header="卡通形象" Tag="katongxingxiang"/>
+            <PivotItem Template="{StaticResource widgetPivotItemTemplate_performance}" Loaded="PivotItem_Loaded" Header="可爱" Tag="keai"/>
+            <PivotItem Template="{StaticResource widgetPivotItemTemplate_performance}" Loaded="PivotItem_Loaded" Header="文字模板" Tag="wenzi"/>
+            <PivotItem Template="{StaticResource widgetPivotItemTemplate_performance}" Loaded="PivotItem_Loaded" Header="搞笑表情" Tag="gaoxiaobiaoqing"/>
+            <PivotItem Template="{StaticResource widgetPivotItemTemplate_performance}" Loaded="PivotItem_Loaded" Header="遮挡物" Tag="zhedang"/>
+            <PivotItem Template="{StaticResource widgetPivotItemTemplate_performance}" Loaded="PivotItem_Loaded" Header="卡通形象" Tag="katongxingxiang"/>
         </Pivot>
+        
     </Grid>
 
 </Page>

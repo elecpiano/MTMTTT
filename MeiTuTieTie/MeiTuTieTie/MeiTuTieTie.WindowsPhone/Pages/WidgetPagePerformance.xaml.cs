@@ -15,7 +15,7 @@ using System.Xml.Serialization;
 
 namespace MeiTuTieTie.Pages
 {
-    public sealed partial class WidgetPage : Page
+    public sealed partial class WidgetPagePerformance : Page
     {
         #region Property
 
@@ -25,7 +25,7 @@ namespace MeiTuTieTie.Pages
 
         #region Lifecycle
 
-        public WidgetPage()
+        public WidgetPagePerformance()
         {
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
@@ -63,6 +63,13 @@ namespace MeiTuTieTie.Pages
             public T ItemOne { get; set; }
             public T ItemTwo { get; set; }
             public T ItemThree { get; set; }
+
+            //public Triplet(T item1, T item2, T item3)
+            //{
+            //    ItemOne = item1;
+            //    ItemTwo = item2;
+            //    ItemThree = item3;
+            //}
 
             public void Add(T item)
             {
@@ -123,12 +130,20 @@ namespace MeiTuTieTie.Pages
                 }
             }
 
-            foreach (var key in panel_dict.Keys)
+            //foreach (var key in panel_dict.Keys)
+            //{
+            //    //panel_dict[key].DataContext = material_dict[key];
+            //    var tripletList = GetTriplets(material_dict[key]);
+            //    panel_dict[key].DataContext = tripletList;
+            //}
+
+            foreach (var key in material_dict.Keys)
             {
-                //panel_dict[key].DataContext = material_dict[key];
                 var tripletList = GetTriplets(material_dict[key]);
-                panel_dict[key].DataContext = tripletList;
+                triplet_dict.Add(key, tripletList);
             }
+
+            materialsListView.ItemsSource = triplet_dict[MaterialType.keai.ToString()];
         }
 
         private async Task LoadMaterial(MyTheme theme)
@@ -187,6 +202,53 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
+
+        private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            string key = string.Empty;
+            switch (pivot.SelectedIndex)
+            {
+                case 0:
+                    key = MaterialType.keai.ToString();
+                    break;
+                case 1:
+                    key = MaterialType.wenzi.ToString();
+                    break;
+                case 2:
+                    key = MaterialType.gaoxiaobiaoqing.ToString();
+                    break;
+                case 3:
+                    key = MaterialType.zhedang.ToString();
+                    break;
+                case 4:
+                    key = MaterialType.katongxingxiang.ToString();
+                    break;
+                default:
+                    break;
+            }
+
+            if (triplet_dict.ContainsKey(key))
+            {
+                scrollViewer.ChangeView(null, 0d, null, true);
+                materialsListView.ItemsSource = triplet_dict[key];
+            }
+        }
+
+        private void materialsListView_ManipulationCompleted(object sender, Windows.UI.Xaml.Input.ManipulationCompletedRoutedEventArgs e)
+        {
+            int newIndex = pivot.SelectedIndex;
+            if (e.Velocities.Linear.X > 1)
+            {
+                newIndex--;
+                newIndex = newIndex < 0 ? (pivot.Items.Count - 1) : newIndex;
+            }
+            else if (e.Velocities.Linear.X < -1)
+            {
+                newIndex++;
+                newIndex = newIndex >= pivot.Items.Count ? 0 : newIndex;
+            }
+        }
+
 
     }
 

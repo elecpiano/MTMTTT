@@ -55,7 +55,6 @@ namespace MeiTuTieTie.Pages
 
         private void multiPic_Click(object sender, RoutedEventArgs e)
         {
-            Test4();
         }
 
         private void boutique_Click(object sender, RoutedEventArgs e)
@@ -74,7 +73,7 @@ namespace MeiTuTieTie.Pages
         private void UpdateScreenSize()
         {
             Application.Current.Resources["ScreenWidthHalf"] = Window.Current.Bounds.Width * 0.5d;
-            Application.Current.Resources["MaterialWidth"] = (Window.Current.Bounds.Width - 48d) / 3d;
+            Application.Current.Resources["MaterialHeight"] = (Window.Current.Bounds.Width - 48d) / 3d;
         }
 
         #endregion

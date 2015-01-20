@@ -11,7 +11,7 @@
 
     <!--screen-->
     <x:Double x:Key="ScreenWidthHalf">200</x:Double>
-    <x:Double x:Key="MaterialWidth">100</x:Double>
+    <x:Double x:Key="MaterialHeight">100</x:Double>
 
     <!--textblock base-->
     <Style x:Key="TextBlockBase" TargetType="TextBlock">
