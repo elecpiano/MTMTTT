@@ -78,10 +78,11 @@ namespace MeiTuTieTie.Pages
             }
 
             myThemeData = await dataLoader.LoadLocalData(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE);
-            if (myThemeData != null)
+            if (myThemeData == null)
             {
-                myThemeListBox.ItemsSource = myThemeData.myThemes;
+                myThemeData = new MyThemeData();
             }
+            myThemeListBox.ItemsSource = myThemeData.myThemes;
         }
 
         private async void SaveData()
@@ -159,13 +160,15 @@ namespace MeiTuTieTie.Pages
 
         private void EndEditList()
         {
-            MoveAnimation.MoveTo(this.myThemeListBox, -64d, 0d, 200d, easingFunction,
-                fe =>
-                {
-                });
+            MoveAnimation.MoveTo(this.myThemeListBox, -64d, 0d, 200d, easingFunction, null);
             FadeAnimation.Fade(this.switchMask, 1d, 0d, 200d);
-            listEditing = false;
+            foreach (var theme in myThemeData.myThemes)
+            {
+                theme.Selected = false;
+            }
+
             BuildBottomAppBar_Normal();
+            listEditing = false;
         }
 
         #endregion

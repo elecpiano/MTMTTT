@@ -24,25 +24,23 @@ namespace MeiTuTieTie.Controls
         private const int BORDER_Z_INDEX = 999;
         private const int BUTTON_Z_INDEX = 9999;
 
-        private static Grid handle = null;
-        private static Ellipse handlePoint = null;
-        private static Image removeButton = null;
-        private static Border border = null;
-
-        private static CompositeTransform _borderTransform = null;
-        private static CompositeTransform _removeTransform = null;
-        private static CompositeTransform _handleTransform = null;
-
         private Grid contentPanel = null;
         private Image image = null;
+        private Grid handle = null;
+        private Image removeButton = null;
+        private Border border = null;
         private Ellipse LTPoint = null;
         private Ellipse RBPoint = null;
         private Ellipse centerPoint = null;
+        private Ellipse handlePoint = null;
 
         private CompositeTransform _contentTransform = null;
         private CompositeTransform _LTTransform = null;
         private CompositeTransform _RBTransform = null;
         private CompositeTransform _centerPointTransform = null;
+        private CompositeTransform borderTransform = null;
+        private CompositeTransform _removeTransform = null;
+        private CompositeTransform handleTransform = null;
 
         private Grid _container = null;
 
@@ -58,13 +56,14 @@ namespace MeiTuTieTie.Controls
                 if (_Selected != value)
                 {
                     _Selected = value;
+                    handle.Visibility = _Selected ? Visibility.Visible : Visibility.Collapsed;
+                    removeButton.Visibility = _Selected ? Visibility.Visible : Visibility.Collapsed;
+                    border.Opacity = _Selected ? 1d : 0d;
 
                     if (_Selected)
                     {
                         SelectedSprite = this;
-                        SetButtonVisibility(true);
-                        SyncButtonsPosition();
-
+                        //border.SetValue(Canvas.ZIndexProperty, BORDER_ACTIVE_Z_INDEX);
                         foreach (var sprite in Sprites)
                         {
                             if (sprite != this)
@@ -75,6 +74,7 @@ namespace MeiTuTieTie.Controls
                     }
                     else
                     {
+                        //border.SetValue(Canvas.ZIndexProperty, BORDER_INACTIVE_Z_INDEX);
                         if (SelectedSprite == this)
                         {
                             SelectedSprite = null;
@@ -169,91 +169,64 @@ namespace MeiTuTieTie.Controls
             contentPanel.Children.Add(RBPoint);
             contentPanel.Children.Add(centerPoint);
 
-            contentPanel.PointerPressed += contentPanel_PointerPressed;
-            contentPanel.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.Rotate | ManipulationModes.Scale;
-            contentPanel.ManipulationDelta += contentPanel_ManipulationDelta;
-            contentPanel.ManipulationStarting += contentPanel_ManipulationStarting;
-            contentPanel.ManipulationCompleted += contentPanel_ManipulationCompleted;
-
             //border
-            if (border == null)
-            {
-                border = new Border();
-                border.IsHitTestVisible = false;
-                border.Opacity = 0d;
-                border.BorderThickness = new Thickness(1d);
-                border.BorderBrush = new SolidColorBrush(Colors.Orange);
-                border.Background = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255));
-                //border.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.Rotate | ManipulationModes.Scale;
-                //border.ManipulationDelta += border_ManipulationDelta;
-                //border.PointerPressed += this.border_PointerPressed;
-                EnsureTransform(border);
-                _borderTransform = border.RenderTransform as CompositeTransform;
-            }
+            border = new Border();
+            border.Opacity = 0d;
+            border.BorderThickness = new Thickness(1d);
+            border.BorderBrush = new SolidColorBrush(Colors.Orange);
+            border.Background = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255));
+            border.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.Rotate | ManipulationModes.Scale;
+            border.ManipulationDelta += this.border_ManipulationDelta;
+            border.PointerPressed += this.border_PointerPressed;
+            EnsureTransform(border);
 
             //removeButton
-            if (removeButton == null)
-            {
-                removeButton = new Image();
-                removeButton.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/Remove.png", UriKind.RelativeOrAbsolute));
-                removeButton.Visibility = Visibility.Collapsed;
-                removeButton.VerticalAlignment = VerticalAlignment.Top;
-                removeButton.HorizontalAlignment = HorizontalAlignment.Left;
-                removeButton.Width = 32d;
-                removeButton.Height = 32d;
-                removeButton.Margin = new Thickness(-16, -16, 0, 0);
-                removeButton.Tapped += this.removeButton_Tapped;
-                EnsureTransform(removeButton);
-
-                _removeTransform = removeButton.RenderTransform as CompositeTransform;
-            }
+            removeButton = new Image();
+            removeButton.Source = new BitmapImage(new Uri("ms-appx:///Assets/Images/Remove.png", UriKind.RelativeOrAbsolute));
+            removeButton.Visibility = Visibility.Collapsed;
+            removeButton.VerticalAlignment = VerticalAlignment.Top;
+            removeButton.HorizontalAlignment = HorizontalAlignment.Left;
+            removeButton.Width = 32d;
+            removeButton.Height = 32d;
+            removeButton.Margin = new Thickness(-16, -16, 0, 0);
+            removeButton.Tapped += this.removeButton_Tapped;
+            EnsureTransform(removeButton);
 
             //handlePoint
-            if (handlePoint == null)
-            {
-                handlePoint = new Ellipse();
-                handlePoint.Fill = new SolidColorBrush(Colors.Red);
-                handlePoint.Width = 1d;
-                handlePoint.Height = 1d;
-                handlePoint.VerticalAlignment = VerticalAlignment.Center;
-                handlePoint.HorizontalAlignment = HorizontalAlignment.Center;
-            }
+            handlePoint = new Ellipse();
+            handlePoint.Fill = new SolidColorBrush(Colors.Red);
+            handlePoint.Width = 1d;
+            handlePoint.Height = 1d;
+            handlePoint.VerticalAlignment = VerticalAlignment.Center;
+            handlePoint.HorizontalAlignment = HorizontalAlignment.Center;
 
-            if (handle == null)
-            {
-                //handle
-                handle = new Grid();
-                handle.Background = new ImageBrush() { ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/Images/Rotate.png", UriKind.Absolute)) };
-                handle.Visibility = Visibility.Collapsed;
-                handle.VerticalAlignment = VerticalAlignment.Top;
-                handle.HorizontalAlignment = HorizontalAlignment.Left;
-                handle.Width = 32d;
-                handle.Height = 32d;
-                handle.Margin = new Thickness(-16, -16, 0, 0);
-                handle.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
-                handle.ManipulationDelta += handle_ManipulationDelta;
-                EnsureTransform(handle);
-                _handleTransform = handle.RenderTransform as CompositeTransform;
-                handle.Children.Add(handlePoint);
-            }
+            //handle
+            handle = new Grid();
+            handle.Background = new ImageBrush() { ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/Images/Rotate.png", UriKind.Absolute)) };
+            handle.Visibility = Visibility.Collapsed;
+            handle.VerticalAlignment = VerticalAlignment.Top;
+            handle.HorizontalAlignment = HorizontalAlignment.Left;
+            handle.Width = 32d;
+            handle.Height = 32d;
+            handle.Margin = new Thickness(-16, -16, 0, 0);
+            handle.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
+            handle.ManipulationDelta += this.handle_ManipulationDelta;
+            EnsureTransform(handle);
 
-        }
-
-        void contentPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            Selected = true;
-            e.Handled = true;
+            handle.Children.Add(handlePoint);
         }
 
         #endregion
 
         #region Manipulation
 
-        static Point ZERO_POINT = new Point(0, 0);
+        Point ZERO_POINT = new Point(0, 0);
         double g_scale = 1d;
         double g_rotation = 0d;
         double g_pos_x = 0d;
         double g_pos_y = 0d;
+
+        bool isDrag = false;
 
         private void SetPosition(double delta_x = 0d, double delta_y = 0d)
         {
@@ -263,15 +236,15 @@ namespace MeiTuTieTie.Controls
             _contentTransform.TranslateX = g_pos_x;
             _contentTransform.TranslateY = g_pos_y;
 
-            //_borderTransform.TranslateX = g_pos_x;
-            //_borderTransform.TranslateY = g_pos_y;
+            borderTransform.TranslateX = g_pos_x;
+            borderTransform.TranslateY = g_pos_y;
         }
 
         private void SetRotation(double delta_r = 0d)
         {
             g_rotation += delta_r;
             _contentTransform.Rotation = g_rotation;
-            //_borderTransform.Rotation = g_rotation;
+            borderTransform.Rotation = g_rotation;
         }
 
         private void SetScale(double delta_scale = 1d)
@@ -283,7 +256,7 @@ namespace MeiTuTieTie.Controls
                 _contentTransform.ScaleX = g_scale;
                 _contentTransform.ScaleY = g_scale;
             }
-            //_borderTransform.ScaleX = _borderTransform.ScaleY = g_scale;
+            borderTransform.ScaleX = borderTransform.ScaleY = g_scale;
 
             //keep the points' size unchanged, to avoid accumulated errors
             _LTTransform.ScaleX = _LTTransform.ScaleY = 1d / g_scale;
@@ -291,73 +264,54 @@ namespace MeiTuTieTie.Controls
             _centerPointTransform.ScaleX = _centerPointTransform.ScaleY = 1d / g_scale;
         }
 
-        void contentPanel_ManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
+        private void border_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            foreach (var sprite in Sprites)
-            {
-                if (sprite != this)
-                {
-                    sprite.contentPanel.IsHitTestVisible = false;
-                }
-            }
-        }
-
-        void contentPanel_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
-        {
-            foreach (var sprite in Sprites)
-            {
-                sprite.contentPanel.IsHitTestVisible = true;
-            }
-        }
-
-        private void contentPanel_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
-        {
-            bool isDrag = e.Delta.Rotation == 0 && e.Delta.Expansion == 0;
+            isDrag = e.Delta.Rotation == 0 && e.Delta.Expansion == 0;
 
             if (isDrag)
             {
-                this.SetPosition(e.Delta.Translation.X, e.Delta.Translation.Y);
+                SetPosition(e.Delta.Translation.X, e.Delta.Translation.Y);
             }
             else
             {
-                this.SetScale(e.Delta.Scale);
-                this.SetRotation(e.Delta.Rotation);
+                SetScale(e.Delta.Scale);
+                SetRotation(e.Delta.Rotation);
             }
 
             SyncButtonsPosition();
         }
 
-        private static void handle_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        private void handle_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
-            _handleTransform.TranslateX += e.Delta.Translation.X;
-            _handleTransform.TranslateY += e.Delta.Translation.Y;
+            handleTransform.TranslateX += e.Delta.Translation.X;
+            handleTransform.TranslateY += e.Delta.Translation.Y;
 
             //RB position
-            var oldPoint = SelectedSprite.RBPoint.TransformToVisual(SelectedSprite.centerPoint).TransformPoint(ZERO_POINT);
+            var oldPoint = RBPoint.TransformToVisual(centerPoint).TransformPoint(ZERO_POINT);
             var oldDistance = Math.Sqrt(oldPoint.X * oldPoint.X + oldPoint.Y * oldPoint.Y);
             var oldAngle = GetAngle(oldPoint.X, oldPoint.Y);
 
             //Handle position
-            var newPoint = handlePoint.TransformToVisual(SelectedSprite.centerPoint).TransformPoint(ZERO_POINT);
+            var newPoint = handlePoint.TransformToVisual(centerPoint).TransformPoint(ZERO_POINT);
             var newDistance = Math.Sqrt(newPoint.X * newPoint.X + newPoint.Y * newPoint.Y);
             var newAngle = GetAngle(newPoint.X, newPoint.Y);
 
             //update rotation
             var rotation_delta = newAngle - oldAngle;
-            SelectedSprite.SetRotation(rotation_delta);
+            SetRotation(rotation_delta);
 
             //update scale
             var scale_delta = newDistance / oldDistance;
-            SelectedSprite.SetScale(scale_delta);
+            SetScale(scale_delta);
 
-            SelectedSprite.SyncButtonsPosition();
+            SyncButtonsPosition();
 
             e.Handled = true;
         }
 
         private void removeButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            RemoveSelectedSprite();
+            RemoveFromContainer();
         }
 
         private void border_PointerPressed(object sender, PointerRoutedEventArgs e)
@@ -376,6 +330,9 @@ namespace MeiTuTieTie.Controls
             _LTTransform = LTPoint.RenderTransform as CompositeTransform;
             _RBTransform = RBPoint.RenderTransform as CompositeTransform;
             _centerPointTransform = centerPoint.RenderTransform as CompositeTransform;
+            borderTransform = border.RenderTransform as CompositeTransform;
+            _removeTransform = removeButton.RenderTransform as CompositeTransform;
+            handleTransform = handle.RenderTransform as CompositeTransform;
 
             SetRotation();
             SetPosition();
@@ -386,21 +343,15 @@ namespace MeiTuTieTie.Controls
         private void SyncButtonsPosition()
         {
             Point point = RBPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
-            _handleTransform.TranslateX = point.X;
-            _handleTransform.TranslateY = point.Y;
+            handleTransform.TranslateX = point.X;
+            handleTransform.TranslateY = point.Y;
 
             point = LTPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
             _removeTransform.TranslateX = point.X;
             _removeTransform.TranslateY = point.Y;
-
-            //border
-            _borderTransform.TranslateX = g_pos_x;
-            _borderTransform.TranslateY = g_pos_y;
-            _borderTransform.Rotation = g_rotation;
-            _borderTransform.ScaleX = _borderTransform.ScaleY = g_scale;
         }
 
-        private static double GetAngle(double x, double y)
+        private double GetAngle(double x, double y)
         {
             // Note that this function works in xaml coordinates, where positive y is down, and the
             // angle is computed clockwise from the x-axis. 
@@ -425,17 +376,6 @@ namespace MeiTuTieTie.Controls
         private void RandomAppear()
         {
 
-        }
-
-        #endregion
-
-        #region Button Visibility
-
-        public static void SetButtonVisibility(bool visible)
-        {
-            handle.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
-            removeButton.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
-            border.Opacity = visible ? 1d : 0d;
         }
 
         #endregion
@@ -467,38 +407,27 @@ namespace MeiTuTieTie.Controls
             ZIndexStack.Add(this);
 
             //border
-            if (!_container.Children.Contains(border))
-            {
-                _container.Children.Add(border);
-                border.SetValue(Canvas.ZIndexProperty, BORDER_Z_INDEX);
-            }
+            _container.Children.Add(border);
+            border.SetValue(Canvas.ZIndexProperty, BORDER_Z_INDEX);
 
             //handle
-            if (!_container.Children.Contains(handle))
-            {
-                _container.Children.Add(handle);
-                handle.SetValue(Canvas.ZIndexProperty, BUTTON_Z_INDEX);
-            }
+            _container.Children.Add(handle);
+            handle.SetValue(Canvas.ZIndexProperty, BUTTON_Z_INDEX);
 
             //remove button
-            if (!_container.Children.Contains(removeButton))
-            {
-                _container.Children.Add(removeButton);
-                removeButton.SetValue(Canvas.ZIndexProperty, BUTTON_Z_INDEX);
-            }
+            _container.Children.Add(removeButton);
+            removeButton.SetValue(Canvas.ZIndexProperty, BUTTON_Z_INDEX);
 
             Appear();
         }
 
-        public void RemoveSelectedSprite()
+        public void RemoveFromContainer()
         {
-            _container.Children.Remove(SelectedSprite.contentPanel);
-            //_container.Children.Remove(border);
-            //_container.Children.Remove(handle);
-            //_container.Children.Remove(removeButton);
-            Sprites.Remove(SelectedSprite);
-            ZIndexStack.Remove(SelectedSprite);
-            SetButtonVisibility(false);
+            _container.Children.Remove(contentPanel);
+            _container.Children.Remove(border);
+            _container.Children.Remove(handle);
+            _container.Children.Remove(removeButton);
+            Sprites.Remove(this);
         }
 
         public void Appear()
@@ -528,7 +457,6 @@ namespace MeiTuTieTie.Controls
             {
                 SelectedSprite.Selected = false;
             }
-            SetButtonVisibility(false);
         }
 
         public void ChangeZIndex(bool up)
@@ -547,6 +475,9 @@ namespace MeiTuTieTie.Controls
                 if (index > 0)
                 {
                     index--;
+                    //SpriteControl spriteToGoUp = ZIndexStack[index - 1];
+                    //this.ZIndex--;
+                    //spriteToGoUp.ZIndex++;
                 }
             }
             ZIndexStack.Remove(this);
