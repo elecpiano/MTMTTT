@@ -84,14 +84,18 @@ namespace MeiTuTieTie.Controls
             }
         }
 
+        private static List<SpriteControl> ZIndexStack = new List<SpriteControl>();
         private int _ZIndex = 0;
         public int ZIndex
         {
             get { return _ZIndex; }
             set
             {
-                _ZIndex = value;
-                contentPanel.SetValue(Canvas.ZIndexProperty, _ZIndex);
+                if (_ZIndex != value)
+                {
+                    _ZIndex = value;
+                    contentPanel.SetValue(Canvas.ZIndexProperty, _ZIndex);
+                }
             }
         }
 
@@ -170,7 +174,7 @@ namespace MeiTuTieTie.Controls
             border.Opacity = 0d;
             border.BorderThickness = new Thickness(1d);
             border.BorderBrush = new SolidColorBrush(Colors.Orange);
-            border.Background = new SolidColorBrush(Color.FromArgb(0,255,255,255));
+            border.Background = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255));
             border.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.Rotate | ManipulationModes.Scale;
             border.ManipulationDelta += this.border_ManipulationDelta;
             border.PointerPressed += this.border_PointerPressed;
@@ -397,7 +401,10 @@ namespace MeiTuTieTie.Controls
             //contentPanel
             contentPanel.Name = "contentPanel_" + index.ToString();
             _container.Children.Add(contentPanel);
-            contentPanel.SetValue(Canvas.ZIndexProperty, SpriteControl.Sprites.Count);
+
+            //z index
+            contentPanel.SetValue(Canvas.ZIndexProperty, index);
+            ZIndexStack.Add(this);
 
             //border
             _container.Children.Add(border);
@@ -420,6 +427,7 @@ namespace MeiTuTieTie.Controls
             _container.Children.Remove(border);
             _container.Children.Remove(handle);
             _container.Children.Remove(removeButton);
+            Sprites.Remove(this);
         }
 
         public void Appear()
@@ -453,13 +461,31 @@ namespace MeiTuTieTie.Controls
 
         public void ChangeZIndex(bool up)
         {
+            int index = ZIndexStack.IndexOf(this);
+
             if (up)
             {
-                ZIndex++;
+                if (index < (ZIndexStack.Count - 1))
+                {
+                    index++;
+                }
             }
             else
             {
-                ZIndex--;
+                if (index > 0)
+                {
+                    index--;
+                    //SpriteControl spriteToGoUp = ZIndexStack[index - 1];
+                    //this.ZIndex--;
+                    //spriteToGoUp.ZIndex++;
+                }
+            }
+            ZIndexStack.Remove(this);
+            ZIndexStack.Insert(index, this);
+
+            foreach (var sprite in ZIndexStack)
+            {
+                sprite.ZIndex = ZIndexStack.IndexOf(sprite);
             }
         }
 
