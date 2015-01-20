@@ -20,10 +20,9 @@ namespace MeiTuTieTie.Controls
         private static Random RANDOM = new Random();
         private static List<SpriteControl> Sprites = new List<SpriteControl>();
         private const double APPEAR_DURATION = 900d;
-        private static PowerEase EASING;
-        private const int BORDER_INACTIVE_Z_INDEX = 99;
-        private const int BORDER_ACTIVE_Z_INDEX = 100;
-        private const int BUTTON_Z_INDEX = 999;
+        private static PowerEase EASING = new PowerEase();
+        private const int BORDER_Z_INDEX = 999;
+        private const int BUTTON_Z_INDEX = 9999;
 
         private Grid contentPanel = null;
         private Image image = null;
@@ -64,7 +63,7 @@ namespace MeiTuTieTie.Controls
                     if (_Selected)
                     {
                         SelectedSprite = this;
-                        border.SetValue(Canvas.ZIndexProperty, BORDER_ACTIVE_Z_INDEX);
+                        //border.SetValue(Canvas.ZIndexProperty, BORDER_ACTIVE_Z_INDEX);
                         foreach (var sprite in Sprites)
                         {
                             if (sprite != this)
@@ -75,13 +74,24 @@ namespace MeiTuTieTie.Controls
                     }
                     else
                     {
-                        border.SetValue(Canvas.ZIndexProperty, BORDER_INACTIVE_Z_INDEX);
+                        //border.SetValue(Canvas.ZIndexProperty, BORDER_INACTIVE_Z_INDEX);
                         if (SelectedSprite == this)
                         {
                             SelectedSprite = null;
                         }
                     }
                 }
+            }
+        }
+
+        private int _ZIndex = 0;
+        public int ZIndex
+        {
+            get { return _ZIndex; }
+            set
+            {
+                _ZIndex = value;
+                contentPanel.SetValue(Canvas.ZIndexProperty, _ZIndex);
             }
         }
 
@@ -387,11 +397,11 @@ namespace MeiTuTieTie.Controls
             //contentPanel
             contentPanel.Name = "contentPanel_" + index.ToString();
             _container.Children.Add(contentPanel);
+            contentPanel.SetValue(Canvas.ZIndexProperty, SpriteControl.Sprites.Count);
 
             //border
             _container.Children.Add(border);
-            border.SetValue(Canvas.ZIndexProperty, BORDER_INACTIVE_Z_INDEX);
-
+            border.SetValue(Canvas.ZIndexProperty, BORDER_Z_INDEX);
 
             //handle
             _container.Children.Add(handle);
@@ -400,7 +410,6 @@ namespace MeiTuTieTie.Controls
             //remove button
             _container.Children.Add(removeButton);
             removeButton.SetValue(Canvas.ZIndexProperty, BUTTON_Z_INDEX);
-
 
             Appear();
         }
@@ -439,6 +448,18 @@ namespace MeiTuTieTie.Controls
             if (SelectedSprite != null)
             {
                 SelectedSprite.Selected = false;
+            }
+        }
+
+        public void ChangeZIndex(bool up)
+        {
+            if (up)
+            {
+                ZIndex++;
+            }
+            else
+            {
+                ZIndex--;
             }
         }
 

@@ -65,6 +65,12 @@ namespace MeiTuTieTie.Pages
             }
         }
 
+        #region Load Photo
+
+        private void PickPhoto_Click(object sender, RoutedEventArgs e)
+        {
+            PickPhotos();
+        }
 
         private async void PickPhotos()
         {
@@ -112,15 +118,40 @@ namespace MeiTuTieTie.Pages
             };
         }
 
-        private void PickPhoto_Click(object sender, RoutedEventArgs e)
-        {
-            PickPhotos();
-        }
+        #endregion
+
+        #region Widget
 
         private void Widget_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(WidgetPage));
         }
+
+        #endregion
+
+        #region Layer Buttons
+
+        private void spriteUp_Click(object sender, RoutedEventArgs e)
+        {
+            SpriteControl.SelectedSprite.ChangeZIndex(true);
+        }
+
+        private void spriteDown_Click(object sender, RoutedEventArgs e)
+        {
+            SpriteControl.SelectedSprite.ChangeZIndex(false);
+        }
+
+        private void spriteDelete_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void photoLock_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        #endregion
 
     }
 }

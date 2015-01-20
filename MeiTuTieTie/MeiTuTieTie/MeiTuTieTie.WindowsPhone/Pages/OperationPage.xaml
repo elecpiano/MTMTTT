@@ -25,8 +25,18 @@
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ListBox>
-        <Button Content="PickPhoto" Click="PickPhoto_Click" VerticalAlignment="Top" HorizontalAlignment="Stretch" Margin="12,0,12,0"/>
+        
+        <!--layer buttons-->
+        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
+            <Button Content="Up" Click="spriteUp_Click" />
+            <Button Content="Down" Click="spriteDown_Click" />
+            <Button Content="Delete" Click="spriteDelete_Click" />
+            <Button Content="Lock" Click="photoLock_Click" />
+        </StackPanel>
+        
+        
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+            <Button Content="PickPhoto" Click="PickPhoto_Click" />
             <Button Content="Widget" Click="Widget_Click" />
             <Button Content="OK" Click="OK_Click" />
         </StackPanel>
