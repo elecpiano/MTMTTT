@@ -5,12 +5,12 @@ using Windows.UI.Xaml.Input;
 using Shared.Utility;
 using Shared.Model;
 using Windows.UI.Xaml.Navigation;
-using System.Xml.Serialization;
-using Windows.Graphics.Display;
 using Shared.Global;
 using Shared.Animation;
 using Windows.UI.Xaml.Media.Animation;
-using Windows.Phone.UI.Input;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace MeiTuTieTie.Pages
 {
@@ -28,15 +28,15 @@ namespace MeiTuTieTie.Pages
         {
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
-            HardwareButtons.BackPressed += HardwareButtons_BackPressed;
+            this.navigationHelper.CanGobackAsked += navigationHelper_CanGobackAsked;
         }
 
-        void HardwareButtons_BackPressed(object sender, BackPressedEventArgs e)
+        void navigationHelper_CanGobackAsked(object sender, ref bool canceled)
         {
             if (listEditing)
             {
                 EndEditList();
-                e.Handled = true;
+                canceled = true;
             }
         }
 
@@ -90,18 +90,39 @@ namespace MeiTuTieTie.Pages
             await IsolatedStorageHelper.WriteToFileAsync(Constants.THEME_MODULE, Constants.MY_THEME_DATA_FILE, json);
         }
 
+        private async void DeleteData()
+        {
+            List<MyTheme> themesToDelete = myThemeData.myThemes.Where(x => x.Selected).ToList();
+            foreach (var theme in themesToDelete)
+            {
+                await DeleteThemeFolder(theme);
+                myThemeData.myThemes.Remove(theme);
+            }
+            SaveData();
+            EndEditList();
+        }
+
+        private async Task DeleteThemeFolder(MyTheme theme)
+        {
+            string folderName = string.Format("{0}\\{1}", Constants.THEME_MODULE, theme.id);
+            await IsolatedStorageHelper.DeleteFolderAsync(folderName);
+        }
+
         #endregion
 
         #region Theme Detail View
 
         private void theme_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            MyTheme theme = sender.GetDataContext<MyTheme>();
             if (listEditing)
             {
-                return;
+                theme.Selected = !theme.Selected;
             }
-
-            Frame.Navigate(typeof(MyThemeDetailPage), sender.GetDataContext());
+            else
+            {
+                Frame.Navigate(typeof(MyThemeDetailPage), theme);
+            }
         }
 
         #endregion
@@ -133,6 +154,7 @@ namespace MeiTuTieTie.Pages
                 {
                 });
             FadeAnimation.Fade(this.switchMask, 0d, 1d, 200d);
+            BuildBottomAppBar_Edit();
         }
 
         private void EndEditList()
@@ -143,6 +165,7 @@ namespace MeiTuTieTie.Pages
                 });
             FadeAnimation.Fade(this.switchMask, 1d, 0d, 200d);
             listEditing = false;
+            BuildBottomAppBar_Normal();
         }
 
         #endregion
@@ -196,16 +219,16 @@ namespace MeiTuTieTie.Pages
         void AppbarButton_Edit(object sender, RoutedEventArgs e)
         {
             StartEditList();
-            BuildBottomAppBar_Edit();
         }
 
         void AppbarButton_Cancel(object sender, RoutedEventArgs e)
         {
             EndEditList();
-            BuildBottomAppBar_Normal();
         }
+
         void AppbarButton_Delete(object sender, RoutedEventArgs e)
         {
+            DeleteData();
         }
 
         #endregion

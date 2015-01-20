@@ -1,5 +1,6 @@
 ﻿using Shared.Infrastructures;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Runtime.Serialization;
 
 namespace Shared.Model
@@ -31,6 +32,14 @@ namespace Shared.Model
             get { return _visible; }
             set { SetProperty(ref _visible, value); }
         }
+
+        private bool _Selected = false;
+        [IgnoreDataMember]
+        public bool Selected
+        {
+            get { return _Selected; }
+            set { SetProperty(ref _Selected, value); }
+        }
     }
 
     [DataContract]
@@ -38,11 +47,11 @@ namespace Shared.Model
     {
         public MyThemeData()
         {
-            myThemes = new List<MyTheme>();
+            myThemes = new ObservableCollection<MyTheme>();
         }
 
         [DataMember]
-        public List<MyTheme> myThemes { get; set; }
+        public ObservableCollection<MyTheme> myThemes { get; set; }
     }
 
 

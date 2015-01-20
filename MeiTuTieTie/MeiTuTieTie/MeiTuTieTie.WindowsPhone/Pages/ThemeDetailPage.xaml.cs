@@ -85,7 +85,8 @@ namespace MeiTuTieTie.Pages
 
             //download
             string fileName = string.Format(Constants.THEME_PACK_ZIP_FILE_FORMAT, theme.id);
-            var storageFile = await fileDownloader.Download(theme.zipUrl, Constants.THEME_MODULE, fileName, progressBar);
+            string zipFilePath = Path.Combine(Constants.THEME_MODULE, fileName);
+            var storageFile = await fileDownloader.Download(theme.zipUrl, zipFilePath, progressBar);
             if (storageFile == null)
             {
                 somethingWrong = true;
@@ -99,6 +100,13 @@ namespace MeiTuTieTie.Pages
             //unzip
             string unZipfolderName = string.Format("{0}\\{1}", Constants.THEME_MODULE, theme.id);
             await UnZip(storageFile, unZipfolderName);
+            if (somethingWrong)
+            {
+                return false;
+            }
+
+            //delete zip
+            somethingWrong = await DeleteZipFile(zipFilePath);
             if (somethingWrong)
             {
                 return false;
@@ -124,6 +132,25 @@ namespace MeiTuTieTie.Pages
             }
 
             return true;
+        }
+
+        #endregion
+
+        #region Delete File
+
+        private async Task<bool> DeleteZipFile(string zipFilePath)
+        {
+            bool somethingWrong = false;
+            try
+            {
+                await IsolatedStorageHelper.DeleteFileAsync(zipFilePath);
+            }
+            catch (Exception ex)
+            {
+                somethingWrong = true;
+                throw;
+            }
+            return somethingWrong;
         }
 
         #endregion

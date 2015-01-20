@@ -7,8 +7,7 @@
     xmlns:sharedControl="using:Shared.Control"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d"
-    NavigationCacheMode="Enabled">
+    mc:Ignorable="d">
 
     <Grid Background="White">
         
@@ -24,16 +23,14 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
-                                <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="Auto"/>
                             </Grid.ColumnDefinitions>
                             <Image Grid.Column="0" Stretch="Uniform"
                                    util:IsoImg.Path="{Binding thumbnail}"
                                    Height="72" Width="72" Margin="5"/>
-                            <TextBlock Grid.Column="1" Text="{Binding image}" Style="{StaticResource ThemeDetailPage_SubTitle_Style}"/>
-                            <sharedControl:ImageSwitch Grid.Column="4"
+                            <!--<TextBlock Grid.Column="1" Text="{Binding image}" Style="{StaticResource ThemeDetailPage_SubTitle_Style}"/>-->
+                            <sharedControl:ImageSwitch Grid.Column="2"
                                                        Checked="{Binding visible}"
                                                        Enabled="{Binding ThemeEnabled}"
                                                        VerticalAlignment="Center"

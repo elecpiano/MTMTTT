@@ -122,10 +122,5 @@ namespace MeiTuTieTie.Pages
             Frame.Navigate(typeof(WidgetPage));
         }
 
-        private void Widget2_Click(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(WidgetPagePerformance));
-        }
-
     }
 }

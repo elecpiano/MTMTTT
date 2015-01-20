@@ -18,6 +18,7 @@ namespace MeiTuTieTie.Pages
         #region Property
 
         private readonly NavigationHelper navigationHelper;
+        private MyTheme currentTheme = null;
 
         #endregion
 
@@ -34,22 +35,9 @@ namespace MeiTuTieTie.Pages
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.New)
             {
-                LoadData_SplitFile((MyTheme)e.Parameter);
+                currentTheme = (MyTheme)e.Parameter;
+                LoadData_SplitFile(currentTheme);
             }
-        }
-
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
-        {
-            if (e.NavigationMode == NavigationMode.Back)
-            {
-                this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Disabled;
-            }
-            else
-            {
-                this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Enabled;
-            }
-
-            base.OnNavigatingFrom(e);
         }
 
         #endregion

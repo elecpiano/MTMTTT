@@ -15,7 +15,7 @@ namespace Shared.Utility
         //private Action onCompleteAction;
         private StorageFile destinationFile;
 
-        public async Task<StorageFile> Download(string url, string module, string file, ProgressBar progressBar)
+        public async Task<StorageFile> Download(string url, string filePath, ProgressBar progressBar)
         {
             progressBarControl = progressBar;
             //onCompleteAction = onComplete;
@@ -33,7 +33,7 @@ namespace Shared.Utility
             try
             {
                 Uri source = new Uri(url, UriKind.Absolute);
-                destinationFile = await IsolatedStorageHelper.GetFileAsync(module, file, CreationCollisionOption.ReplaceExisting);
+                destinationFile = await IsolatedStorageHelper.GetFileAsync(filePath, CreationCollisionOption.ReplaceExisting);
                 BackgroundDownloader downloader = new BackgroundDownloader();
                 DownloadOperation download = downloader.CreateDownload(source, destinationFile);
                 //download.Priority = BackgroundTransferPriority.High;

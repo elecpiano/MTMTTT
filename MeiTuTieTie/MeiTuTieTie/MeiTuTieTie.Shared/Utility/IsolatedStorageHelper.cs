@@ -40,6 +40,18 @@ namespace Shared.Utility
             return file;
         }
 
+        public static async Task<StorageFile> GetFileAsync(string filePath, CreationCollisionOption option)
+        {
+            // Get the local folder.
+            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+
+            // Create a new file
+            var file = await local.CreateFileAsync(filePath, option);
+
+            return file;
+        }
+
+
         public static async Task<StorageFolder> GetFolderAsync(string folderName)
         {
             //if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))
@@ -270,6 +282,16 @@ namespace Shared.Utility
             {
                 var dataFolder = await local.GetFolderAsync(folderName);
                 var file = await dataFolder.GetFileAsync(fileName);
+                await file.DeleteAsync();
+            }
+        }
+
+        public static async Task DeleteFileAsync(string filePath)
+        {
+            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+            if (local != null)
+            {
+                var file = await local.GetFileAsync(filePath);
                 await file.DeleteAsync();
             }
         }

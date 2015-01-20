@@ -106,6 +106,10 @@ namespace MeiTuTieTie.Pages
                     {
                         theme.Downloaded = true;
                     }
+                    else
+                    {
+                        theme.Downloaded = false;
+                    }
                 }
 
                 foreach (var theme in data.allThemePacks)
@@ -113,6 +117,10 @@ namespace MeiTuTieTie.Pages
                     if (myThemeData.myThemes.Any(x => x.id == theme.id))
                     {
                         theme.Downloaded = true;
+                    }
+                    else
+                    {
+                        theme.Downloaded = false;
                     }
                 }
             }

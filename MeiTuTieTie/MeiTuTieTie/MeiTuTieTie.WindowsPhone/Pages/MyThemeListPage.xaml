@@ -34,7 +34,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid Tapped="theme_Tapped">
+                            <Grid Background="#00000000" Tapped="theme_Tapped">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="64"/>
                                     <ColumnDefinition Width="82"/>
@@ -43,7 +43,7 @@
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <CheckBox Grid.Column="0" Style="{StaticResource BigCheckBoxStyle}"/>
+                                <CheckBox Grid.Column="0" Style="{StaticResource BigCheckBoxStyle}" IsChecked="{Binding Selected}" IsHitTestVisible="False"/>
                                 <Image Grid.Column="1" Source="{Binding thumbnail}"
                                    Stretch="Uniform" Height="72" Width="72" Margin="5,5,5,5"/>
                                 <TextBlock Grid.Column="2" Text="{Binding name}" Style="{StaticResource BoutiqueList_ItemName_Style}"/>
@@ -61,10 +61,18 @@
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
-                
-                <Grid x:Name="switchMask" Width="92" Background="#ffffffff" 
+
+                <Grid x:Name="switchMask" Width="48" 
                       HorizontalAlignment="Right" IsHitTestVisible="False"
-                      Opacity="0"/>
+                      Opacity="0">
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0,0.5" StartPoint="1,0.5">
+                            <GradientStop Color="#00ffffff" Offset="1"/>
+                            <GradientStop Color="#ffffffff" Offset="0.6"/>
+                            <GradientStop Color="#ffffffff"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
+                </Grid>
             </Grid>
         </ScrollViewer>
     </Grid>

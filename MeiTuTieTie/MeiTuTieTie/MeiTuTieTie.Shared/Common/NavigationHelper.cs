@@ -168,7 +168,13 @@ namespace Shared.Common
         /// </returns>
         public virtual bool CanGoBack()
         {
-            return this.Frame != null && this.Frame.CanGoBack;
+            bool canceled = false;
+            if (CanGobackAsked!=null)
+            {
+                CanGobackAsked(this, ref canceled);
+            }
+
+            return this.Frame != null && this.Frame.CanGoBack && !canceled;
         }
         /// <summary>
         /// Virtual method used by the <see cref="GoForwardCommand"/> property
@@ -210,9 +216,9 @@ namespace Shared.Common
         {
             if (this.GoBackCommand.CanExecute(null))
             {
-                e.Handled = true;
                 this.GoBackCommand.Execute(null);
             }
+            e.Handled = true;
         }
 #else
         /// <summary>
@@ -368,7 +374,12 @@ namespace Shared.Common
         }
 
         #endregion
+
+        //custom logic
+        public CanGoBackAskedEventHandler CanGobackAsked;
     }
+
+    public delegate void CanGoBackAskedEventHandler(object sender, ref bool canceled);
 
     /// <summary>
     /// Represents the method that will handle the <see cref="NavigationHelper.LoadState"/>event
@@ -433,4 +444,5 @@ namespace Shared.Common
             this.PageState = pageState;
         }
     }
+
 }
