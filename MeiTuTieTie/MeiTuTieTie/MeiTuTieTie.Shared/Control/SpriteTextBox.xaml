@@ -1,0 +1,28 @@
+﻿<UserControl
+    x:Class="Shared.Control.SpriteTextBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MeiTuTieTie.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    d:DesignHeight="100"
+    d:DesignWidth="300">
+
+    <Grid x:Name="rootGrid" Background="Transparent">
+        <TextBlock x:Name="virginTextBlock" Text="点击输入文字" 
+                   VerticalAlignment="Center"
+                   TextAlignment="Center"
+                   FontSize="44" Foreground="#ff000000" />
+        <TextBox x:Name="textBox" TextWrapping="Wrap"
+                 Width="300"
+                 VerticalAlignment="Center"
+                 TextAlignment="Center"
+                 Background="Transparent"
+                 BorderThickness="0" BorderBrush="Transparent"
+                 FontSize="44" Foreground="#ff000000" />
+        <Rectangle x:Name="mask" Fill="#00000000" 
+                   Tapped="mask_Tapped"
+                   DoubleTapped="mask_DoubleTapped"/>
+    </Grid>
+</UserControl>

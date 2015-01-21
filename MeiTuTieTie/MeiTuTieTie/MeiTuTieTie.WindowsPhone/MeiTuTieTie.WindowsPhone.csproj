@@ -81,10 +81,10 @@
   </PropertyGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Folder Include="Controls\" />
     <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\SpriteControl.cs" />
     <Compile Include="Pages\MyThemeDetailPage.xaml.cs">
       <DependentUpon>MyThemeDetailPage.xaml</DependentUpon>
     </Compile>

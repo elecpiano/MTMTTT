@@ -25,6 +25,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Control\ImageSwitch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Control\SpriteControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Control\SpriteTextBox.xaml.cs">
+      <DependentUpon>SpriteTextBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Converter\AnythingToVisibilityConverter.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Global\Constants.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Infrastructures\BindableBase.cs" />
@@ -41,5 +45,11 @@
     <Compile Include="$(MSBuildThisFileDirectory)Utility\NetworkHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\XmlHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\ZipHelper.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Control\SpriteTextBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

@@ -1,6 +1,5 @@
 ﻿using System;
 using Shared.Common;
-using MeiTuTieTie.Controls;
 using System.Collections.Generic;
 using Windows.Foundation;
 using Windows.Storage;
@@ -16,6 +15,7 @@ using Shared.Utility;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Shared.Model;
+using Shared.Control;
 
 namespace MeiTuTieTie.Pages
 {
