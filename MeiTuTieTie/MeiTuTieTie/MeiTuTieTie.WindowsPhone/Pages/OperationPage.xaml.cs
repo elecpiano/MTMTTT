@@ -124,7 +124,7 @@ namespace MeiTuTieTie.Pages
                     bi.SetSource(stream);
 
                     //sprite
-                    SpriteControl sprite = new SpriteControl();
+                    SpriteControl sprite = new SpriteControl(SpriteType.Image);
                     sprite.SetImage(bi);
                     sprites.Add(sprite);
                     sprite.AddToContainer();
@@ -148,7 +148,7 @@ namespace MeiTuTieTie.Pages
                 BitmapImage bi = await ImageHelper.ReadImage(SelectedMaterial.image);
 
                 //sprite
-                SpriteControl sprite = new SpriteControl();
+                SpriteControl sprite = new SpriteControl(SpriteType.Image);
                 sprite.SetImage(bi);
                 sprites.Add(sprite);
                 sprite.AddToContainer();
@@ -197,7 +197,7 @@ namespace MeiTuTieTie.Pages
 
             for (int i = 0; i < 1; i++)
             {
-                sprite = new SpriteControl();
+                sprite = new SpriteControl(SpriteType.Image);
                 sprite.SetImage("ms-appx:///Assets/TestImages/TestImage001.jpg");
                 sprites.Add(sprite);
 
@@ -218,6 +218,15 @@ namespace MeiTuTieTie.Pages
                 bm.SetSource(thumbnail);
                 photoList.Add(bm);
             };
+        }
+
+        #endregion
+
+        #region Text
+
+        private void Text_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
         #endregion

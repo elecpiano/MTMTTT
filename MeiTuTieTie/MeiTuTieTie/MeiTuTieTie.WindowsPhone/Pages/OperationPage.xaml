@@ -38,8 +38,10 @@
         <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
             <Button Content="PickPhoto" Click="PickPhoto_Click" />
             <Button Content="Widget" Click="Widget_Click" />
-            <Button Content="OK" Click="OK_Click" />
+            <Button Content="Text" Click="Text_Click" />
         </StackPanel>
+
+        <Button Content="OK" Click="OK_Click" VerticalAlignment="Top" HorizontalAlignment="Right"/>
 
     </Grid>
 </Page>

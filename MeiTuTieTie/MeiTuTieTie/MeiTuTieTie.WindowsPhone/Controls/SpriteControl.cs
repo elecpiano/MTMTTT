@@ -13,6 +13,12 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace MeiTuTieTie.Controls
 {
+    public enum SpriteType
+    {
+        Image,
+        Text
+    }
+
     public class SpriteControl
     {
         #region Property
@@ -37,6 +43,7 @@ namespace MeiTuTieTie.Controls
 
         private Grid contentPanel = null;
         private Image image = null;
+        private TextBox textBox = null;
         private Ellipse LTPoint = null;
         private Ellipse RBPoint = null;
         private Ellipse centerPoint = null;
@@ -142,12 +149,19 @@ namespace MeiTuTieTie.Controls
 
         public static SpriteControl SelectedSprite { get; set; }
 
+        private SpriteType _SpriteType = SpriteType.Image;
+        public SpriteType SpriteType
+        {
+            get { return _SpriteType; }
+        }
+
         #endregion
 
         #region Lifecycle
 
-        public SpriteControl()
+        public SpriteControl(SpriteType type)
         {
+            _SpriteType = type;
             CreateSprite();
         }
 
@@ -215,12 +229,19 @@ namespace MeiTuTieTie.Controls
             }
         }
 
-        private void CreateSprite()
+        protected virtual void CreateSprite()
         {
-            //image
-            image = new Image();
-            image.Stretch = Stretch.Uniform;
-            image.CacheMode = new BitmapCache();
+            if (this.SpriteType == Controls.SpriteType.Image)
+            {
+                //image
+                image = new Image();
+                image.Stretch = Stretch.Uniform;
+                image.CacheMode = new BitmapCache();
+            }
+            else if (this.SpriteType == Controls.SpriteType.Text)
+            {
+
+            }
 
             //LTPoint
             LTPoint = new Ellipse();
