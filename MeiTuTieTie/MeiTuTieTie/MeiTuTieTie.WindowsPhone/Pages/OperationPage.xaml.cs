@@ -15,6 +15,7 @@ using Windows.Storage.Streams;
 using Shared.Utility;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using Shared.Model;
 
 namespace MeiTuTieTie.Pages
 {
@@ -26,6 +27,7 @@ namespace MeiTuTieTie.Pages
         private List<SpriteControl> sprites = new List<SpriteControl>();
         private const string Continuation_Key_Operation = "Operation";
         private const string Continuation_Operation_PickPhotos = "PickPhotos";
+        public static Material SelectedMaterial { get; set; }
 
         #endregion
 
@@ -43,6 +45,10 @@ namespace MeiTuTieTie.Pages
             if (e.NavigationMode == NavigationMode.New)
             {
                 SpriteControl.Initialize(stage);
+            }
+            else if (e.NavigationMode == NavigationMode.Back)
+            {
+                WidgetToSprite();
             }
         }
 
@@ -133,6 +139,22 @@ namespace MeiTuTieTie.Pages
         private void Widget_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(WidgetPage));
+        }
+
+        private async void WidgetToSprite()
+        {
+            if (SelectedMaterial != null)
+            {
+                BitmapImage bi = await ImageHelper.ReadImage(SelectedMaterial.image);
+
+                //sprite
+                SpriteControl sprite = new SpriteControl();
+                sprite.SetImage(bi);
+                sprites.Add(sprite);
+                sprite.AddToContainer();
+
+                SelectedMaterial = null;
+            }
         }
 
         #endregion

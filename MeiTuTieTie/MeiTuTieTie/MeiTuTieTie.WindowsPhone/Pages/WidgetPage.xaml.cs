@@ -188,6 +188,31 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
+        private void material_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            string tag = ((FrameworkElement)sender).Tag.ToString();
+            var triplet = sender.GetDataContext<Triplet<Material>>();
+            Material material = null;
+            switch (tag)
+            {
+                case "one":
+                    material = triplet.ItemOne;
+                    break;
+                case "two":
+                    material = triplet.ItemTwo;
+                    break;
+                case "three":
+                    material = triplet.ItemThree;
+                    break;
+                default:
+                    break;
+            }
+            OperationPage.SelectedMaterial = material;
+            navigationHelper.GoBack();
+        }
+
+
+
     }
 
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.Model;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -188,6 +189,8 @@ namespace MeiTuTieTie
             get { return rootFrame; }
             set { rootFrame = value; }
         }
+
+        public Material SelectedMaterial { get; set; }
 
         private void CollectDeviceInformation()
         {
