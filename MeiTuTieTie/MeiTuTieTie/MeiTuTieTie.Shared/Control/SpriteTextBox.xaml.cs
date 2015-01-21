@@ -16,15 +16,12 @@ namespace Shared.Control
             get { return _IsVirgin; }
             set
             {
-                if (_IsVirgin != value)
-                {
-                    _IsVirgin = value;
-                    virginTextBlock.Visibility = _IsVirgin ? Visibility.Visible : Visibility.Collapsed;
-                }
+                _IsVirgin = value;
+                virginTextBlock.Visibility = _IsVirgin ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
-        private static SolidColorBrush TransparentBrush = new SolidColorBrush(Color.FromArgb(0,0,0,0));
+        private static SolidColorBrush TransparentBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
         private static SolidColorBrush EditBackgroundBrush = new SolidColorBrush(Color.FromArgb(128, 255, 255, 255));
 
         #endregion
@@ -46,6 +43,7 @@ namespace Shared.Control
                 IsVirgin = false;
             }
             rootGrid.Background = TransparentBrush;
+            mask.IsHitTestVisible = true;
         }
 
         private void mask_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
@@ -66,8 +64,15 @@ namespace Shared.Control
 
         private void BeginEdit()
         {
+            mask.IsHitTestVisible = false;
+            virginTextBlock.Visibility = Visibility.Collapsed;
             this.textBox.Focus(FocusState.Programmatic);
             rootGrid.Background = EditBackgroundBrush;
+        }
+
+        private void textBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            textBoxVisual.Text = textBox.Text;
         }
     }
 }

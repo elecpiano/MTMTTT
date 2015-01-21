@@ -6,16 +6,19 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sharedControl="using:Shared.Control"
     mc:Ignorable="d">
-	<Page.Resources>
-	
-	</Page.Resources>
+    <Page.Resources>
+
+
+
+
+    </Page.Resources>
 
     <Grid Background="Wheat">
         <!--buttons-->
         <Grid x:Name="buttonsPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Gray" RenderTransformOrigin="0.5,0.5">
-        	<Grid.RenderTransform>
-        		<CompositeTransform/>
-        	</Grid.RenderTransform>
+            <Grid.RenderTransform>
+                <CompositeTransform/>
+            </Grid.RenderTransform>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -33,6 +36,13 @@
         <!--<sharedControl:ImageSwitch x:Name="imageSwitch" VerticalAlignment="Bottom"
                                    CheckStateChanged="ImageSwitch_CheckStateChanged"
                                    Enabled="True"/>-->
-        <sharedControl:SpriteTextBox />
+
+        <sharedControl:SpriteTextBox RenderTransformOrigin="0.5,0.5" >
+            <sharedControl:SpriteTextBox.RenderTransform>
+                <CompositeTransform Rotation="0"/>
+            </sharedControl:SpriteTextBox.RenderTransform>
+        </sharedControl:SpriteTextBox>
+
+
     </Grid>
 </Page>

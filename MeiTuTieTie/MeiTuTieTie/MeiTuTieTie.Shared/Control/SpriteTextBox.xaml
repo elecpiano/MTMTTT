@@ -6,21 +6,29 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    d:DesignHeight="100"
-    d:DesignWidth="300">
-
+    Height="100"
+    Width="300">
+    
     <Grid x:Name="rootGrid" Background="Transparent">
         <TextBlock x:Name="virginTextBlock" Text="点击输入文字" 
                    VerticalAlignment="Center"
                    TextAlignment="Center"
                    FontSize="44" Foreground="#ff000000" />
-        <TextBox x:Name="textBox" TextWrapping="Wrap"
+        <TextBox x:Name="textBoxVisual" IsHitTestVisible="False"
+                 TextWrapping="Wrap"
                  Width="300"
-                 VerticalAlignment="Center"
                  TextAlignment="Center"
                  Background="Transparent"
                  BorderThickness="0" BorderBrush="Transparent"
-                 FontSize="44" Foreground="#ff000000" />
+                 FontSize="44" Foreground="#ff000000" Text="" VerticalAlignment="Center" MaxHeight="100" />
+        <TextBox x:Name="textBox" Opacity="0"
+                 TextWrapping="Wrap"
+                 Width="300"
+                 TextAlignment="Center"
+                 Background="Transparent"
+                 BorderThickness="0" BorderBrush="Transparent"
+                 FontSize="44" Foreground="#ff000000" Text="" VerticalAlignment="Center" MaxHeight="100" 
+                 TextChanged="textBox_TextChanged"/>
         <Rectangle x:Name="mask" Fill="#00000000" 
                    Tapped="mask_Tapped"
                    DoubleTapped="mask_DoubleTapped"/>
