@@ -14,6 +14,7 @@ using Windows.ApplicationModel.Activation;
 using Windows.Storage.Streams;
 using Shared.Utility;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
 
 namespace MeiTuTieTie.Pages
 {
@@ -22,17 +23,47 @@ namespace MeiTuTieTie.Pages
         #region Property
 
         private readonly NavigationHelper navigationHelper;
-        private List<SpriteControl> spriteList = new List<SpriteControl>();
+        private List<SpriteControl> sprites = new List<SpriteControl>();
         private const string Continuation_Key_Operation = "Operation";
         private const string Continuation_Operation_PickPhotos = "PickPhotos";
 
         #endregion
+
+        #region Lifecycle
 
         public OperationPage()
         {
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
         }
+
+        protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (e.NavigationMode == NavigationMode.New)
+            {
+                SpriteControl.Initialize(stage);
+            }
+        }
+
+        protected override void OnNavigatedFrom(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                SpriteControl.DetachContainer();
+                this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Disabled;
+            }
+            else
+            {
+                this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
+            }
+
+            base.OnNavigatedFrom(e);
+        }
+
+        #endregion
+
+        #region Image Processing
 
         private void OK_Click(object sender, RoutedEventArgs e)
         {
@@ -46,24 +77,16 @@ namespace MeiTuTieTie.Pages
             ImageHelper.CaptureToMediaLibrary(this.stagePanel, fileName, 640);
         }
 
+        #endregion
+
+        #region Sprite Manipulation
+
         private void stageBackground_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             SpriteControl.DismissActiveSprite();
         }
 
-        private void InsertSprites()
-        {
-            SpriteControl sprite = null;
-
-            for (int i = 0; i < 1; i++)
-            {
-                sprite = new SpriteControl();
-                sprite.SetImage("ms-appx:///Assets/TestImages/TestImage001.jpg");
-                spriteList.Add(sprite);
-
-                sprite.SetContainer(stage);
-            }
-        }
+        #endregion
 
         #region Load Photo
 
@@ -72,7 +95,7 @@ namespace MeiTuTieTie.Pages
             PickPhotos();
         }
 
-        private async void PickPhotos()
+        private void PickPhotos()
         {
             var picker = new FileOpenPicker();
             picker.FileTypeFilter.Add(".jpg");
@@ -97,25 +120,10 @@ namespace MeiTuTieTie.Pages
                     //sprite
                     SpriteControl sprite = new SpriteControl();
                     sprite.SetImage(bi);
-                    spriteList.Add(sprite);
-                    sprite.SetContainer(stage);
+                    sprites.Add(sprite);
+                    sprite.AddToContainer();
                 }
             }
-        }
-
-        ObservableCollection<BitmapImage> photoList = new ObservableCollection<BitmapImage>();
-        private async void LoadPhotos()
-        {
-            picListBox.ItemsSource = photoList;
-            StorageFolder PictureFolder = KnownFolders.CameraRoll;
-            var files = await PictureFolder.GetFilesAsync();
-            foreach (var file in files)
-            {
-                BitmapImage bm = new BitmapImage();
-                var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.PicturesView);
-                bm.SetSource(thumbnail);
-                photoList.Add(bm);
-            };
         }
 
         #endregion
@@ -133,22 +141,61 @@ namespace MeiTuTieTie.Pages
 
         private void spriteUp_Click(object sender, RoutedEventArgs e)
         {
-            SpriteControl.SelectedSprite.ChangeZIndex(true);
+            if (SpriteControl.SelectedSprite != null)
+            {
+                SpriteControl.SelectedSprite.ChangeZIndex(true);
+            }
         }
 
         private void spriteDown_Click(object sender, RoutedEventArgs e)
         {
-            SpriteControl.SelectedSprite.ChangeZIndex(false);
+            if (SpriteControl.SelectedSprite != null)
+            {
+                SpriteControl.SelectedSprite.ChangeZIndex(false);
+            }
         }
 
         private void spriteDelete_Click(object sender, RoutedEventArgs e)
         {
-
+            SpriteControl.RemoveSelectedSprite();
         }
 
         private void photoLock_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        #endregion
+
+        #region Test
+
+        private void InsertSprites()
+        {
+            SpriteControl sprite = null;
+
+            for (int i = 0; i < 1; i++)
+            {
+                sprite = new SpriteControl();
+                sprite.SetImage("ms-appx:///Assets/TestImages/TestImage001.jpg");
+                sprites.Add(sprite);
+
+                SpriteControl.Initialize(stage);
+            }
+        }
+
+        ObservableCollection<BitmapImage> photoList = new ObservableCollection<BitmapImage>();
+        private async void LoadPhotos()
+        {
+            picListBox.ItemsSource = photoList;
+            StorageFolder PictureFolder = KnownFolders.CameraRoll;
+            var files = await PictureFolder.GetFilesAsync();
+            foreach (var file in files)
+            {
+                BitmapImage bm = new BitmapImage();
+                var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.PicturesView);
+                bm.SetSource(thumbnail);
+                photoList.Add(bm);
+            };
         }
 
         #endregion
