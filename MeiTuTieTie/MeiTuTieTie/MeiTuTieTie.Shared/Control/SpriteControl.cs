@@ -43,7 +43,7 @@ namespace Shared.Control
 
         private Grid contentPanel = null;
         private Image image = null;
-        private TextBox textBox = null;
+        private SpriteTextBox spriteText = null;
         private Ellipse LTPoint = null;
         private Ellipse RBPoint = null;
         private Ellipse centerPoint = null;
@@ -231,17 +231,13 @@ namespace Shared.Control
 
         protected virtual void CreateSprite()
         {
-            if (this.SpriteType == SpriteType.Image)
-            {
-                //image
-                image = new Image();
-                image.Stretch = Stretch.Uniform;
-                image.CacheMode = new BitmapCache();
-            }
-            else if (this.SpriteType == SpriteType.Text)
-            {
-
-            }
+            //contentPanel
+            contentPanel = new Grid();
+            contentPanel.VerticalAlignment = VerticalAlignment.Center;
+            contentPanel.HorizontalAlignment = HorizontalAlignment.Center;
+            contentPanel.MaxWidth = 150d;
+            contentPanel.MaxHeight = 200d;
+            EnsureTransform(contentPanel);
 
             //LTPoint
             LTPoint = new Ellipse();
@@ -270,18 +266,23 @@ namespace Shared.Control
             centerPoint.HorizontalAlignment = HorizontalAlignment.Center;
             EnsureTransform(centerPoint);
 
-            //contentPanel
-            contentPanel = new Grid();
-            contentPanel.VerticalAlignment = VerticalAlignment.Center;
-            contentPanel.HorizontalAlignment = HorizontalAlignment.Center;
-            contentPanel.MaxWidth = 150d;
-            contentPanel.MaxHeight = 200d;
-            EnsureTransform(contentPanel);
-
-            contentPanel.Children.Add(image);
             contentPanel.Children.Add(LTPoint);
             contentPanel.Children.Add(RBPoint);
             contentPanel.Children.Add(centerPoint);
+
+            if (this.SpriteType == SpriteType.Image)
+            {
+                //image
+                image = new Image();
+                image.Stretch = Stretch.Uniform;
+                image.CacheMode = new BitmapCache();
+                contentPanel.Children.Add(image);
+            }
+            else if (this.SpriteType == SpriteType.Text)
+            {
+                spriteText = new SpriteTextBox();
+                contentPanel.Children.Add(spriteText);
+            }
 
             contentPanel.PointerPressed += contentPanel_PointerPressed;
             contentPanel.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.Rotate | ManipulationModes.Scale;

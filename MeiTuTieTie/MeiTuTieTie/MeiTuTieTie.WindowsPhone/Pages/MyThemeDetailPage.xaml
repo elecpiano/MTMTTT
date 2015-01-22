@@ -8,10 +8,31 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    
+    <Page.Resources>
+        <DataTemplate x:Key="materialItemTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" Stretch="Uniform"
+                       util:IsoImg.Path="{Binding thumbnail}"
+                       Height="72" Width="72" Margin="5"/>
+                <sharedControl:ImageSwitch Grid.Column="2"
+                                           Checked="{Binding visible}"
+                                           Enabled="{Binding ThemeEnabled}"
+                                           VerticalAlignment="Center"
+                                           CheckStateChanged="ImageSwitch_CheckStateChanged"/>
+
+            </Grid>
+        </DataTemplate>
+    </Page.Resources>
 
     <Grid Background="White">
         
-        <ScrollViewer>
+        <ScrollViewer Visibility="Collapsed">
             <ItemsControl Grid.Row="1" x:Name="myMaterialListBox" Background="Transparent">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -41,5 +62,24 @@
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </ScrollViewer>
+
+        <SemanticZoom x:Name="groupList" Style="{StaticResource GenericJumpListStyle}"
+                          Margin="19,0,0,0">
+            <SemanticZoom.ZoomedInView>
+                <ListView ItemsSource="{Binding Collection.View}" ItemTemplate="{StaticResource materialItemTemplate}">
+                    <ListView.GroupStyle>
+                        <GroupStyle HeaderTemplate="{StaticResource GenericGroupHeaderTemplate}"
+                                        HeaderContainerStyle="{StaticResource JumpListListHeaderContainerStyle}"
+                                        HidesIfEmpty="True" />
+                    </ListView.GroupStyle>
+                </ListView>
+            </SemanticZoom.ZoomedInView>
+            <SemanticZoom.ZoomedOutView>
+                <ListView ItemsSource="{Binding Collection.View.CollectionGroups}"
+                              Style="{StaticResource GenericJumpListPickerStyle}">
+                </ListView>
+            </SemanticZoom.ZoomedOutView>
+        </SemanticZoom>
+        
     </Grid>
 </Page>

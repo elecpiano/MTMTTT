@@ -10,6 +10,7 @@ using Windows.Graphics.Display;
 using Shared.Global;
 using System.Linq;
 using System.IO;
+using Shared.ViewModel;
 
 namespace MeiTuTieTie.Pages
 {
@@ -36,7 +37,8 @@ namespace MeiTuTieTie.Pages
             if (e.NavigationMode == NavigationMode.New)
             {
                 currentTheme = (MyTheme)e.Parameter;
-                LoadData_SplitFile(currentTheme);
+                //LoadData_SplitFile(currentTheme);
+                LoadGroupedData(currentTheme);
             }
         }
 
@@ -99,7 +101,6 @@ namespace MeiTuTieTie.Pages
             this.myMaterialListBox.ItemsSource = materials;
         }
 
-
         private async void SaveData()
         {
             string json = JsonSerializer.Serialize(materialGroup);
@@ -118,6 +119,44 @@ namespace MeiTuTieTie.Pages
                 SaveData();
             }
         }
+
+        #region Grouped Data
+
+        MyThemeDetailViewModel vm = null;
+        private async void LoadGroupedData(MyTheme theme)
+        {
+            if (vm == null)
+            {
+                vm = new MyThemeDetailViewModel();
+            }
+
+            if (materialDataLoader == null)
+            {
+                materialDataLoader = new DataLoader<MaterialGroup>();
+            }
+
+            materialFilePath = Path.Combine(Constants.THEME_MODULE, theme.id, Constants.MATERIAL_DATA_FILE);
+            materialGroup = await materialDataLoader.LoadLocalData(materialFilePath);
+            if (materialGroup == null)
+            {
+                materialGroup = new MaterialGroup();
+            }
+
+            var materials = from m in materialGroup.Materials
+                            where m.themePackID.Equals(theme.id)
+                            select m;
+
+            foreach (var material in materials)
+            {
+                material.ThemeEnabled = theme.visible;
+            }
+
+            vm.SetData(materials);
+
+            groupList.DataContext = vm;
+        }
+
+        #endregion
 
     }
 }
