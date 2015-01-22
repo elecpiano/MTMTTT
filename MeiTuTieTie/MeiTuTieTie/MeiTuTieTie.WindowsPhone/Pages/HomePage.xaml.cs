@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
 using Windows.Data.Xml.Dom;
+using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace MeiTuTieTie.Pages
@@ -40,6 +42,7 @@ namespace MeiTuTieTie.Pages
 
         private void multiPic_Click(object sender, RoutedEventArgs e)
         {
+            Test6();
         }
 
         private void boutique_Click(object sender, RoutedEventArgs e)
@@ -72,6 +75,8 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
+
+        #region Test
 
         private async Task<MaterialGroup> Test()
         {
@@ -212,6 +217,14 @@ namespace MeiTuTieTie.Pages
         //        control.Checked = !control.Checked;
         //    }
         //}
+
+        private async void Test6()
+        {
+            spriteTextBox.Font = new FontFamily(@"ms-appx:/Assets/Fonts/SHOWG.TTF#Showcard Gothic");
+            spriteTextBox.TextColor = new SolidColorBrush(Color.FromArgb(255, 190, 30, 0));
+        }
+
+        #endregion
 
     }
 }

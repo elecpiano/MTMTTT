@@ -24,6 +24,26 @@ namespace Shared.Control
         private static SolidColorBrush TransparentBrush = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
         private static SolidColorBrush EditBackgroundBrush = new SolidColorBrush(Color.FromArgb(128, 255, 255, 255));
 
+        public FontFamily Font
+        {
+            get { return textBox.FontFamily; }
+            set
+            {
+                textBox.FontFamily = value;
+                textBoxVisual.FontFamily = value;
+            }
+        }
+
+        public Brush TextColor
+        {
+            get { return textBox.Foreground; }
+            set
+            {
+                textBox.Foreground = value;
+                textBoxVisual.Foreground = value;
+            }
+        }
+
         #endregion
 
         public SpriteTextBox()

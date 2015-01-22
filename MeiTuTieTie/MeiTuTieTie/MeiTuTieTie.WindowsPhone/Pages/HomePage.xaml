@@ -10,7 +10,6 @@
 
 
 
-
     </Page.Resources>
 
     <Grid Background="Wheat">
@@ -37,12 +36,11 @@
                                    CheckStateChanged="ImageSwitch_CheckStateChanged"
                                    Enabled="True"/>-->
 
-        <sharedControl:SpriteTextBox RenderTransformOrigin="0.5,0.5" >
+        <sharedControl:SpriteTextBox x:Name="spriteTextBox" RenderTransformOrigin="0.5,0.5" >
             <sharedControl:SpriteTextBox.RenderTransform>
-                <CompositeTransform Rotation="0"/>
+                <CompositeTransform Rotation="-12"/>
             </sharedControl:SpriteTextBox.RenderTransform>
         </sharedControl:SpriteTextBox>
-
 
     </Grid>
 </Page>
