@@ -6,9 +6,8 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sharedControl="using:Shared.Control"
     mc:Ignorable="d">
+    
     <Page.Resources>
-
-
 
     </Page.Resources>
 

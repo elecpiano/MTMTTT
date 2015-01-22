@@ -35,7 +35,7 @@ namespace Shared.ViewModel
 
         public void SetData(IEnumerable<Material> materials)
         {
-            data = materials.ToGroups(x => x.themePackID, x => x.type);
+            data = materials.ToGroups(x => x.themePackID, x => x.TypeName);
         }
 
     }

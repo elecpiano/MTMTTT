@@ -37,7 +37,7 @@
                             <Grid Background="#00000000" Tapped="theme_Tapped">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="64"/>
-                                    <ColumnDefinition Width="82"/>
+                                    <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="*"/>
@@ -45,7 +45,7 @@
                                 </Grid.ColumnDefinitions>
                                 <CheckBox Grid.Column="0" Style="{StaticResource BigCheckBoxStyle}" IsChecked="{Binding Selected}" IsHitTestVisible="False"/>
                                 <Image Grid.Column="1" Source="{Binding thumbnail}"
-                                   Stretch="Uniform" Height="72" Width="72" Margin="5,5,5,5"/>
+                                   Stretch="Uniform" Height="72" Width="72" Margin="12,5,10,5"/>
                                 <TextBlock Grid.Column="2" Text="{Binding name}" Style="{StaticResource BoutiqueList_ItemName_Style}"/>
                                 <TextBlock Grid.Column="3" Style="{StaticResource BoutiqueList_MaterialCount_Style}">
                                     <Run Text="("/>
@@ -57,6 +57,8 @@
                                                            Checked="{Binding visible}"
                                                            VerticalAlignment="Center"
                                                            CheckStateChanged="ImageSwitch_CheckStateChanged"/>
+                                <Rectangle Grid.ColumnSpan="6" Style="{StaticResource ItemSplitBar}"/>
+
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

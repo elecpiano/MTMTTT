@@ -226,7 +226,14 @@ namespace MeiTuTieTie.Pages
 
         private void Text_Click(object sender, RoutedEventArgs e)
         {
+            AddTextSprite();
+        }
 
+        private void AddTextSprite()
+        {
+            SpriteControl sprite = new SpriteControl(SpriteType.Text);
+            sprites.Add(sprite);
+            sprite.AddToContainer();
         }
 
         #endregion

@@ -52,7 +52,7 @@
                     </ItemsControl.ItemsPanel>
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
-                            <Grid Tapped="theme_Tapped">
+                            <Grid Background="#00000000" Tapped="theme_Tapped">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="Auto"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -61,12 +61,13 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <Image Grid.Column="0" Source="{Binding thumbnailUrl}" Stretch="Uniform"
-                                   Height="72" Width="72" Margin="5"/>
+                                   Height="72" Width="72" Margin="12,5,10,5"/>
                                 <TextBlock Grid.Column="1" Text="{Binding name}" Style="{StaticResource BoutiqueList_ItemName_Style}"/>
-                                <TextBlock Grid.Column="3" Text="免费" Style="{StaticResource BoutiqueList_ItemName_Style}"
+                                <TextBlock Grid.Column="3" Text="免费" Style="{StaticResource BoutiqueList_ItemName_Style}" Margin="0,0,12,0"
                                            Visibility="{Binding Downloaded, Converter={StaticResource AnythingToVisibilityConverter}, ConverterParameter='neg'}"/>
-                                <TextBlock Grid.Column="3" Text="已下载" Style="{StaticResource BoutiqueList_ItemName_Style}"
+                                <TextBlock Grid.Column="3" Text="已下载" Style="{StaticResource BoutiqueList_ItemName_Style}" Margin="0,0,12,0"
                                            Visibility="{Binding Downloaded, Converter={StaticResource AnythingToVisibilityConverter}}"/>
+                                <Rectangle Grid.ColumnSpan="5" Style="{StaticResource ItemSplitBar}"/>
                             </Grid>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

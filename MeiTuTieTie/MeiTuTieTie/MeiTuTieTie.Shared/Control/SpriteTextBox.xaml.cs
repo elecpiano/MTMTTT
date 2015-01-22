@@ -52,19 +52,7 @@ namespace Shared.Control
             this.textBox.LostFocus += textBox_LostFocus;
         }
 
-        void textBox_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (string.IsNullOrEmpty(textBox.Text))
-            {
-                IsVirgin = true;
-            }
-            else
-            {
-                IsVirgin = false;
-            }
-            rootGrid.Background = TransparentBrush;
-            mask.IsHitTestVisible = true;
-        }
+        #region Mask
 
         private void mask_DoubleTapped(object sender, DoubleTappedRoutedEventArgs e)
         {
@@ -82,6 +70,24 @@ namespace Shared.Control
             }
         }
 
+        #endregion
+
+        #region Text Editing
+
+        void textBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (string.IsNullOrEmpty(textBox.Text))
+            {
+                IsVirgin = true;
+            }
+            else
+            {
+                IsVirgin = false;
+            }
+            rootGrid.Background = TransparentBrush;
+            mask.IsHitTestVisible = true;
+        }
+
         private void BeginEdit()
         {
             mask.IsHitTestVisible = false;
@@ -93,6 +99,18 @@ namespace Shared.Control
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             textBoxVisual.Text = textBox.Text;
+            if (TextChanged != null)
+            {
+                TextChanged(this, e);
+            }
         }
+
+        #endregion
+
+        #region Event
+
+        public event TextChangedEventHandler TextChanged;
+
+        #endregion
     }
 }

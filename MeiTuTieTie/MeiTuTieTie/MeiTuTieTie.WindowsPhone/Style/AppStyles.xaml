@@ -26,6 +26,13 @@
         <Setter Property="VerticalScrollMode" Value="Disabled"/>
     </Style>
 
+    <Style x:Key="ItemSplitBar" TargetType="Rectangle">
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="Height" Value="1"/>
+        <Setter Property="Fill" Value="#fff0f0f0"/>
+        <Setter Property="Margin" Value="12,0,12,0"/>
+    </Style>
+
     <!--image switch-->
     <Style x:Name="ImageSwitch_Default_Style" TargetType="sharedControl:ImageSwitch">
         <Setter Property="Template">

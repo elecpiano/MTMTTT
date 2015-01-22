@@ -19,13 +19,13 @@
                 </Grid.ColumnDefinitions>
                 <Image Grid.Column="0" Stretch="Uniform"
                        util:IsoImg.Path="{Binding thumbnail}"
-                       Height="72" Width="72" Margin="5"/>
-                <sharedControl:ImageSwitch Grid.Column="2"
+                       Height="72" Width="72" Margin="12,5,0,5"/>
+                <sharedControl:ImageSwitch Grid.Column="2" Margin="0,0,12,0"
                                            Checked="{Binding visible}"
                                            Enabled="{Binding ThemeEnabled}"
                                            VerticalAlignment="Center"
                                            CheckStateChanged="ImageSwitch_CheckStateChanged"/>
-
+                <Rectangle Grid.ColumnSpan="3" Style="{StaticResource ItemSplitBar}"/>
             </Grid>
         </DataTemplate>
     </Page.Resources>
@@ -64,19 +64,22 @@
         </ScrollViewer>
 
         <SemanticZoom x:Name="groupList" Style="{StaticResource GenericJumpListStyle}"
-                          Margin="19,0,0,0">
+                          Margin="0,0,0,0">
             <SemanticZoom.ZoomedInView>
-                <ListView ItemsSource="{Binding Collection.View}" ItemTemplate="{StaticResource materialItemTemplate}">
+                <ListView ItemsSource="{Binding Collection.View}" 
+                          ItemContainerStyle="{StaticResource ListView_ItemContainer_Style}"
+                          ItemTemplate="{StaticResource materialItemTemplate}"
+                          >
                     <ListView.GroupStyle>
                         <GroupStyle HeaderTemplate="{StaticResource GenericGroupHeaderTemplate}"
-                                        HeaderContainerStyle="{StaticResource JumpListListHeaderContainerStyle}"
-                                        HidesIfEmpty="True" />
+                                    HeaderContainerStyle="{StaticResource JumpListListHeaderContainerStyle}"
+                                    HidesIfEmpty="True" />
                     </ListView.GroupStyle>
                 </ListView>
             </SemanticZoom.ZoomedInView>
             <SemanticZoom.ZoomedOutView>
                 <ListView ItemsSource="{Binding Collection.View.CollectionGroups}"
-                              Style="{StaticResource GenericJumpListPickerStyle}">
+                          Style="{StaticResource GenericJumpListPickerStyle}">
                 </ListView>
             </SemanticZoom.ZoomedOutView>
         </SemanticZoom>

@@ -154,6 +154,7 @@ namespace MeiTuTieTie.Pages
             vm.SetData(materials);
 
             groupList.DataContext = vm;
+
         }
 
         #endregion

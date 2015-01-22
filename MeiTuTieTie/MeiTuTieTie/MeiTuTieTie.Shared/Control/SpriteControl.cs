@@ -235,8 +235,8 @@ namespace Shared.Control
             contentPanel = new Grid();
             contentPanel.VerticalAlignment = VerticalAlignment.Center;
             contentPanel.HorizontalAlignment = HorizontalAlignment.Center;
-            contentPanel.MaxWidth = 150d;
-            contentPanel.MaxHeight = 200d;
+            //contentPanel.MaxWidth = 150d;
+            //contentPanel.MaxHeight = 200d;
             EnsureTransform(contentPanel);
 
             //LTPoint
@@ -277,11 +277,16 @@ namespace Shared.Control
                 image.Stretch = Stretch.Uniform;
                 image.CacheMode = new BitmapCache();
                 contentPanel.Children.Add(image);
+                contentPanel.MaxWidth = 150d;
+                contentPanel.MaxHeight = 200d;
             }
             else if (this.SpriteType == SpriteType.Text)
             {
                 spriteText = new SpriteTextBox();
+                spriteText.TextChanged += spriteText_TextChanged;
                 contentPanel.Children.Add(spriteText);
+                contentPanel.MaxWidth = 300d;
+                contentPanel.MinHeight = 80d;
             }
 
             contentPanel.PointerPressed += contentPanel_PointerPressed;
@@ -459,6 +464,16 @@ namespace Shared.Control
             }
 
             return angle * 180 / Math.PI;
+        }
+
+        #endregion
+
+        #region Text Editing
+
+        void spriteText_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            SetButtonVisibility(true);
+            SyncButtonsPosition();
         }
 
         #endregion

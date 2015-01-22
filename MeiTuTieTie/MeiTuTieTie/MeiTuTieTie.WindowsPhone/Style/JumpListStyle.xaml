@@ -24,6 +24,100 @@
                              Color="{ThemeResource SystemColorControlAccentColor}" />
         </ResourceDictionary>
     </ResourceDictionary.ThemeDictionaries>
+
+    <!--ListView-->
+    <Style x:Key="ListView_ItemContainer_Style" TargetType="ListViewItem">
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="TabNavigation" Value="Local"/>
+        <Setter Property="IsHoldingEnabled" Value="False"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <Border x:Name="OuterContainer" RenderTransformOrigin="0.5,0.5">
+                        <Border.RenderTransform>
+                            <ScaleTransform x:Name="ContentScaleTransform"/>
+                        </Border.RenderTransform>
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition From="Pressed" To="Normal"/>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Pressed"/>
+                                <VisualState x:Name="CheckboxPressed"/>
+                                <VisualState x:Name="Disabled"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="SelectionStates">
+                                <VisualState x:Name="Unselected"/>
+                                <VisualState x:Name="Selected"/>
+                                <VisualState x:Name="SelectedUnfocused"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="DataVirtualizationStates">
+                                <VisualState x:Name="DataAvailable"/>
+                                <VisualState x:Name="DataPlaceholder"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="MultiSelectStates">
+                                <VisualState x:Name="NoMultiSelect"/>
+                                <VisualState x:Name="ListMultiSelect"/>
+                                <VisualState x:Name="GridMultiSelect"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ReorderModeStates">
+                                <VisualState x:Name="ReorderEnabled"/>
+                                <VisualState x:Name="Reorderable"/>
+                                <VisualState x:Name="ReorderDisabled"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ReorderHintStates">
+                                <VisualState x:Name="NoReorderHint"/>
+                                <VisualState x:Name="BottomReorderHint"/>
+                                <VisualState x:Name="RightReorderHint"/>
+                                <VisualState x:Name="TopReorderHint"/>
+                                <VisualState x:Name="LeftReorderHint"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid x:Name="ReorderHintContent" Background="Transparent">
+                            <Border x:Name="CheckboxTiltContainer" HorizontalAlignment="Left" Margin="0,9.5,0,0" VerticalAlignment="Top">
+                                <Border x:Name="CheckboxOuterContainer">
+                                    <Border.Clip>
+                                        <RectangleGeometry Rect="0,0,25.5,25.5"/>
+                                    </Border.Clip>
+                                    <Grid x:Name="CheckboxContainer">
+                                        <Grid.RenderTransform>
+                                            <TranslateTransform x:Name="CheckboxContainerTranslateTransform" X="-40.5"/>
+                                        </Grid.RenderTransform>
+                                        <Rectangle x:Name="NormalRectangle" Fill="Transparent" Height="25.5" Stroke="{ThemeResource CheckBoxBorderThemeBrush}" StrokeThickness="2.5" Width="25.5"/>
+                                        <Path x:Name="CheckGlyph" Data="M0,123 L39,93 L124,164 L256,18 L295,49 L124,240 z" Fill="{ThemeResource CheckBoxForegroundThemeBrush}" FlowDirection="LeftToRight" HorizontalAlignment="Center" Height="17" IsHitTestVisible="False" Opacity="0" Stretch="Fill" StrokeThickness="2.5" StrokeLineJoin="Round" VerticalAlignment="Center" Width="18.5"/>
+                                    </Grid>
+                                </Border>
+                            </Border>
+                            <Border x:Name="ContentContainer">
+                                <Border x:Name="TiltContainer">
+                                    <Border x:Name="ContentBorder" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                                        <Border.RenderTransform>
+                                            <TranslateTransform x:Name="ContentBorderTranslateTransform"/>
+                                        </Border.RenderTransform>
+                                        <Grid>
+                                            <ContentPresenter x:Name="contentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" ContentTransitions="{TemplateBinding ContentTransitions}" Content="{TemplateBinding Content}" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                            <TextBlock x:Name="PlaceholderTextBlock" AutomationProperties.AccessibilityView="Raw" Foreground="{x:Null}" IsHitTestVisible="False" Margin="{TemplateBinding Padding}" Opacity="0" Text="Xg"/>
+                                            <Rectangle x:Name="PlaceholderRect" Fill="{ThemeResource ListViewItemPlaceholderBackgroundThemeBrush}" IsHitTestVisible="False" Visibility="Collapsed"/>
+                                        </Grid>
+                                    </Border>
+                                </Border>
+                            </Border>
+                            <Border x:Name="SelectedBorder" BorderBrush="{ThemeResource ListViewItemSelectedBackgroundThemeBrush}" BorderThickness="2.5" IsHitTestVisible="False" Opacity="0">
+                                <Grid x:Name="SelectedCheckMark" HorizontalAlignment="Right" Height="34" Opacity="0" VerticalAlignment="Top" Width="34">
+                                    <Path x:Name="SelectedEarmark" Data="M0,0 L40,0 L40,40 z" Fill="{ThemeResource ListViewItemSelectedBackgroundThemeBrush}" Stretch="Fill"/>
+                                    <Path x:Name="SelectedGlyph" Data="M0,123 L39,93 L124,164 L256,18 L295,49 L124,240 z" Fill="{ThemeResource ListViewItemCheckThemeBrush}" FlowDirection="LeftToRight" HorizontalAlignment="Right" Height="14.5" Margin="0,1,1,0" Stretch="Fill" VerticalAlignment="Top" Width="17"/>
+                                </Grid>
+                            </Border>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!--DATA TEMPLATES-->
     <!--Item templates for ZoomedOutView GridView/ListView-->
     <DataTemplate x:Key="AlphaJumpListPickerItemTemplate">
@@ -110,17 +204,15 @@
                        Margin="5.5,9,0,8.5" />
         </Border>
     </DataTemplate>
+    
     <DataTemplate x:Key="GenericGroupHeaderTemplate">
-        <Border>
+        <Grid Background="#ffeeeeee">
             <TextBlock Text="{Binding Key}"
-                       Foreground="{ThemeResource PhoneAccentBrush}"
-                       FontSize="24"
-                       FontWeight="SemiLight"
-                       OpticalMarginAlignment="TrimSideBearings"
-                       IsTextScaleFactorEnabled="False"
-                       VerticalAlignment="Bottom"
-                       Margin="0,0,0,9.5" />
-        </Border>
+                       Foreground="#ff2f2f2f"
+                       FontSize="20"
+                       VerticalAlignment="Center"
+                       Margin="12,4,0,4" />
+        </Grid>
     </DataTemplate>
 
     <!--STYLES-->
@@ -184,7 +276,7 @@
                 Value="{StaticResource GenericJumpListPickerItemTemplate}" />
         <Setter Property="HorizontalContentAlignment"
                 Value="Stretch" />
-        <Setter Property="ItemContainerStyle">
+        <Setter Property="ItemContainerStyle" >
             <Setter.Value>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment"
@@ -192,6 +284,7 @@
                 </Style>
             </Setter.Value>
         </Setter>
+        
     </Style>
 
     <!--Styles of SemanticZoom-->
@@ -239,6 +332,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     <Style x:Key="GenericJumpListStyle"
            TargetType="SemanticZoom">
         <Setter Property="Template">
@@ -278,4 +372,6 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+   
 </ResourceDictionary>

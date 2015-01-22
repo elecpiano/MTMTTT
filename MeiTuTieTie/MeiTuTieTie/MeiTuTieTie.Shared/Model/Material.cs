@@ -35,6 +35,28 @@ namespace Shared.Model
             get { return _themeEnabled; }
             set { SetProperty(ref _themeEnabled, value); }
         }
+
+        [IgnoreDataMember]
+        public string TypeName
+        {
+            get
+            {
+                string typeName = string.Empty;
+                switch (type)
+                {
+                    case "biankuang":
+                        typeName = "边框";
+                        break;
+                    case "beijing":
+                        typeName = "背景";
+                        break;
+                    default:
+                        typeName = "饰品";
+                        break;
+                }
+                return typeName;
+            }
+        }
     }
 
     [XmlRoot("materials")]
