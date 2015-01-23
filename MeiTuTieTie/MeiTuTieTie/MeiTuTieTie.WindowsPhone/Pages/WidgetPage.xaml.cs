@@ -15,11 +15,19 @@ using System.Xml.Serialization;
 
 namespace MeiTuTieTie.Pages
 {
+    public enum WidgetPageType
+    {
+        Shipin,
+        BianKuang,
+        Beijing
+    }
+
     public sealed partial class WidgetPage : Page
     {
         #region Property
 
         private readonly NavigationHelper navigationHelper;
+        private WidgetPageType pageType = WidgetPageType.Shipin;
 
         #endregion
 
@@ -34,17 +42,40 @@ namespace MeiTuTieTie.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            if (e.NavigationMode == NavigationMode.New)
+            {
+                pageType = (WidgetPageType)e.Parameter;
+                switch (pageType)
+                {
+                    case WidgetPageType.Shipin:
+                        pageTitle.Text = "饰品";
+                        break;
+                    case WidgetPageType.BianKuang:
+                        pageTitle.Text = "边框";
+                        break;
+                    case WidgetPageType.Beijing:
+                        pageTitle.Text = "背景";
+                        break;
+                    default:
+                        break;
+                }
+            }
+
             LoadData();
         }
 
-        #endregion
-
-        #region Pivot Item Collection
-
-        private void PivotItem_Loaded(object sender, RoutedEventArgs e)
+        protected override void OnNavigatedFrom(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
-            FrameworkElement control = sender as FrameworkElement;
-            panel_dict.Add(control.Tag.ToString(), control);
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Disabled;
+            }
+            else
+            {
+                this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
+            }
+
+            base.OnNavigatedFrom(e);
         }
 
         #endregion
@@ -55,7 +86,6 @@ namespace MeiTuTieTie.Pages
         DataLoader<MaterialGroup> materialDataLoader = null;
         List<Material> materials_all;
         Dictionary<string, List<Material>> material_dict;
-        Dictionary<string, FrameworkElement> panel_dict = new Dictionary<string, FrameworkElement>();
         Dictionary<string, List<Triplet<Material>>> triplet_dict = new Dictionary<string, List<Triplet<Material>>>();
 
         class Triplet<T>
@@ -115,6 +145,7 @@ namespace MeiTuTieTie.Pages
                 themeData = new MyThemeData();
             }
 
+            //load materials
             foreach (var theme in themeData.myThemes)
             {
                 if (theme.visible)
@@ -123,11 +154,25 @@ namespace MeiTuTieTie.Pages
                 }
             }
 
-            foreach (var key in panel_dict.Keys)
+            //populate list itemsources
+            if (pageType == WidgetPageType.Shipin)
             {
-                //panel_dict[key].DataContext = material_dict[key];
-                var tripletList = GetTriplets(material_dict[key]);
-                panel_dict[key].DataContext = tripletList;
+                shipinPanel.Visibility = Visibility.Visible;
+                pivotItem_1.DataContext = GetTriplets(material_dict[MaterialType.keai.ToString()]);
+                pivotItem_2.DataContext = GetTriplets(material_dict[MaterialType.wenzi.ToString()]);
+                pivotItem_3.DataContext = GetTriplets(material_dict[MaterialType.gaoxiaobiaoqing.ToString()]);
+                pivotItem_4.DataContext = GetTriplets(material_dict[MaterialType.zhedang.ToString()]);
+                pivotItem_5.DataContext = GetTriplets(material_dict[MaterialType.katongxingxiang.ToString()]);
+            }
+            else if (pageType == WidgetPageType.BianKuang)
+            {
+                biankuangPanel.Visibility = Visibility.Visible;
+                biankuangPanel.DataContext = GetTriplets(material_dict[MaterialType.biankuang.ToString()]);
+            }
+            else if (pageType == WidgetPageType.Beijing)
+            {
+                beijingPanel.Visibility = Visibility.Visible;
+                beijingPanel.DataContext = GetTriplets(material_dict[MaterialType.beijing.ToString()]);
             }
         }
 
@@ -208,6 +253,7 @@ namespace MeiTuTieTie.Pages
                     break;
             }
             OperationPage.SelectedMaterial = material;
+            OperationPage.MaterialSelectedBy = this.pageType;
             navigationHelper.GoBack();
         }
 

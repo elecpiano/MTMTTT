@@ -78,7 +78,8 @@ namespace Shared.Model
         gaoxiaobiaoqing,
         zhedang,
         katongxingxiang,
-        biankuang
+        biankuang,
+        beijing
     }
 
 }

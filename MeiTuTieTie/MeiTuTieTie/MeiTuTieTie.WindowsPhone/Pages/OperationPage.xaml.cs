@@ -19,6 +19,12 @@ using Shared.Control;
 
 namespace MeiTuTieTie.Pages
 {
+    public enum OperationPageType
+    {
+        Single,
+        Multi
+    }
+
     public sealed partial class OperationPage : Page
     {
         #region Property
@@ -27,7 +33,9 @@ namespace MeiTuTieTie.Pages
         private List<SpriteControl> sprites = new List<SpriteControl>();
         private const string Continuation_Key_Operation = "Operation";
         private const string Continuation_Operation_PickPhotos = "PickPhotos";
+        private OperationPageType pageType = OperationPageType.Single;
         public static Material SelectedMaterial { get; set; }
+        public static WidgetPageType MaterialSelectedBy = WidgetPageType.Shipin;
 
         #endregion
 
@@ -42,13 +50,16 @@ namespace MeiTuTieTie.Pages
         protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            
             if (e.NavigationMode == NavigationMode.New)
             {
+                pageType = (OperationPageType)e.Parameter;
+                InitializePage();
                 SpriteControl.Initialize(stage);
             }
-            else if (e.NavigationMode == NavigationMode.Back)
+            else if (e.NavigationMode == NavigationMode.Back && SelectedMaterial != null)
             {
-                WidgetToSprite();
+                MaterialToSprite();
             }
         }
 
@@ -65,6 +76,26 @@ namespace MeiTuTieTie.Pages
             }
 
             base.OnNavigatedFrom(e);
+        }
+
+        #endregion
+
+        #region Page Initialization
+
+        private void InitializePage()
+        {
+            switch (pageType)
+            {
+                case OperationPageType.Single:
+                    btnBiankuang.Visibility = Visibility.Visible;
+                    break;
+                case OperationPageType.Multi:
+                    btnPhoto.Visibility = Visibility.Visible;
+                    btnBeijing.Visibility = Visibility.Visible;
+                    break;
+                default:
+                    break;
+            }
         }
 
         #endregion
@@ -134,25 +165,41 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
-        #region Widget
+        #region Shipin, Biankuang, Beijing
 
-        private void Widget_Click(object sender, RoutedEventArgs e)
+        private void Shipin_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(WidgetPage));
+            Frame.Navigate(typeof(WidgetPage), WidgetPageType.Shipin);
         }
 
-        private async void WidgetToSprite()
+        private void Biankuang_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(WidgetPage), WidgetPageType.BianKuang);
+        }
+
+        private void Beijing_Click(object sender, RoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(WidgetPage), WidgetPageType.Beijing);
+        }
+
+        private async void MaterialToSprite()
         {
             if (SelectedMaterial != null)
             {
                 BitmapImage bi = await ImageHelper.ReadImage(SelectedMaterial.image);
 
-                //sprite
-                SpriteControl sprite = new SpriteControl(SpriteType.Image);
-                sprite.SetImage(bi);
-                sprites.Add(sprite);
-                sprite.AddToContainer();
-
+                if (MaterialSelectedBy == WidgetPageType.Shipin)
+                {
+                    SpriteControl sprite = new SpriteControl(SpriteType.Image);
+                    sprite.SetImage(bi);
+                    sprites.Add(sprite);
+                    sprite.AddToContainer();
+                }
+                else if (MaterialSelectedBy == WidgetPageType.BianKuang || MaterialSelectedBy == WidgetPageType.Beijing)
+                {
+                    imgBiankuangOrBeijing.Source = bi;
+                }
+                
                 SelectedMaterial = null;
             }
         }
@@ -208,7 +255,7 @@ namespace MeiTuTieTie.Pages
         ObservableCollection<BitmapImage> photoList = new ObservableCollection<BitmapImage>();
         private async void LoadPhotos()
         {
-            picListBox.ItemsSource = photoList;
+            //picListBox.ItemsSource = photoList;
             StorageFolder PictureFolder = KnownFolders.CameraRoll;
             var files = await PictureFolder.GetFilesAsync();
             foreach (var file in files)
@@ -237,6 +284,10 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
+
+       
+
+        
 
     }
 }

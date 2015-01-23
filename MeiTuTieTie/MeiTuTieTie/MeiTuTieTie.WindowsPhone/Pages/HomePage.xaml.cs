@@ -38,12 +38,12 @@ namespace MeiTuTieTie.Pages
 
         private void singlePic_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(OperationPage), "single");
+            Frame.Navigate(typeof(OperationPage), OperationPageType.Single);
         }
 
         private void multiPic_Click(object sender, RoutedEventArgs e)
         {
-            Test6();
+            Frame.Navigate(typeof(OperationPage), OperationPageType.Multi);
         }
 
         private void boutique_Click(object sender, RoutedEventArgs e)

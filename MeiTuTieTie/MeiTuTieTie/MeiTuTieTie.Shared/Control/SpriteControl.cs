@@ -229,7 +229,7 @@ namespace Shared.Control
             }
         }
 
-        protected virtual void CreateSprite()
+        private void CreateSprite()
         {
             //contentPanel
             contentPanel = new Grid();
@@ -289,11 +289,7 @@ namespace Shared.Control
                 contentPanel.MinHeight = 80d;
             }
 
-            contentPanel.PointerPressed += contentPanel_PointerPressed;
-            contentPanel.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.Rotate | ManipulationModes.Scale;
-            contentPanel.ManipulationDelta += contentPanel_ManipulationDelta;
-            contentPanel.ManipulationStarting += contentPanel_ManipulationStarting;
-            contentPanel.ManipulationCompleted += contentPanel_ManipulationCompleted;
+            //AttachManipulationEvents();
         }
 
         #endregion
@@ -305,6 +301,26 @@ namespace Shared.Control
         double g_rotation = 0d;
         double g_pos_x = 0d;
         double g_pos_y = 0d;
+
+        private void PrepareForManipulation()
+        {
+            contentPanel.PointerPressed += contentPanel_PointerPressed;
+            contentPanel.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.Rotate | ManipulationModes.Scale;
+            contentPanel.ManipulationDelta += contentPanel_ManipulationDelta;
+            contentPanel.ManipulationStarting += contentPanel_ManipulationStarting;
+            contentPanel.ManipulationCompleted += contentPanel_ManipulationCompleted;
+
+            //for the property which had been accessed by Storyboard, seems like reclaiming is necessary in order to change the property manually again 
+            _contentTransform = contentPanel.RenderTransform as CompositeTransform;
+            _LTTransform = LTPoint.RenderTransform as CompositeTransform;
+            _RBTransform = RBPoint.RenderTransform as CompositeTransform;
+            _centerPointTransform = centerPoint.RenderTransform as CompositeTransform;
+
+            SetRotation();
+            SetPosition();
+            SetScale();
+            SyncButtonsPosition();
+        }
 
         private void SetPosition(double delta_x = 0d, double delta_y = 0d)
         {
@@ -417,20 +433,6 @@ namespace Shared.Control
             e.Handled = true;
         }
 
-        private void PrepareForManipulation()
-        {
-            //for the property which had been accessed by Storyboard, seems like reclaiming is necessary in order to change the property manually again 
-            _contentTransform = contentPanel.RenderTransform as CompositeTransform;
-            _LTTransform = LTPoint.RenderTransform as CompositeTransform;
-            _RBTransform = RBPoint.RenderTransform as CompositeTransform;
-            _centerPointTransform = centerPoint.RenderTransform as CompositeTransform;
-
-            SetRotation();
-            SetPosition();
-            SetScale();
-            SyncButtonsPosition();
-        }
-
         private void SyncButtonsPosition()
         {
             Point point = RBPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
@@ -478,15 +480,6 @@ namespace Shared.Control
 
         #endregion
 
-        #region Randomize
-
-        private void RandomAppear()
-        {
-
-        }
-
-        #endregion
-
         #region Button Visibility
 
         public static void SetButtonVisibility(bool visible)
@@ -525,6 +518,28 @@ namespace Shared.Control
                 parent.Children.Remove(fe);
             }
         }
+
+        public void Appear()
+        {
+            g_rotation = RANDOM.NextDouble() * 90d - 45d;
+            g_pos_x = RANDOM.NextDouble() * 160d - 80d;
+            g_pos_y = RANDOM.NextDouble() * 240d - 120d;
+            g_scale = RANDOM.NextDouble() * 0.3d + 0.8d;
+
+            double from_x = RANDOM.NextDouble() * 160d - 80d;
+            double from_y = RANDOM.NextDouble() * 240d - 120d;
+            MoveAnimation.MoveFromTo(contentPanel, from_x, from_y, g_pos_x, g_pos_y, APPEAR_DURATION, EASING,
+                fe =>
+                {
+                    PrepareForManipulation();
+                    //this.Selected = true;
+                });
+
+            RotateAnimation.RotateFromTo(contentPanel, 0d, g_rotation, APPEAR_DURATION);
+            //ScaleAnimation.ScaleFromTo(contentPanel, 1d, 1d, g_scale, g_scale, APPEAR_DURATION);
+            ScaleAnimation.SetScale(contentPanel, g_scale, g_scale);
+        }
+
 
         #endregion
 
@@ -599,26 +614,6 @@ namespace Shared.Control
             }
         }
 
-        public void Appear()
-        {
-            g_rotation = RANDOM.NextDouble() * 90d - 45d;
-            g_pos_x = RANDOM.NextDouble() * 160d - 80d;
-            g_pos_y = RANDOM.NextDouble() * 240d - 120d;
-            g_scale = RANDOM.NextDouble() * 0.3d + 0.8d;
-
-            double from_x = RANDOM.NextDouble() * 160d - 80d;
-            double from_y = RANDOM.NextDouble() * 240d - 120d;
-            MoveAnimation.MoveFromTo(contentPanel, from_x, from_y, g_pos_x, g_pos_y, APPEAR_DURATION, EASING,
-                fe =>
-                {
-                    PrepareForManipulation();
-                    //this.Selected = true;
-                });
-
-            RotateAnimation.RotateFromTo(contentPanel, 0d, g_rotation, APPEAR_DURATION);
-            //ScaleAnimation.ScaleFromTo(contentPanel, 1d, 1d, g_scale, g_scale, APPEAR_DURATION);
-            ScaleAnimation.SetScale(contentPanel, g_scale, g_scale);
-        }
 
         public static void DismissActiveSprite()
         {

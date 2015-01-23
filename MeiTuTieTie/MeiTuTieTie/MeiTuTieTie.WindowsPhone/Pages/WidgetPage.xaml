@@ -6,7 +6,8 @@
     xmlns:util="using:Shared.Utility"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    NavigationCacheMode="Required">
 
     <Page.Resources>
         <ControlTemplate x:Name="widgetPivotItemTemplate" TargetType="PivotItem">
@@ -29,7 +30,7 @@
             </ScrollViewer>
         </ControlTemplate>
 
-        <ControlTemplate x:Name="widgetPivotItemTemplate_performance" TargetType="PivotItem">
+        <ControlTemplate x:Name="widgetPivotItemTemplate_performance" TargetType="ContentControl">
             <ScrollViewer>
                 <ItemsControl ItemsSource="{Binding}">
                     <ItemsControl.ItemsPanel>
@@ -57,7 +58,16 @@
     </Page.Resources>
 
     <Grid x:Name="rootGrid" Background="White">
-        <Pivot>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0" >
+            <TextBlock x:Name="pageTitle" Style="{StaticResource PageTitleStyle}"/>
+        </Grid>
+        
+        <!--shipin-->
+        <Pivot x:Name="shipinPanel" Grid.Row="1" Visibility="Collapsed">
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <Grid>
@@ -65,13 +75,22 @@
                     </Grid>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
-            <PivotItem Template="{StaticResource widgetPivotItemTemplate_performance}" Loaded="PivotItem_Loaded" Header="可爱" Tag="keai"/>
-            <PivotItem Template="{StaticResource widgetPivotItemTemplate_performance}" Loaded="PivotItem_Loaded" Header="文字模板" Tag="wenzi"/>
-            <PivotItem Template="{StaticResource widgetPivotItemTemplate_performance}" Loaded="PivotItem_Loaded" Header="搞笑表情" Tag="gaoxiaobiaoqing"/>
-            <PivotItem Template="{StaticResource widgetPivotItemTemplate_performance}" Loaded="PivotItem_Loaded" Header="遮挡物" Tag="zhedang"/>
-            <PivotItem Template="{StaticResource widgetPivotItemTemplate_performance}" Loaded="PivotItem_Loaded" Header="卡通形象" Tag="katongxingxiang"/>
+            <PivotItem Template="{StaticResource widgetPivotItemTemplate_performance}" x:Name="pivotItem_1" Header="可爱" />
+            <PivotItem Template="{StaticResource widgetPivotItemTemplate_performance}" x:Name="pivotItem_2" Header="文字模板" />
+            <PivotItem Template="{StaticResource widgetPivotItemTemplate_performance}" x:Name="pivotItem_3" Header="搞笑表情" />
+            <PivotItem Template="{StaticResource widgetPivotItemTemplate_performance}" x:Name="pivotItem_4" Header="遮挡物" />
+            <PivotItem Template="{StaticResource widgetPivotItemTemplate_performance}" x:Name="pivotItem_5" Header="卡通形象" />
         </Pivot>
         
+        <!--biankuang-->
+        <Grid x:Name="biankuangPanel" Grid.Row="1" Visibility="Collapsed">
+            <ContentControl Template="{StaticResource widgetPivotItemTemplate_performance}"/>
+        </Grid>
+
+        <!--beijing-->
+        <Grid x:Name="beijingPanel" Grid.Row="1" Visibility="Collapsed">
+            <ContentControl Template="{StaticResource widgetPivotItemTemplate_performance}"/>
+        </Grid>
     </Grid>
 
 </Page>

@@ -9,23 +9,17 @@
     NavigationCacheMode="Required">
 
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        
         <Grid x:Name="stagePanel">
             <Grid x:Name="stageBackground" Background="Wheat" PointerPressed="stageBackground_PointerPressed"/>
-            <Grid x:Name="stage" />
+            <Image x:Name="imgBiankuangOrBeijing" Stretch="Fill"/>
+            <Grid x:Name="stage"/>
         </Grid>
-        <ListBox x:Name="picListBox" VerticalAlignment="Top" Visibility="Collapsed">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Image Width="90" Height="90" Margin="4" Source="{Binding}"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ListBox>
-        
+
         <!--layer buttons-->
         <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
             <Button Content="Up" Click="spriteUp_Click" />
@@ -33,12 +27,14 @@
             <Button Content="Delete" Click="spriteDelete_Click" />
             <Button Content="Lock" Click="photoLock_Click" />
         </StackPanel>
-        
-        
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-            <Button Content="PickPhoto" Click="PickPhoto_Click" />
-            <Button Content="Widget" Click="Widget_Click" />
-            <Button Content="Text" Click="Text_Click" />
+
+        <!--Buttons-->
+        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom">
+            <Button Visibility="Collapsed" x:Name="btnPhoto" Content="照片" Click="PickPhoto_Click" />
+            <Button Visibility="Visible" x:Name="btnShipin" Content="饰品" Click="Shipin_Click" />
+            <Button Visibility="Visible" x:Name="btnText" Content="文字" Click="Text_Click" />
+            <Button Visibility="Collapsed" x:Name="btnBiankuang" Content="边框" Click="Biankuang_Click" />
+            <Button Visibility="Collapsed" x:Name="btnBeijing" Content="背景" Click="Beijing_Click" />
         </StackPanel>
 
         <Button Content="OK" Click="OK_Click" VerticalAlignment="Top" HorizontalAlignment="Right"/>
