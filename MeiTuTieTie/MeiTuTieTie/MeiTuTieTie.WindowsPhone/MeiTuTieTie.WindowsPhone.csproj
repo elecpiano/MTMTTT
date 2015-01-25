@@ -85,6 +85,9 @@
     <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pages\PhotoEditPage.xaml.cs">
+      <DependentUpon>PhotoEditPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\MyThemeDetailPage.xaml.cs">
       <DependentUpon>MyThemeDetailPage.xaml</DependentUpon>
     </Compile>
@@ -131,6 +134,10 @@
     <Content Include="Assets\WideLogo.scale-240.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Pages\PhotoEditPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\MyThemeDetailPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -171,6 +178,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Fonts\SHOWG.TTF" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="WriteableBitmapEx.WinRT, Version=1.0.14.0, Culture=neutral, PublicKeyToken=50375ca6144f1c69, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Lib\WriteableBitmapEx.WinRT.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '12.0' ">
     <VisualStudioVersion>12.0</VisualStudioVersion>
