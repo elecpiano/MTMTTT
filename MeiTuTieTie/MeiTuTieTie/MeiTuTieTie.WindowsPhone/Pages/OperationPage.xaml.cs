@@ -25,7 +25,7 @@ namespace MeiTuTieTie.Pages
         Multi
     }
 
-    public sealed partial class OperationPage : Page
+    public sealed partial class OperationPage : Page, IFileOpenPickerPageBase
     {
         #region Property
 
@@ -284,10 +284,6 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
-
-       
-
-        
 
     }
 }

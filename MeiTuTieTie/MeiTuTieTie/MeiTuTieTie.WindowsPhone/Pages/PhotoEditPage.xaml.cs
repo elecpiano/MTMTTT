@@ -21,6 +21,7 @@ namespace MeiTuTieTie.Pages
         #region Property
 
         private readonly NavigationHelper navigationHelper;
+        private BitmapImage bitmapImage = null;
 
         #endregion
 
@@ -32,10 +33,15 @@ namespace MeiTuTieTie.Pages
             this.navigationHelper = new NavigationHelper(this);
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            
+
+            if (e.NavigationMode == NavigationMode.New)
+            {
+                bitmapImage = (BitmapImage)e.Parameter;
+                image.Source = bitmapImage;
+            }
         }
 
         #endregion
@@ -53,6 +59,8 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
+
+
 
     }
 }

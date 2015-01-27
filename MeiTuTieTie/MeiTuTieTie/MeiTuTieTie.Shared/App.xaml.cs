@@ -1,4 +1,5 @@
-﻿using Shared.Model;
+﻿using MeiTuTieTie.Pages;
+using Shared.Model;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -122,15 +123,15 @@ namespace MeiTuTieTie
             if (args is FileOpenPickerContinuationEventArgs)
             {
                 Frame rootFrame = Window.Current.Content as Frame;
-                var page = rootFrame.Content as MeiTuTieTie.Pages.OperationPage;
-                if (page == null)
-                {
-                    if (!rootFrame.Navigate(typeof(MeiTuTieTie.Pages.OperationPage)))
-                    {
-                        throw new Exception("Failed to create OperationPage");
-                    }
-                    page = rootFrame.Content as MeiTuTieTie.Pages.OperationPage;
-                }
+                var page = rootFrame.Content as IFileOpenPickerPageBase;// MeiTuTieTie.Pages.OperationPage;
+                //if (page == null)
+                //{
+                //    if (!rootFrame.Navigate(typeof(MeiTuTieTie.Pages.OperationPage)))
+                //    {
+                //        throw new Exception("Failed to create OperationPage");
+                //    }
+                //    page = rootFrame.Content as MeiTuTieTie.Pages.OperationPage;
+                //}
                 
                 page.PickPhotosContiue((FileOpenPickerContinuationEventArgs)args);
 

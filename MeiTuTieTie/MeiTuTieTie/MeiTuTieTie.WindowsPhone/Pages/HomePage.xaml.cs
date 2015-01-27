@@ -6,17 +6,22 @@ using System.IO;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using System.Xml.Serialization;
+using Windows.ApplicationModel.Activation;
 using Windows.Data.Xml.Dom;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace MeiTuTieTie.Pages
 {
-    public sealed partial class HomePage : Page
+    public sealed partial class HomePage : Page, IFileOpenPickerPageBase
     {
         #region Lifecycle
 
@@ -38,7 +43,7 @@ namespace MeiTuTieTie.Pages
 
         private void singlePic_Click(object sender, RoutedEventArgs e)
         {
-            Frame.Navigate(typeof(OperationPage), OperationPageType.Single);
+            PickPhoto();
         }
 
         private void multiPic_Click(object sender, RoutedEventArgs e)
@@ -76,6 +81,42 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
+
+        #region Load Photo
+
+        private const string Continuation_Key_Operation = "Operation";
+        private const string Continuation_HomePage_PickPhoto = "PickPhotos";
+
+        private void PickPhoto()
+        {
+            var picker = new FileOpenPicker();
+            picker.FileTypeFilter.Add(".jpg");
+            picker.FileTypeFilter.Add(".jpeg");
+            picker.FileTypeFilter.Add(".png");
+            picker.FileTypeFilter.Add(".gif");
+            picker.ContinuationData[Continuation_Key_Operation] = Continuation_HomePage_PickPhoto;
+            //picker.PickMultipleFilesAndContinue();
+            picker.PickSingleFileAndContinue();
+        }
+
+        public async void PickPhotosContiue(FileOpenPickerContinuationEventArgs args)
+        {
+            if (args.ContinuationData.ContainsKey(Continuation_Key_Operation)
+                && args.ContinuationData[Continuation_Key_Operation].ToString() == Continuation_HomePage_PickPhoto)
+            {
+                foreach (var file in args.Files)
+                {
+                    IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
+                    BitmapImage bi = new BitmapImage();
+                    bi.SetSource(stream);
+
+                    Frame.Navigate(typeof(PhotoEditPage), bi);
+                }
+            }
+        }
+
+        #endregion
+
 
         #region Test
 
