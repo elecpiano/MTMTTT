@@ -104,8 +104,9 @@ namespace MeiTuTieTie.Pages
             if (args.ContinuationData.ContainsKey(Continuation_Key_Operation)
                 && args.ContinuationData[Continuation_Key_Operation].ToString() == Continuation_HomePage_PickPhoto)
             {
-                foreach (var file in args.Files)
+                if (args.Files != null && args.Files.Count == 1)
                 {
+                    var file = args.Files[0];
                     IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
                     BitmapImage bi = new BitmapImage();
                     bi.SetSource(stream);
