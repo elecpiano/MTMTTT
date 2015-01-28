@@ -13,6 +13,9 @@ using System.IO;
 using Shared.ViewModel;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.Storage.Streams;
+using Windows.UI.Xaml.Media;
+using Windows.Foundation;
+using Windows.UI;
 
 namespace MeiTuTieTie.Pages
 {
@@ -37,14 +40,15 @@ namespace MeiTuTieTie.Pages
 
         void image_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            column_0_width = 0d;
-            column_1_width = image.ActualWidth;
-            column_2_width = 0d;
+            pathMask.Width = image.ActualWidth;
+            pathMask.Height = image.ActualHeight;
 
-            row_0_height = 0d;
-            row_1_height = image.ActualHeight;
-            row_2_height = 0d;
+            clip_L = 0d;
+            clip_T = 0d;
+            clip_R = image.ActualWidth;
+            clip_B = image.ActualHeight;
 
+            PrepareMask(image.ActualWidth, image.ActualHeight);
             Draw();
         }
 
@@ -77,12 +81,15 @@ namespace MeiTuTieTie.Pages
 
         #region Editor
 
-        double column_0_width = 0d;
-        double column_1_width = 0d;
-        double column_2_width = 0d;
-        double row_0_height = 0d;
-        double row_1_height = 0d;
-        double row_2_height = 0d;
+        double clip_L = 0d;
+        double clip_T = 0d;
+        double clip_R = 0d;
+        double clip_B = 0d;
+
+        GeometryGroup geoGroup;
+        RectangleGeometry rectGeoOut;
+        RectangleGeometry rectGeoIn;
+        Rect rectIn;
 
         private void PrepareEditor()
         {
@@ -100,23 +107,41 @@ namespace MeiTuTieTie.Pages
             this.clipGrid.ManipulationDelta += clipGrid_ManipulationDelta;
         }
 
+        private void PrepareMask(double width, double height)
+        {
+            geoGroup = new GeometryGroup();
+            pathMask.Fill = new SolidColorBrush(Colors.Black);
+            rectGeoOut = new RectangleGeometry();
+            rectGeoOut.Rect = new Rect(0, 0, width, height);
+            rectGeoIn = new RectangleGeometry();
+            rectGeoIn.Rect = new Rect(0, 0, width, height);
+            geoGroup.Children.Add(rectGeoOut);
+            geoGroup.Children.Add(rectGeoIn);
+
+            pathMask.Data = geoGroup;
+            pathMask.Opacity = 0.5;
+        }
+
         void clipGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             var delta_x = e.Delta.Translation.X;
             var delta_y = e.Delta.Translation.Y;
 
-            column_0_width += delta_x;
-            column_2_width -= delta_x;
-            
-            row_0_height += delta_y;
-            row_2_height -= delta_y;
+            //knobTransform_LT.TranslateX += delta_x;
+            //knobTransform_LT.TranslateY += delta_y;
+            //knobTransform_RT.TranslateX += delta_x;
+            //knobTransform_RT.TranslateY += delta_y;
+            //knobTransform_LB.TranslateX += delta_x;
+            //knobTransform_LB.TranslateY += delta_y;
+            //knobTransform_RB.TranslateX += delta_x;
+            //knobTransform_RB.TranslateY += delta_y;
 
-            if (column_0_width < 0 || column_2_width < 0 || row_0_height < 0 || row_2_height < 0)
-            {
-                return;
-            }
+            clip_L += delta_x;
+            clip_R += delta_x;
+            clip_T += delta_y;
+            clip_B += delta_y;
 
-            Draw2();
+            Draw();
         }
 
         void knobLT_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -124,10 +149,11 @@ namespace MeiTuTieTie.Pages
             var delta_x = e.Delta.Translation.X;
             var delta_y = e.Delta.Translation.Y;
 
-            column_0_width += delta_x;
-            column_1_width -= delta_x;
-            row_0_height += delta_y;
-            row_1_height -= delta_y;
+            //knobTransform_LT.TranslateX += delta_x;
+            //knobTransform_LT.TranslateY += delta_y;
+
+            clip_L += delta_x;
+            clip_T += delta_y;
             Draw();
         }
 
@@ -136,9 +162,11 @@ namespace MeiTuTieTie.Pages
             var delta_x = e.Delta.Translation.X;
             var delta_y = e.Delta.Translation.Y;
 
-            column_1_width += delta_x;
-            row_0_height += delta_y;
-            row_1_height -= delta_y;
+            //knobTransform_RT.TranslateX += delta_x;
+            //knobTransform_RT.TranslateY += delta_y;
+
+            clip_R += delta_x;
+            clip_T += delta_y;
             Draw();
         }
 
@@ -147,9 +175,11 @@ namespace MeiTuTieTie.Pages
             var delta_x = e.Delta.Translation.X;
             var delta_y = e.Delta.Translation.Y;
 
-            column_0_width += delta_x;
-            column_1_width -= delta_x;
-            row_1_height += delta_y;
+            //knobTransform_LB.TranslateX += delta_x;
+            //knobTransform_LB.TranslateY += delta_y;
+
+            clip_L += delta_x;
+            clip_B += delta_y;
             Draw();
         }
 
@@ -158,63 +188,45 @@ namespace MeiTuTieTie.Pages
             var delta_x = e.Delta.Translation.X;
             var delta_y = e.Delta.Translation.Y;
 
-            column_1_width += delta_x;
-            row_1_height += delta_y;
+            //knobTransform_RB.TranslateX += delta_x;
+            //knobTransform_RB.TranslateY += delta_y;
+
+            clip_R += delta_x;
+            clip_B += delta_y;
             Draw();
         }
 
+        #endregion
+
+        #region Geometry
+
         private void Draw()
         {
-            column_0_width = column_0_width < 0 ? 0 : column_0_width;
-            column_0_width = column_0_width > image.ActualWidth ? image.ActualWidth : column_0_width;
+            geoGroup.Children.Clear();
 
-            column_1_width = column_1_width < 0 ? 0 : column_1_width;
-            column_1_width = column_1_width > image.ActualWidth ? image.ActualWidth : column_1_width;
+            rectIn.X = clip_L;
+            rectIn.Y = clip_T;
+            rectIn.Width = clip_R - clip_L;
+            rectIn.Height = clip_B - clip_T;
 
-            column_2_width = image.ActualWidth - column_0_width - column_1_width;
+            rectGeoIn.Rect = rectIn;// new Rect(60, 110, 100, 200);
 
-            row_0_height = row_0_height < 0 ? 0 : row_0_height;
-            row_0_height = row_0_height > image.ActualHeight ? image.ActualHeight : row_0_height;
+            geoGroup.Children.Add(rectGeoOut);
+            geoGroup.Children.Add(rectGeoIn);
 
-            row_1_height = row_1_height < 0 ? 0 : row_1_height;
-            row_1_height = row_1_height > image.ActualHeight ? image.ActualHeight : row_1_height;
-
-            row_2_height = image.ActualHeight - row_0_height - row_1_height;
-
-            column_0.Width = new GridLength(column_0_width);
-            column_1.Width = new GridLength(column_1_width);
-            //column_2.Width = new GridLength(column_2_width);
-
-            row_0.Height = new GridLength(row_0_height);
-            row_1.Height = new GridLength(row_1_height);
-            //row_2.Height = new GridLength(row_2_height);
+            UpdateKnobPosition();
         }
 
-        private void Draw2()
+        private void UpdateKnobPosition()
         {
-            column_0_width = column_0_width < 0 ? 0 : column_0_width;
-            column_0_width = column_0_width > image.ActualWidth ? image.ActualWidth : column_0_width;
-
-            column_2_width = column_2_width < 0 ? 0 : column_2_width;
-            column_2_width = column_2_width > image.ActualWidth ? image.ActualWidth : column_2_width;
-
-            column_1_width = image.ActualWidth - column_0_width - column_2_width;
-
-            row_0_height = row_0_height < 0 ? 0 : row_0_height;
-            row_0_height = row_0_height > image.ActualHeight ? image.ActualHeight : row_0_height;
-
-            row_2_height = row_2_height < 0 ? 0 : row_2_height;
-            row_2_height = row_2_height > image.ActualHeight ? image.ActualHeight : row_2_height;
-
-            row_1_height = image.ActualHeight - row_0_height - row_2_height;
-
-            column_0.Width = new GridLength(column_0_width);
-            column_1.Width = new GridLength(column_1_width);
-            column_2.Width = new GridLength(column_2_width);
-
-            row_0.Height = new GridLength(row_0_height);
-            row_1.Height = new GridLength(row_1_height);
-            row_2.Height = new GridLength(row_2_height);
+            knobTransform_LT.TranslateX = clip_L;
+            knobTransform_LT.TranslateY = clip_T;
+            knobTransform_RT.TranslateX = clip_R;
+            knobTransform_RT.TranslateY = clip_T;
+            knobTransform_LB.TranslateX = clip_L;
+            knobTransform_LB.TranslateY = clip_B;
+            knobTransform_RB.TranslateX = clip_R;
+            knobTransform_RB.TranslateY = clip_B;
         }
 
         #endregion

@@ -40,56 +40,56 @@
     </Page.Resources>
 
     <Grid Background="Blue">
-        <Grid Margin="50" VerticalAlignment="Center" HorizontalAlignment="Center">
+
+        <Grid Margin="24" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Image x:Name="image" Stretch="Uniform"/>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition x:Name="column_0" Width="50"/>
-                    <ColumnDefinition x:Name="column_1" Width="50"/>
-                    <ColumnDefinition x:Name="column_2" Width="*"/>
-                </Grid.ColumnDefinitions>
+
+
+            <Path x:Name="pathMask" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+            <!--editor panel-->
+            <Grid x:Name="clipGrid" Background="#00000000">
                 <Grid.RowDefinitions>
-                    <RowDefinition x:Name="row_0" Height="50"/>
-                    <RowDefinition x:Name="row_1" Height="50"/>
-                    <RowDefinition x:Name="row_2" Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Rectangle Grid.Row="0" Grid.Column="0" Style="{StaticResource EditorMaskStyle}"/>
-                <Rectangle Grid.Row="0" Grid.Column="1" Style="{StaticResource EditorMaskStyle}"/>
-                <Rectangle Grid.Row="0" Grid.Column="2" Style="{StaticResource EditorMaskStyle}"/>
-                <Rectangle Grid.Row="1" Grid.Column="0" Style="{StaticResource EditorMaskStyle}"/>
-                <Rectangle Grid.Row="1" Grid.Column="2" Style="{StaticResource EditorMaskStyle}"/>
-                <Rectangle Grid.Row="2" Grid.Column="0" Style="{StaticResource EditorMaskStyle}"/>
-                <Rectangle Grid.Row="2" Grid.Column="1" Style="{StaticResource EditorMaskStyle}"/>
-                <Rectangle Grid.Row="2" Grid.Column="2" Style="{StaticResource EditorMaskStyle}"/>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Rectangle Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource EditorBorder_H_Style}" VerticalAlignment="Top"/>
+                <Rectangle Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource EditorBorder_H_Style}" VerticalAlignment="Bottom"/>
+                <Rectangle Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource EditorBorder_V_Style}" HorizontalAlignment="Left"/>
+                <Rectangle Grid.Column="2" Grid.RowSpan="3" Style="{StaticResource EditorBorder_V_Style}" HorizontalAlignment="Right"/>
 
-                <Grid x:Name="clipGrid" Grid.Row="1" Grid.Column="1" Background="#00000000">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Rectangle Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource EditorBorder_H_Style}" VerticalAlignment="Top"/>
-                    <Rectangle Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource EditorBorder_H_Style}" VerticalAlignment="Bottom"/>
-                    <Rectangle Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource EditorBorder_V_Style}" HorizontalAlignment="Left"/>
-                    <Rectangle Grid.Column="2" Grid.RowSpan="3" Style="{StaticResource EditorBorder_V_Style}" HorizontalAlignment="Right"/>
-
-                    <Rectangle Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource EditorGuideLine_H_Style}"/>
-                    <Rectangle Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource EditorGuideLine_H_Style}"/>
-                    <Rectangle Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource EditorGuideLine_V_Style}"/>
-                    <Rectangle Grid.Column="1" Grid.RowSpan="3" Style="{StaticResource EditorGuideLine_V_Style}"/>
-                </Grid>
-                
-                <Ellipse x:Name="knobLT" Grid.Row="1" Grid.Column="1" Style="{StaticResource EditorKnobStyle}" VerticalAlignment="Top" HorizontalAlignment="Left"/>
-                <Ellipse x:Name="knobRT" Grid.Row="1" Grid.Column="1" Style="{StaticResource EditorKnobStyle}" VerticalAlignment="Top" HorizontalAlignment="Right"/>
-                <Ellipse x:Name="knobLB" Grid.Row="1" Grid.Column="1" Style="{StaticResource EditorKnobStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Left"/>
-                <Ellipse x:Name="knobRB" Grid.Row="1" Grid.Column="1" Style="{StaticResource EditorKnobStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                <Rectangle Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource EditorGuideLine_H_Style}"/>
+                <Rectangle Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource EditorGuideLine_H_Style}"/>
+                <Rectangle Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource EditorGuideLine_V_Style}"/>
+                <Rectangle Grid.Column="1" Grid.RowSpan="3" Style="{StaticResource EditorGuideLine_V_Style}"/>
             </Grid>
-            
+
+            <Ellipse x:Name="knobLT" Style="{StaticResource EditorKnobStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                <Ellipse.RenderTransform>
+                    <CompositeTransform x:Name="knobTransform_LT" TranslateX="0" TranslateY="0"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <Ellipse x:Name="knobRT" Style="{StaticResource EditorKnobStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                <Ellipse.RenderTransform>
+                    <CompositeTransform x:Name="knobTransform_RT" TranslateX="0" TranslateY="0"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <Ellipse x:Name="knobLB" Style="{StaticResource EditorKnobStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                <Ellipse.RenderTransform>
+                    <CompositeTransform x:Name="knobTransform_LB" TranslateX="0" TranslateY="0"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
+            <Ellipse x:Name="knobRB" Style="{StaticResource EditorKnobStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                <Ellipse.RenderTransform>
+                    <CompositeTransform x:Name="knobTransform_RB" TranslateX="0" TranslateY="0"/>
+                </Ellipse.RenderTransform>
+            </Ellipse>
         </Grid>
 
     </Grid>
