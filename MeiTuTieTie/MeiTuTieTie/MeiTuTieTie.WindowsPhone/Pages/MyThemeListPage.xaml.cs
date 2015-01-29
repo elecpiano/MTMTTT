@@ -188,7 +188,7 @@ namespace MeiTuTieTie.Pages
             {
                 appBarButton_edit = new AppBarButton();
                 appBarButton_edit.Label = "选择";
-                appBarButton_edit.Icon = new SymbolIcon(Symbol.List);
+                appBarButton_edit.Icon = new SymbolIcon(Symbol.Bullets);
                 appBarButton_edit.Click += AppbarButton_Edit;
             }
             this.bottomAppBar.PrimaryCommands.Add(appBarButton_edit);

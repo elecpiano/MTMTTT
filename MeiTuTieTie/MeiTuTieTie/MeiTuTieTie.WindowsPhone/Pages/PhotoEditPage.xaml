@@ -39,11 +39,16 @@
         </Style>
     </Page.Resources>
 
+    <Page.BottomAppBar>
+        <CommandBar x:Name="bottomAppBar">
+            <AppBarButton Icon="Accept" Label="确认" Click="ok_Click"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+
     <Grid Background="Blue">
 
-        <Grid Margin="24" VerticalAlignment="Center" HorizontalAlignment="Center">
+        <Grid Margin="40" VerticalAlignment="Center" HorizontalAlignment="Center">
             <Image x:Name="image" Stretch="Uniform"/>
-
 
             <Path x:Name="pathMask" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
@@ -92,5 +97,6 @@
             </Ellipse>
         </Grid>
 
+        <Image x:Name="resultImage" Visibility="Collapsed" VerticalAlignment="Center" HorizontalAlignment="Center"/>
     </Grid>
 </Page>

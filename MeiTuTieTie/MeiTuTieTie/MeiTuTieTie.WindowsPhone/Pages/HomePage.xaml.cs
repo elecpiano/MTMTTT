@@ -108,10 +108,10 @@ namespace MeiTuTieTie.Pages
                 {
                     var file = args.Files[0];
                     IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
-                    BitmapImage bi = new BitmapImage();
-                    bi.SetSource(stream);
+                    //BitmapImage bi = new BitmapImage();
+                    //bi.SetSource(stream);
 
-                    Frame.Navigate(typeof(PhotoEditPage), bi);
+                    Frame.Navigate(typeof(PhotoEditPage), stream);
                 }
             }
         }
