@@ -245,6 +245,8 @@ namespace MeiTuTieTie.Pages
             knobTransform_LB.TranslateY = clip_B;
             knobTransform_RB.TranslateX = clip_R;
             knobTransform_RB.TranslateY = clip_B;
+
+            clipGrid.Margin = new Thickness(clip_L, clip_T, image.ActualWidth - clip_R, image.ActualHeight - clip_B);
         }
 
         #endregion

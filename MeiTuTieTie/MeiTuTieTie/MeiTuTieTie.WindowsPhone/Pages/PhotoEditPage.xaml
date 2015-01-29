@@ -53,7 +53,7 @@
             <Path x:Name="pathMask" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
             <!--editor panel-->
-            <Grid x:Name="clipGrid" Background="#00000000">
+            <Grid x:Name="clipGrid" Background="#00000000" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
