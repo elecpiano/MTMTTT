@@ -555,6 +555,11 @@ namespace Shared.Control
             this.image.Source = bi;
         }
 
+        public void SetImage(WriteableBitmap wb)
+        {
+            this.image.Source = wb;
+        }
+
         public static void Initialize(Grid container)
         {
             CreateCommonComponents();

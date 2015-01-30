@@ -16,15 +16,10 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Shared.Model;
 using Shared.Control;
+using Shared.Enum;
 
 namespace MeiTuTieTie.Pages
 {
-    public enum OperationPageType
-    {
-        Single,
-        Multi
-    }
-
     public sealed partial class OperationPage : Page, IFileOpenPickerPageBase
     {
         #region Property
@@ -34,8 +29,18 @@ namespace MeiTuTieTie.Pages
         private const string Continuation_Key_Operation = "Operation";
         private const string Continuation_Operation_PickPhotos = "PickPhotos";
         private OperationPageType pageType = OperationPageType.Single;
-        public static Material SelectedMaterial { get; set; }
-        public static WidgetPageType MaterialSelectedBy = WidgetPageType.Shipin;
+        private bool SingleImageLocked
+        {
+            get
+            {
+                return imgSingleMode.IsHitTestVisible;
+            }
+            set
+            {
+                imgSingleMode.IsHitTestVisible = value;
+            }
+        }
+        public WidgetPageType MaterialSelectedBy { get; set; }
 
         #endregion
 
@@ -50,17 +55,17 @@ namespace MeiTuTieTie.Pages
         protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            
+
             if (e.NavigationMode == NavigationMode.New)
             {
                 pageType = (OperationPageType)e.Parameter;
                 InitializePage();
-                SpriteControl.Initialize(stage);
             }
-            else if (e.NavigationMode == NavigationMode.Back && SelectedMaterial != null)
+            else if (e.NavigationMode == NavigationMode.Back && App.CurrentInstance.SelectedMaterial != null)
             {
                 MaterialToSprite();
             }
+
         }
 
         protected override void OnNavigatedFrom(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
@@ -88,6 +93,8 @@ namespace MeiTuTieTie.Pages
             {
                 case OperationPageType.Single:
                     btnBiankuang.Visibility = Visibility.Visible;
+                    this.Frame.BackStack.RemoveAt(this.Frame.BackStack.Count - 1);
+                    PreapreSingleModeImage();
                     break;
                 case OperationPageType.Multi:
                     btnPhoto.Visibility = Visibility.Visible;
@@ -96,6 +103,8 @@ namespace MeiTuTieTie.Pages
                 default:
                     break;
             }
+
+            SpriteControl.Initialize(stage);
         }
 
         #endregion
@@ -116,11 +125,35 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
-        #region Sprite Manipulation
+        #region Manipulation
 
         private void stageBackground_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             SpriteControl.DismissActiveSprite();
+        }
+
+        private void PreapreSingleModeImage()
+        {
+            imgSingleMode.Source = App.CurrentInstance.wbForSingleMode;
+            imgSingleMode.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.Scale | ManipulationModes.Rotate;
+            imgSingleMode.ManipulationDelta += imgSingleMode_ManipulationDelta;
+            imgSingleMode.PointerPressed += stageBackground_PointerPressed;
+        }
+
+        void imgSingleMode_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            bool isDrag = e.Delta.Rotation == 0 && e.Delta.Expansion == 0;
+            if (isDrag)
+            {
+                transformSingleModeImage.TranslateX += e.Delta.Translation.X;
+                transformSingleModeImage.TranslateY += e.Delta.Translation.Y;
+            }
+            else
+            {
+                transformSingleModeImage.Rotation += e.Delta.Rotation;
+                transformSingleModeImage.ScaleX *= e.Delta.Scale;
+                transformSingleModeImage.ScaleY *= e.Delta.Scale;
+            }
         }
 
         #endregion
@@ -184,23 +217,23 @@ namespace MeiTuTieTie.Pages
 
         private async void MaterialToSprite()
         {
-            if (SelectedMaterial != null)
+            if (App.CurrentInstance.SelectedMaterial != null)
             {
-                BitmapImage bi = await ImageHelper.ReadImage(SelectedMaterial.image);
+                BitmapImage bi = await ImageHelper.ReadImage(App.CurrentInstance.SelectedMaterial.image);
 
-                if (MaterialSelectedBy == WidgetPageType.Shipin)
+                if (App.CurrentInstance.MaterialSelectedBy == WidgetPageType.Shipin)
                 {
                     SpriteControl sprite = new SpriteControl(SpriteType.Image);
                     sprite.SetImage(bi);
                     sprites.Add(sprite);
                     sprite.AddToContainer();
                 }
-                else if (MaterialSelectedBy == WidgetPageType.BianKuang || MaterialSelectedBy == WidgetPageType.Beijing)
+                else if (App.CurrentInstance.MaterialSelectedBy == WidgetPageType.BianKuang || App.CurrentInstance.MaterialSelectedBy == WidgetPageType.Beijing)
                 {
                     imgBiankuangOrBeijing.Source = bi;
                 }
-                
-                SelectedMaterial = null;
+
+                App.CurrentInstance.SelectedMaterial = null;
             }
         }
 
@@ -231,7 +264,7 @@ namespace MeiTuTieTie.Pages
 
         private void photoLock_Click(object sender, RoutedEventArgs e)
         {
-
+            SingleImageLocked = !SingleImageLocked;
         }
 
         #endregion

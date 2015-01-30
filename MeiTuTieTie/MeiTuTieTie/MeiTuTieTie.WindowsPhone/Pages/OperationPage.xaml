@@ -16,7 +16,12 @@
         
         <Grid x:Name="stagePanel">
             <Grid x:Name="stageBackground" Background="Wheat" PointerPressed="stageBackground_PointerPressed"/>
-            <Image x:Name="imgBiankuangOrBeijing" Stretch="Fill"/>
+            <Image x:Name="imgSingleMode" Stretch="Uniform" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5">
+                <Image.RenderTransform>
+                    <CompositeTransform x:Name="transformSingleModeImage"/>
+                </Image.RenderTransform>
+            </Image>
+            <Image x:Name="imgBiankuangOrBeijing" Stretch="Fill" IsHitTestVisible="False"/>
             <Grid x:Name="stage"/>
         </Grid>
 

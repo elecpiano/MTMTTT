@@ -1,4 +1,5 @@
-﻿using Shared.Model;
+﻿using Shared.Enum;
+using Shared.Model;
 using Shared.Utility;
 using System;
 using System.Collections.Generic;

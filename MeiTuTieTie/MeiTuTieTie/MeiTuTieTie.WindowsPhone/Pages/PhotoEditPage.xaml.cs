@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Media.Imaging;
 using System.IO;
 using System;
 using System.Threading.Tasks;
+using Shared.Enum;
 
 namespace MeiTuTieTie.Pages
 {
@@ -265,6 +266,9 @@ namespace MeiTuTieTie.Pages
             int height = B - T;
 
             WriteableBitmap wbNew = wbOrigin.Crop(L, T, width, height);
+
+            App.CurrentInstance.wbForSingleMode = wbNew;
+            Frame.Navigate(typeof(OperationPage), OperationPageType.Single);
 
             //IRandomAccessStream stream = new MemoryStream().AsRandomAccessStream();
             //await wbNew.ToStreamAsJpeg(stream);

@@ -12,16 +12,10 @@ using System.Linq;
 using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
+using Shared.Enum;
 
 namespace MeiTuTieTie.Pages
 {
-    public enum WidgetPageType
-    {
-        Shipin,
-        BianKuang,
-        Beijing
-    }
-
     public sealed partial class WidgetPage : Page
     {
         #region Property
@@ -252,8 +246,8 @@ namespace MeiTuTieTie.Pages
                 default:
                     break;
             }
-            OperationPage.SelectedMaterial = material;
-            OperationPage.MaterialSelectedBy = this.pageType;
+            App.CurrentInstance.SelectedMaterial = material;
+            App.CurrentInstance.MaterialSelectedBy = this.pageType;
             navigationHelper.GoBack();
         }
 
