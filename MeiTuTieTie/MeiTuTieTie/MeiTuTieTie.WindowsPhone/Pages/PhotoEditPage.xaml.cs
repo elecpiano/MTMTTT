@@ -20,7 +20,6 @@ namespace MeiTuTieTie.Pages
         #region Property
 
         private readonly NavigationHelper navigationHelper;
-        private WriteableBitmap wbOrigin = null;
 
         #endregion
 
@@ -52,15 +51,21 @@ namespace MeiTuTieTie.Pages
             }
         }
 
-        private async void PreapreWritableBitmap(IRandomAccessStream stream, BitmapImage bi)
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            WriteableBitmap wbTemp = new WriteableBitmap(bi.PixelWidth, bi.PixelHeight);
-            wbOrigin = await wbTemp.FromStream(stream);
+            base.OnNavigatingFrom(e);
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                App.CurrentInstance.ComingBackFromPhotoEditPage = true;
+            }
         }
+
 
         #endregion
 
         #region Editor
+
+        const double clip_MIN = 80d;
 
         double clip_L = 0d;
         double clip_T = 0d;
@@ -88,12 +93,22 @@ namespace MeiTuTieTie.Pages
 
         private void PrepareEditor()
         {
+            this.knobL.ManipulationMode = ManipulationModes.TranslateX;
+            this.knobR.ManipulationMode = ManipulationModes.TranslateX;
+            this.knobT.ManipulationMode = ManipulationModes.TranslateY;
+            this.knobB.ManipulationMode = ManipulationModes.TranslateY;
+
             var modes = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
             this.knobLT.ManipulationMode = modes;
             this.knobRT.ManipulationMode = modes;
             this.knobLB.ManipulationMode = modes;
             this.knobRB.ManipulationMode = modes;
             this.clipGrid.ManipulationMode = modes;
+
+            this.knobL.ManipulationDelta += knobL_ManipulationDelta;
+            this.knobR.ManipulationDelta += knobR_ManipulationDelta;
+            this.knobT.ManipulationDelta += knobT_ManipulationDelta;
+            this.knobB.ManipulationDelta += knobB_ManipulationDelta;
 
             this.knobLT.ManipulationDelta += knobLT_ManipulationDelta;
             this.knobRT.ManipulationDelta += knobRT_ManipulationDelta;
@@ -102,19 +117,67 @@ namespace MeiTuTieTie.Pages
             this.clipGrid.ManipulationDelta += clipGrid_ManipulationDelta;
         }
 
+        void knobL_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            var delta_x = e.Delta.Translation.X;
+            bool valid = CheckClipChange(clip_L + delta_x, clip_T, clip_R, clip_B);
+            if (valid)
+            {
+                UpdateClipArea(delta_x, 0, 0, 0);
+                Draw();
+            }
+            e.Handled = true;
+        }
+
+        void knobR_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            var delta_x = e.Delta.Translation.X;
+            bool valid = CheckClipChange(clip_L, clip_T, clip_R + delta_x, clip_B);
+            if (valid)
+            {
+                UpdateClipArea(0, 0, delta_x, 0);
+                Draw();
+            }
+            e.Handled = true;
+        }
+
+        void knobT_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            var delta_y = e.Delta.Translation.Y;
+            bool valid = CheckClipChange(clip_L, clip_T + delta_y, clip_R, clip_B);
+            if (valid)
+            {
+                UpdateClipArea(0, delta_y, 0, 0);
+                Draw();
+            }
+            e.Handled = true;
+        }
+
+        void knobB_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
+        {
+            var delta_y = e.Delta.Translation.Y;
+            bool valid = CheckClipChange(clip_L, clip_T, clip_R, clip_B + delta_y);
+            if (valid)
+            {
+                UpdateClipArea(0, 0, 0, delta_y);
+                Draw();
+            }
+            e.Handled = true;
+        }
+
         void clipGrid_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             var delta_x = e.Delta.Translation.X;
             var delta_y = e.Delta.Translation.Y;
 
             bool valid = false;
-            valid = CheckClipChange(clip_L + delta_x, 0, clip_R + delta_x, 0);
+            valid = CheckClipChange(clip_L + delta_x, clip_T, clip_R + delta_x, clip_B);
             if (valid)
             {
                 UpdateClipArea(delta_x, 0, delta_x, 0);
                 Draw();
             }
-            valid = CheckClipChange(0, clip_T + delta_y, 0, clip_B + delta_y);
+            valid = CheckClipChange(clip_L, clip_T + delta_y, clip_R, clip_B + delta_y);
             if (valid)
             {
                 UpdateClipArea(0, delta_y, 0, delta_y);
@@ -208,6 +271,15 @@ namespace MeiTuTieTie.Pages
                 return false;
             }
 
+            if ((R - L) < clip_MIN)
+            {
+                return false;   
+            }
+            if ((B - T) < clip_MIN)
+            {
+                return false;
+            }
+
             return true;
         }
 
@@ -254,7 +326,15 @@ namespace MeiTuTieTie.Pages
 
         #region Crop
 
-        private async Task<WriteableBitmap> Crop()
+        private WriteableBitmap wbOrigin = null;
+
+        private async void PreapreWritableBitmap(IRandomAccessStream stream, BitmapImage bi)
+        {
+            WriteableBitmap wbTemp = new WriteableBitmap(bi.PixelWidth, bi.PixelHeight);
+            wbOrigin = await wbTemp.FromStream(stream);
+        }
+
+        private async void Crop()
         {
             double ratio = (double)wbOrigin.PixelWidth / image.ActualWidth;
             int L = (int)(clip_L * ratio);
@@ -280,19 +360,15 @@ namespace MeiTuTieTie.Pages
             //resultImage.Visibility = Visibility.Visible;
             //resultImage.Source = bi;
 
-            return wbNew;
+            //return wbNew;
         }
 
-        private async void Test()
+        private async void ok_Click(object sender, RoutedEventArgs e)
         {
             resultImage.Visibility = Visibility.Visible;
-            WriteableBitmap wb = await Crop();
-            resultImage.Source = wb;
-        }
-
-        private void ok_Click(object sender, RoutedEventArgs e)
-        {
-            Test();
+            Crop();
+            //WriteableBitmap wb = await Crop();
+            //resultImage.Source = wb;
         }
 
         #endregion

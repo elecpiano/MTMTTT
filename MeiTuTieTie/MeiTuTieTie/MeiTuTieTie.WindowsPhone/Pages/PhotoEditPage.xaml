@@ -10,28 +10,60 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <Style x:Key="EditorMaskStyle" TargetType="Rectangle">
-            <Setter Property="Fill" Value="#80000000"/>
-        </Style>
         <Style x:Key="EditorBorder_V_Style" TargetType="Rectangle">
             <Setter Property="Fill" Value="#a0ffffff"/>
-            <Setter Property="Width" Value="2"/>
+            <Setter Property="Width" Value="3"/>
         </Style>
         <Style x:Key="EditorBorder_H_Style" TargetType="Rectangle">
             <Setter Property="Fill" Value="#a0ffffff"/>
-            <Setter Property="Height" Value="2"/>
+            <Setter Property="Height" Value="3"/>
         </Style>
+
+        <Style x:Key="Knob_V_Style" TargetType="Rectangle">
+            <Setter Property="Fill" Value="#ffffffff"/>
+            <Setter Property="RadiusX" Value="4"/>
+            <Setter Property="RadiusY" Value="4"/>
+            <Setter Property="Width" Value="8"/>
+            <Setter Property="Height" Value="64"/>
+            <Setter Property="Margin" Value="-4,0"/>
+            <Setter Property="IsHitTestVisible" Value="False"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+        <Style x:Key="Knob_H_Style" TargetType="Rectangle">
+            <Setter Property="Fill" Value="#ffffffff"/>
+            <Setter Property="RadiusX" Value="4"/>
+            <Setter Property="RadiusY" Value="4"/>
+            <Setter Property="Width" Value="64"/>
+            <Setter Property="Height" Value="8"/>
+            <Setter Property="Margin" Value="0,-4"/>
+            <Setter Property="IsHitTestVisible" Value="False"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+        </Style>
+
+        <Style x:Key="KnobHitArea_V_Style" TargetType="Rectangle">
+            <Setter Property="Fill" Value="#00000000"/>
+            <Setter Property="Width" Value="40"/>
+            <Setter Property="Margin" Value="-20,0"/>
+        </Style>
+        <Style x:Key="KnobHitArea_H_Style" TargetType="Rectangle">
+            <Setter Property="Fill" Value="#00000000"/>
+            <Setter Property="Height" Value="40"/>
+            <Setter Property="Margin" Value="0,-20"/>
+        </Style>
+
         <Style x:Key="EditorGuideLine_V_Style" TargetType="Rectangle">
             <Setter Property="Fill" Value="#a0ffffff"/>
             <Setter Property="Width" Value="1"/>
             <Setter Property="HorizontalAlignment" Value="Right"/>
         </Style>
+        
         <Style x:Key="EditorGuideLine_H_Style" TargetType="Rectangle">
             <Setter Property="Fill" Value="#a0ffffff"/>
             <Setter Property="Height" Value="1"/>
             <Setter Property="VerticalAlignment" Value="Bottom"/>
         </Style>
-        <Style x:Key="EditorKnobStyle" TargetType="Ellipse">
+        
+        <Style x:Key="KnobRoundStyle" TargetType="Ellipse">
             <Setter Property="Fill" Value="#a0ffffff"/>
             <Setter Property="Width" Value="40"/>
             <Setter Property="Height" Value="40"/>
@@ -73,24 +105,34 @@
                 <Rectangle Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource EditorGuideLine_H_Style}"/>
                 <Rectangle Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource EditorGuideLine_V_Style}"/>
                 <Rectangle Grid.Column="1" Grid.RowSpan="3" Style="{StaticResource EditorGuideLine_V_Style}"/>
+
+                <Rectangle x:Name="knobT" Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource KnobHitArea_H_Style}" VerticalAlignment="Top"/>
+                <Rectangle x:Name="knobB" Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource KnobHitArea_H_Style}" VerticalAlignment="Bottom"/>
+                <Rectangle x:Name="knobL" Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource KnobHitArea_V_Style}" HorizontalAlignment="Left"/>
+                <Rectangle x:Name="knobR" Grid.Column="2" Grid.RowSpan="3" Style="{StaticResource KnobHitArea_V_Style}" HorizontalAlignment="Right"/>
+
+                <Rectangle Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource Knob_H_Style}" VerticalAlignment="Top"/>
+                <Rectangle Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource Knob_H_Style}" VerticalAlignment="Bottom"/>
+                <Rectangle Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource Knob_V_Style}" HorizontalAlignment="Left"/>
+                <Rectangle Grid.Column="2" Grid.RowSpan="3" Style="{StaticResource Knob_V_Style}" HorizontalAlignment="Right"/>
             </Grid>
 
-            <Ellipse x:Name="knobLT" Style="{StaticResource EditorKnobStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+            <Ellipse x:Name="knobLT" Style="{StaticResource KnobRoundStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
                 <Ellipse.RenderTransform>
                     <CompositeTransform x:Name="knobTransform_LT" TranslateX="0" TranslateY="0"/>
                 </Ellipse.RenderTransform>
             </Ellipse>
-            <Ellipse x:Name="knobRT" Style="{StaticResource EditorKnobStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+            <Ellipse x:Name="knobRT" Style="{StaticResource KnobRoundStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
                 <Ellipse.RenderTransform>
                     <CompositeTransform x:Name="knobTransform_RT" TranslateX="0" TranslateY="0"/>
                 </Ellipse.RenderTransform>
             </Ellipse>
-            <Ellipse x:Name="knobLB" Style="{StaticResource EditorKnobStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+            <Ellipse x:Name="knobLB" Style="{StaticResource KnobRoundStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
                 <Ellipse.RenderTransform>
                     <CompositeTransform x:Name="knobTransform_LB" TranslateX="0" TranslateY="0"/>
                 </Ellipse.RenderTransform>
             </Ellipse>
-            <Ellipse x:Name="knobRB" Style="{StaticResource EditorKnobStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+            <Ellipse x:Name="knobRB" Style="{StaticResource KnobRoundStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
                 <Ellipse.RenderTransform>
                     <CompositeTransform x:Name="knobTransform_RB" TranslateX="0" TranslateY="0"/>
                 </Ellipse.RenderTransform>

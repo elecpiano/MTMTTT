@@ -36,6 +36,15 @@ namespace MeiTuTieTie.Pages
         {
             base.OnNavigatedTo(e);
             UpdateScreenSize();
+
+            if (e.NavigationMode == NavigationMode.New)
+            {
+            }
+            else if (e.NavigationMode == NavigationMode.Back && App.CurrentInstance.ComingBackFromPhotoEditPage)
+            {
+                App.CurrentInstance.ComingBackFromPhotoEditPage = false;
+                PickPhoto();
+            }
         }
 
         #endregion
@@ -118,7 +127,6 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
-
 
         #region Test
 

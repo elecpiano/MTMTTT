@@ -183,6 +183,12 @@ namespace MeiTuTieTie
             set { rootFrame = value; }
         }
 
+        #region HomePage
+
+        public bool ComingBackFromPhotoEditPage { get; set; }
+
+        #endregion
+
         #region opertaion page
 
         public Material SelectedMaterial { get; set; }
