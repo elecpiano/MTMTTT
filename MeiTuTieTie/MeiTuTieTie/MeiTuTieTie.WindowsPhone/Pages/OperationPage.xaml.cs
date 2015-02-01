@@ -117,7 +117,9 @@ namespace MeiTuTieTie.Pages
 
             //http://social.technet.microsoft.com/wiki/contents/articles/20648.using-the-rendertargetbitmap-in-windows-store-apps-with-xaml-and-c.aspx
             RectangleGeometry cropArea = new RectangleGeometry() { Rect = new Rect(0d, 0d, stagePanel.ActualWidth, stagePanel.ActualHeight) };
-            stage.Clip = cropArea;
+
+            /* IMPORTANT: in order to get the expected result, the clipped element and the captured element should NOT be the same one */
+            stagePanelForClipping.Clip = cropArea;
 
             string fileName = "MeiTuTieTie_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".jpg";
             ImageHelper.CaptureToMediaLibrary(this.stagePanel, fileName, 640);
