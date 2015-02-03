@@ -270,10 +270,19 @@ namespace MeiTuTieTie.Pages
         //    }
         //}
 
-        private async void Test6()
+        //private async void Test6()
+        //{
+        //    spriteTextBox.Font = new FontFamily(@"ms-appx:/Assets/Fonts/SHOWG.TTF#Showcard Gothic");
+        //    spriteTextBox.TextColor = new SolidColorBrush(Color.FromArgb(255, 190, 30, 0));
+        //}
+
+        #endregion
+
+        #region App Bar
+
+        private void settings_Click(object sender, RoutedEventArgs e)
         {
-            spriteTextBox.Font = new FontFamily(@"ms-appx:/Assets/Fonts/SHOWG.TTF#Showcard Gothic");
-            spriteTextBox.TextColor = new SolidColorBrush(Color.FromArgb(255, 190, 30, 0));
+            Frame.Navigate(typeof(SettingsPage));
         }
 
         #endregion

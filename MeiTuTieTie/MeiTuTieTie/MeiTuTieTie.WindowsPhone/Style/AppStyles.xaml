@@ -38,6 +38,19 @@
         <Setter Property="Foreground" Value="#ff000000"/>
     </Style>
 
+    <Style x:Key="PageTitlePanel_Style" TargetType="Grid">
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="Background" Value="#FFFF9A9A"/>
+    </Style>
+
+    <Style x:Key="PageTitle_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="#ffffffff"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="12,0,0,0"/>
+    </Style>
+
     <!--image switch-->
     <Style x:Name="ImageSwitch_Default_Style" TargetType="sharedControl:ImageSwitch">
         <Setter Property="Template">
@@ -232,6 +245,33 @@
         <Setter Property="Foreground" Value="#ff808080"/>
     </Style>
 
+    <!--settings page-->
+    <Style x:Key="Settings_GroupHeaderPanel_Style" TargetType="Grid">
+        <Setter Property="Height" Value="48"/>
+        <Setter Property="Background" Value="#FFFDD4D4"/>
+    </Style>
     
+    <Style x:Key="Settings_GroupTitle_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Foreground" Value="#FFEF7A7A"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="12,0,0,0"/>
+    </Style>
+
+    <Style x:Key="Settings_ItemContainer_Style" TargetType="Border">
+        <Setter Property="Height" Value="64"/>
+        <Setter Property="BorderBrush" Value="#FFFDD4D4"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        <Setter Property="Background" Value="#ffffffff"/>
+        <Setter Property="Margin" Value="12,0,12,0"/>
+    </Style>
+    
+    <Style x:Key="Settings_ItemText_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Foreground" Value="#ff2d2d2d"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,0,0,0"/>
+    </Style>
+
 
 </ResourceDictionary>
