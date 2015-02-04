@@ -14,7 +14,6 @@ using Windows.Storage.Streams;
 using Shared.Utility;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using Shared.Model;
 using Shared.Control;
 using Shared.Enum;
 
@@ -27,7 +26,7 @@ namespace MeiTuTieTie.Pages
         private readonly NavigationHelper navigationHelper;
         private List<SpriteControl> sprites = new List<SpriteControl>();
         private const string Continuation_Key_Operation = "Operation";
-        private const string Continuation_Operation_PickPhotos = "PickPhotos";
+        private const string Continuation_OperationPage_PickPhotos = "PickPhotos";
         private OperationPageType pageType = OperationPageType.Single;
         private bool SingleImageLocked
         {
@@ -99,6 +98,7 @@ namespace MeiTuTieTie.Pages
                 case OperationPageType.Multi:
                     btnPhoto.Visibility = Visibility.Visible;
                     btnBeijing.Visibility = Visibility.Visible;
+                    PickPhotos();
                     break;
                 default:
                     break;
@@ -174,14 +174,14 @@ namespace MeiTuTieTie.Pages
             picker.FileTypeFilter.Add(".jpeg");
             picker.FileTypeFilter.Add(".png");
             picker.FileTypeFilter.Add(".gif");
-            picker.ContinuationData[Continuation_Key_Operation] = Continuation_Operation_PickPhotos;
+            picker.ContinuationData[Continuation_Key_Operation] = Continuation_OperationPage_PickPhotos;
             picker.PickMultipleFilesAndContinue();
         }
 
         public async void PickPhotosContiue(FileOpenPickerContinuationEventArgs args)
         {
             if (args.ContinuationData.ContainsKey(Continuation_Key_Operation)
-                && args.ContinuationData[Continuation_Key_Operation].ToString() == Continuation_Operation_PickPhotos)
+                && args.ContinuationData[Continuation_Key_Operation].ToString() == Continuation_OperationPage_PickPhotos)
             {
                 foreach (var file in args.Files)
                 {

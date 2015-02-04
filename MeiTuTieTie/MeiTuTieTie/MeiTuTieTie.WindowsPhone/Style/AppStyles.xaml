@@ -52,7 +52,7 @@
     </Style>
 
     <!--image switch-->
-    <Style x:Name="ImageSwitch_Default_Style" TargetType="sharedControl:ImageSwitch">
+    <Style x:Name="ImageSwitch_Base_Style" TargetType="sharedControl:ImageSwitch">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="sharedControl:ImageSwitch">
@@ -122,7 +122,25 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+    <Style TargetType="sharedControl:ImageSwitch" BasedOn="{StaticResource ImageSwitch_Base_Style}">
+        <Setter Property="KnobImage" Value="/Assets/ImageSwitch/SwitchKnob.png"/>
+        <Setter Property="CheckedImage" Value="/Assets/ImageSwitch/SwitchShow.png"/>
+        <Setter Property="UnCheckedImage" Value="/Assets/ImageSwitch/SwitchHide.png"/>
+        <Setter Property="DisabledCheckedImage" Value="/Assets/ImageSwitch/SwitchDisabledShow.png"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="80"/>
+    </Style>
+
+    <Style x:Name="ImageSwitch_Normal_Style" TargetType="sharedControl:ImageSwitch" BasedOn="{StaticResource ImageSwitch_Base_Style}">
+        <Setter Property="KnobImage" Value="/Assets/ImageSwitch/SwitchKnob.png"/>
+        <Setter Property="CheckedImage" Value="/Assets/ImageSwitch/SwitchShow.png"/>
+        <Setter Property="UnCheckedImage" Value="/Assets/ImageSwitch/SwitchHide.png"/>
+        <Setter Property="DisabledCheckedImage" Value="/Assets/ImageSwitch/SwitchDisabledShow.png"/>
+        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="80"/>
+    </Style>
+
     <!--checkbox-->
     <Style x:Key="BigCheckBoxStyle" TargetType="CheckBox">
         <Setter Property="Background" Value="#00000000"/>
@@ -204,15 +222,6 @@
         </Setter>
     </Style>
 
-    <Style TargetType="sharedControl:ImageSwitch" BasedOn="{StaticResource ImageSwitch_Default_Style}">
-        <Setter Property="KnobImage" Value="/Assets/ImageSwitch/SwitchKnob.png"/>
-        <Setter Property="CheckedImage" Value="/Assets/ImageSwitch/SwitchShow.png"/>
-        <Setter Property="UnCheckedImage" Value="/Assets/ImageSwitch/SwitchHide.png"/>
-        <Setter Property="DisabledCheckedImage" Value="/Assets/ImageSwitch/SwitchDisabledShow.png"/>
-        <Setter Property="Height" Value="40"/>
-        <Setter Property="Width" Value="80"/>
-    </Style>
-
     <!--boutique page-->
     <Style x:Key="BoutiqueList_ItemName_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
         <Setter Property="FontSize" Value="24"/>
@@ -273,5 +282,21 @@
         <Setter Property="Margin" Value="0,0,0,0"/>
     </Style>
 
+    <!--photo edit page-->
+    <Style x:Key="PhotoEditPage_PopMenuContainer_Style" TargetType="Border">
+        <Setter Property="Height" Value="64"/>
+        <Setter Property="BorderBrush" Value="#80000000"/>
+        <Setter Property="BorderThickness" Value="0,0,0,1"/>
+        <Setter Property="Background" Value="#ffffffff"/>
+        <Setter Property="Margin" Value="0,0,0,0"/>
+    </Style>
+
+    <Style x:Key="PhotoEditPage_PopMenuText_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Foreground" Value="#ff2d2d2d"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,0,0,0"/>
+    </Style>
 
 </ResourceDictionary>

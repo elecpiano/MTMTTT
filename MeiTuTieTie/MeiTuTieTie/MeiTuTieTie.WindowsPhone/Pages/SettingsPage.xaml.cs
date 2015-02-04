@@ -11,6 +11,7 @@ using Windows.UI.Xaml.Media.Animation;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Shared.Control;
 
 namespace MeiTuTieTie.Pages
 {
@@ -50,6 +51,7 @@ namespace MeiTuTieTie.Pages
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.New)
             {
+                UpdateEdgeShadowState();
             }
         }
 
@@ -133,6 +135,33 @@ namespace MeiTuTieTie.Pages
 
         }
 
+        #region edge, shadow
+
+        private const string KEY_EDGE = "key_edge";
+        private const string KEY_SHADOW = "key_shadow";
+
+        private void UpdateEdgeShadowState()
+        {
+            bool edgeEnabled = App.CurrentInstance.GetSetting<bool>(KEY_EDGE, false);
+            edgeSwitch.Checked = edgeEnabled;
+
+            bool shadowEnabled = App.CurrentInstance.GetSetting<bool>(KEY_SHADOW, false); 
+            shadowSwitch.Checked = shadowEnabled;
+        }
+
+        private void edge_CheckStateChanged(Shared.Control.ImageSwitch sender, bool suggestedState)
+        {
+            App.CurrentInstance.UpdateSetting(KEY_EDGE, suggestedState);
+            sender.Checked = suggestedState;
+        }
+
+        private void shadow_CheckStateChanged(Shared.Control.ImageSwitch sender, bool suggestedState)
+        {
+            App.CurrentInstance.UpdateSetting(KEY_SHADOW, suggestedState);
+            sender.Checked = suggestedState;
+        }
+
+        #endregion
 
     }
 }

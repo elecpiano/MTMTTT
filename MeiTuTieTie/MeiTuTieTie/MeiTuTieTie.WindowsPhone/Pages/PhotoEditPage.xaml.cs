@@ -31,8 +31,17 @@ namespace MeiTuTieTie.Pages
             this.navigationHelper = new NavigationHelper(this);
             this.image.SizeChanged += image_SizeChanged;
             PrepareEditor();
+            this.navigationHelper.CanGobackAsked += navigationHelper_CanGobackAsked;
         }
 
+        void navigationHelper_CanGobackAsked(object sender, ref bool canceled)
+        {
+            if (sizeMenuPopupShown)
+            {
+                HideSizeMenuPopup();
+                canceled = true;
+            }
+        }
 
         protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
@@ -76,6 +85,9 @@ namespace MeiTuTieTie.Pages
         RectangleGeometry rectGeoOut;
         RectangleGeometry rectGeoIn;
         Rect rectIn;
+
+        string currentRatioType = "origin";
+        double currentRatio = 1d;
 
         void image_SizeChanged(object sender, SizeChangedEventArgs e)
         {
@@ -190,7 +202,13 @@ namespace MeiTuTieTie.Pages
             var delta_x = e.Delta.Translation.X;
             var delta_y = e.Delta.Translation.Y;
 
-            bool valid = CheckClipChange(clip_L + delta_x, clip_T + delta_y, clip_R, clip_B);
+            bool valid = ProcessRatio(ref delta_x, ref delta_y, true);
+            if (!valid)
+            {
+                return;
+            }
+
+            valid = CheckClipChange(clip_L + delta_x, clip_T + delta_y, clip_R, clip_B);
             if (valid)
             {
                 UpdateClipArea(delta_x, delta_y, 0, 0);
@@ -198,12 +216,65 @@ namespace MeiTuTieTie.Pages
             }
         }
 
+        private bool ProcessRatio(ref double delta_x, ref double delta_y, bool LTorRB)
+        {
+            if (currentRatioType == "origin")
+            {
+                return false;
+            }
+            else if (currentRatioType == "arbitrary")
+            {
+                //do nothing
+                return true;
+            }
+            else
+            {
+                if (LTorRB)
+                {
+                    if (delta_x >= 0 && delta_y >= 0)
+                    {
+                        delta_x = delta_x > delta_y ? delta_x : delta_y;
+                        delta_y = delta_x / currentRatio;
+                        return true;
+                    }
+                    else if (delta_x <= 0 && delta_y <= 0)
+                    {
+                        delta_x = delta_x < delta_y ? delta_x : delta_y;
+                        delta_y = delta_x / currentRatio;
+                        return true;
+                    }
+                }
+                else
+                {
+                    if (delta_x >= 0 && delta_y <= 0)
+                    {
+                        delta_x = delta_x > (0 - delta_y) ? delta_x : (0 - delta_y);
+                        delta_y = 0 - delta_x / currentRatio;
+                        return true;
+                    }
+                    else if (delta_x <= 0 && delta_y >= 0)
+                    {
+                        delta_x = delta_x < (0 - delta_y) ? delta_x : (0 - delta_y);
+                        delta_y = 0 - delta_x / currentRatio;
+                        return true;
+                    }
+                }
+            }
+            return false;
+        }
+
         void knobRT_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             var delta_x = e.Delta.Translation.X;
             var delta_y = e.Delta.Translation.Y;
 
-            bool valid = CheckClipChange(clip_L, clip_T + delta_y, clip_R + delta_x, clip_B);
+            bool valid = ProcessRatio(ref delta_x, ref delta_y, false);
+            if (!valid)
+            {
+                return;
+            }
+
+            valid = CheckClipChange(clip_L, clip_T + delta_y, clip_R + delta_x, clip_B);
             if (valid)
             {
                 UpdateClipArea(0, delta_y, delta_x, 0);
@@ -216,7 +287,13 @@ namespace MeiTuTieTie.Pages
             var delta_x = e.Delta.Translation.X;
             var delta_y = e.Delta.Translation.Y;
 
-            bool valid = CheckClipChange(clip_L + delta_x, clip_T, clip_R, clip_B + delta_y);
+            bool valid = ProcessRatio(ref delta_x, ref delta_y, false);
+            if (!valid)
+            {
+                return;
+            }
+
+            valid = CheckClipChange(clip_L + delta_x, clip_T, clip_R, clip_B + delta_y);
             if (valid)
             {
                 UpdateClipArea(delta_x, 0, 0, delta_y);
@@ -229,7 +306,13 @@ namespace MeiTuTieTie.Pages
             var delta_x = e.Delta.Translation.X;
             var delta_y = e.Delta.Translation.Y;
 
-            bool valid = CheckClipChange(clip_L, clip_T, clip_R + delta_x, clip_B + delta_y);
+            bool valid = ProcessRatio(ref delta_x, ref delta_y, true);
+            if (!valid)
+            {
+                return;
+            }
+
+            valid = CheckClipChange(clip_L, clip_T, clip_R + delta_x, clip_B + delta_y);
             if (valid)
             {
                 UpdateClipArea(0, 0, delta_x, delta_y);
@@ -273,7 +356,7 @@ namespace MeiTuTieTie.Pages
 
             if ((R - L) < clip_MIN)
             {
-                return false;   
+                return false;
             }
             if ((B - T) < clip_MIN)
             {
@@ -365,13 +448,117 @@ namespace MeiTuTieTie.Pages
 
         private async void ok_Click(object sender, RoutedEventArgs e)
         {
-            resultImage.Visibility = Visibility.Visible;
+            //resultImage.Visibility = Visibility.Visible;
             Crop();
             //WriteableBitmap wb = await Crop();
             //resultImage.Source = wb;
         }
 
         #endregion
+
+        #region Size Menu Popup
+
+        bool sizeMenuPopupShown = false;
+
+        private void ShowSizeMenuPopup()
+        {
+            if (!sizeMenuPopupShown)
+            {
+                VisualStateManager.GoToState(this, "vsSizeMenuPopupShown", true);
+                sizeMenuPopupShown = true;
+            }
+        }
+
+        private void HideSizeMenuPopup()
+        {
+            if (sizeMenuPopupShown)
+            {
+                VisualStateManager.GoToState(this, "vsSizeMenuPopupHidden", true);
+                sizeMenuPopupShown = false;
+            }
+        }
+
+        private void selectedSize_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            if (sizeMenuPopupShown)
+            {
+                HideSizeMenuPopup();
+            }
+            else
+            {
+                ShowSizeMenuPopup();
+            }
+        }
+
+        private void sizeMenuItem_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            string tag = (sender as FrameworkElement).Tag.ToString();
+            currentRatioType = tag;
+
+            switch (tag)
+            {
+                case "origin":
+                    selectedSizeText.Text = "原图";
+                    break;
+                case "fitApp":
+                    currentRatio = Window.Current.Bounds.Width / Window.Current.Bounds.Height;
+                    selectedSizeText.Text = "适应软件";
+                    break;
+                case "arbitrary":
+                    selectedSizeText.Text = "任意";
+                    break;
+                case "1x1":
+                    currentRatio = 1d;
+                    selectedSizeText.Text = "1X1";
+                    break;
+                case "3x4":
+                    currentRatio = 0.75d;
+                    selectedSizeText.Text = "3X4";
+                    break;
+                default:
+                    break;
+            }
+
+            //reset clip area
+            if (tag == "origin")
+            {
+                clip_L = 0d;
+                clip_T = 0d;
+                clip_R = image.ActualWidth;
+                clip_B = image.ActualHeight;
+            }
+            else if (tag == "fitApp" || tag == "1x1" || tag == "3x4")
+            {
+                double shortSide = image.ActualWidth <= image.ActualHeight * currentRatio ? image.ActualWidth : image.ActualHeight;
+                double longSide = image.ActualWidth > image.ActualHeight * currentRatio ? image.ActualWidth : image.ActualHeight;
+                clip_L = image.ActualWidth == shortSide ? 0d : (image.ActualWidth - image.ActualHeight * currentRatio) / 2;
+                clip_R = image.ActualWidth == shortSide ? image.ActualWidth : image.ActualWidth - (image.ActualWidth - image.ActualHeight * currentRatio) / 2;
+                clip_T = image.ActualWidth == shortSide ? (image.ActualHeight - image.ActualWidth / currentRatio) / 2 : 0d;
+                clip_B = image.ActualWidth == shortSide ? image.ActualHeight - (image.ActualHeight - image.ActualWidth / currentRatio) / 2 : image.ActualHeight;
+            }
+
+            //set edge knob visibility
+            if (tag == "arbitrary")
+            {
+                knobL.Visibility = Visibility.Visible;
+                knobR.Visibility = Visibility.Visible;
+                knobT.Visibility = Visibility.Visible;
+                knobB.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                knobL.Visibility = Visibility.Collapsed;
+                knobR.Visibility = Visibility.Collapsed;
+                knobT.Visibility = Visibility.Collapsed;
+                knobB.Visibility = Visibility.Collapsed;
+            }
+
+            Draw();
+            HideSizeMenuPopup();
+        }
+
+        #endregion
+
 
     }
 }
