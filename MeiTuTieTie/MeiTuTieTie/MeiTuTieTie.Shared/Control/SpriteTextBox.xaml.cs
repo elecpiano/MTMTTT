@@ -1,4 +1,5 @@
-﻿using Windows.UI;
+﻿using System;
+using Windows.UI;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
@@ -76,6 +77,11 @@ namespace Shared.Control
 
         void textBox_LostFocus(object sender, RoutedEventArgs e)
         {
+            StopEdit();
+        }
+
+        private void StopEdit()
+        {
             if (string.IsNullOrEmpty(textBox.Text))
             {
                 IsVirgin = true;
@@ -86,6 +92,11 @@ namespace Shared.Control
             }
             rootGrid.Background = TransparentBrush;
             mask.IsHitTestVisible = true;
+
+            if (EditingEnded!=null)
+            {
+                EditingEnded(this, EventArgs.Empty);
+            }
         }
 
         private void BeginEdit()
@@ -94,6 +105,11 @@ namespace Shared.Control
             virginTextBlock.Visibility = Visibility.Collapsed;
             this.textBox.Focus(FocusState.Programmatic);
             rootGrid.Background = EditBackgroundBrush;
+
+            if (EditingStarted!=null)
+            {
+                EditingStarted(this, EventArgs.Empty);
+            }
         }
 
         private void textBox_TextChanged(object sender, TextChangedEventArgs e)
@@ -110,6 +126,8 @@ namespace Shared.Control
         #region Event
 
         public event TextChangedEventHandler TextChanged;
+        public event EventHandler EditingStarted;
+        public event EventHandler EditingEnded;
 
         #endregion
     }

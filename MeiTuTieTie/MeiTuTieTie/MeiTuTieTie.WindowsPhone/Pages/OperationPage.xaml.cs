@@ -59,6 +59,7 @@ namespace MeiTuTieTie.Pages
             {
                 pageType = (OperationPageType)e.Parameter;
                 InitializePage();
+                BuildBottomAppBar_Normal();
             }
             else if (e.NavigationMode == NavigationMode.Back && App.CurrentInstance.SelectedMaterial != null)
             {
@@ -314,11 +315,87 @@ namespace MeiTuTieTie.Pages
         private void AddTextSprite()
         {
             SpriteControl sprite = new SpriteControl(SpriteType.Text);
+            sprite.EditingStarted += sprite_EditingStarted;
+            sprite.EditingEnded += sprite_EditingEnded;
+            
             sprites.Add(sprite);
             sprite.AddToContainer();
         }
 
+        void sprite_EditingStarted(object sender, EventArgs e)
+        {
+            BuildBottomAppBar_TextEditor();
+        }
+
+        void sprite_EditingEnded(object sender, EventArgs e)
+        {
+            BuildBottomAppBar_Normal();
+        }
+
         #endregion
+
+        #region AppBar
+
+        AppBarButton appBarButton_ok = null;
+        AppBarButton appBarButton_font = null;
+        AppBarButton appBarButton_color = null;
+
+        private void BuildBottomAppBar_Normal()
+        {
+            this.bottomAppBar.PrimaryCommands.Clear();
+            
+            //ok
+            if (appBarButton_ok == null)
+            {
+                appBarButton_ok = new AppBarButton();
+                appBarButton_ok.Label = "确认";
+                appBarButton_ok.Icon = new SymbolIcon(Symbol.Accept);
+                appBarButton_ok.Click += AppbarButton_OK_Click;
+            }
+            this.bottomAppBar.PrimaryCommands.Add(appBarButton_ok);
+
+        }
+
+        private void BuildBottomAppBar_TextEditor()
+        {
+            this.bottomAppBar.PrimaryCommands.Clear();
+
+            //font
+            if (appBarButton_font == null)
+            {
+                appBarButton_font = new AppBarButton();
+                appBarButton_font.Label = "字体";
+                appBarButton_font.Icon = new SymbolIcon(Symbol.Font);
+                appBarButton_font.Click += AppbarButton_Font_Click;
+            }
+            this.bottomAppBar.PrimaryCommands.Add(appBarButton_font);
+
+            //color
+            if (appBarButton_color == null)
+            {
+                appBarButton_color = new AppBarButton();
+                appBarButton_color.Label = "颜色";
+                appBarButton_color.Icon = new SymbolIcon(Symbol.FontColor);
+                appBarButton_color.Click += AppbarButton_Color_Click;
+            }
+            this.bottomAppBar.PrimaryCommands.Add(appBarButton_color);
+        }
+
+        private void AppbarButton_OK_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        void AppbarButton_Font_Click(object sender, RoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(FontPage));
+        }
+
+        void AppbarButton_Color_Click(object sender, RoutedEventArgs e)
+        {
+        }
+
+        #endregion
+
 
     }
 }

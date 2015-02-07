@@ -8,6 +8,11 @@
     mc:Ignorable="d"
     NavigationCacheMode="Required">
 
+    <Page.BottomAppBar>
+        <CommandBar x:Name="bottomAppBar">
+        </CommandBar>
+    </Page.BottomAppBar>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>

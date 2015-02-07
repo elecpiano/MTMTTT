@@ -141,7 +141,7 @@
             </StackPanel>
 
             <!--image size-->
-            <StackPanel Visibility="Collapsed" x:Name="popupImageSize" VerticalAlignment="Bottom" Background="#ffffffff" RenderTransformOrigin="0.5,0.5">
+            <StackPanel Visibility="Visible" x:Name="popupImageSize" VerticalAlignment="Bottom" Background="#ffffffff" RenderTransformOrigin="0.5,0.5">
                 <StackPanel.RenderTransform>
                     <CompositeTransform TranslateY="192"/>
                 </StackPanel.RenderTransform>

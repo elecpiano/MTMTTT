@@ -284,6 +284,8 @@ namespace Shared.Control
             {
                 spriteText = new SpriteTextBox();
                 spriteText.TextChanged += spriteText_TextChanged;
+                spriteText.EditingStarted += spriteText_EditingStarted;
+                spriteText.EditingEnded += spriteText_EditingEnded;
                 contentPanel.Children.Add(spriteText);
                 contentPanel.MaxWidth = 300d;
                 contentPanel.MinHeight = 80d;
@@ -476,6 +478,22 @@ namespace Shared.Control
         {
             SetButtonVisibility(true);
             SyncButtonsPosition();
+        }
+
+        void spriteText_EditingStarted(object sender, EventArgs e)
+        {
+            if (this.EditingStarted!=null)
+            {
+                EditingStarted(this, EventArgs.Empty);
+            }
+        }
+
+        void spriteText_EditingEnded(object sender, EventArgs e)
+        {
+            if (this.EditingEnded!=null)
+            {
+                EditingEnded(this, EventArgs.Empty);
+            }
         }
 
         #endregion
@@ -682,5 +700,11 @@ namespace Shared.Control
 
         #endregion
 
+        #region Event
+
+        public event EventHandler EditingStarted;
+        public event EventHandler EditingEnded;
+
+        #endregion
     }
 }

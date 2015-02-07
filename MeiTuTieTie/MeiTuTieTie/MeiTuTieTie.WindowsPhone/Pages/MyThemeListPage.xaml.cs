@@ -46,8 +46,8 @@ namespace MeiTuTieTie.Pages
             if (e.NavigationMode == NavigationMode.New)
             {
                 LoadData();
+                BuildBottomAppBar_Normal();
             }
-            BuildBottomAppBar_Normal();
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)

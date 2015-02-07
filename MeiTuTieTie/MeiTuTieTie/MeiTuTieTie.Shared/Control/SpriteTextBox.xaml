@@ -16,12 +16,14 @@
                    TextAlignment="Center"
                    FontSize="44" Foreground="#ff000000" />
         <TextBox x:Name="textBoxVisual" IsHitTestVisible="False"
+                 AcceptsReturn="True"
                  TextWrapping="Wrap"
                  TextAlignment="Center"
                  Background="Transparent"
                  BorderThickness="0" BorderBrush="Transparent"
                  FontSize="44" Foreground="#ff000000" Text="" VerticalAlignment="Center" />
         <TextBox x:Name="textBox" Opacity="0"
+                 AcceptsReturn="True"
                  TextWrapping="Wrap"
                  TextAlignment="Center"
                  Background="Transparent"
