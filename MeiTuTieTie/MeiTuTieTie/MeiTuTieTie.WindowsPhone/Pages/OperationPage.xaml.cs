@@ -112,7 +112,7 @@ namespace MeiTuTieTie.Pages
 
         #region Image Processing
 
-        private void OK_Click(object sender, RoutedEventArgs e)
+        private void GenerateImage()
         {
             SpriteControl.DismissActiveSprite();
 
@@ -332,6 +332,21 @@ namespace MeiTuTieTie.Pages
             BuildBottomAppBar_Normal();
         }
 
+        //private void SetFontColorPanelVisibility(bool visible)
+        //{
+        //    fontColorPanel.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+
+        //    double keyboardHeight = 0d;
+        //    var deviceWidth = this.ActualWidth;
+        //    var isHdDevice = (deviceWidth > 500 ? true : false);
+        //    if (isHdDevice)
+
+        //        keyboardHeight = 540;
+        //    else
+        //        keyboardHeight = 336;
+        //    keyboardPlaceholder.Height = keyboardHeight;
+        //}
+
         #endregion
 
         #region AppBar
@@ -383,6 +398,7 @@ namespace MeiTuTieTie.Pages
 
         private void AppbarButton_OK_Click(object sender, RoutedEventArgs e)
         {
+            GenerateImage();
         }
 
         void AppbarButton_Font_Click(object sender, RoutedEventArgs e)

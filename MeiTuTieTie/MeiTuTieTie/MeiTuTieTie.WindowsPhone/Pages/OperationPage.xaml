@@ -14,10 +14,6 @@
     </Page.BottomAppBar>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
 
         <Grid x:Name="stagePanel">
             <Grid x:Name="stagePanelForClipping">
@@ -41,15 +37,13 @@
         </StackPanel>
 
         <!--Buttons-->
-        <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom">
+        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
             <Button Visibility="Collapsed" x:Name="btnPhoto" Content="照片" Click="PickPhoto_Click" />
             <Button Visibility="Visible" x:Name="btnShipin" Content="饰品" Click="Shipin_Click" />
             <Button Visibility="Visible" x:Name="btnText" Content="文字" Click="Text_Click" />
             <Button Visibility="Collapsed" x:Name="btnBiankuang" Content="边框" Click="Biankuang_Click" />
             <Button Visibility="Collapsed" x:Name="btnBeijing" Content="背景" Click="Beijing_Click" />
         </StackPanel>
-
-        <Button Content="OK" Click="OK_Click" VerticalAlignment="Top" HorizontalAlignment="Right"/>
 
     </Grid>
     
