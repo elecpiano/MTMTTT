@@ -27,6 +27,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Control\ImageSwitch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Control\SpriteControl.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Control\SpriteFrame.xaml.cs">
+      <DependentUpon>SpriteFrame.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Control\SpriteTextBox.xaml.cs">
       <DependentUpon>SpriteTextBox.xaml</DependentUpon>
     </Compile>
@@ -53,6 +56,10 @@
     <Compile Include="$(MSBuildThisFileDirectory)ViewModel\MyThemeDetailViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="$(MSBuildThisFileDirectory)Control\SpriteFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="$(MSBuildThisFileDirectory)Control\SpriteTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

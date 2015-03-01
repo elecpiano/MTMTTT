@@ -59,9 +59,6 @@ namespace Shared.Control
         private CompositeTransform _RBTransform = null;
         private CompositeTransform _centerPointTransform = null;
 
-        private double imageWidth = 0d;
-        private double imageHeight = 0d;
-
         private bool _Selected = false;
         public bool Selected
         {
@@ -298,8 +295,6 @@ namespace Shared.Control
                 contentPanel.Children.Add(image);
                 contentPanel.MaxWidth = 150d;
                 contentPanel.MaxHeight = 200d;
-
-                image.SizeChanged += image_SizeChanged;
             }
             else if (this.SpriteType == SpriteType.Text)
             {
@@ -313,13 +308,6 @@ namespace Shared.Control
             }
 
             //AttachManipulationEvents();
-        }
-
-        void image_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            this.image.SizeChanged -= image_SizeChanged;
-            imageWidth = this.image.ActualWidth;
-            imageHeight = this.image.ActualHeight;
         }
 
         #endregion
@@ -368,21 +356,6 @@ namespace Shared.Control
         }
 
         private void SetScale(double delta_scale = 1d)
-        {
-            g_scale *= delta_scale;
-
-            imageWidth *= delta_scale;
-            imageHeight *= delta_scale;
-            contentPanel.MaxWidth = contentPanel.Width = image.Width = imageWidth;
-            contentPanel.MaxHeight = contentPanel.Height = image.Height = imageHeight;
-
-            //keep the points' size unchanged, to avoid accumulated errors
-            _LTTransform.ScaleX = _LTTransform.ScaleY = 1d / g_scale;
-            _RBTransform.ScaleX = _RBTransform.ScaleY = 1d / g_scale;
-            _centerPointTransform.ScaleX = _centerPointTransform.ScaleY = 1d / g_scale;
-        }
-
-        private void SetScale2(double delta_scale = 1d)
         {
             g_scale *= delta_scale;
 
