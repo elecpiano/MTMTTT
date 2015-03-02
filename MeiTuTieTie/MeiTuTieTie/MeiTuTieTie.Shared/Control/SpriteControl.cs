@@ -244,6 +244,7 @@ namespace Shared.Control
             contentPanel = new Grid();
             contentPanel.VerticalAlignment = VerticalAlignment.Center;
             contentPanel.HorizontalAlignment = HorizontalAlignment.Center;
+            contentPanel.Margin = new Thickness(-99999);
             EnsureTransform(contentPanel);
 
             //LTPoint
@@ -296,8 +297,8 @@ namespace Shared.Control
                 image.Stretch = Stretch.Uniform;
                 image.CacheMode = new BitmapCache();
                 contentPanel.Children.Add(image);
-                contentPanel.MaxWidth = 150d;
-                contentPanel.MaxHeight = 200d;
+                //contentPanel.MaxWidth = 150d;
+                //contentPanel.MaxHeight = 200d;
 
                 image.SizeChanged += image_SizeChanged;
             }
@@ -373,8 +374,8 @@ namespace Shared.Control
 
             imageWidth *= delta_scale;
             imageHeight *= delta_scale;
-            contentPanel.MaxWidth = contentPanel.Width = image.Width = imageWidth;
-            contentPanel.MaxHeight = contentPanel.Height = image.Height = imageHeight;
+            contentPanel.Width = imageWidth;
+            contentPanel.Height = imageHeight;
 
             //keep the points' size unchanged, to avoid accumulated errors
             _LTTransform.ScaleX = _LTTransform.ScaleY = 1d / g_scale;
@@ -401,8 +402,8 @@ namespace Shared.Control
             //double bwThickness = BORDER_WHITE_THICKNESS / g_scale;
             //borderWhite.Margin = new Thickness(-bwThickness);
 
-            double margin = FRAME_MARGIN / g_scale;
-            spriteFrame.Margin = new Thickness(margin);
+            //double margin = FRAME_MARGIN / g_scale;
+            //spriteFrame.Margin = new Thickness(margin);
         }
 
         void contentPanel_ManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
@@ -616,6 +617,16 @@ namespace Shared.Control
         public void SetImage(BitmapImage bi)
         {
             this.image.Source = bi;
+
+            double width = 150d;
+            double height = width * (double)bi.PixelHeight / (double)bi.PixelWidth;
+            if (height > 200d)
+            {
+                height = 200d;
+                width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
+            }
+            contentPanel.Width = imageWidth = width;
+            contentPanel.Height = imageHeight = height;
         }
 
         public void SetImage(WriteableBitmap wb)
