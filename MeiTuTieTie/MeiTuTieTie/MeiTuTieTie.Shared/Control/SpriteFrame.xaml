@@ -10,54 +10,31 @@
     d:DesignWidth="400">
 
     <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="3"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="3"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="3"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="3"/>
-        </Grid.RowDefinitions>
+        <Grid x:Name="shadowPanel">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="14"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="14"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="14"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="14"/>
+            </Grid.RowDefinitions>
 
-        <Rectangle Grid.Row="1" Grid.Column="1" Fill="White"/>
+
+            <Image Grid.Row="0" Grid.Column="0" Stretch="Fill" Source="/Assets/Images/Sprite/ShadowLT.png"/>
+            <Image Grid.Row="0" Grid.Column="1" Stretch="Fill" Source="/Assets/Images/Sprite/ShadowT.png" />
+            <Image Grid.Row="0" Grid.Column="2" Stretch="Fill" Source="/Assets/Images/Sprite/ShadowRT.png"/>
+            <Image Grid.Row="1" Grid.Column="0" Stretch="Fill" Source="/Assets/Images/Sprite/ShadowL.png"/>
+            <Image Grid.Row="1" Grid.Column="2" Stretch="Fill" Source="/Assets/Images/Sprite/ShadowR.png" />
+            <Image Grid.Row="2" Grid.Column="0" Stretch="Fill" Source="/Assets/Images/Sprite/ShadowLB.png"/>
+            <Image Grid.Row="2" Grid.Column="1" Stretch="Fill" Source="/Assets/Images/Sprite/ShadowB.png"/>
+            <Image Grid.Row="2" Grid.Column="2" Stretch="Fill" Source="/Assets/Images/Sprite/ShadowRB.png"/>
+
+        </Grid>
         
-        <Rectangle Grid.Row="1" Grid.Column="0">
-            <Rectangle.Fill>
-                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                    <GradientStop Color="#5C000000" Offset="1"/>
-                    <GradientStop Color="#00000000" Offset="0"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-
-        <Rectangle Grid.Row="1" Grid.Column="2">
-            <Rectangle.Fill>
-                <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                    <GradientStop Color="#5C000000" Offset="0"/>
-                    <GradientStop Color="#00000000" Offset="1"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-
-        <Rectangle Grid.Row="0" Grid.Column="1">
-            <Rectangle.Fill>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#5C000000" Offset="1"/>
-                    <GradientStop Color="#00000000" Offset="0"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
-        
-        <Rectangle Grid.Row="2" Grid.Column="1">
-            <Rectangle.Fill>
-                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#5C000000" Offset="0"/>
-                    <GradientStop Color="#00000000" Offset="1"/>
-                </LinearGradientBrush>
-            </Rectangle.Fill>
-        </Rectangle>
+        <Rectangle x:Name="borderPanel" Fill="White" Margin="7"/>
 
     </Grid>
 </UserControl>

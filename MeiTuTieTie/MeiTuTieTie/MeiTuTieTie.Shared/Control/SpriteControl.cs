@@ -30,7 +30,6 @@ namespace Shared.Control
         private const int BORDER_Z_INDEX = 999;
         private const int BUTTON_Z_INDEX = 9999;
         private const double BORDER_THICKNESS = 2d;
-        private const double FRAME_MARGIN = -12d;
 
         private static Grid _container = null;
 
@@ -44,7 +43,7 @@ namespace Shared.Control
         private static Line borderT = null;
         private static Line borderB = null;
 
-        private static CompositeTransform _borderTransform = null;
+        //private static CompositeTransform _borderTransform = null;
         private static CompositeTransform _removeTransform = null;
         private static CompositeTransform _handleTransform = null;
 
@@ -66,6 +65,9 @@ namespace Shared.Control
 
         private double imageWidth = 0d;
         private double imageHeight = 0d;
+
+        private double imageWidthInitial = 0d;
+        private double imageHeightInitial = 0d;
 
         private bool _Selected = false;
         public bool Selected
@@ -169,6 +171,9 @@ namespace Shared.Control
             get { return _SpriteType; }
         }
 
+        public static bool ShadowEnabled { get { return false; } }
+        public static bool WhiteBorderEnabled { get { return false; } }
+
         #endregion
 
         #region Lifecycle
@@ -238,6 +243,7 @@ namespace Shared.Control
                 handle.Margin = new Thickness(-16, -16, 0, 0);
                 handle.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
                 handle.ManipulationDelta += handle_ManipulationDelta;
+                handle.ManipulationCompleted += handle_ManipulationCompleted;
                 EnsureTransform(handle);
                 _handleTransform = handle.RenderTransform as CompositeTransform;
 
@@ -315,10 +321,12 @@ namespace Shared.Control
 
             if (this.SpriteType == SpriteType.Image)
             {
-                //spriteFrame
-                spriteFrame = new SpriteFrame();
-                spriteFrame.Margin = new Thickness(FRAME_MARGIN);
-                contentPanel.Children.Add(spriteFrame);
+                if (WhiteBorderEnabled || ShadowEnabled)
+                {
+                    //spriteFrame
+                    spriteFrame = new SpriteFrame();
+                    contentPanel.Children.Add(spriteFrame);
+                }
 
                 //image
                 image = new Image();
@@ -389,10 +397,10 @@ namespace Shared.Control
         {
             g_scale *= delta_scale;
 
-            imageWidth *= delta_scale;
-            imageHeight *= delta_scale;
+            imageWidth = imageWidthInitial * g_scale;
+            imageHeight = imageHeightInitial * g_scale;
             contentPanel.Width = imageWidth;
-            //contentPanel.Height = imageHeight;
+            contentPanel.Height = imageHeight;
         }
 
         //private void SetScale2(double delta_scale = 1d)
@@ -454,8 +462,11 @@ namespace Shared.Control
             SyncButtonsPosition();
         }
 
+        static bool handleDrag = false;
         private static void handle_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
+            handleDrag = true;
+            
             _handleTransform.TranslateX += e.Delta.Translation.X;
             _handleTransform.TranslateY += e.Delta.Translation.Y;
 
@@ -480,6 +491,11 @@ namespace Shared.Control
             SelectedSprite.SyncButtonsPosition();
 
             e.Handled = true;
+        }
+
+        static void handle_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            handleDrag = false;
         }
 
         private static void removeButton_Tapped(object sender, TappedRoutedEventArgs e)
@@ -520,8 +536,11 @@ namespace Shared.Control
             Point pointLB = LBPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
             Point pointRB = RBPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
 
-            _handleTransform.TranslateX = pointRB.X;
-            _handleTransform.TranslateY = pointRB.Y;
+            if (!handleDrag)
+            {
+                _handleTransform.TranslateX = pointRB.X;
+                _handleTransform.TranslateY = pointRB.Y;
+            }
 
             _removeTransform.TranslateX = pointLT.X;
             _removeTransform.TranslateY = pointLT.Y;
@@ -686,8 +705,8 @@ namespace Shared.Control
                 height = 200d;
                 width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
             }
-            contentPanel.Width = imageWidth = width;
-            //contentPanel.Height = imageHeight = height;
+            contentPanel.Width = imageWidth = imageWidthInitial = width;
+            contentPanel.Height = imageHeight = imageHeightInitial = height;
         }
 
         public void SetImage(WriteableBitmap wb)
