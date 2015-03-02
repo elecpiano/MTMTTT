@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Navigation;
 using Shared.Control;
 using Shared.Enum;
 using Shared.Global;
+using Windows.UI;
 
 namespace MeiTuTieTie.Pages
 {
@@ -63,9 +64,16 @@ namespace MeiTuTieTie.Pages
                 InitializePage();
                 BuildBottomAppBar_Normal();
             }
-            else if (e.NavigationMode == NavigationMode.Back && App.CurrentInstance.SelectedMaterial != null)
+            else if (e.NavigationMode == NavigationMode.Back)
             {
-                MaterialToSprite();
+                if (App.CurrentInstance.SelectedMaterial != null)
+                {
+                    MaterialToSprite();
+                }
+                else if (!string.IsNullOrEmpty(App.CurrentInstance.SelectedFont) || App.CurrentInstance.SelectedTextColor != null)
+                {
+                    SetFont();
+                }
             }
 
         }
@@ -108,6 +116,7 @@ namespace MeiTuTieTie.Pages
             }
 
             SpriteControl.Initialize(stage);
+            SpriteControl.OnSelected += Sprite_OnSelected;
         }
 
         #endregion
@@ -309,6 +318,8 @@ namespace MeiTuTieTie.Pages
 
         #region Text
 
+        private SpriteTextBox selectedSpriteText = null;
+
         private void Text_Click(object sender, RoutedEventArgs e)
         {
             AddTextSprite();
@@ -317,22 +328,43 @@ namespace MeiTuTieTie.Pages
         private void AddTextSprite()
         {
             SpriteControl sprite = new SpriteControl(SpriteType.Text);
-            sprite.EditingStarted += sprite_EditingStarted;
-            sprite.EditingEnded += sprite_EditingEnded;
-            
+            //sprite.EditingStarted += sprite_EditingStarted;
+            //sprite.EditingEnded += sprite_EditingEnded;
+
             sprites.Add(sprite);
             sprite.AddToContainer();
         }
 
-        void sprite_EditingStarted(object sender, EventArgs e)
+        void Sprite_OnSelected(object sender, EventArgs e)
         {
-            BuildBottomAppBar_TextEditor();
+            SpriteControl sprite = sender as SpriteControl;
+            if (sprite == null)
+            {
+                BuildBottomAppBar_Normal();
+            }
+            else
+            {
+                if (sprite.SpriteType == SpriteType.Text)
+                {
+                    selectedSpriteText = (sender as SpriteControl).spriteText;
+                    BuildBottomAppBar_TextEditor();
+                }
+                else
+                {
+                    BuildBottomAppBar_Normal();
+                }
+            }
         }
 
-        void sprite_EditingEnded(object sender, EventArgs e)
-        {
-            BuildBottomAppBar_Normal();
-        }
+        //void sprite_EditingStarted(object sender, EventArgs e)
+        //{
+        //    BuildBottomAppBar_TextEditor();
+        //}
+
+        //void sprite_EditingEnded(object sender, EventArgs e)
+        //{
+        //    BuildBottomAppBar_Normal();
+        //}
 
         //private void SetFontColorPanelVisibility(bool visible)
         //{
@@ -349,18 +381,39 @@ namespace MeiTuTieTie.Pages
         //    keyboardPlaceholder.Height = keyboardHeight;
         //}
 
+        private void SetFont()
+        {
+            if (!string.IsNullOrEmpty(App.CurrentInstance.SelectedFont))
+            {
+                //selectedSpriteText.Font = new FontFamily(@"ms-appx:/Assets/Fonts/SHOWG.TTF#Showcard Gothic");
+                selectedSpriteText.Font = new FontFamily(App.CurrentInstance.SelectedFont);
+                App.CurrentInstance.SelectedFont = string.Empty;
+            }
+            if (App.CurrentInstance.SelectedTextColor!=null)
+            {
+                selectedSpriteText.TextColor = App.CurrentInstance.SelectedTextColor;
+                App.CurrentInstance.SelectedTextColor = null;
+            }
+        }
+
         #endregion
 
         #region AppBar
 
         AppBarButton appBarButton_ok = null;
         AppBarButton appBarButton_font = null;
-        AppBarButton appBarButton_color = null;
+        //AppBarButton appBarButton_color = null;
+        int appBarState = -1;//0-normal, 1-font, 
 
         private void BuildBottomAppBar_Normal()
         {
+            if (appBarState == 0)
+            {
+                return;
+            }
+
             this.bottomAppBar.PrimaryCommands.Clear();
-            
+
             //ok
             if (appBarButton_ok == null)
             {
@@ -371,10 +424,16 @@ namespace MeiTuTieTie.Pages
             }
             this.bottomAppBar.PrimaryCommands.Add(appBarButton_ok);
 
+            appBarState = 0;
         }
 
         private void BuildBottomAppBar_TextEditor()
         {
+            if (appBarState == 1)
+            {
+                return;
+            }
+
             this.bottomAppBar.PrimaryCommands.Clear();
 
             //font
@@ -387,15 +446,17 @@ namespace MeiTuTieTie.Pages
             }
             this.bottomAppBar.PrimaryCommands.Add(appBarButton_font);
 
-            //color
-            if (appBarButton_color == null)
-            {
-                appBarButton_color = new AppBarButton();
-                appBarButton_color.Label = "颜色";
-                appBarButton_color.Icon = new SymbolIcon(Symbol.FontColor);
-                appBarButton_color.Click += AppbarButton_Color_Click;
-            }
-            this.bottomAppBar.PrimaryCommands.Add(appBarButton_color);
+            ////color
+            //if (appBarButton_color == null)
+            //{
+            //    appBarButton_color = new AppBarButton();
+            //    appBarButton_color.Label = "颜色";
+            //    appBarButton_color.Icon = new SymbolIcon(Symbol.FontColor);
+            //    appBarButton_color.Click += AppbarButton_Color_Click;
+            //}
+            //this.bottomAppBar.PrimaryCommands.Add(appBarButton_color);
+
+            appBarState = 1;
         }
 
         private void AppbarButton_OK_Click(object sender, RoutedEventArgs e)
@@ -408,9 +469,9 @@ namespace MeiTuTieTie.Pages
             this.Frame.Navigate(typeof(FontPage));
         }
 
-        void AppbarButton_Color_Click(object sender, RoutedEventArgs e)
-        {
-        }
+        //void AppbarButton_Color_Click(object sender, RoutedEventArgs e)
+        //{
+        //}
 
         #endregion
 

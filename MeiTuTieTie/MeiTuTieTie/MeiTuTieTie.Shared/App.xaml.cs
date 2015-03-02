@@ -9,6 +9,7 @@ using Windows.Graphics.Display;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Animation;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
@@ -191,10 +192,14 @@ namespace MeiTuTieTie
 
         #region opertaion page
 
-        public Material SelectedMaterial { get; set; }
         public WriteableBitmap wbForSingleMode { get; set; }
 
+        public Material SelectedMaterial { get; set; }
+
         public WidgetPageType MaterialSelectedBy { get; set; }// = WidgetPageType.Shipin;
+
+        public string SelectedFont { get; set; }
+        public Brush SelectedTextColor { get; set; }
 
         #endregion
 

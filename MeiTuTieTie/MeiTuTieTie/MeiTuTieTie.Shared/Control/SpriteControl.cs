@@ -50,7 +50,7 @@ namespace Shared.Control
 
         private Grid contentPanel = null;
         private Image image = null;
-        private SpriteTextBox spriteText = null;
+        public SpriteTextBox spriteText = null;
         private Ellipse LTPoint = null;
         private Ellipse RTPoint = null;
         private Ellipse LBPoint = null;
@@ -96,6 +96,8 @@ namespace Shared.Control
                                 sprite.Selected = false;
                             }
                         }
+
+                        RaiseOnSelected();
                     }
                     else
                     {
@@ -797,6 +799,8 @@ namespace Shared.Control
             {
                 sprite.Manipulatable = true; //.contentPanel.IsHitTestVisible = true;
             }
+
+            RaiseOnSelected();
         }
 
         public void ChangeZIndex(bool up)
@@ -859,6 +863,15 @@ namespace Shared.Control
 
         public event EventHandler EditingStarted;
         public event EventHandler EditingEnded;
+        public static event EventHandler OnSelected;
+
+        private static void RaiseOnSelected()
+        {
+            if (OnSelected!=null)
+            {
+                OnSelected(SelectedSprite, EventArgs.Empty);
+            }
+        }
 
         #endregion
     }

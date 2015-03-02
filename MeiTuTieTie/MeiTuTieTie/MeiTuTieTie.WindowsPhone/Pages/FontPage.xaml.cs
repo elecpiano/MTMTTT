@@ -12,6 +12,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Shared.Control;
+using Windows.UI.Xaml.Media;
+using Windows.UI;
 
 namespace MeiTuTieTie.Pages
 {
@@ -41,7 +43,18 @@ namespace MeiTuTieTie.Pages
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.New)
             {
+                Test();
             }
+        }
+
+        #endregion
+
+        #region Test
+
+        private void Test()
+        {
+            App.CurrentInstance.SelectedFont = @"ms-appx:/Assets/Fonts/SHOWG.TTF#Showcard Gothic";
+            App.CurrentInstance.SelectedTextColor = new SolidColorBrush(Color.FromArgb(255, 190, 30, 0));
         }
 
         #endregion
