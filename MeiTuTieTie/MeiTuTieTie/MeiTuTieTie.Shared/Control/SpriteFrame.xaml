@@ -11,14 +11,14 @@
 
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="3"/>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="4"/>
+            <ColumnDefinition Width="3"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="4"/>
+            <RowDefinition Height="3"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="4"/>
+            <RowDefinition Height="3"/>
         </Grid.RowDefinitions>
 
         <Rectangle Grid.Row="1" Grid.Column="1" Fill="White"/>
@@ -26,8 +26,8 @@
         <Rectangle Grid.Row="1" Grid.Column="0">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                    <GradientStop Color="#7F000000" Offset="1"/>
-                    <GradientStop Offset="0"/>
+                    <GradientStop Color="#5C000000" Offset="1"/>
+                    <GradientStop Color="#00000000" Offset="0"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
@@ -35,8 +35,8 @@
         <Rectangle Grid.Row="1" Grid.Column="2">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="1,0.5" StartPoint="0,0.5">
-                    <GradientStop Color="#7F000000" Offset="0"/>
-                    <GradientStop Offset="1"/>
+                    <GradientStop Color="#5C000000" Offset="0"/>
+                    <GradientStop Color="#00000000" Offset="1"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
@@ -44,8 +44,8 @@
         <Rectangle Grid.Row="0" Grid.Column="1">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#7F000000" Offset="1"/>
-                    <GradientStop Offset="0"/>
+                    <GradientStop Color="#5C000000" Offset="1"/>
+                    <GradientStop Color="#00000000" Offset="0"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>
@@ -53,8 +53,8 @@
         <Rectangle Grid.Row="2" Grid.Column="1">
             <Rectangle.Fill>
                 <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
-                    <GradientStop Color="#7F000000" Offset="0"/>
-                    <GradientStop Offset="1"/>
+                    <GradientStop Color="#5C000000" Offset="0"/>
+                    <GradientStop Color="#00000000" Offset="1"/>
                 </LinearGradientBrush>
             </Rectangle.Fill>
         </Rectangle>

@@ -29,8 +29,7 @@ namespace Shared.Control
         private static PowerEase EASING = new PowerEase();
         private const int BORDER_Z_INDEX = 999;
         private const int BUTTON_Z_INDEX = 9999;
-        private const double BORDER_WHITE_THICKNESS = 8d;
-        private const double SHADOW_THICKNESS = 4d;
+        private const double BORDER_THICKNESS = 2d;
         private const double FRAME_MARGIN = -12d;
 
         private static Grid _container = null;
@@ -38,7 +37,12 @@ namespace Shared.Control
         private static Grid handle = null;
         private static Ellipse handlePoint = null;
         private static Image removeButton = null;
-        private static Border border = null;
+
+        //private static Border border = null;
+        private static Line borderL = null;
+        private static Line borderR = null;
+        private static Line borderT = null;
+        private static Line borderB = null;
 
         private static CompositeTransform _borderTransform = null;
         private static CompositeTransform _removeTransform = null;
@@ -48,10 +52,11 @@ namespace Shared.Control
         private Image image = null;
         private SpriteTextBox spriteText = null;
         private Ellipse LTPoint = null;
+        private Ellipse RTPoint = null;
+        private Ellipse LBPoint = null;
         private Ellipse RBPoint = null;
         private Ellipse centerPoint = null;
 
-        private Rectangle borderWhite = null;
         private SpriteFrame spriteFrame = null;
 
         private CompositeTransform _contentTransform = null;
@@ -181,16 +186,26 @@ namespace Shared.Control
         private static void CreateCommonComponents()
         {
             //border
-            if (border == null)
+            if (borderL == null)
             {
-                border = new Border();
-                border.IsHitTestVisible = false;
-                border.Opacity = 0d;
-                border.BorderThickness = new Thickness(1d);
-                border.BorderBrush = new SolidColorBrush(Colors.Orange);
-                border.Background = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255));
-                EnsureTransform(border);
-                _borderTransform = border.RenderTransform as CompositeTransform;
+                //border = new Border();
+                //border.IsHitTestVisible = false;
+                //border.Opacity = 0d;
+                //border.BorderThickness = new Thickness(BORDER_THICKNESS);
+                //border.BorderBrush = new SolidColorBrush(Colors.Orange);
+                //border.Background = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255));
+                //EnsureTransform(border);
+                //_borderTransform = border.RenderTransform as CompositeTransform;
+                //border.HorizontalAlignment = HorizontalAlignment.Center;
+                //border.VerticalAlignment = VerticalAlignment.Center;
+                //border.Margin = new Thickness(-99999);
+
+                borderL = new Line();
+                borderR = new Line();
+                borderT = new Line();
+                borderB = new Line();
+                borderL.Stroke = borderR.Stroke = borderT.Stroke = borderB.Stroke = new SolidColorBrush(Colors.Orange);
+                borderL.StrokeThickness = borderR.StrokeThickness = borderT.StrokeThickness = borderB.StrokeThickness = BORDER_THICKNESS;
             }
 
             //removeButton
@@ -256,6 +271,24 @@ namespace Shared.Control
             LTPoint.HorizontalAlignment = HorizontalAlignment.Left;
             EnsureTransform(LTPoint);
 
+            //RTPoint
+            RTPoint = new Ellipse();
+            RTPoint.Fill = new SolidColorBrush(Colors.Red);
+            RTPoint.Width = 1d;
+            RTPoint.Height = 1d;
+            RTPoint.VerticalAlignment = VerticalAlignment.Top;
+            RTPoint.HorizontalAlignment = HorizontalAlignment.Right;
+            EnsureTransform(RTPoint);
+
+            //LBPoint
+            LBPoint = new Ellipse();
+            LBPoint.Fill = new SolidColorBrush(Colors.Red);
+            LBPoint.Width = 1d;
+            LBPoint.Height = 1d;
+            LBPoint.VerticalAlignment = VerticalAlignment.Bottom;
+            LBPoint.HorizontalAlignment = HorizontalAlignment.Left;
+            EnsureTransform(LBPoint);
+
             //RBPoint
             RBPoint = new Ellipse();
             RBPoint.Fill = new SolidColorBrush(Colors.Red);
@@ -275,18 +308,13 @@ namespace Shared.Control
             EnsureTransform(centerPoint);
 
             contentPanel.Children.Add(LTPoint);
+            contentPanel.Children.Add(RTPoint);
+            contentPanel.Children.Add(LBPoint);
             contentPanel.Children.Add(RBPoint);
             contentPanel.Children.Add(centerPoint);
 
             if (this.SpriteType == SpriteType.Image)
             {
-                ////borderWhite
-                //borderWhite = new Rectangle();
-                //borderWhite.IsHitTestVisible = false;
-                //borderWhite.Fill = new SolidColorBrush(Colors.White);
-                //borderWhite.Margin = new Thickness(-BORDER_WHITE_THICKNESS);
-                //contentPanel.Children.Add(borderWhite);
-
                 //spriteFrame
                 spriteFrame = new SpriteFrame();
                 spriteFrame.Margin = new Thickness(FRAME_MARGIN);
@@ -297,10 +325,6 @@ namespace Shared.Control
                 image.Stretch = Stretch.Uniform;
                 image.CacheMode = new BitmapCache();
                 contentPanel.Children.Add(image);
-                //contentPanel.MaxWidth = 150d;
-                //contentPanel.MaxHeight = 200d;
-
-                image.SizeChanged += image_SizeChanged;
             }
             else if (this.SpriteType == SpriteType.Text)
             {
@@ -314,13 +338,6 @@ namespace Shared.Control
             }
 
             //AttachManipulationEvents();
-        }
-
-        void image_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            this.image.SizeChanged -= image_SizeChanged;
-            imageWidth = this.image.ActualWidth;
-            imageHeight = this.image.ActualHeight;
         }
 
         #endregion
@@ -375,36 +392,31 @@ namespace Shared.Control
             imageWidth *= delta_scale;
             imageHeight *= delta_scale;
             contentPanel.Width = imageWidth;
-            contentPanel.Height = imageHeight;
-
-            //keep the points' size unchanged, to avoid accumulated errors
-            _LTTransform.ScaleX = _LTTransform.ScaleY = 1d / g_scale;
-            _RBTransform.ScaleX = _RBTransform.ScaleY = 1d / g_scale;
-            _centerPointTransform.ScaleX = _centerPointTransform.ScaleY = 1d / g_scale;
+            //contentPanel.Height = imageHeight;
         }
 
-        private void SetScale2(double delta_scale = 1d)
-        {
-            g_scale *= delta_scale;
+        //private void SetScale2(double delta_scale = 1d)
+        //{
+        //    g_scale *= delta_scale;
 
-            if (_contentTransform != null)
-            {
-                _contentTransform.ScaleX = g_scale;
-                _contentTransform.ScaleY = g_scale;
-            }
+        //    if (_contentTransform != null)
+        //    {
+        //        _contentTransform.ScaleX = g_scale;
+        //        _contentTransform.ScaleY = g_scale;
+        //    }
 
-            //keep the points' size unchanged, to avoid accumulated errors
-            _LTTransform.ScaleX = _LTTransform.ScaleY = 1d / g_scale;
-            _RBTransform.ScaleX = _RBTransform.ScaleY = 1d / g_scale;
-            _centerPointTransform.ScaleX = _centerPointTransform.ScaleY = 1d / g_scale;
+        //    //keep the points' size unchanged, to avoid accumulated errors
+        //    _LTTransform.ScaleX = _LTTransform.ScaleY = 1d / g_scale;
+        //    _RBTransform.ScaleX = _RBTransform.ScaleY = 1d / g_scale;
+        //    _centerPointTransform.ScaleX = _centerPointTransform.ScaleY = 1d / g_scale;
 
-            //keep borderWhite thickness unchanged
-            //double bwThickness = BORDER_WHITE_THICKNESS / g_scale;
-            //borderWhite.Margin = new Thickness(-bwThickness);
+        //    //keep borderWhite thickness unchanged
+        //    //double bwThickness = BORDER_WHITE_THICKNESS / g_scale;
+        //    //borderWhite.Margin = new Thickness(-bwThickness);
 
-            //double margin = FRAME_MARGIN / g_scale;
-            //spriteFrame.Margin = new Thickness(margin);
-        }
+        //    //double margin = FRAME_MARGIN / g_scale;
+        //    //spriteFrame.Margin = new Thickness(margin);
+        //}
 
         void contentPanel_ManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
         {
@@ -481,22 +493,87 @@ namespace Shared.Control
             e.Handled = true;
         }
 
+        //public static void SetButtonVisibility2(bool visible)
+        //{
+        //    handle.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        //    removeButton.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+        //    border.Opacity = visible ? 1d : 0d;
+        //    if (visible)
+        //    {
+        //        border.Width = SelectedSprite.imageWidthInitial;// SelectedSprite.contentPanel.ActualWidth;
+        //        border.Height = SelectedSprite.imageHeightInitial;// SelectedSprite.contentPanel.ActualHeight;
+        //    }
+        //}
+
+        public static void SetButtonVisibility(bool visible)
+        {
+            handle.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+            removeButton.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
+            //border.Opacity = visible ? 1d : 0d;
+            borderL.Opacity = borderR.Opacity = borderT.Opacity = borderB.Opacity = visible ? 1d : 0d;
+        }
+
         private void SyncButtonsPosition()
         {
-            Point point = RBPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
-            _handleTransform.TranslateX = point.X;
-            _handleTransform.TranslateY = point.Y;
+            Point pointLT = LTPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
+            Point pointRT = RTPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
+            Point pointLB = LBPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
+            Point pointRB = RBPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
 
-            point = LTPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
-            _removeTransform.TranslateX = point.X;
-            _removeTransform.TranslateY = point.Y;
+            _handleTransform.TranslateX = pointRB.X;
+            _handleTransform.TranslateY = pointRB.Y;
 
-            //border
-            _borderTransform.TranslateX = g_pos_x;
-            _borderTransform.TranslateY = g_pos_y;
-            _borderTransform.Rotation = g_rotation;
-            _borderTransform.ScaleX = _borderTransform.ScaleY = g_scale;
+            _removeTransform.TranslateX = pointLT.X;
+            _removeTransform.TranslateY = pointLT.Y;
+
+            ////border
+            //_borderTransform.TranslateX = g_pos_x;
+            //_borderTransform.TranslateY = g_pos_y;
+            //_borderTransform.Rotation = g_rotation;
+            //border.Width = image.ActualWidth;
+            //border.Height = image.ActualHeight;
+
+            borderL.X1 = pointLT.X;
+            borderL.Y1 = pointLT.Y;
+            borderL.X2 = pointLB.X;
+            borderL.Y2 = pointLB.Y;
+
+            borderR.X1 = pointRT.X;
+            borderR.Y1 = pointRT.Y;
+            borderR.X2 = pointRB.X;
+            borderR.Y2 = pointRB.Y;
+
+            borderT.X1 = pointLT.X;
+            borderT.Y1 = pointLT.Y;
+            borderT.X2 = pointRT.X;
+            borderT.Y2 = pointRT.Y;
+
+            borderB.X1 = pointLB.X;
+            borderB.Y1 = pointLB.Y;
+            borderB.X2 = pointRB.X;
+            borderB.Y2 = pointRB.Y;
         }
+
+        //private void SyncButtonsPosition2()
+        //{
+        //    Point point = RBPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
+        //    _handleTransform.TranslateX = point.X;
+        //    _handleTransform.TranslateY = point.Y;
+
+        //    point = LTPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
+        //    _removeTransform.TranslateX = point.X;
+        //    _removeTransform.TranslateY = point.Y;
+
+        //    //border
+        //    _borderTransform.TranslateX = g_pos_x;
+        //    _borderTransform.TranslateY = g_pos_y;
+        //    _borderTransform.Rotation = g_rotation;
+        //    _borderTransform.ScaleX = _borderTransform.ScaleY = g_scale;
+
+        //    //keep borderWhite thickness unchanged
+        //    double thickness = BORDER_THICKNESS / g_scale;
+        //    border.BorderThickness = new Thickness(thickness);
+        //}
 
         private static double GetAngle(double x, double y)
         {
@@ -539,22 +616,6 @@ namespace Shared.Control
             if (this.EditingEnded != null)
             {
                 EditingEnded(this, EventArgs.Empty);
-            }
-        }
-
-        #endregion
-
-        #region Button Visibility
-
-        public static void SetButtonVisibility(bool visible)
-        {
-            handle.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
-            removeButton.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
-            border.Opacity = visible ? 1d : 0d;
-            if (visible)
-            {
-                border.Width = SelectedSprite.contentPanel.ActualWidth;
-                border.Height = SelectedSprite.contentPanel.ActualHeight;
             }
         }
 
@@ -626,7 +687,7 @@ namespace Shared.Control
                 width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
             }
             contentPanel.Width = imageWidth = width;
-            contentPanel.Height = imageHeight = height;
+            //contentPanel.Height = imageHeight = height;
         }
 
         public void SetImage(WriteableBitmap wb)
@@ -640,11 +701,23 @@ namespace Shared.Control
 
             _container = container;
 
-            //border
-            if (!_container.Children.Contains(border))
+            ////border
+            //if (!_container.Children.Contains(border))
+            //{
+            //    _container.Children.Add(border);
+            //    border.SetValue(Canvas.ZIndexProperty, BORDER_Z_INDEX);
+            //}
+
+            if (!_container.Children.Contains(borderL))
             {
-                _container.Children.Add(border);
-                border.SetValue(Canvas.ZIndexProperty, BORDER_Z_INDEX);
+                _container.Children.Add(borderL);
+                borderL.SetValue(Canvas.ZIndexProperty, BORDER_Z_INDEX);
+                _container.Children.Add(borderR);
+                borderR.SetValue(Canvas.ZIndexProperty, BORDER_Z_INDEX);
+                _container.Children.Add(borderT);
+                borderT.SetValue(Canvas.ZIndexProperty, BORDER_Z_INDEX);
+                _container.Children.Add(borderB);
+                borderB.SetValue(Canvas.ZIndexProperty, BORDER_Z_INDEX);
             }
 
             //handle
@@ -733,10 +806,17 @@ namespace Shared.Control
 
         public static void DetachContainer()
         {
-            DetachFromParent(border);
+            //DetachFromParent(border);
+            DetachFromParent(borderL);
+            DetachFromParent(borderR);
+            DetachFromParent(borderT);
+            DetachFromParent(borderB);
+
             DetachFromParent(handle);
             DetachFromParent(removeButton);
-            border = null;
+            //border = null;
+            borderL = borderR = borderT = borderB = null;
+
             handle = null;
             handlePoint = null;
             removeButton = null;
