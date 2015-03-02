@@ -210,6 +210,7 @@ namespace Shared.Control
                 borderR = new Line();
                 borderT = new Line();
                 borderB = new Line();
+                borderL.Opacity = borderR.Opacity = borderT.Opacity = borderB.Opacity = 0d;
                 borderL.Stroke = borderR.Stroke = borderT.Stroke = borderB.Stroke = new SolidColorBrush(Colors.Orange);
                 borderL.StrokeThickness = borderR.StrokeThickness = borderT.StrokeThickness = borderB.StrokeThickness = BORDER_THICKNESS;
             }
@@ -406,34 +407,27 @@ namespace Shared.Control
         {
             g_scale *= delta_scale;
 
-            imageWidth = imageWidthInitial * g_scale;
-            imageHeight = imageHeightInitial * g_scale;
-            contentPanel.Width = imageWidth;
-            contentPanel.Height = imageHeight;
+            if (SpriteType == SpriteType.Photo || SpriteType == SpriteType.Material)
+            {
+                imageWidth = imageWidthInitial * g_scale;
+                imageHeight = imageHeightInitial * g_scale;
+                contentPanel.Width = imageWidth;
+                contentPanel.Height = imageHeight;
+            }
+            else if (SpriteType == SpriteType.Text)
+            {
+                if (_contentTransform != null)
+                {
+                    _contentTransform.ScaleX = g_scale;
+                    _contentTransform.ScaleY = g_scale;
+                }
+
+                //keep the points' size unchanged, to avoid accumulated errors
+                _LTTransform.ScaleX = _LTTransform.ScaleY = 1d / g_scale;
+                _RBTransform.ScaleX = _RBTransform.ScaleY = 1d / g_scale;
+                _centerPointTransform.ScaleX = _centerPointTransform.ScaleY = 1d / g_scale;
+            }
         }
-
-        //private void SetScale2(double delta_scale = 1d)
-        //{
-        //    g_scale *= delta_scale;
-
-        //    if (_contentTransform != null)
-        //    {
-        //        _contentTransform.ScaleX = g_scale;
-        //        _contentTransform.ScaleY = g_scale;
-        //    }
-
-        //    //keep the points' size unchanged, to avoid accumulated errors
-        //    _LTTransform.ScaleX = _LTTransform.ScaleY = 1d / g_scale;
-        //    _RBTransform.ScaleX = _RBTransform.ScaleY = 1d / g_scale;
-        //    _centerPointTransform.ScaleX = _centerPointTransform.ScaleY = 1d / g_scale;
-
-        //    //keep borderWhite thickness unchanged
-        //    //double bwThickness = BORDER_WHITE_THICKNESS / g_scale;
-        //    //borderWhite.Margin = new Thickness(-bwThickness);
-
-        //    //double margin = FRAME_MARGIN / g_scale;
-        //    //spriteFrame.Margin = new Thickness(margin);
-        //}
 
         void contentPanel_ManipulationStarting(object sender, ManipulationStartingRoutedEventArgs e)
         {
@@ -475,7 +469,7 @@ namespace Shared.Control
         private static void handle_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             handleDrag = true;
-            
+
             _handleTransform.TranslateX += e.Delta.Translation.X;
             _handleTransform.TranslateY += e.Delta.Translation.Y;
 
