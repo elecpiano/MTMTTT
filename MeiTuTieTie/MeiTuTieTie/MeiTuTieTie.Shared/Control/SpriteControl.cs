@@ -15,7 +15,8 @@ namespace Shared.Control
 {
     public enum SpriteType
     {
-        Image,
+        Photo,
+        Material,
         Text
     }
 
@@ -25,7 +26,7 @@ namespace Shared.Control
 
         private static Random RANDOM = new Random();
         private static List<SpriteControl> Sprites = new List<SpriteControl>();
-        private const double APPEAR_DURATION = 900d;
+        private const double APPEAR_DURATION = 500d;
         private static PowerEase EASING = new PowerEase();
         private const int BORDER_Z_INDEX = 999;
         private const int BUTTON_Z_INDEX = 9999;
@@ -165,14 +166,14 @@ namespace Shared.Control
 
         public static SpriteControl SelectedSprite { get; set; }
 
-        private SpriteType _SpriteType = SpriteType.Image;
+        private SpriteType _SpriteType = SpriteType.Photo;
         public SpriteType SpriteType
         {
             get { return _SpriteType; }
         }
 
-        public static bool ShadowEnabled { get { return false; } }
-        public static bool WhiteBorderEnabled { get { return false; } }
+        public static bool EdgeEnabled { get; set; }
+        public static bool ShadowEnabled { get; set; }
 
         #endregion
 
@@ -319,15 +320,23 @@ namespace Shared.Control
             contentPanel.Children.Add(RBPoint);
             contentPanel.Children.Add(centerPoint);
 
-            if (this.SpriteType == SpriteType.Image)
+            if (this.SpriteType == SpriteType.Photo)
             {
-                if (WhiteBorderEnabled || ShadowEnabled)
+                //spriteFrame
+                if (EdgeEnabled || ShadowEnabled)
                 {
-                    //spriteFrame
                     spriteFrame = new SpriteFrame();
                     contentPanel.Children.Add(spriteFrame);
                 }
 
+                //image
+                image = new Image();
+                image.Stretch = Stretch.Uniform;
+                image.CacheMode = new BitmapCache();
+                contentPanel.Children.Add(image);
+            }
+            else if (this.SpriteType == SpriteType.Material)
+            {
                 //image
                 image = new Image();
                 image.Stretch = Stretch.Uniform;

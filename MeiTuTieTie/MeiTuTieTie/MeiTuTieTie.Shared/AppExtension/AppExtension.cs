@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Shared.Global;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Windows.Storage;
@@ -13,15 +14,17 @@ namespace MeiTuTieTie
 
         private void LoadSettings()
         {
-            ////banner
-            //if (_Settings.Contains(KEY_DISMISSED_BANNER))
+            ////edge & shadow
+            //if (_Settings.Values.ContainsKey(KEY_EDGE))
             //{
-            //    _DismissedBannerId = (string)_Settings[KEY_DISMISSED_BANNER];
+            //    _EdgeEnabled = GetSetting(KEY_EDGE, false);
             //}
-            //else
+
+            //if (_Settings.Values.ContainsKey(KEY_SHADOW))
             //{
-            //    _Settings.Add(KEY_DISMISSED_BANNER, string.Empty);
+            //    _ShadowEnabled = GetSetting(KEY_SHADOW, false);
             //}
+            
         }
 
         public T GetSetting<T>(string key, T defaultValue) //where T : class
@@ -72,6 +75,45 @@ namespace MeiTuTieTie
         //        }
         //    }
         //}
+
+        #endregion
+
+        #region Edge & Shadow
+
+        private bool _EdgeEnabled = false;
+        public bool EdgeEnabled
+        {
+            get
+            {
+                return _EdgeEnabled;
+            }
+            set
+            {
+                if (_EdgeEnabled != value)
+                {
+                    _EdgeEnabled = value;
+                    UpdateSetting(Constants.KEY_EDGE, value);
+                }
+            }
+        }
+
+       
+        private bool _ShadowEnabled = false;
+        public bool ShadowEnabled
+        {
+            get
+            {
+                return _ShadowEnabled;
+            }
+            set
+            {
+                if (_ShadowEnabled != value)
+                {
+                    _ShadowEnabled = value;
+                    UpdateSetting(Constants.KEY_SHADOW, value);
+                }
+            }
+        }
 
         #endregion
     }

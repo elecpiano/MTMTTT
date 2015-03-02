@@ -14,8 +14,8 @@ namespace Shared.Control
         private void Init()
         {
             shadowPanel.Visibility = SpriteControl.ShadowEnabled ? Visibility.Visible : Visibility.Collapsed;
-            borderPanel.Visibility = SpriteControl.WhiteBorderEnabled ? Visibility.Visible : Visibility.Collapsed;
-            var margin = SpriteControl.WhiteBorderEnabled ? -15d : -6d;
+            borderPanel.Visibility = SpriteControl.EdgeEnabled ? Visibility.Visible : Visibility.Collapsed;
+            var margin = SpriteControl.EdgeEnabled ? -15d : -6d;
             this.Margin = new Thickness(margin);
         }
     }

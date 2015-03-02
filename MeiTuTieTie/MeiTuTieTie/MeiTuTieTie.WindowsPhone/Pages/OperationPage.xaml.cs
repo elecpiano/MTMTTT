@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Shared.Control;
 using Shared.Enum;
+using Shared.Global;
 
 namespace MeiTuTieTie.Pages
 {
@@ -57,6 +58,7 @@ namespace MeiTuTieTie.Pages
 
             if (e.NavigationMode == NavigationMode.New)
             {
+                LoadSettings();
                 pageType = (OperationPageType)e.Parameter;
                 InitializePage();
                 BuildBottomAppBar_Normal();
@@ -191,7 +193,7 @@ namespace MeiTuTieTie.Pages
                     bi.SetSource(stream);
 
                     //sprite
-                    SpriteControl sprite = new SpriteControl(SpriteType.Image);
+                    SpriteControl sprite = new SpriteControl(SpriteType.Photo);
                     sprite.SetImage(bi);
                     sprites.Add(sprite);
                     sprite.AddToContainer();
@@ -226,7 +228,7 @@ namespace MeiTuTieTie.Pages
 
                 if (App.CurrentInstance.MaterialSelectedBy == WidgetPageType.Shipin)
                 {
-                    SpriteControl sprite = new SpriteControl(SpriteType.Image);
+                    SpriteControl sprite = new SpriteControl(SpriteType.Material);
                     sprite.SetImage(bi);
                     sprites.Add(sprite);
                     sprite.AddToContainer();
@@ -280,7 +282,7 @@ namespace MeiTuTieTie.Pages
 
             for (int i = 0; i < 1; i++)
             {
-                sprite = new SpriteControl(SpriteType.Image);
+                sprite = new SpriteControl(SpriteType.Photo);
                 sprite.SetImage("ms-appx:///Assets/TestImages/TestImage001.jpg");
                 sprites.Add(sprite);
 
@@ -412,6 +414,15 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
+        #region Load Settings
+
+        private void LoadSettings()
+        {
+            SpriteControl.EdgeEnabled = App.CurrentInstance.GetSetting<bool>(Constants.KEY_EDGE, false);
+            SpriteControl.ShadowEnabled = App.CurrentInstance.GetSetting<bool>(Constants.KEY_SHADOW, false);
+        }
+
+        #endregion
 
     }
 }

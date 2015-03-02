@@ -14,5 +14,9 @@ namespace Shared.Global
         public const string MATERIAL_DATA_FILE = "material_data.txt";
         public const string MY_THEME_DATA_FILE = "my_theme_data.txt";
 
+        //settings key
+        public const string KEY_EDGE = "key_edge";
+        public const string KEY_SHADOW = "key_shadow";
+
     }
 }

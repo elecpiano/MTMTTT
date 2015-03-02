@@ -137,27 +137,25 @@ namespace MeiTuTieTie.Pages
 
         #region edge, shadow
 
-        private const string KEY_EDGE = "key_edge";
-        private const string KEY_SHADOW = "key_shadow";
 
         private void UpdateEdgeShadowState()
         {
-            bool edgeEnabled = App.CurrentInstance.GetSetting<bool>(KEY_EDGE, false);
+            bool edgeEnabled = App.CurrentInstance.GetSetting<bool>(Constants.KEY_EDGE, false);
             edgeSwitch.Checked = edgeEnabled;
 
-            bool shadowEnabled = App.CurrentInstance.GetSetting<bool>(KEY_SHADOW, false); 
+            bool shadowEnabled = App.CurrentInstance.GetSetting<bool>(Constants.KEY_SHADOW, false); 
             shadowSwitch.Checked = shadowEnabled;
         }
 
         private void edge_CheckStateChanged(Shared.Control.ImageSwitch sender, bool suggestedState)
         {
-            App.CurrentInstance.UpdateSetting(KEY_EDGE, suggestedState);
+            App.CurrentInstance.UpdateSetting(Constants.KEY_EDGE, suggestedState);
             sender.Checked = suggestedState;
         }
 
         private void shadow_CheckStateChanged(Shared.Control.ImageSwitch sender, bool suggestedState)
         {
-            App.CurrentInstance.UpdateSetting(KEY_SHADOW, suggestedState);
+            App.CurrentInstance.UpdateSetting(Constants.KEY_SHADOW, suggestedState);
             sender.Checked = suggestedState;
         }
 
