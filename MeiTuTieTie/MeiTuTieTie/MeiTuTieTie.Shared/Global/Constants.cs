@@ -17,6 +17,7 @@ namespace Shared.Global
         //settings key
         public const string KEY_EDGE = "key_edge";
         public const string KEY_SHADOW = "key_shadow";
+        public const string KEY_EXPORT_WIDTH = "key_export_width";
 
     }
 }

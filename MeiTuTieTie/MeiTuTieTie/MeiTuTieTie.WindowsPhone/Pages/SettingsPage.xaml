@@ -146,13 +146,22 @@
                     <CompositeTransform TranslateY="192"/>
                 </StackPanel.RenderTransform>
                 <Border Style="{StaticResource Settings_ItemContainer_Style}">
-                    <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="一般 (640px)"/>
+                    <Grid Background="#00000000" Tapped="imageSizeOption_Tapped" Tag="1">
+                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="一般 (640px)"/>
+                        <Image x:Name="imageSizeCheckMark1" Visibility="Collapsed" Stretch="Uniform" Width="48" Height="48" HorizontalAlignment="Right" Margin="0,0,10,0" Source="/Assets/Images/CheckMark.png"/>
+                    </Grid>
                 </Border>
                 <Border Style="{StaticResource Settings_ItemContainer_Style}">
-                    <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="普通 (1248px)"/>
+                    <Grid Background="#00000000" Tapped="imageSizeOption_Tapped" Tag="2">
+                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="普通 (1248px)"/>
+                        <Image x:Name="imageSizeCheckMark2" Visibility="Collapsed" Stretch="Uniform" Width="48" Height="48" HorizontalAlignment="Right" Margin="0,0,10,0" Source="/Assets/Images/CheckMark.png"/>
+                    </Grid>
                 </Border>
                 <Border Style="{StaticResource Settings_ItemContainer_Style}">
-                    <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="高清 (1600px)"/>
+                    <Grid Background="#00000000" Tapped="imageSizeOption_Tapped" Tag="3">
+                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="高清 (1600px)"/>
+                        <Image x:Name="imageSizeCheckMark3" Visibility="Collapsed" Stretch="Uniform" Width="48" Height="48" HorizontalAlignment="Right" Margin="0,0,10,0" Source="/Assets/Images/CheckMark.png"/>
+                    </Grid>
                 </Border>
             </StackPanel>
         </Grid>

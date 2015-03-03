@@ -123,6 +123,8 @@ namespace MeiTuTieTie.Pages
 
         #region Image Processing
 
+        double exportWidth = 1248d;
+
         private void GenerateImage()
         {
             SpriteControl.DismissActiveSprite();
@@ -134,7 +136,7 @@ namespace MeiTuTieTie.Pages
             stagePanelForClipping.Clip = cropArea;
 
             string fileName = "MeiTuTieTie_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".jpg";
-            ImageHelper.CaptureToMediaLibrary(this.stagePanel, fileName, 640);
+            ImageHelper.CaptureToMediaLibrary(this.stagePanel, fileName, exportWidth);
         }
 
         #endregion
@@ -481,6 +483,7 @@ namespace MeiTuTieTie.Pages
         {
             SpriteControl.EdgeEnabled = App.CurrentInstance.GetSetting<bool>(Constants.KEY_EDGE, false);
             SpriteControl.ShadowEnabled = App.CurrentInstance.GetSetting<bool>(Constants.KEY_SHADOW, false);
+            exportWidth = App.CurrentInstance.GetSetting<double>(Constants.KEY_EXPORT_WIDTH, 1248d);
         }
 
         #endregion
