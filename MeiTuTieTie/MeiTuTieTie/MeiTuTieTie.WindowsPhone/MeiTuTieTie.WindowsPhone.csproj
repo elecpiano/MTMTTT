@@ -85,6 +85,9 @@
     <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Pages\ExportPage.xaml.cs">
+      <DependentUpon>ExportPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\IFileOpenPickerPageBase.cs" />
     <Compile Include="Pages\FontPage.xaml.cs">
       <DependentUpon>FontPage.xaml</DependentUpon>
@@ -150,6 +153,10 @@
     <Content Include="Assets\WideLogo.scale-240.png" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Pages\ExportPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Pages\FontPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

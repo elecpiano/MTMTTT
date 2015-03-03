@@ -82,17 +82,25 @@
                         Tapped="imageSize_Tapped">
                     <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="画质设置"/>
                 </Border>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}"
-                        Tapped="autoSave_Tapped">
-                    <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="自动保存图片"/>
+                <Border Style="{StaticResource Settings_ItemContainer_Style}">
+                    <Grid>
+                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="自动保存图片"/>
+                        <sharedControl:ImageSwitch x:Name="autoSaveSwitch" Style="{StaticResource ImageSwitch_Normal_Style}"
+                                                   HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0"
+                                                   CheckStateChanged="autoSave_CheckStateChanged"/>
+                    </Grid>
                 </Border>
                 <Border Style="{StaticResource Settings_ItemContainer_Style}"
                         Tapped="edgeShadow_Tapped">
                     <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="拼图设置"/>
                 </Border>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}"
-                        Tapped="soundEffect_Tapped">
-                    <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="饰品音效"/>
+                <Border Style="{StaticResource Settings_ItemContainer_Style}">
+                    <Grid>
+                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="饰品音效"/>
+                        <sharedControl:ImageSwitch x:Name="sfxSwitch" Style="{StaticResource ImageSwitch_Normal_Style}"
+                                                   HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0"
+                                                   CheckStateChanged="sfx_CheckStateChanged"/>
+                    </Grid>
                 </Border>
 
                 <!--2-->

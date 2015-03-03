@@ -125,7 +125,7 @@ namespace MeiTuTieTie.Pages
 
         double exportWidth = 1248d;
 
-        private void GenerateImage()
+        private async void GenerateImage()
         {
             SpriteControl.DismissActiveSprite();
 
@@ -135,8 +135,11 @@ namespace MeiTuTieTie.Pages
             /* IMPORTANT: in order to get the expected result, the clipped element and the captured element should NOT be the same one */
             stagePanelForClipping.Clip = cropArea;
 
-            string fileName = "MeiTuTieTie_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".jpg";
-            ImageHelper.CaptureToMediaLibrary(this.stagePanel, fileName, exportWidth);
+            //string fileName = "MeiTuTieTie_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".jpg";
+            //ImageHelper.CaptureToMediaLibrary(this.stagePanel, fileName, exportWidth);
+            var bitmap = await ImageHelper.Capture(this.stagePanel, exportWidth);
+
+            Frame.Navigate(typeof(ExportPage), bitmap);
         }
 
         #endregion

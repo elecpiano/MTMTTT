@@ -51,15 +51,15 @@
         </Grid>
 
         <Grid x:Name="downloadPanel" Grid.Row="1" Margin="12,12,12,0">
-            <Button Grid.Row="1" Content="下载" 
+            <Button Content="下载" 
                     Background="LightGreen" 
                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
                     Visibility="{Binding Downloaded, Converter={StaticResource AnythingToVisibilityConverter}, ConverterParameter='neg'}"
                     Click="download_Click" />
 
-            <Grid Grid.Row="1" Background="#ffe0e0e0" 
+            <Grid Background="#ffe0e0e0" 
                   Visibility="{Binding Downloaded, Converter={StaticResource AnythingToVisibilityConverter}}">
-                <TextBlock Text="已下载" Grid.Row="1" 
+                <TextBlock Text="已下载" 
                            Style="{StaticResource ThemeDetailPage_SubTitle_Style}"
                            HorizontalAlignment="Center" VerticalAlignment="Center"/>
             </Grid>

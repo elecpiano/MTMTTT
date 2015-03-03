@@ -253,7 +253,7 @@ namespace Shared.Control
 
                 //handle point
                 handlePoint = new Ellipse();
-                handlePoint.Fill = new SolidColorBrush(Colors.Red);
+                handlePoint.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
                 handlePoint.Width = 1d;
                 handlePoint.Height = 1d;
                 handlePoint.VerticalAlignment = VerticalAlignment.Center;
@@ -274,7 +274,7 @@ namespace Shared.Control
 
             //LTPoint
             LTPoint = new Ellipse();
-            LTPoint.Fill = new SolidColorBrush(Colors.Red);
+            LTPoint.Fill = new SolidColorBrush(Color.FromArgb(0,0,0,0));
             LTPoint.Width = 1d;
             LTPoint.Height = 1d;
             LTPoint.VerticalAlignment = VerticalAlignment.Top;
@@ -283,7 +283,7 @@ namespace Shared.Control
 
             //RTPoint
             RTPoint = new Ellipse();
-            RTPoint.Fill = new SolidColorBrush(Colors.Red);
+            RTPoint.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
             RTPoint.Width = 1d;
             RTPoint.Height = 1d;
             RTPoint.VerticalAlignment = VerticalAlignment.Top;
@@ -292,7 +292,7 @@ namespace Shared.Control
 
             //LBPoint
             LBPoint = new Ellipse();
-            LBPoint.Fill = new SolidColorBrush(Colors.Red);
+            LBPoint.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
             LBPoint.Width = 1d;
             LBPoint.Height = 1d;
             LBPoint.VerticalAlignment = VerticalAlignment.Bottom;
@@ -301,7 +301,7 @@ namespace Shared.Control
 
             //RBPoint
             RBPoint = new Ellipse();
-            RBPoint.Fill = new SolidColorBrush(Colors.Red);
+            RBPoint.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
             RBPoint.Width = 1d;
             RBPoint.Height = 1d;
             RBPoint.VerticalAlignment = VerticalAlignment.Bottom;
@@ -310,7 +310,7 @@ namespace Shared.Control
 
             //centerPoint
             centerPoint = new Ellipse();
-            centerPoint.Fill = new SolidColorBrush(Colors.Red);
+            centerPoint.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
             centerPoint.Width = 1d;
             centerPoint.Height = 1d;
             centerPoint.VerticalAlignment = VerticalAlignment.Center;
@@ -867,7 +867,7 @@ namespace Shared.Control
 
         private static void RaiseOnSelected()
         {
-            if (OnSelected!=null)
+            if (OnSelected != null)
             {
                 OnSelected(SelectedSprite, EventArgs.Empty);
             }

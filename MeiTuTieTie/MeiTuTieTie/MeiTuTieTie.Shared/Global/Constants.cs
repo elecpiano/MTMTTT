@@ -18,6 +18,8 @@ namespace Shared.Global
         public const string KEY_EDGE = "key_edge";
         public const string KEY_SHADOW = "key_shadow";
         public const string KEY_EXPORT_WIDTH = "key_export_width";
+        public const string KEY_AUTO_SAVE = "key_auto_save";
+        public const string KEY_SFX = "key_sfx";
 
     }
 }

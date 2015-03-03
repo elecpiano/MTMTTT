@@ -51,8 +51,7 @@ namespace MeiTuTieTie.Pages
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.New)
             {
-                LoadImageSizeSetting();
-                LoadEdgeShadowSetting();
+                LoadSettings();
             }
         }
 
@@ -103,14 +102,6 @@ namespace MeiTuTieTie.Pages
 
         #region Image Size
 
-        private void LoadImageSizeSetting()
-        {
-            double width = App.CurrentInstance.GetSetting<double>(Constants.KEY_EXPORT_WIDTH, 1248d);
-            imageSizeCheckMark1.Visibility = width == 640d ? Visibility.Visible : Visibility.Collapsed;
-            imageSizeCheckMark2.Visibility = width == 1248d ? Visibility.Visible : Visibility.Collapsed;
-            imageSizeCheckMark3.Visibility = width == 1600d ? Visibility.Visible : Visibility.Collapsed;
-        }
-
         private void imageSize_Tapped(object sender, TappedRoutedEventArgs e)
         {
             ShowImageSizePopup();
@@ -148,13 +139,9 @@ namespace MeiTuTieTie.Pages
 
         #region edge, shadow
 
-        private void LoadEdgeShadowSetting()
+        private void edgeShadow_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            bool edgeEnabled = App.CurrentInstance.GetSetting<bool>(Constants.KEY_EDGE, false);
-            edgeSwitch.Checked = edgeEnabled;
-
-            bool shadowEnabled = App.CurrentInstance.GetSetting<bool>(Constants.KEY_SHADOW, false);
-            shadowSwitch.Checked = shadowEnabled;
+            ShowEdgeShadowPopup();
         }
 
         private void edge_CheckStateChanged(Shared.Control.ImageSwitch sender, bool suggestedState)
@@ -171,21 +158,6 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
-        private void autoSave_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-
-        }
-
-        private void edgeShadow_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            ShowEdgeShadowPopup();
-        }
-
-        private void soundEffect_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-
-        }
-
         private void help_Tapped(object sender, TappedRoutedEventArgs e)
         {
 
@@ -201,7 +173,52 @@ namespace MeiTuTieTie.Pages
 
         }
 
+        #region Auto Save
 
-      
+        private void autoSave_CheckStateChanged(ImageSwitch sender, bool suggestedState)
+        {
+            App.CurrentInstance.UpdateSetting(Constants.KEY_AUTO_SAVE, suggestedState);
+            sender.Checked = suggestedState;
+        }
+
+        #endregion
+
+        #region SFX
+
+        private void sfx_CheckStateChanged(ImageSwitch sender, bool suggestedState)
+        {
+            App.CurrentInstance.UpdateSetting(Constants.KEY_SFX, suggestedState);
+            sender.Checked = suggestedState;
+        }
+
+        #endregion
+
+        #region Load Settings
+
+        private void LoadSettings()
+        {
+            //image size
+            double width = App.CurrentInstance.GetSetting<double>(Constants.KEY_EXPORT_WIDTH, 1248d);
+            imageSizeCheckMark1.Visibility = width == 640d ? Visibility.Visible : Visibility.Collapsed;
+            imageSizeCheckMark2.Visibility = width == 1248d ? Visibility.Visible : Visibility.Collapsed;
+            imageSizeCheckMark3.Visibility = width == 1600d ? Visibility.Visible : Visibility.Collapsed;
+
+            //edge
+            edgeSwitch.Checked = App.CurrentInstance.GetSetting<bool>(Constants.KEY_EDGE, false);
+
+            //shadow
+            shadowSwitch.Checked = App.CurrentInstance.GetSetting<bool>(Constants.KEY_SHADOW, false);
+
+            //auto save
+            autoSaveSwitch.Checked = App.CurrentInstance.GetSetting<bool>(Constants.KEY_AUTO_SAVE, false);
+
+            //SFX
+            sfxSwitch.Checked = App.CurrentInstance.GetSetting<bool>(Constants.KEY_SFX, false);
+        }
+
+        #endregion
+
+
+
     }
 }
