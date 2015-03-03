@@ -51,6 +51,40 @@
         <Setter Property="Margin" Value="12,0,0,0"/>
     </Style>
 
+    <!--image button-->
+    <Style TargetType="sharedControl:ImageButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="sharedControl:ImageSwitch">
+                    <Grid Background="#00000000">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="TapStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0:0:0.1"/>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="normalImage"/>
+                                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="pressedImage"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <Grid x:Name="content" Background="#00000000" RenderTransformOrigin="0.5,0.5" >
+                            <Grid.RenderTransform>
+                                <CompositeTransform/>
+                            </Grid.RenderTransform>
+                            <Image x:Name="normalImage" Opacity="1" Source="{TemplateBinding NormalImage}" Stretch="Uniform" Margin="{TemplateBinding Padding}"/>
+                            <Image x:Name="pressedImage" Opacity="0" Source="{TemplateBinding PressedImage}" Stretch="Uniform" Margin="{TemplateBinding Padding}"/>
+                        </Grid>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!--image switch-->
     <Style x:Name="ImageSwitch_Base_Style" TargetType="sharedControl:ImageSwitch">
         <Setter Property="Template">
@@ -259,7 +293,7 @@
         <Setter Property="Height" Value="48"/>
         <Setter Property="Background" Value="#FFFDD4D4"/>
     </Style>
-    
+
     <Style x:Key="Settings_GroupTitle_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
         <Setter Property="FontSize" Value="24"/>
         <Setter Property="Foreground" Value="#FFEF7A7A"/>
@@ -274,7 +308,7 @@
         <Setter Property="Background" Value="#ffffffff"/>
         <Setter Property="Margin" Value="12,0,12,0"/>
     </Style>
-    
+
     <Style x:Key="Settings_ItemText_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
         <Setter Property="FontSize" Value="24"/>
         <Setter Property="Foreground" Value="#ff2d2d2d"/>
