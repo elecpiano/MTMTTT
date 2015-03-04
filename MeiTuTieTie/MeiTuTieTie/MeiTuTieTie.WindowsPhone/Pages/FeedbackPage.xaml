@@ -10,100 +10,51 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        <Style x:Name="ContentSwitch_Base_Style" TargetType="sharedControl:ContentSwitch">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="sharedControl:ContentSwitch">
-                        <Grid x:Name="Grid" Background="#00000000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CheckStates">
-                                    <VisualState x:Name="UnChecked"/>
-                                    <VisualState x:Name="Checked">
-                                        <Storyboard>
-                                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="unCheckedContent" />
-                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="checkedContent" />
-                                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="disabledUnCheckedContent" />
-                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="disabledCheckedContent" />
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="EnableStates">
-                                    <VisualState x:Name="Enabled"/>
-                                    <VisualState x:Name="Disabled">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="disabledPanel">
-                                                <DiscreteObjectKeyFrame KeyTime="0">
-                                                    <DiscreteObjectKeyFrame.Value>
-                                                        <Visibility>Visible</Visibility>
-                                                    </DiscreteObjectKeyFrame.Value>
-                                                </DiscreteObjectKeyFrame>
-                                            </ObjectAnimationUsingKeyFrames>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="enabledPanel">
-                                                <DiscreteObjectKeyFrame KeyTime="0">
-                                                    <DiscreteObjectKeyFrame.Value>
-                                                        <Visibility>Collapsed</Visibility>
-                                                    </DiscreteObjectKeyFrame.Value>
-                                                </DiscreteObjectKeyFrame>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Grid x:Name="enabledPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                                <ContentControl x:Name="checkedContent" Opacity="0"
-                                                Content="{TemplateBinding CheckedVisual}" 
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"
-                                                Margin="{TemplateBinding Padding}"/>
-                                <ContentControl x:Name="unCheckedContent" Opacity="1"
-                                                Content="{TemplateBinding UnCheckedVisual}"
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"
-                                                Margin="{TemplateBinding Padding}"/>
-                            </Grid>
-                            <Grid x:Name="disabledPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
-                                <ContentControl x:Name="disabledCheckedContent" Opacity="0"
-                                                Content="{TemplateBinding DisabledCheckedVisual}" 
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"
-                                                Margin="{TemplateBinding Padding}"/>
-                                <ContentControl x:Name="disabledUnCheckedContent" Opacity="1"
-                                                Content="{TemplateBinding DisabledUnCheckedVisual}" 
-                                                HorizontalAlignment="Stretch"
-                                                VerticalAlignment="Stretch"
-                                                Margin="{TemplateBinding Padding}"/>
-                            </Grid>
-                            <ContentPresenter Content="{TemplateBinding Content}"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Name="ContentSwitch_FeedbackType_Style" TargetType="sharedControl:ContentSwitch" BasedOn="{StaticResource ContentSwitch_Base_Style}">
-            <Setter Property="CheckedVisual">
-                <Setter.Value>
-                    <Grid Background="Green" Width="100" Height="48">
-
-                    </Grid>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="UnCheckedVisual">
-                <Setter.Value>
-                    <Grid Background="Red" Width="100" Height="48">
-
-                    </Grid>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
     </Page.Resources>
 
     <Grid Background="White">
+    	<VisualStateManager.VisualStateGroups>
+    		<VisualStateGroup x:Name="VisualStateGroup">
+    			<VisualState x:Name="vsFeedbackType1">
+    				<Storyboard>
+    					<ColorAnimation Duration="0" To="Gray" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackType1" d:IsOptimized="True"/>
+    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.FontFamily)" Storyboard.TargetName="feedbackTypeText1">
+    						<DiscreteObjectKeyFrame KeyTime="0">
+    							<DiscreteObjectKeyFrame.Value>
+    								<FontFamily>Global User Interface</FontFamily>
+    							</DiscreteObjectKeyFrame.Value>
+    						</DiscreteObjectKeyFrame>
+    					</ObjectAnimationUsingKeyFrames>
+    					<ColorAnimation Duration="0" To="White" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackTypeText1" d:IsOptimized="True"/>
+    				</Storyboard>
+    			</VisualState>
+    			<VisualState x:Name="vsFeedbackType2">
+    				<Storyboard>
+    					<ColorAnimation Duration="0" To="Gray" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackType2" d:IsOptimized="True"/>
+    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.FontFamily)" Storyboard.TargetName="feedbackTypeText2">
+    						<DiscreteObjectKeyFrame KeyTime="0">
+    							<DiscreteObjectKeyFrame.Value>
+    								<FontFamily>Global User Interface</FontFamily>
+    							</DiscreteObjectKeyFrame.Value>
+    						</DiscreteObjectKeyFrame>
+    					</ObjectAnimationUsingKeyFrames>
+    					<ColorAnimation Duration="0" To="White" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackTypeText2" d:IsOptimized="True"/>
+    				</Storyboard>
+    			</VisualState>
+    			<VisualState x:Name="vsFeedbackType3">
+    				<Storyboard>
+    					<ColorAnimation Duration="0" To="White" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackTypeText3" d:IsOptimized="True"/>
+    					<ColorAnimation Duration="0" To="Gray" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackType3" d:IsOptimized="True"/>
+    				</Storyboard>
+    			</VisualState>
+    		</VisualStateGroup>
+    	</VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
@@ -115,34 +66,41 @@
         <!--feedback type-->
         <Grid Grid.Row="1" Height="48" Margin="10">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
 
+            <Rectangle Grid.Column="0" Width="1" Fill="#ff808080"/>
+            <Rectangle Grid.Column="2" Width="1" Fill="#ff808080"/>
+            <Rectangle Grid.Column="4" Width="1" Fill="#ff808080"/>
+            <Rectangle Grid.Column="6" Width="1" Fill="#ff808080"/>
 
-            <sharedControl:ContentSwitch CheckStateChanged="feedbackType_CheckStateChanged"
-                                         Style="{StaticResource ContentSwitch_Base_Style}"
-                                         HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
-                <sharedControl:ContentSwitch.UnCheckedVisual>
-                    <Grid Background="Green"/>
-                </sharedControl:ContentSwitch.UnCheckedVisual>
-                <sharedControl:ContentSwitch.CheckedVisual>
-                    <Grid Background="Orange"/>
-                </sharedControl:ContentSwitch.CheckedVisual>
-                <TextBlock Text="button" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray" FontSize="32"/>
-                <!--<sharedcontrol:contentswitch.uncheckedvisual>
-                    <grid background="green" width="100" height="48">
+            <Border Grid.Column="1" x:Name="feedbackType1" BorderBrush="#ff808080" BorderThickness="0,1,0,1" Background="#fff0f0f0" Tapped="feedbackType_Tapped" Tag="1">
+                <TextBlock x:Name="feedbackTypeText1" Text="错误崩溃" Style="{StaticResource FeedbackPage_FeedbackType_Style}" Foreground="#ff2d2d2d"/>
+            </Border>
 
-                    </grid>
-                </sharedcontrol:contentswitch.uncheckedvisual>
-                <sharedcontrol:contentswitch.checkedvisual>
-                    <grid background="red" width="100" height="48">
+            <Border Grid.Column="3" x:Name="feedbackType2" BorderBrush="#ff808080" BorderThickness="0,1,0,1" Background="#fff0f0f0" Tapped="feedbackType_Tapped" Tag="2">
+                <TextBlock x:Name="feedbackTypeText2" Text="改进建议" Style="{StaticResource FeedbackPage_FeedbackType_Style}" Foreground="#ff2d2d2d"/>
+            </Border>
 
-                    </grid>
-                </sharedcontrol:contentswitch.checkedvisual>-->
-            </sharedControl:ContentSwitch>
+            <Border Grid.Column="5" x:Name="feedbackType3" BorderBrush="#ff808080" BorderThickness="0,1,0,1" Background="#fff0f0f0" Tapped="feedbackType_Tapped" Tag="3">
+                <TextBlock x:Name="feedbackTypeText3" Text="其他" Style="{StaticResource FeedbackPage_FeedbackType_Style}" Foreground="#ff2d2d2d"/>
+            </Border>
+            
         </Grid>
+        
+        <TextBox Grid.Row="2" x:Name="feedbackTextBox" Margin="12,0,12,0" AcceptsReturn="True" TextWrapping="Wrap" VerticalAlignment="Stretch" 
+                 BorderBrush="#ff808080" BorderThickness="2"/>
+
+        <TextBox Grid.Row="3" x:Name="contactTextBox" Margin="12,10,12,10"
+                 BorderBrush="#ff808080" BorderThickness="2"/>
+
+        <Rectangle Grid.Row="4" Fill="#00000000" Height="340"/>
 
     </Grid>
 </Page>

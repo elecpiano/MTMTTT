@@ -43,6 +43,7 @@ namespace MeiTuTieTie.Pages
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.New)
             {
+                VisualStateManager.GoToState(this, "vsFeedbackType1", true);
                 Test();
             }
         }
@@ -57,11 +58,28 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
-        private void feedbackType_CheckStateChanged(ContentSwitch sender, bool suggestedState)
+        private void feedbackType_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            var control = sender as ContentSwitch;
-            control.Checked = !control.Checked;
+            string tag = (sender as FrameworkElement).Tag.ToString();
+            if (tag == "1")
+            {
+                VisualStateManager.GoToState(this, "vsFeedbackType1", true);
+            }
+            else if (tag == "2")
+            {
+                VisualStateManager.GoToState(this, "vsFeedbackType2", true);
+            }
+            else if (tag == "3")
+            {
+                VisualStateManager.GoToState(this, "vsFeedbackType3", true);
+            }
         }
+
+        private void TextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+
+        }
+
 
     }
 }
