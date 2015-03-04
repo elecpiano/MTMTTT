@@ -1,0 +1,148 @@
+﻿<Page 
+    x:Class="MeiTuTieTie.Pages.FeedbackPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:controls="using:MeiTuTieTie.Controls" 
+    xmlns:util="using:Shared.Utility"
+    xmlns:sharedControl="using:Shared.Control"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <Style x:Name="ContentSwitch_Base_Style" TargetType="sharedControl:ContentSwitch">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="sharedControl:ContentSwitch">
+                        <Grid x:Name="Grid" Background="#00000000" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="UnChecked"/>
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="unCheckedContent" />
+                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="checkedContent" />
+                                            <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="disabledUnCheckedContent" />
+                                            <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="disabledCheckedContent" />
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="EnableStates">
+                                    <VisualState x:Name="Enabled"/>
+                                    <VisualState x:Name="Disabled">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="disabledPanel">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Visible</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="enabledPanel">
+                                                <DiscreteObjectKeyFrame KeyTime="0">
+                                                    <DiscreteObjectKeyFrame.Value>
+                                                        <Visibility>Collapsed</Visibility>
+                                                    </DiscreteObjectKeyFrame.Value>
+                                                </DiscreteObjectKeyFrame>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid x:Name="enabledPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                <ContentControl x:Name="checkedContent" Opacity="0"
+                                                Content="{TemplateBinding CheckedVisual}" 
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Margin="{TemplateBinding Padding}"/>
+                                <ContentControl x:Name="unCheckedContent" Opacity="1"
+                                                Content="{TemplateBinding UnCheckedVisual}"
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Margin="{TemplateBinding Padding}"/>
+                            </Grid>
+                            <Grid x:Name="disabledPanel" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Visibility="Collapsed">
+                                <ContentControl x:Name="disabledCheckedContent" Opacity="0"
+                                                Content="{TemplateBinding DisabledCheckedVisual}" 
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Margin="{TemplateBinding Padding}"/>
+                                <ContentControl x:Name="disabledUnCheckedContent" Opacity="1"
+                                                Content="{TemplateBinding DisabledUnCheckedVisual}" 
+                                                HorizontalAlignment="Stretch"
+                                                VerticalAlignment="Stretch"
+                                                Margin="{TemplateBinding Padding}"/>
+                            </Grid>
+                            <ContentPresenter Content="{TemplateBinding Content}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Name="ContentSwitch_FeedbackType_Style" TargetType="sharedControl:ContentSwitch" BasedOn="{StaticResource ContentSwitch_Base_Style}">
+            <Setter Property="CheckedVisual">
+                <Setter.Value>
+                    <Grid Background="Green" Width="100" Height="48">
+
+                    </Grid>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="UnCheckedVisual">
+                <Setter.Value>
+                    <Grid Background="Red" Width="100" Height="48">
+
+                    </Grid>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Page.Resources>
+
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!--page title-->
+        <Grid Grid.Row="0" Style="{StaticResource PageTitlePanel_Style}">
+            <TextBlock Text="意见反馈" Style="{StaticResource PageTitle_Style}"/>
+        </Grid>
+
+        <!--feedback type-->
+        <Grid Grid.Row="1" Height="48" Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+
+            <sharedControl:ContentSwitch CheckStateChanged="feedbackType_CheckStateChanged"
+                                         Style="{StaticResource ContentSwitch_Base_Style}"
+                                         HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch">
+                <sharedControl:ContentSwitch.UnCheckedVisual>
+                    <Grid Background="Green"/>
+                </sharedControl:ContentSwitch.UnCheckedVisual>
+                <sharedControl:ContentSwitch.CheckedVisual>
+                    <Grid Background="Orange"/>
+                </sharedControl:ContentSwitch.CheckedVisual>
+                <TextBlock Text="button" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Gray" FontSize="32"/>
+                <!--<sharedcontrol:contentswitch.uncheckedvisual>
+                    <grid background="green" width="100" height="48">
+
+                    </grid>
+                </sharedcontrol:contentswitch.uncheckedvisual>
+                <sharedcontrol:contentswitch.checkedvisual>
+                    <grid background="red" width="100" height="48">
+
+                    </grid>
+                </sharedcontrol:contentswitch.checkedvisual>-->
+            </sharedControl:ContentSwitch>
+        </Grid>
+
+    </Grid>
+</Page>

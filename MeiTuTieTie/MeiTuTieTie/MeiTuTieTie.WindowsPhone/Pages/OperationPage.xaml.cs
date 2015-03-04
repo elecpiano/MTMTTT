@@ -57,9 +57,10 @@ namespace MeiTuTieTie.Pages
         {
             base.OnNavigatedTo(e);
 
+            LoadSettings();
+
             if (e.NavigationMode == NavigationMode.New)
             {
-                LoadSettings();
                 pageType = (OperationPageType)e.Parameter;
                 InitializePage();
                 BuildBottomAppBar_Normal();

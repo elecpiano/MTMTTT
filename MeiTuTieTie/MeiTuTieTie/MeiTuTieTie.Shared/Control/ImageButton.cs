@@ -19,7 +19,7 @@ namespace Shared.Control
         }
 
         public static readonly DependencyProperty NormalImageProperty =
-            DependencyProperty.Register("NormalImage", typeof(ImageSource), typeof(ImageSwitch), new PropertyMetadata(null));
+            DependencyProperty.Register("NormalImage", typeof(ImageSource), typeof(ImageButton), new PropertyMetadata(null));
 
         public ImageSource PressedImage
         {
@@ -31,7 +31,7 @@ namespace Shared.Control
         }
 
         public static readonly DependencyProperty PressedImageProperty =
-            DependencyProperty.Register("PressedImage", typeof(ImageSource), typeof(ImageSwitch), new PropertyMetadata(null));
+            DependencyProperty.Register("PressedImage", typeof(ImageSource), typeof(ImageButton), new PropertyMetadata(null));
 
         #endregion
 

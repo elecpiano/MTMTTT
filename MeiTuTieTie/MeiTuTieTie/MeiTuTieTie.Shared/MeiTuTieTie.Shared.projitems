@@ -27,6 +27,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Control\ContentButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Control\ImageButton.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Control\ContentSwitch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Control\ImageSwitch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Control\SpriteControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Control\SpriteFrame.xaml.cs">

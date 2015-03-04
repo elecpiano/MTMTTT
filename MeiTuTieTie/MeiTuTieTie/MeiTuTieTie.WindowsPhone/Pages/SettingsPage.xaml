@@ -78,9 +78,10 @@
                 <Grid Style="{StaticResource Settings_GroupHeaderPanel_Style}">
                     <TextBlock Style="{StaticResource Settings_GroupTitle_Style}" Text="帐号设置"/>
                 </Grid>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}"
-                        Tapped="imageSize_Tapped">
-                    <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="画质设置"/>
+                <Border Style="{StaticResource Settings_ItemContainer_Style}">
+                    <sharedControl:ContentButton Tapped="imageSize_Tapped">
+                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="画质设置"/>
+                    </sharedControl:ContentButton>
                 </Border>
                 <Border Style="{StaticResource Settings_ItemContainer_Style}">
                     <Grid>
@@ -90,9 +91,10 @@
                                                    CheckStateChanged="autoSave_CheckStateChanged"/>
                     </Grid>
                 </Border>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}"
-                        Tapped="edgeShadow_Tapped">
-                    <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="拼图设置"/>
+                <Border Style="{StaticResource Settings_ItemContainer_Style}">
+                    <sharedControl:ContentButton Tapped="edgeShadow_Tapped">
+                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="拼图设置"/>
+                    </sharedControl:ContentButton>
                 </Border>
                 <Border Style="{StaticResource Settings_ItemContainer_Style}">
                     <Grid>
@@ -107,17 +109,20 @@
                 <Grid Style="{StaticResource Settings_GroupHeaderPanel_Style}">
                     <TextBlock Style="{StaticResource Settings_GroupTitle_Style}" Text="其他"/>
                 </Grid>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}"
-                        Tapped="help_Tapped">
-                    <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="帮助"/>
+                <Border Style="{StaticResource Settings_ItemContainer_Style}">
+                    <sharedControl:ContentButton Tapped="help_Tapped">
+                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="帮助"/>
+                    </sharedControl:ContentButton>
                 </Border>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}"
-                        Tapped="feedback_Tapped">
-                    <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="意见反馈"/>
+                <Border Style="{StaticResource Settings_ItemContainer_Style}">
+                    <sharedControl:ContentButton Tapped="feedback_Tapped">
+                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="意见反馈"/>
+                    </sharedControl:ContentButton>
                 </Border>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}"
-                        Tapped="about_Tapped">
-                    <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="关于"/>
+                <Border Style="{StaticResource Settings_ItemContainer_Style}">
+                    <sharedControl:ContentButton Tapped="about_Tapped">
+                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="关于"/>
+                    </sharedControl:ContentButton>
                 </Border>
             </StackPanel>
         </ScrollViewer>

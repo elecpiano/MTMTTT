@@ -49,9 +49,11 @@ namespace MeiTuTieTie.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+
+            LoadSettings();
+
             if (e.NavigationMode == NavigationMode.New)
             {
-                LoadSettings();
             }
         }
 
@@ -165,12 +167,12 @@ namespace MeiTuTieTie.Pages
 
         private void feedback_Tapped(object sender, TappedRoutedEventArgs e)
         {
-
+            Frame.Navigate(typeof(FeedbackPage));
         }
 
         private void about_Tapped(object sender, TappedRoutedEventArgs e)
         {
-
+            Frame.Navigate(typeof(AboutPage));
         }
 
         #region Auto Save

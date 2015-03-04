@@ -51,11 +51,44 @@
         <Setter Property="Margin" Value="12,0,0,0"/>
     </Style>
 
+    <!--content button-->
+    <Style TargetType="sharedControl:ContentButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="sharedControl:ContentButton">
+                    <Grid Background="#00000000">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="VisualStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition GeneratedDuration="0:0:0.1"/>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="Pressed">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="0.98" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="content" />
+                                        <DoubleAnimation Duration="0" To="0.95" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="content" />
+                                        <DoubleAnimation Duration="0" To="0.8" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="content"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+
+                        <ContentPresenter x:Name="content" Content="{TemplateBinding Content}" RenderTransformOrigin="0.5,0.5">
+                            <ContentPresenter.RenderTransform>
+                                <CompositeTransform/>
+                            </ContentPresenter.RenderTransform>
+                        </ContentPresenter>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!--image button-->
     <Style TargetType="sharedControl:ImageButton">
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="sharedControl:ImageSwitch">
+                <ControlTemplate TargetType="sharedControl:ImageButton">
                     <Grid Background="#00000000">
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="TapStates">
@@ -129,7 +162,6 @@
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
-
                         </VisualStateManager.VisualStateGroups>
 
                         <Grid x:Name="content" Background="#00000000" RenderTransformOrigin="0.5,0.5" >
