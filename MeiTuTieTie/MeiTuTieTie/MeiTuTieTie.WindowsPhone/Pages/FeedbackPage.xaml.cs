@@ -80,11 +80,40 @@ namespace MeiTuTieTie.Pages
 
         }
 
-        private void send_Click(object sender, RoutedEventArgs e)
-        {
+        #region Send Data
 
+        private DataSender dataSender = null;
+
+        private async void send_Click(object sender, RoutedEventArgs e)
+        {
+            if (dataSender==null)
+            {
+                dataSender = new DataSender();
+            }
+
+            string url = "http://data.meitu.com/feedback_iphone.php";
+            string data = "wp_test";
+            Dictionary<string, string> param = new Dictionary<string, string>();
+
+            param.Add("software", "AMTTT");
+            param.Add("version", "1.0.0.0");
+            param.Add("module", "Windows Phone");
+            //param.Add("os", "Windows Phone 8.1");
+            //param.Add("nickname", "");
+            //param.Add("from", "");
+            param.Add("message", "test message");
+            param.Add("contact", "test@test.com");
+            param.Add("itype", "suggestion");
+
+            dataSender.POSTAsync(url, data, param, 
+                result =>
+                {
+                    int xx = 0;
+                    xx++;
+                });
         }
 
+        #endregion
 
     }
 }

@@ -21,11 +21,11 @@ namespace Shared.Utility
         }
     }
 
-    public class DataSender<T> where T : class
+    public class DataSender
     {
         public const string MULTIPART_BOUNDARY = "6CUS_DxALdoqFbRCOr86dQnoOjTVpFFR";
         
-        public static async Task POSTAsync(string url,
+        public async Task POSTAsync(string url,
                                            string data,
                                            Dictionary<string, string> additionalHttpReqHeaders = null,
                                            Action<HttpRequestResult> callback = null, bool multipart = false)
@@ -69,9 +69,9 @@ namespace Shared.Utility
                     }
                 }
             }
-            catch
+            catch(Exception ex)
             {
-                throw;
+                //throw;
             }
         }
     }
