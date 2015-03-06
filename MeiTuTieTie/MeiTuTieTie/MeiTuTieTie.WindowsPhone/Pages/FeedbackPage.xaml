@@ -13,6 +13,12 @@
 
     </Page.Resources>
 
+    <Page.BottomAppBar>
+        <CommandBar x:Name="bottomAppBar">
+            <AppBarButton Icon="Send" Label="发送" Click="send_Click"/>
+        </CommandBar>
+    </Page.BottomAppBar>
+    
     <Grid Background="White">
     	<VisualStateManager.VisualStateGroups>
     		<VisualStateGroup x:Name="VisualStateGroup">
@@ -100,7 +106,7 @@
         <TextBox Grid.Row="3" x:Name="contactTextBox" Margin="12,10,12,10"
                  BorderBrush="#ff808080" BorderThickness="2"/>
 
-        <Rectangle Grid.Row="4" Fill="#00000000" Height="340"/>
+        <Rectangle Grid.Row="4" Fill="#00000000" Height="{StaticResource KeyboardHeightWithAppBar}"/>
 
     </Grid>
 </Page>

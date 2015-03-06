@@ -5,6 +5,7 @@ using System.Net;
 using System.Runtime.Serialization;
 using MeiTuTieTie;
 using System.Threading.Tasks;
+using System.Text;
 
 namespace Shared.Utility
 {
@@ -165,7 +166,6 @@ namespace Shared.Utility
 
             return result;
         }
-
 
     }
 

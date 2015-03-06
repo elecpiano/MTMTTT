@@ -35,7 +35,7 @@ namespace MeiTuTieTie.Pages
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            UpdateScreenSize();
+            //UpdateScreenSize();
 
             if (e.NavigationMode == NavigationMode.New)
             {
@@ -74,11 +74,11 @@ namespace MeiTuTieTie.Pages
 
         #region Screen Size Related
 
-        private void UpdateScreenSize()
-        {
-            Application.Current.Resources["ScreenWidthHalf"] = Window.Current.Bounds.Width * 0.5d;
-            Application.Current.Resources["MaterialHeight"] = (Window.Current.Bounds.Width - 48d) / 3d;
-        }
+        //private void UpdateScreenSize()
+        //{
+        //    Application.Current.Resources["ScreenWidthHalf"] = Window.Current.Bounds.Width * 0.5d;
+        //    Application.Current.Resources["MaterialHeight"] = (Window.Current.Bounds.Width - 48d) / 3d;
+        //}
 
         #endregion
 

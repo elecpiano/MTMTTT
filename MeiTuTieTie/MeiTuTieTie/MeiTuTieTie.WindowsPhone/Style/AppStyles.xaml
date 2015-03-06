@@ -12,6 +12,8 @@
     <!--screen-->
     <x:Double x:Key="ScreenWidthHalf">200</x:Double>
     <x:Double x:Key="MaterialHeight">100</x:Double>
+    <x:Double x:Key="KeyboardHeight">336</x:Double>
+    <x:Double x:Key="KeyboardHeightWithAppBar">336</x:Double>
 
     <!--textblock base-->
     <Style x:Key="TextBlockBase" TargetType="TextBlock">

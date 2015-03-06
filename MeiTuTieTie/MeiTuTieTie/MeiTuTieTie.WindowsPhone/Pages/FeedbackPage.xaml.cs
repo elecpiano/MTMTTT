@@ -80,6 +80,11 @@ namespace MeiTuTieTie.Pages
 
         }
 
+        private void send_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
 
     }
 }
