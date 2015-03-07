@@ -51,12 +51,12 @@ namespace MeiTuTieTie.Pages
 
         #region Tile Click
 
-        private void singlePic_Click(object sender, RoutedEventArgs e)
+        private void singlePhoto_Click(object sender, RoutedEventArgs e)
         {
             PickPhoto();
         }
 
-        private void multiPic_Click(object sender, RoutedEventArgs e)
+        private void multiPhoto_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(OperationPage), OperationPageType.Multi);
         }
@@ -286,6 +286,15 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
+
+        private void dailyAD_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+
+
 
     }
 }

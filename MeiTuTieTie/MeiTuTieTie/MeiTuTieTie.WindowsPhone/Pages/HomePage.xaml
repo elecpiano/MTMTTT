@@ -6,36 +6,88 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:sharedControl="using:Shared.Control"
     mc:Ignorable="d">
-    
+
     <Page.Resources>
     </Page.Resources>
 
-    <Page.BottomAppBar>
-        <CommandBar>
+    <!--<Page.BottomAppBar>
+        <CommandBar Background="LightPink">
             <AppBarButton Icon="Setting" Label="设置" Click="settings_Click"/>
         </CommandBar>
-    </Page.BottomAppBar>
+    </Page.BottomAppBar>-->
 
-    <Grid Background="Wheat">
-        <!--buttons-->
-        <Grid x:Name="buttonsPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Gray" RenderTransformOrigin="0.5,0.5">
-            <Grid.RenderTransform>
-                <CompositeTransform/>
-            </Grid.RenderTransform>
+    <Grid>
+        <Image Source="/Assets/Images/HomePageBackground.png" Stretch="UniformToFill" />
+
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <Button Grid.Row="0" Grid.Column="0" Content="单张贴图" Width="120" Height="120" Margin="20" Background="SkyBlue" Click="singlePic_Click"/>
-            <Button Grid.Row="0" Grid.Column="1" Content="多张拼图" Width="120" Height="120" Margin="20" Background="Orange" Click="multiPic_Click"/>
-            <Button Grid.Row="1" Grid.Column="0" Content="精品屋" Width="120" Height="120" Margin="20" Background="Salmon" Click="boutique_Click"/>
-            <Button Grid.Row="1" Grid.Column="1" Content="更多功能" Width="120" Height="120" Margin="20" Background="SeaGreen" Click="more_Click"/>
+
+            <Image Source="/Assets/Images/HomePageHeader.png" Stretch="Uniform" />
+
+            <!--tiles-->
+            <Grid Grid.Row="1" HorizontalAlignment="Center" Margin="0,24,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <sharedControl:ContentButton Grid.Row="0" Grid.Column="0" Click="singlePhoto_Click" Margin="12">
+                    <Image Source="/Assets/Images/HomePageSinglePhoto.png" Stretch="Uniform" Width="136" Height="136"/>
+                </sharedControl:ContentButton>
+                <sharedControl:ContentButton Grid.Row="0" Grid.Column="1" Click="multiPhoto_Click" Margin="12">
+                    <Image Source="/Assets/Images/HomePageMultiPhoto.png" Stretch="Uniform" Width="136" Height="136"/>
+                </sharedControl:ContentButton>
+                <sharedControl:ContentButton Grid.Row="1" Grid.Column="0" Click="boutique_Click" Margin="12">
+                    <Image Source="/Assets/Images/HomePageMultiPhoto.png" Stretch="Uniform" Width="136" Height="136"/>
+                </sharedControl:ContentButton>
+                <sharedControl:ContentButton Grid.Row="1" Grid.Column="1" Click="boutique_Click" Margin="12">
+                    <Image Source="/Assets/Images/HomePageMultiPhoto.png" Stretch="Uniform" Width="136" Height="136"/>
+                </sharedControl:ContentButton>
+            </Grid>
+
+            <!--bottom buttons-->
+            <Grid Grid.Row="2" HorizontalAlignment="Center" Margin="0,12,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <sharedControl:ContentButton Grid.Column="0" Click="dailyAD_Click" Height="44" Width="137" Grid.Row="0" Margin="12">
+                    <Grid Background="#ffffafb4">
+                        <Grid HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Source="/Assets/Images/HomePageDailyAD.png" Stretch="Uniform" Width="24" Height="24" Margin="0,0,4,0"/>
+                            <TextBlock Grid.Column="1" Text="每日推荐" Foreground="#ffffffff" FontSize="20" VerticalAlignment="Center" Style="{StaticResource TextBlockBase}"/>
+                        </Grid>
+                    </Grid>
+                </sharedControl:ContentButton>
+                <sharedControl:ContentButton Grid.Column="1" Click="settings_Click" Height="44" Width="137" Grid.Row="0" Margin="12">
+                    <Grid Background="#ffffafb4">
+                        <Grid HorizontalAlignment="Center">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <Image Grid.Column="0" Source="/Assets/Images/HomePageSettings.png" Stretch="Uniform" Width="24" Height="24" Margin="0,0,4,0"/>
+                            <TextBlock Grid.Column="1" Text="设置" Foreground="#ffffffff" FontSize="20" VerticalAlignment="Center" Style="{StaticResource TextBlockBase}"/>
+                        </Grid>
+                    </Grid>
+                </sharedControl:ContentButton>
+            </Grid>
         </Grid>
- 
+
+        <!--<Rectangle Fill="Blue" HorizontalAlignment="Left" Height="50" Width="480"/>
+        <Rectangle Fill="Blue" VerticalAlignment="Top" Height="640" Width="50"/>-->
 
         <!--<sharedControl:ImageSwitch x:Name="imageSwitch" VerticalAlignment="Bottom"
                                    CheckStateChanged="ImageSwitch_CheckStateChanged"

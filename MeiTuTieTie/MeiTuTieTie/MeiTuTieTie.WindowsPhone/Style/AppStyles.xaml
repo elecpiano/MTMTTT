@@ -59,6 +59,18 @@
             <Setter.Value>
                 <ControlTemplate TargetType="sharedControl:ContentButton">
                     <Grid Background="#00000000">
+                        <Grid.Resources>
+                            <Storyboard x:Name="sbNormal" Duration="0:0:0.2">
+                                <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="content" />
+                                <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="content" />
+                                <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="content"/>
+                            </Storyboard>
+                            <Storyboard x:Name="sbPressed" Duration="0:0:0.2">
+                                <DoubleAnimation x:Name="daPressedScaleX" Duration="0" To="0.95" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="content" />
+                                <DoubleAnimation x:Name="daPressedScaleY" Duration="0" To="0.95" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="content" />
+                                <DoubleAnimation Duration="0" To="0.8" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="content"/>
+                            </Storyboard>
+                        </Grid.Resources>
                         <VisualStateManager.VisualStateGroups>
                             <VisualStateGroup x:Name="VisualStates">
                                 <VisualStateGroup.Transitions>
@@ -67,8 +79,8 @@
                                 <VisualState x:Name="Normal"/>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <DoubleAnimation Duration="0" To="0.98" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="content" />
-                                        <DoubleAnimation Duration="0" To="0.95" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="content" />
+                                        <DoubleAnimation Duration="0" To="{TemplateBinding PressedScaleX}" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="content" />
+                                        <DoubleAnimation Duration="0" To="{TemplateBinding PressedScaleY}" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="content" />
                                         <DoubleAnimation Duration="0" To="0.8" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="content"/>
                                     </Storyboard>
                                 </VisualState>

@@ -171,8 +171,8 @@ namespace MeiTuTieTie
 
         public static bool IsHdDevice { get; set; }
         
-        public static double SCREEN_RESOLUTION_WIDTH = 0;
-        public static double SCREEN_RESOLUTION_HEIGHT = 0;
+        //public static double SCREEN_RESOLUTION_WIDTH = 0;
+        //public static double SCREEN_RESOLUTION_HEIGHT = 0;
 
         #endregion
 
@@ -214,8 +214,8 @@ namespace MeiTuTieTie
             DisplayInformation di = DisplayInformation.GetForCurrentView();
 
 #if WINDOWS_PHONE_APP
-            SCREEN_RESOLUTION_WIDTH = (int)(Math.Round(di.RawPixelsPerViewPixel * Window.Current.Bounds.Width));
-            SCREEN_RESOLUTION_HEIGHT = (int)(Math.Round(di.RawPixelsPerViewPixel * Window.Current.Bounds.Height));
+            //SCREEN_RESOLUTION_WIDTH = (int)(Math.Round(di.RawPixelsPerViewPixel * Window.Current.Bounds.Width));
+            //SCREEN_RESOLUTION_HEIGHT = (int)(Math.Round(di.RawPixelsPerViewPixel * Window.Current.Bounds.Height));
             IsHdDevice = Window.Current.Bounds.Width > 500 ? true : false;
 
             Application.Current.Resources["ScreenWidthHalf"] = Window.Current.Bounds.Width * 0.5d;
@@ -223,8 +223,8 @@ namespace MeiTuTieTie
             Application.Current.Resources["KeyboardHeight"] = IsHdDevice ? 540 : 336;
             Application.Current.Resources["KeyboardHeightWithAppBar"] = IsHdDevice ? 540 : 336;
 #else
-            SCREEN_RESOLUTION_WIDTH = (int)di.ResolutionScale * 0.01 * Window.Current.Bounds.Width;
-            SCREEN_RESOLUTION_HEIGHT = (int)di.ResolutionScale * 0.01 * Window.Current.Bounds.Height;
+            //SCREEN_RESOLUTION_WIDTH = (int)di.ResolutionScale * 0.01 * Window.Current.Bounds.Width;
+            //SCREEN_RESOLUTION_HEIGHT = (int)di.ResolutionScale * 0.01 * Window.Current.Bounds.Height;
 #endif
         }
 

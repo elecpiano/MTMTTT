@@ -179,22 +179,6 @@
             </StackPanel>
         </Grid>
 
-
-
-
-
-        <Pivot x:Name="shipinPanel" Grid.Row="1" Visibility="Collapsed">
-            <Pivot.HeaderTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <TextBlock Text="{Binding}" Foreground="Black" FontSize="24"/>
-                    </Grid>
-                </DataTemplate>
-            </Pivot.HeaderTemplate>
-            <PivotItem x:Name="pivotItem_1" Header="可爱" />
-            <PivotItem x:Name="pivotItem_2" Header="文字模板" />
-            <PivotItem x:Name="pivotItem_3" Header="搞笑表情" />
-        </Pivot>
     </Grid>
     
 </Page>

@@ -148,6 +148,12 @@
     <Content Include="Assets\Images\Sprite\ShadowRB.png" />
     <Content Include="Assets\Images\Sprite\ShadowRT.png" />
     <Content Include="Assets\Images\Sprite\ShadowT.png" />
+    <Content Include="Assets\Images\HomePageHeader.png" />
+    <Content Include="Assets\Images\HomePageBackground.png" />
+    <Content Include="Assets\Images\HomePageSinglePhoto.png" />
+    <Content Include="Assets\Images\HomePageMultiPhoto.png" />
+    <Content Include="Assets\Images\HomePageDailyAD.png" />
+    <Content Include="Assets\Images\HomePageSettings.png" />
     <Content Include="Assets\Logo.scale-240.png" />
     <Content Include="Assets\materials.xml" />
     <Content Include="Assets\SmallLogo.scale-240.png" />
