@@ -106,7 +106,13 @@
     			</Setter.Value>
     		</Setter>
     	</Style>
-        
+
+        <Style x:Key="Settings_ItemText_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
+            <Setter Property="FontSize" Value="{StaticResource FontSize26}"/>
+            <Setter Property="Foreground" Value="#ff2b2b2b"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+        </Style>
     </Page.Resources>
 
     <Grid Background="White">

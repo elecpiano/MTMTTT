@@ -176,6 +176,7 @@ namespace MeiTuTieTie
         public static double SCREEN_RESOLUTION_HEIGHT = 0;
         public static double SCREEN_WIDTH = 0;
         public static double SCREEN_HEIGHT = 0;
+        public static double SCALE_FACTOR = 1d;
 
         #endregion
 
@@ -228,10 +229,19 @@ namespace MeiTuTieTie
             Application.Current.Resources["MaterialHeight"] = (Window.Current.Bounds.Width - 48d) / 3d;
             Application.Current.Resources["KeyboardHeight"] = IsHdDevice ? 540 : 336;
             Application.Current.Resources["KeyboardHeightWithAppBar"] = IsHdDevice ? 540 : 336;
+
+            Application.Current.Resources["ScaleFactor"] = SCALE_FACTOR = (double)di.ResolutionScale * 0.01d;
 #else
             //SCREEN_RESOLUTION_WIDTH = (int)di.ResolutionScale * 0.01 * Window.Current.Bounds.Width;
             //SCREEN_RESOLUTION_HEIGHT = (int)di.ResolutionScale * 0.01 * Window.Current.Bounds.Height;
 #endif
+            ScaleFontSizes();
+        }
+
+        private void ScaleFontSizes()
+        {
+            Application.Current.Resources["FontSize26"] = (double)Application.Current.Resources["FontSize26"] * SCALE_FACTOR / 1.4d;
+
         }
 
         public async void RunAsync(Action action)

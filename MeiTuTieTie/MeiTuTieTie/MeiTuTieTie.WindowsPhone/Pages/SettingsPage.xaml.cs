@@ -12,6 +12,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Shared.Control;
+using Windows.Graphics.Display;
 
 namespace MeiTuTieTie.Pages
 {
@@ -31,6 +32,7 @@ namespace MeiTuTieTie.Pages
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.CanGobackAsked += navigationHelper_CanGobackAsked;
             this.pivot.Margin = new Thickness(0);
+
         }
 
         void navigationHelper_CanGobackAsked(object sender, ref bool canceled)
