@@ -60,6 +60,53 @@
     		</Setter>
     	</Style>
         
+    	<Style x:Key="PivotStyle1" TargetType="Pivot">
+    		<Setter Property="Margin" Value="0"/>
+    		<Setter Property="Padding" Value="0"/>
+    		<Setter Property="Foreground" Value="{ThemeResource PhoneForegroundBrush}"/>
+    		<Setter Property="Background" Value="Transparent"/>
+    		<Setter Property="ItemsPanel">
+    			<Setter.Value>
+    				<ItemsPanelTemplate>
+    					<Grid/>
+    				</ItemsPanelTemplate>
+    			</Setter.Value>
+    		</Setter>
+    		<Setter Property="Template">
+    			<Setter.Value>
+    				<ControlTemplate TargetType="Pivot">
+    					<Grid x:Name="RootElement" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+    						<Grid.RowDefinitions>
+    							<RowDefinition Height="Auto"/>
+    							<RowDefinition Height="*"/>
+    						</Grid.RowDefinitions>
+    						<VisualStateManager.VisualStateGroups>
+    							<VisualStateGroup x:Name="Orientation">
+                                    <VisualState x:Name="Portrait"/>
+                                    <VisualState x:Name="Landscape"/>
+                                </VisualStateGroup>
+    						</VisualStateManager.VisualStateGroups>
+    						<ContentControl x:Name="TitleContentControl" ContentTemplate="{TemplateBinding TitleTemplate}" Content="{TemplateBinding Title}" />
+    						<ScrollViewer x:Name="ScrollViewer" HorizontalSnapPointsAlignment="Center" HorizontalSnapPointsType="MandatorySingle" HorizontalScrollBarVisibility="Hidden" Margin="{TemplateBinding Padding}" Grid.Row="1" Template="{StaticResource ScrollViewerScrollBarlessTemplate}" VerticalSnapPointsType="None" VerticalScrollBarVisibility="Disabled" VerticalScrollMode="Disabled" VerticalContentAlignment="Stretch" ZoomMode="Disabled">
+    							<PivotPanel x:Name="Panel" VerticalAlignment="Stretch">
+    								<PivotHeaderPanel x:Name="Header">
+    									<PivotHeaderPanel.RenderTransform>
+    										<CompositeTransform x:Name="HeaderTranslateTransform" TranslateX="0"/>
+    									</PivotHeaderPanel.RenderTransform>
+    								</PivotHeaderPanel>
+    								<ItemsPresenter x:Name="PivotItemPresenter">
+    									<ItemsPresenter.RenderTransform>
+    										<TranslateTransform x:Name="ItemsPresenterTranslateTransform" X="0"/>
+    									</ItemsPresenter.RenderTransform>
+    								</ItemsPresenter>
+    							</PivotPanel>
+    						</ScrollViewer>
+    					</Grid>
+    				</ControlTemplate>
+    			</Setter.Value>
+    		</Setter>
+    	</Style>
+        
     </Page.Resources>
 
     <Grid Background="White">
@@ -177,8 +224,6 @@
             </StackPanel>
         </ScrollViewer>
 
-        <Image Opacity="0.5" Grid.RowSpan="2" Source="/Assets/refSettings.png" Stretch="UniformToFill"/>
-
         <Grid x:Name="popupPanel" Grid.RowSpan="2" IsHitTestVisible="False">
             <Rectangle x:Name="popupMask" Fill="#80000000" Opacity="0"/>
 
@@ -231,18 +276,20 @@
             </StackPanel>
         </Grid>
 
-        <Pivot Title="设置">
+        <Image Opacity="0.5" Grid.RowSpan="2" Source="/Assets/refSettings.png" Stretch="UniformToFill"/>
+
+        <Pivot x:Name="pivot" Title="设置" Style="{StaticResource PivotStyle1}" Margin="0,27,0,0">
             <Pivot.TitleTemplate>
                 <DataTemplate>
-                    <Grid>
-                        <TextBlock Text="{Binding}" Style="{StaticResource TextBlockBase}" Foreground="#ffff7e7e" FontSize="24" FontWeight="Normal" Margin="0,4,0,0"/>
+                    <Grid Background="#80808080">
+                        <TextBlock Text="{Binding}" Style="{StaticResource TextBlockBase}" Foreground="#ffff7e7e" FontSize="25" FontWeight="Normal" Margin="16,21,0,0"/>
                     </Grid>
                 </DataTemplate>
             </Pivot.TitleTemplate>
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <Grid>
-                        <TextBlock Text="{Binding}" Style="{StaticResource TextBlockBase}" Foreground="#ffff7e7e" FontSize="59" Margin="0,16,8,0"/>
+                        <TextBlock Text="{Binding}" Style="{StaticResource TextBlockBase}" Foreground="#ffff7e7e" FontSize="59" Margin="0,12,8,0"/>
                     </Grid>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
@@ -250,15 +297,15 @@
                 <Grid>
                     <StackPanel>
                         <TextBlock Text="画质设置" Style="{StaticResource Settings_ItemText_Style}"/>
-                        <StackPanel Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="1" Margin="0,16,0,16">
+                        <StackPanel Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="1" Margin="0,18,0,18">
                             <RadioButton IsChecked="True" Style="{StaticResource RadioButtonStyle1}"/>
                             <TextBlock Text="一般 (640px)" Style="{StaticResource Settings_ItemText_Style}"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="1" Margin="0,16,0,16">
+                        <StackPanel Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="1" Margin="0,18,0,18">
                             <RadioButton IsChecked="True" Style="{StaticResource RadioButtonStyle1}"/>
                             <TextBlock Text="一般 (640px)" Style="{StaticResource Settings_ItemText_Style}"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="1" Margin="0,16,0,16">
+                        <StackPanel Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="1" Margin="0,18,0,18">
                             <RadioButton IsChecked="True" Style="{StaticResource RadioButtonStyle1}"/>
                             <TextBlock Text="一般 (640px)" Style="{StaticResource Settings_ItemText_Style}"/>
                         </StackPanel>
@@ -267,6 +314,9 @@
             </PivotItem>
             <PivotItem x:Name="pivotItem_2" Header="其他" />
         </Pivot>
+
+        <!--<Rectangle Fill="Blue" HorizontalAlignment="Left" Height="50" Width="384"/>-->
+        <Rectangle Fill="#80008080" HorizontalAlignment="Left" VerticalAlignment="Top" Height="640" Width="16"/>
     </Grid>
     
 </Page>

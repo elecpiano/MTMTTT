@@ -30,6 +30,7 @@ namespace MeiTuTieTie.Pages
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
             this.navigationHelper.CanGobackAsked += navigationHelper_CanGobackAsked;
+            this.pivot.Margin = new Thickness(0);
         }
 
         void navigationHelper_CanGobackAsked(object sender, ref bool canceled)
