@@ -10,6 +10,8 @@
     <sharedConverter:AnythingToVisibilityConverter x:Key="AnythingToVisibilityConverter"/>
 
     <!--screen-->
+    <x:Double x:Key="ScreenWidth">0</x:Double>
+    <x:Double x:Key="ScreenHeight">0</x:Double>
     <x:Double x:Key="ScreenWidthHalf">200</x:Double>
     <x:Double x:Key="MaterialHeight">100</x:Double>
     <x:Double x:Key="KeyboardHeight">336</x:Double>

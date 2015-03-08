@@ -94,6 +94,8 @@ namespace MeiTuTieTie
                 rootFrame.Navigated += this.RootFrame_FirstNavigated;
 #endif
 
+                CollectDeviceInformation();
+
                 // When the navigation stack isn't restored navigate to the first page,
                 // configuring the new page by passing required information as a navigation
                 // parameter
@@ -105,7 +107,6 @@ namespace MeiTuTieTie
 
             // Ensure the current window is active
             Window.Current.Activate();
-            CollectDeviceInformation();
         }
 
         protected override void OnActivated(IActivatedEventArgs args)
@@ -170,9 +171,11 @@ namespace MeiTuTieTie
         #region Screen Size
 
         public static bool IsHdDevice { get; set; }
-        
-        //public static double SCREEN_RESOLUTION_WIDTH = 0;
-        //public static double SCREEN_RESOLUTION_HEIGHT = 0;
+
+        public static double SCREEN_RESOLUTION_WIDTH = 0;
+        public static double SCREEN_RESOLUTION_HEIGHT = 0;
+        public static double SCREEN_WIDTH = 0;
+        public static double SCREEN_HEIGHT = 0;
 
         #endregion
 
@@ -214,8 +217,11 @@ namespace MeiTuTieTie
             DisplayInformation di = DisplayInformation.GetForCurrentView();
 
 #if WINDOWS_PHONE_APP
-            //SCREEN_RESOLUTION_WIDTH = (int)(Math.Round(di.RawPixelsPerViewPixel * Window.Current.Bounds.Width));
-            //SCREEN_RESOLUTION_HEIGHT = (int)(Math.Round(di.RawPixelsPerViewPixel * Window.Current.Bounds.Height));
+            SCREEN_RESOLUTION_WIDTH = (int)(Math.Round(di.RawPixelsPerViewPixel * Window.Current.Bounds.Width));
+            SCREEN_RESOLUTION_HEIGHT = (int)(Math.Round(di.RawPixelsPerViewPixel * Window.Current.Bounds.Height));
+            Application.Current.Resources["ScreenWidth"] = SCREEN_WIDTH = Window.Current.Bounds.Width;
+            Application.Current.Resources["ScreenHeight"] = SCREEN_HEIGHT = Window.Current.Bounds.Height;
+            
             IsHdDevice = Window.Current.Bounds.Width > 500 ? true : false;
 
             Application.Current.Resources["ScreenWidthHalf"] = Window.Current.Bounds.Width * 0.5d;

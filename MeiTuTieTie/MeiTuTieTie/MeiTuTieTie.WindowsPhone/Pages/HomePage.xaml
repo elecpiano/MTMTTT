@@ -86,9 +86,14 @@
             </Grid>
         </Grid>
 
-        <!--<Rectangle Fill="Blue" HorizontalAlignment="Left" Height="50" Width="480"/>
+        <StackPanel Background="White" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <TextBlock Text="{Binding}" Foreground="Red" FontSize="32" Margin="10" DataContext="{StaticResource ScreenWidth}" />
+            <TextBlock Text="{Binding}" Foreground="Red" FontSize="32" Margin="10" DataContext="{StaticResource ScreenHeight}" />
+        </StackPanel>
+        
+        <!--<Rectangle Fill="Blue" HorizontalAlignment="Left" Height="50" Width="384"/>
         <Rectangle Fill="Blue" VerticalAlignment="Top" Height="640" Width="50"/>-->
-
+        
         <!--<sharedControl:ImageSwitch x:Name="imageSwitch" VerticalAlignment="Bottom"
                                    CheckStateChanged="ImageSwitch_CheckStateChanged"
                                    Enabled="True"/>-->
