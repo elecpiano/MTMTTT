@@ -19,81 +19,78 @@
     <Grid>
         <Image Source="/Assets/Images/HomePageBackground.png" Stretch="UniformToFill" />
 
-        <Grid>
+        <Grid >
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="2*"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="2*"/>
             </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="136*"/>
+                <ColumnDefinition Width="370*"/>
+                <ColumnDefinition Width="68*"/>
+                <ColumnDefinition Width="370*"/>
+                <ColumnDefinition Width="136*"/>
+            </Grid.ColumnDefinitions>
 
-            <Image Source="/Assets/Images/HomePageHeader.png" Stretch="Uniform" />
+            <!--header-->
+            <Image Source="/Assets/Images/HomePageHeader.png" Stretch="Uniform" Grid.ColumnSpan="5"/>
 
             <!--tiles-->
-            <Grid Grid.Row="1" HorizontalAlignment="Center" Margin="0,24,0,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <sharedControl:ContentButton Grid.Row="0" Grid.Column="0" Click="singlePhoto_Click" Margin="12">
-                    <Image Source="/Assets/Images/HomePageSinglePhoto.png" Stretch="Uniform" Width="136" Height="136"/>
-                </sharedControl:ContentButton>
-                <sharedControl:ContentButton Grid.Row="0" Grid.Column="1" Click="multiPhoto_Click" Margin="12">
-                    <Image Source="/Assets/Images/HomePageMultiPhoto.png" Stretch="Uniform" Width="136" Height="136"/>
-                </sharedControl:ContentButton>
-                <sharedControl:ContentButton Grid.Row="1" Grid.Column="0" Click="boutique_Click" Margin="12">
-                    <Image Source="/Assets/Images/HomePageMultiPhoto.png" Stretch="Uniform" Width="136" Height="136"/>
-                </sharedControl:ContentButton>
-                <sharedControl:ContentButton Grid.Row="1" Grid.Column="1" Click="boutique_Click" Margin="12">
-                    <Image Source="/Assets/Images/HomePageMultiPhoto.png" Stretch="Uniform" Width="136" Height="136"/>
-                </sharedControl:ContentButton>
-            </Grid>
+            <sharedControl:ContentButton Grid.Row="2" Grid.Column="1" Click="singlePhoto_Click">
+                <Image Source="/Assets/Images/HomePageSinglePhoto.png" Stretch="Uniform"/>
+            </sharedControl:ContentButton>
+            <sharedControl:ContentButton Grid.Row="2" Grid.Column="3" Click="multiPhoto_Click">
+                <Image Source="/Assets/Images/HomePageMultiPhoto.png" Stretch="Uniform" />
+            </sharedControl:ContentButton>
+            <sharedControl:ContentButton Grid.Row="4" Grid.Column="1" Click="boutique_Click" >
+                <Image Source="/Assets/Images/HomePageMultiPhoto.png" Stretch="Uniform" />
+            </sharedControl:ContentButton>
+            <sharedControl:ContentButton Grid.Row="4" Grid.Column="3" Click="boutique_Click">
+                <Image Source="/Assets/Images/HomePageMultiPhoto.png" Stretch="Uniform" />
+            </sharedControl:ContentButton>
 
             <!--bottom buttons-->
-            <Grid Grid.Row="2" HorizontalAlignment="Center" Margin="0,12,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <sharedControl:ContentButton Grid.Column="0" Click="dailyAD_Click" Height="44" Width="137" Grid.Row="0" Margin="12">
-                    <Grid Background="#ffffafb4">
-                        <Grid HorizontalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="/Assets/Images/HomePageDailyAD.png" Stretch="Uniform" Width="24" Height="24" Margin="0,0,4,0"/>
-                            <TextBlock Grid.Column="1" Text="每日推荐" Foreground="#ffffffff" FontSize="20" VerticalAlignment="Center" Style="{StaticResource TextBlockBase}"/>
-                        </Grid>
+            <sharedControl:ContentButton Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" Click="dailyAD_Click">
+                <Grid Background="#ffffafb4">
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/Assets/Images/HomePageDailyAD.png" Stretch="Uniform" Width="24" Height="24" Margin="0,0,4,0"/>
+                        <TextBlock Grid.Column="1" Text="每日推荐" Foreground="#ffffffff" FontSize="20" VerticalAlignment="Center" Style="{StaticResource TextBlockBase}"/>
                     </Grid>
-                </sharedControl:ContentButton>
-                <sharedControl:ContentButton Grid.Column="1" Click="settings_Click" Height="44" Width="137" Grid.Row="0" Margin="12">
-                    <Grid Background="#ffffafb4">
-                        <Grid HorizontalAlignment="Center">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="Auto"/>
-                            </Grid.ColumnDefinitions>
-                            <Image Grid.Column="0" Source="/Assets/Images/HomePageSettings.png" Stretch="Uniform" Width="24" Height="24" Margin="0,0,4,0"/>
-                            <TextBlock Grid.Column="1" Text="设置" Foreground="#ffffffff" FontSize="20" VerticalAlignment="Center" Style="{StaticResource TextBlockBase}"/>
-                        </Grid>
+                </Grid>
+            </sharedControl:ContentButton>
+            <sharedControl:ContentButton Grid.Row="6" Grid.Column="3" HorizontalAlignment="Stretch" Click="settings_Click">
+                <Grid Background="#ffffafb4">
+                    <Grid HorizontalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <Image Grid.Column="0" Source="/Assets/Images/HomePageSettings.png" Stretch="Uniform" Width="24" Height="24" Margin="0,0,4,0"/>
+                        <TextBlock Grid.Column="1" Text="设置" Foreground="#ffffffff" FontSize="20" VerticalAlignment="Center" Style="{StaticResource TextBlockBase}"/>
                     </Grid>
-                </sharedControl:ContentButton>
-            </Grid>
+                </Grid>
+            </sharedControl:ContentButton>
+            
         </Grid>
 
-        <StackPanel Background="White" VerticalAlignment="Top" HorizontalAlignment="Left">
+        <StackPanel Background="White" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="100" Grid.RowSpan="100">
             <TextBlock Text="{Binding}" Foreground="Red" FontSize="32" Margin="10" DataContext="{StaticResource ScreenWidth}" />
             <TextBlock Text="{Binding}" Foreground="Red" FontSize="32" Margin="10" DataContext="{StaticResource ScreenHeight}" />
         </StackPanel>
-        
+
         <!--<Rectangle Fill="Blue" HorizontalAlignment="Left" Height="50" Width="384"/>
         <Rectangle Fill="Blue" VerticalAlignment="Top" Height="640" Width="50"/>-->
-        
+
         <!--<sharedControl:ImageSwitch x:Name="imageSwitch" VerticalAlignment="Bottom"
                                    CheckStateChanged="ImageSwitch_CheckStateChanged"
                                    Enabled="True"/>-->
@@ -105,4 +102,5 @@
         </sharedControl:SpriteTextBox>-->
 
     </Grid>
+
 </Page>
