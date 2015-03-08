@@ -139,6 +139,7 @@
   <ItemGroup>
     <Content Include="Assets\ImageSwitch\SwitchKnob.png" />
     <Content Include="Assets\Images\CheckMark.png" />
+    <Content Include="Assets\Images\HomePageSettingsButtonBase.png" />
     <Content Include="Assets\Images\Remove.png" />
     <Content Include="Assets\Images\Sprite\ShadowB.png" />
     <Content Include="Assets\Images\Sprite\ShadowL.png" />

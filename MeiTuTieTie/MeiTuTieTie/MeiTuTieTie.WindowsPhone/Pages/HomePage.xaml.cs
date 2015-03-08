@@ -51,22 +51,22 @@ namespace MeiTuTieTie.Pages
 
         #region Tile Click
 
-        private void singlePhoto_Click(object sender, RoutedEventArgs e)
+        private void singlePhoto_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             PickPhoto();
         }
 
-        private void multiPhoto_Click(object sender, RoutedEventArgs e)
+        private void multiPhoto_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             Frame.Navigate(typeof(OperationPage), OperationPageType.Multi);
         }
 
-        private void boutique_Click(object sender, RoutedEventArgs e)
+        private void boutique_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             Frame.Navigate(typeof(BoutiquePage));
         }
 
-        private void more_Click(object sender, RoutedEventArgs e)
+        private void more_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
         }
 
@@ -280,20 +280,17 @@ namespace MeiTuTieTie.Pages
 
         #region App Bar
 
-        private void settings_Click(object sender, RoutedEventArgs e)
+        private void settings_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             Frame.Navigate(typeof(SettingsPage));
         }
 
         #endregion
 
-        private void dailyAD_Click(object sender, RoutedEventArgs e)
+        private void dailyAD_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
 
         }
-
-
-
 
 
     }

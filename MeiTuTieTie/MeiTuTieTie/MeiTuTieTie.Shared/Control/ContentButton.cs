@@ -6,7 +6,7 @@ using Windows.UI.Xaml.Media.Animation;
 
 namespace Shared.Control
 {
-    public class ContentButton : Button
+    public class ContentButton : ContentControl
     {
         #region Property
 
