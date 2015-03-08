@@ -16,6 +16,10 @@
     <Page.BottomAppBar>
         <CommandBar x:Name="bottomAppBar">
             <AppBarButton Icon="Send" Label="发送" Click="send_Click"/>
+            <AppBarButton Icon="Send" Label="发送" Click="send_Click"/>
+            <AppBarButton Icon="Send" Label="发送" Click="send_Click"/>
+            <AppBarButton Icon="Send" Label="发送" Click="send_Click"/>
+            <AppBarButton Icon="Send" Label="发送" Click="send_Click"/>
         </CommandBar>
     </Page.BottomAppBar>
     

@@ -10,7 +10,56 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-
+        
+    	<Style x:Key="RadioButtonStyle1" TargetType="RadioButton">
+            <Setter Property="MinWidth" Value="25"/>
+            <Setter Property="Margin" Value="0,0,16,0"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+    		<Setter Property="Template">
+    			<Setter.Value>
+    				<ControlTemplate TargetType="RadioButton">
+    					<Grid Background="Transparent">
+    						<VisualStateManager.VisualStateGroups>
+    							<VisualStateGroup x:Name="CommonStates">
+    								<VisualState x:Name="Normal"/>
+    								<VisualState x:Name="MouseOver"/>
+    								<VisualState x:Name="PointerOver"/>
+    								<VisualState x:Name="Pressed">
+    									<Storyboard>
+    										<PointerDownThemeAnimation Storyboard.TargetName="Container"/>
+    									</Storyboard>
+    								</VisualState>
+    								<VisualState x:Name="Disabled"/>
+    							</VisualStateGroup>
+    							<VisualStateGroup x:Name="CheckStates">
+    								<VisualState x:Name="Checked">
+    									<Storyboard>
+    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="CheckMark">
+    											<DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+    										</ObjectAnimationUsingKeyFrames>
+    									</Storyboard>
+    								</VisualState>
+    								<VisualState x:Name="Unchecked"/>
+    								<VisualState x:Name="Indeterminate"/>
+    							</VisualStateGroup>
+    						</VisualStateManager.VisualStateGroups>
+    						<Grid x:Name="Container">
+    							<Grid>
+    								<Ellipse x:Name="CheckBackground" HorizontalAlignment="Center" Height="25.5" IsHitTestVisible="False" VerticalAlignment="Center" Width="25.5" Fill="#FFE5E5E5"/>
+    								<Ellipse x:Name="CheckMark" HorizontalAlignment="Center" Height="12.5" IsHitTestVisible="False" Visibility="Collapsed" VerticalAlignment="Center" Width="12.5">
+    									<Ellipse.Fill>
+    										<SolidColorBrush Color="#FFFF7E7E"/>
+    									</Ellipse.Fill>
+    								</Ellipse>
+    							</Grid>
+    						</Grid>
+    					</Grid>
+    				</ControlTemplate>
+    			</Setter.Value>
+    		</Setter>
+    	</Style>
+        
     </Page.Resources>
 
     <Grid Background="White">
@@ -62,17 +111,18 @@
     			</VisualState>
     		</VisualStateGroup>
     	</VisualStateManager.VisualStateGroups>
-        <Grid.RowDefinitions>
+        
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>-->
 
         <!--page title-->
-        <Grid Grid.Row="0" Style="{StaticResource PageTitlePanel_Style}">
+        <!--<Grid Grid.Row="0" Style="{StaticResource PageTitlePanel_Style}">
             <TextBlock Text="设置" Style="{StaticResource PageTitle_Style}"/>
-        </Grid>
+        </Grid>-->
 
-        <ScrollViewer Grid.Row="1">
+        <ScrollViewer Grid.Row="1" Visibility="Collapsed">
             <StackPanel>
                 <!--1-->
                 <Grid Style="{StaticResource Settings_GroupHeaderPanel_Style}">
@@ -127,6 +177,8 @@
             </StackPanel>
         </ScrollViewer>
 
+        <Image Opacity="0.5" Grid.RowSpan="2" Source="/Assets/refSettings.png" Stretch="UniformToFill"/>
+
         <Grid x:Name="popupPanel" Grid.RowSpan="2" IsHitTestVisible="False">
             <Rectangle x:Name="popupMask" Fill="#80000000" Opacity="0"/>
 
@@ -179,21 +231,41 @@
             </StackPanel>
         </Grid>
 
-
-
-
-
-        <Pivot x:Name="shipinPanel" Grid.Row="1" Visibility="Collapsed">
+        <Pivot Title="设置">
+            <Pivot.TitleTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <TextBlock Text="{Binding}" Style="{StaticResource TextBlockBase}" Foreground="#ffff7e7e" FontSize="24" FontWeight="Normal" Margin="0,4,0,0"/>
+                    </Grid>
+                </DataTemplate>
+            </Pivot.TitleTemplate>
             <Pivot.HeaderTemplate>
                 <DataTemplate>
                     <Grid>
-                        <TextBlock Text="{Binding}" Foreground="Black" FontSize="24"/>
+                        <TextBlock Text="{Binding}" Style="{StaticResource TextBlockBase}" Foreground="#ffff7e7e" FontSize="59" Margin="0,16,8,0"/>
                     </Grid>
                 </DataTemplate>
             </Pivot.HeaderTemplate>
-            <PivotItem x:Name="pivotItem_1" Header="可爱" />
-            <PivotItem x:Name="pivotItem_2" Header="文字模板" />
-            <PivotItem x:Name="pivotItem_3" Header="搞笑表情" />
+            <PivotItem x:Name="pivotItem_1" Header="功能设置" >
+                <Grid>
+                    <StackPanel>
+                        <TextBlock Text="画质设置" Style="{StaticResource Settings_ItemText_Style}"/>
+                        <StackPanel Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="1" Margin="0,16,0,16">
+                            <RadioButton IsChecked="True" Style="{StaticResource RadioButtonStyle1}"/>
+                            <TextBlock Text="一般 (640px)" Style="{StaticResource Settings_ItemText_Style}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="1" Margin="0,16,0,16">
+                            <RadioButton IsChecked="True" Style="{StaticResource RadioButtonStyle1}"/>
+                            <TextBlock Text="一般 (640px)" Style="{StaticResource Settings_ItemText_Style}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="1" Margin="0,16,0,16">
+                            <RadioButton IsChecked="True" Style="{StaticResource RadioButtonStyle1}"/>
+                            <TextBlock Text="一般 (640px)" Style="{StaticResource Settings_ItemText_Style}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+            </PivotItem>
+            <PivotItem x:Name="pivotItem_2" Header="其他" />
         </Pivot>
     </Grid>
     
