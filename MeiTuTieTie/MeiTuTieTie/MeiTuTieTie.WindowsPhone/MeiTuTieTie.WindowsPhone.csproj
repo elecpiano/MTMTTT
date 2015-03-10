@@ -113,6 +113,12 @@
     <Compile Include="Pages\MyThemeListPage.xaml.cs">
       <DependentUpon>MyThemeListPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\TestPage2.xaml.cs">
+      <DependentUpon>TestPage2.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\TestPage1.xaml.cs">
+      <DependentUpon>TestPage1.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\WidgetPage.xaml.cs">
       <DependentUpon>WidgetPage.xaml</DependentUpon>
     </Compile>
@@ -205,6 +211,14 @@
     <Page Include="Pages\MyThemeListPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\TestPage2.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\TestPage1.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\WidgetPage.xaml">
       <Generator>MSBuild:Compile</Generator>
