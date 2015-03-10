@@ -293,6 +293,11 @@ namespace MeiTuTieTie.Pages
 
         }
 
+        private void test_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            this.Frame.Navigate(typeof(TestPage1));
+        }
+
 
     }
 }
