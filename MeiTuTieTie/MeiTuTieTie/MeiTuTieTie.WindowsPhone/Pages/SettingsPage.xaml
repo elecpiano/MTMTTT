@@ -10,278 +10,111 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-        
-    	<Style x:Key="RadioButtonStyle1" TargetType="RadioButton">
+
+        <Style x:Key="RadioButtonStyle1" TargetType="RadioButton">
             <Setter Property="MinWidth" Value="25"/>
             <Setter Property="Margin" Value="0,0,16,0"/>
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
-    		<Setter Property="Template">
-    			<Setter.Value>
-    				<ControlTemplate TargetType="RadioButton">
-    					<Grid Background="Transparent">
-    						<VisualStateManager.VisualStateGroups>
-    							<VisualStateGroup x:Name="CommonStates">
-    								<VisualState x:Name="Normal"/>
-    								<VisualState x:Name="MouseOver"/>
-    								<VisualState x:Name="PointerOver"/>
-    								<VisualState x:Name="Pressed">
-    									<Storyboard>
-    										<PointerDownThemeAnimation Storyboard.TargetName="Container"/>
-    									</Storyboard>
-    								</VisualState>
-    								<VisualState x:Name="Disabled"/>
-    							</VisualStateGroup>
-    							<VisualStateGroup x:Name="CheckStates">
-    								<VisualState x:Name="Checked">
-    									<Storyboard>
-    										<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="CheckMark">
-    											<DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-    										</ObjectAnimationUsingKeyFrames>
-    									</Storyboard>
-    								</VisualState>
-    								<VisualState x:Name="Unchecked"/>
-    								<VisualState x:Name="Indeterminate"/>
-    							</VisualStateGroup>
-    						</VisualStateManager.VisualStateGroups>
-    						<Grid x:Name="Container">
-    							<Grid>
-    								<Ellipse x:Name="CheckBackground" HorizontalAlignment="Center" Height="25.5" IsHitTestVisible="False" VerticalAlignment="Center" Width="25.5" Fill="#FFE5E5E5"/>
-    								<Ellipse x:Name="CheckMark" HorizontalAlignment="Center" Height="12.5" IsHitTestVisible="False" Visibility="Collapsed" VerticalAlignment="Center" Width="12.5">
-    									<Ellipse.Fill>
-    										<SolidColorBrush Color="#FFFF7E7E"/>
-    									</Ellipse.Fill>
-    								</Ellipse>
-    							</Grid>
-    						</Grid>
-    					</Grid>
-    				</ControlTemplate>
-    			</Setter.Value>
-    		</Setter>
-    	</Style>
-        
-    	<Style x:Key="PivotStyle1" TargetType="Pivot">
-    		<Setter Property="Margin" Value="0"/>
-    		<Setter Property="Padding" Value="0"/>
-    		<Setter Property="Foreground" Value="{ThemeResource PhoneForegroundBrush}"/>
-    		<Setter Property="Background" Value="Transparent"/>
-    		<Setter Property="ItemsPanel">
-    			<Setter.Value>
-    				<ItemsPanelTemplate>
-    					<Grid/>
-    				</ItemsPanelTemplate>
-    			</Setter.Value>
-    		</Setter>
-    		<Setter Property="Template">
-    			<Setter.Value>
-    				<ControlTemplate TargetType="Pivot">
-    					<Grid x:Name="RootElement" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
-    						<Grid.RowDefinitions>
-    							<RowDefinition Height="Auto"/>
-    							<RowDefinition Height="*"/>
-    						</Grid.RowDefinitions>
-    						<VisualStateManager.VisualStateGroups>
-    							<VisualStateGroup x:Name="Orientation">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <Grid Background="Transparent">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="MouseOver"/>
+                                    <VisualState x:Name="PointerOver"/>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <PointerDownThemeAnimation Storyboard.TargetName="Container"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Disabled"/>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Checked">
+                                        <Storyboard>
+                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="CheckMark">
+                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
+                                            </ObjectAnimationUsingKeyFrames>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="Unchecked"/>
+                                    <VisualState x:Name="Indeterminate"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid x:Name="Container">
+                                <Grid>
+                                    <Ellipse x:Name="CheckBackground" HorizontalAlignment="Center" Height="25.5" IsHitTestVisible="False" VerticalAlignment="Center" Width="25.5" Fill="#FFE5E5E5"/>
+                                    <Ellipse x:Name="CheckMark" HorizontalAlignment="Center" Height="12.5" IsHitTestVisible="False" Visibility="Collapsed" VerticalAlignment="Center" Width="12.5">
+                                        <Ellipse.Fill>
+                                            <SolidColorBrush Color="#FFFF7E7E"/>
+                                        </Ellipse.Fill>
+                                    </Ellipse>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="PivotStyle1" TargetType="Pivot">
+            <Setter Property="Margin" Value="0"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Foreground" Value="{ThemeResource PhoneForegroundBrush}"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <Grid/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Pivot">
+                        <Grid x:Name="RootElement" Background="{TemplateBinding Background}" HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="Orientation">
                                     <VisualState x:Name="Portrait"/>
                                     <VisualState x:Name="Landscape"/>
                                 </VisualStateGroup>
-    						</VisualStateManager.VisualStateGroups>
-    						<ContentControl x:Name="TitleContentControl" ContentTemplate="{TemplateBinding TitleTemplate}" Content="{TemplateBinding Title}" />
-    						<ScrollViewer x:Name="ScrollViewer" HorizontalSnapPointsAlignment="Center" HorizontalSnapPointsType="MandatorySingle" HorizontalScrollBarVisibility="Hidden" Margin="{TemplateBinding Padding}" Grid.Row="1" Template="{StaticResource ScrollViewerScrollBarlessTemplate}" VerticalSnapPointsType="None" VerticalScrollBarVisibility="Disabled" VerticalScrollMode="Disabled" VerticalContentAlignment="Stretch" ZoomMode="Disabled">
-    							<PivotPanel x:Name="Panel" VerticalAlignment="Stretch">
-    								<PivotHeaderPanel x:Name="Header">
-    									<PivotHeaderPanel.RenderTransform>
-    										<CompositeTransform x:Name="HeaderTranslateTransform" TranslateX="0"/>
-    									</PivotHeaderPanel.RenderTransform>
-    								</PivotHeaderPanel>
-    								<ItemsPresenter x:Name="PivotItemPresenter">
-    									<ItemsPresenter.RenderTransform>
-    										<TranslateTransform x:Name="ItemsPresenterTranslateTransform" X="0"/>
-    									</ItemsPresenter.RenderTransform>
-    								</ItemsPresenter>
-    							</PivotPanel>
-    						</ScrollViewer>
-    					</Grid>
-    				</ControlTemplate>
-    			</Setter.Value>
-    		</Setter>
-    	</Style>
-        
+                            </VisualStateManager.VisualStateGroups>
+                            <ContentControl x:Name="TitleContentControl" ContentTemplate="{TemplateBinding TitleTemplate}" Content="{TemplateBinding Title}" />
+                            <ScrollViewer x:Name="ScrollViewer" HorizontalSnapPointsAlignment="Center" HorizontalSnapPointsType="MandatorySingle" HorizontalScrollBarVisibility="Hidden" Margin="{TemplateBinding Padding}" Grid.Row="1" Template="{StaticResource ScrollViewerScrollBarlessTemplate}" VerticalSnapPointsType="None" VerticalScrollBarVisibility="Disabled" VerticalScrollMode="Disabled" VerticalContentAlignment="Stretch" ZoomMode="Disabled">
+                                <PivotPanel x:Name="Panel" VerticalAlignment="Stretch">
+                                    <PivotHeaderPanel x:Name="Header">
+                                        <PivotHeaderPanel.RenderTransform>
+                                            <CompositeTransform x:Name="HeaderTranslateTransform" TranslateX="0"/>
+                                        </PivotHeaderPanel.RenderTransform>
+                                    </PivotHeaderPanel>
+                                    <ItemsPresenter x:Name="PivotItemPresenter">
+                                        <ItemsPresenter.RenderTransform>
+                                            <TranslateTransform x:Name="ItemsPresenterTranslateTransform" X="0"/>
+                                        </ItemsPresenter.RenderTransform>
+                                    </ItemsPresenter>
+                                </PivotPanel>
+                            </ScrollViewer>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Page.Resources>
 
     <Grid Background="White">
-    	<VisualStateManager.VisualStateGroups>
-    		<VisualStateGroup x:Name="vsgImageSizePopup">
-    			<VisualStateGroup.Transitions>
-    				<VisualTransition GeneratedDuration="0:0:0.2">
-    					<VisualTransition.GeneratedEasingFunction>
-    						<PowerEase EasingMode="EaseInOut"/>
-    					</VisualTransition.GeneratedEasingFunction>
-    				</VisualTransition>
-    			</VisualStateGroup.Transitions>
-    			<VisualState x:Name="vsImageSizePopupHidden"/>
-    			<VisualState x:Name="vsImageSizePopupShown">
-    				<Storyboard>
-    					<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="popupImageSize" d:IsOptimized="True"/>
-    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="popupPanel">
-    						<DiscreteObjectKeyFrame KeyTime="0">
-    							<DiscreteObjectKeyFrame.Value>
-    								<x:Boolean>True</x:Boolean>
-    							</DiscreteObjectKeyFrame.Value>
-    						</DiscreteObjectKeyFrame>
-    					</ObjectAnimationUsingKeyFrames>
-    					<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="popupMask" d:IsOptimized="True"/>
-    				</Storyboard>
-    			</VisualState>
-    		</VisualStateGroup>
-    		<VisualStateGroup x:Name="vsgEdgeShadowPopup">
-    			<VisualStateGroup.Transitions>
-    				<VisualTransition GeneratedDuration="0:0:0.2">
-    					<VisualTransition.GeneratedEasingFunction>
-    						<PowerEase EasingMode="EaseInOut"/>
-    					</VisualTransition.GeneratedEasingFunction>
-    				</VisualTransition>
-    			</VisualStateGroup.Transitions>
-    			<VisualState x:Name="vsEdgeShadowPopupHidden"/>
-    			<VisualState x:Name="vsEdgeShadowPopupShown">
-    				<Storyboard>
-    					<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="popupEdgeShadow" d:IsOptimized="True"/>
-    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="popupPanel">
-    						<DiscreteObjectKeyFrame KeyTime="0">
-    							<DiscreteObjectKeyFrame.Value>
-    								<x:Boolean>True</x:Boolean>
-    							</DiscreteObjectKeyFrame.Value>
-    						</DiscreteObjectKeyFrame>
-    					</ObjectAnimationUsingKeyFrames>
-    					<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="popupMask" d:IsOptimized="True"/>
-    				</Storyboard>
-    			</VisualState>
-    		</VisualStateGroup>
-    	</VisualStateManager.VisualStateGroups>
-        
-        <!--<Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>-->
 
-        <!--page title-->
-        <!--<Grid Grid.Row="0" Style="{StaticResource PageTitlePanel_Style}">
-            <TextBlock Text="设置" Style="{StaticResource PageTitle_Style}"/>
-        </Grid>-->
-
-        <ScrollViewer Grid.Row="1" Visibility="Collapsed">
-            <StackPanel>
-                <!--1-->
-                <Grid Style="{StaticResource Settings_GroupHeaderPanel_Style}">
-                    <TextBlock Style="{StaticResource Settings_GroupTitle_Style}" Text="帐号设置"/>
-                </Grid>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}">
-                    <sharedControl:ContentButton Tapped="imageSize_Tapped">
-                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="画质设置"/>
-                    </sharedControl:ContentButton>
-                </Border>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}">
-                    <Grid>
-                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="自动保存图片"/>
-                        <sharedControl:ImageSwitch x:Name="autoSaveSwitch" Style="{StaticResource ImageSwitch_Normal_Style}"
-                                                   HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0"
-                                                   CheckStateChanged="autoSave_CheckStateChanged"/>
-                    </Grid>
-                </Border>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}">
-                    <sharedControl:ContentButton Tapped="edgeShadow_Tapped">
-                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="拼图设置"/>
-                    </sharedControl:ContentButton>
-                </Border>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}">
-                    <Grid>
-                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="饰品音效"/>
-                        <sharedControl:ImageSwitch x:Name="sfxSwitch" Style="{StaticResource ImageSwitch_Normal_Style}"
-                                                   HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0"
-                                                   CheckStateChanged="sfx_CheckStateChanged"/>
-                    </Grid>
-                </Border>
-
-                <!--2-->
-                <Grid Style="{StaticResource Settings_GroupHeaderPanel_Style}">
-                    <TextBlock Style="{StaticResource Settings_GroupTitle_Style}" Text="其他"/>
-                </Grid>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}">
-                    <sharedControl:ContentButton Tapped="help_Tapped">
-                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="帮助"/>
-                    </sharedControl:ContentButton>
-                </Border>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}">
-                    <sharedControl:ContentButton Tapped="feedback_Tapped">
-                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="意见反馈"/>
-                    </sharedControl:ContentButton>
-                </Border>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}">
-                    <sharedControl:ContentButton Tapped="about_Tapped">
-                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="关于"/>
-                    </sharedControl:ContentButton>
-                </Border>
-            </StackPanel>
-        </ScrollViewer>
-
-        <Grid x:Name="popupPanel" Grid.RowSpan="2" IsHitTestVisible="False">
-            <Rectangle x:Name="popupMask" Fill="#80000000" Opacity="0"/>
-
-            <!--edge shadow-->
-            <StackPanel x:Name="popupEdgeShadow" VerticalAlignment="Bottom" Background="#ffffffff" RenderTransformOrigin="0.5,0.5">
-                <StackPanel.RenderTransform>
-                    <CompositeTransform TranslateY="128"/>
-                </StackPanel.RenderTransform>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}">
-                    <Grid>
-                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="全局白边"/>
-                        <sharedControl:ImageSwitch x:Name="edgeSwitch" Style="{StaticResource ImageSwitch_Normal_Style}"
-                                                   HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0"
-                                                   CheckStateChanged="edge_CheckStateChanged"/>
-                    </Grid>
-                </Border>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}">
-                    <Grid>
-                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="全局阴影"/>
-                        <sharedControl:ImageSwitch x:Name="shadowSwitch" Style="{StaticResource ImageSwitch_Normal_Style}"
-                                                   HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,12,0"
-                                                   CheckStateChanged="shadow_CheckStateChanged"/>
-                    </Grid>
-                </Border>
-            </StackPanel>
-
-            <!--image size-->
-            <StackPanel Visibility="Visible" x:Name="popupImageSize" VerticalAlignment="Bottom" Background="#ffffffff" RenderTransformOrigin="0.5,0.5">
-                <StackPanel.RenderTransform>
-                    <CompositeTransform TranslateY="192"/>
-                </StackPanel.RenderTransform>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}">
-                    <Grid Background="#00000000" Tapped="imageSizeOption_Tapped" Tag="1">
-                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="一般 (640px)"/>
-                        <Image x:Name="imageSizeCheckMark1" Visibility="Collapsed" Stretch="Uniform" Width="48" Height="48" HorizontalAlignment="Right" Margin="0,0,10,0" Source="/Assets/Images/CheckMark.png"/>
-                    </Grid>
-                </Border>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}">
-                    <Grid Background="#00000000" Tapped="imageSizeOption_Tapped" Tag="2">
-                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="普通 (1248px)"/>
-                        <Image x:Name="imageSizeCheckMark2" Visibility="Collapsed" Stretch="Uniform" Width="48" Height="48" HorizontalAlignment="Right" Margin="0,0,10,0" Source="/Assets/Images/CheckMark.png"/>
-                    </Grid>
-                </Border>
-                <Border Style="{StaticResource Settings_ItemContainer_Style}">
-                    <Grid Background="#00000000" Tapped="imageSizeOption_Tapped" Tag="3">
-                        <TextBlock Style="{StaticResource Settings_ItemText_Style}" Text="高清 (1600px)"/>
-                        <Image x:Name="imageSizeCheckMark3" Visibility="Collapsed" Stretch="Uniform" Width="48" Height="48" HorizontalAlignment="Right" Margin="0,0,10,0" Source="/Assets/Images/CheckMark.png"/>
-                    </Grid>
-                </Border>
-            </StackPanel>
-        </Grid>
-
-        <Image Opacity="0.5" Grid.RowSpan="2" Source="/Assets/refSettings.png" Stretch="UniformToFill"/>
-
-        <Pivot x:Name="pivot" Title="设置" Style="{StaticResource PivotStyle1}" Margin="0,27,0,0">
+        <Pivot x:Name="pivot" Title="设置" Style="{StaticResource PivotStyle1}" Margin="0,27,0,0" Opacity="1">
             <Pivot.TitleTemplate>
                 <DataTemplate>
-                    <Grid Background="#80808080">
+                    <Grid>
                         <TextBlock Text="{Binding}" Style="{StaticResource TextBlockBase}" Foreground="#ffff7e7e" FontSize="25" FontWeight="Normal" Margin="16,21,0,0"/>
                     </Grid>
                 </DataTemplate>
@@ -295,28 +128,58 @@
             </Pivot.HeaderTemplate>
             <PivotItem x:Name="pivotItem_1" Header="功能设置" >
                 <Grid>
-                    <StackPanel>
-                        <TextBlock Text="画质设置" Style="{StaticResource Settings_ItemText_Style}"/>
-                        <StackPanel Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="1" Margin="0,18,0,18">
-                            <RadioButton IsChecked="True" Style="{StaticResource RadioButtonStyle1}"/>
-                            <TextBlock Text="一般 (640px)" Style="{StaticResource Settings_ItemText_Style}"/>
+                    <ScrollViewer>
+                        <StackPanel>
+                            <TextBlock Text="画质设置" Style="{StaticResource Settings_ItemText_Style}"/>
+                            <StackPanel Background="#00000000" Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="1" Margin="0,12,0,12">
+                                <RadioButton x:Name="imageSizeRadio1" IsChecked="False" Style="{StaticResource RadioButtonStyle1}"/>
+                                <TextBlock Text="一般 (640px)" Style="{StaticResource Settings_ItemText_Style}"/>
+                            </StackPanel>
+                            <StackPanel Background="#00000000" Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="2" Margin="0,12,0,12">
+                                <RadioButton x:Name="imageSizeRadio2" IsChecked="True" Style="{StaticResource RadioButtonStyle1}"/>
+                                <TextBlock Text="普通 (1248px)" Style="{StaticResource Settings_ItemText_Style}"/>
+                            </StackPanel>
+                            <StackPanel  Background="#00000000" Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="3" Margin="0,12,0,0">
+                                <RadioButton x:Name="imageSizeRadio3" IsChecked="False" Style="{StaticResource RadioButtonStyle1}"/>
+                                <TextBlock Text="高清 (1600px)" Style="{StaticResource Settings_ItemText_Style}"/>
+                            </StackPanel>
+
+                            <Rectangle Style="{StaticResource ItemSplitBar}" Margin="0,24,0,0"/>
+
+                            <TextBlock Text="拼图设置" Style="{StaticResource Settings_ItemText_Style}" Margin="0,24,0,0"/>
+                            <Grid Margin="0,16,0,0">
+                                <TextBlock Text="全局白边" Style="{StaticResource Settings_ItemText_Style}"/>
+                                <ToggleSwitch x:Name="switchEdge" Style="{StaticResource ToggleSwitchStyle1}" Toggled="switchEdge_Toggled" />
+                            </Grid>
+                            <TextBlock x:Name="edgeStatus" Text="已关闭" Style="{StaticResource Settings_ItemDesc_Style}" Margin="0,0,0,0"/>
+                            <Grid Margin="0,16,0,0">
+                                <TextBlock Text="全局阴影" Style="{StaticResource Settings_ItemText_Style}"/>
+                                <ToggleSwitch x:Name="switchShadow" Style="{StaticResource ToggleSwitchStyle1}" Toggled="switchShadow_Toggled" />
+                            </Grid>
+                            <TextBlock x:Name="shadowStatus" Text="已关闭" Style="{StaticResource Settings_ItemDesc_Style}" Margin="0,0,0,0"/>
+
+                            <Rectangle Style="{StaticResource ItemSplitBar}" Margin="0,24,0,0"/>
+
+                            <Grid Margin="0,24,0,0">
+                                <TextBlock Text="自动保存图片" Style="{StaticResource Settings_ItemText_Style}"/>
+                                <ToggleSwitch x:Name="switchAutoSave" Style="{StaticResource ToggleSwitchStyle1}" Toggled="switchAutoSave_Toggled" />
+                            </Grid>
+                            <TextBlock x:Name="autoSaveStatus" Text="已关闭" Style="{StaticResource Settings_ItemDesc_Style}" Margin="0,0,0,0"/>
+
+                            <Grid Margin="0,22,0,0">
+                                <TextBlock Text="饰品音效" Style="{StaticResource Settings_ItemText_Style}"/>
+                                <ToggleSwitch x:Name="switchSFX" Style="{StaticResource ToggleSwitchStyle1}" Toggled="switchSFX_Toggled" />
+                            </Grid>
+                            <TextBlock x:Name="sfxStatus" Text="已关闭" Style="{StaticResource Settings_ItemDesc_Style}" Margin="0,0,0,24"/>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="1" Margin="0,18,0,18">
-                            <RadioButton IsChecked="True" Style="{StaticResource RadioButtonStyle1}"/>
-                            <TextBlock Text="一般 (640px)" Style="{StaticResource Settings_ItemText_Style}"/>
-                        </StackPanel>
-                        <StackPanel Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="1" Margin="0,18,0,18">
-                            <RadioButton IsChecked="True" Style="{StaticResource RadioButtonStyle1}"/>
-                            <TextBlock Text="一般 (640px)" Style="{StaticResource Settings_ItemText_Style}"/>
-                        </StackPanel>
-                    </StackPanel>
+                    </ScrollViewer>
                 </Grid>
             </PivotItem>
             <PivotItem x:Name="pivotItem_2" Header="其他" />
         </Pivot>
 
         <!--<Rectangle Fill="Blue" HorizontalAlignment="Left" Height="50" Width="384"/>-->
-        <Rectangle Fill="#80008080" HorizontalAlignment="Left" VerticalAlignment="Top" Height="640" Width="16"/>
+        <!--<Rectangle Fill="#80008080" HorizontalAlignment="Left" VerticalAlignment="Top" Height="640" Width="16"/>-->
     </Grid>
-    
+
 </Page>

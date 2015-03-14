@@ -64,6 +64,116 @@
         <Setter Property="Margin" Value="0,0,0,0"/>
     </Style>
 
+    <!--toggle switch-->
+    <Style x:Key="ToggleSwitchStyle1" TargetType="ToggleSwitch">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ToggleSwitch">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}">
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup x:Name="CommonStates">
+                                <VisualState x:Name="Normal"/>
+                                <VisualState x:Name="PointerOver"/>
+                                <VisualState x:Name="Pressed"/>
+                                <VisualState x:Name="Disabled"/>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ToggleStates">
+                                <VisualStateGroup.Transitions>
+                                    <VisualTransition x:Name="DraggingToOnTransition" From="Dragging" GeneratedDuration="0" To="On">
+                                        <Storyboard>
+                                            <RepositionThemeAnimation FromHorizontalOffset="{Binding TemplateSettings.KnobCurrentToOnOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" Storyboard.TargetName="SwitchKnob"/>
+                                            <RepositionThemeAnimation FromHorizontalOffset="{Binding TemplateSettings.CurtainCurrentToOnOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" Storyboard.TargetName="SwitchCurtain"/>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition x:Name="DraggingToOffTransition" From="Dragging" GeneratedDuration="0" To="Off">
+                                        <Storyboard>
+                                            <RepositionThemeAnimation FromHorizontalOffset="{Binding TemplateSettings.KnobCurrentToOffOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" Storyboard.TargetName="SwitchKnob"/>
+                                            <RepositionThemeAnimation FromHorizontalOffset="{Binding TemplateSettings.CurtainCurrentToOffOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" Storyboard.TargetName="SwitchCurtain"/>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition x:Name="OnToOffTransition" From="On" GeneratedDuration="0" To="Off">
+                                        <Storyboard>
+                                            <RepositionThemeAnimation FromHorizontalOffset="{Binding TemplateSettings.KnobOnToOffOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" Storyboard.TargetName="SwitchKnob"/>
+                                            <RepositionThemeAnimation FromHorizontalOffset="{Binding TemplateSettings.CurtainOnToOffOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" Storyboard.TargetName="SwitchCurtain"/>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                    <VisualTransition x:Name="OffToOnTransition" From="Off" GeneratedDuration="0" To="On">
+                                        <Storyboard>
+                                            <RepositionThemeAnimation FromHorizontalOffset="{Binding TemplateSettings.KnobOffToOnOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" Storyboard.TargetName="SwitchKnob"/>
+                                            <RepositionThemeAnimation FromHorizontalOffset="{Binding TemplateSettings.CurtainOffToOnOffset, RelativeSource={RelativeSource Mode=TemplatedParent}}" Storyboard.TargetName="SwitchCurtain"/>
+                                        </Storyboard>
+                                    </VisualTransition>
+                                </VisualStateGroup.Transitions>
+                                <VisualState x:Name="Dragging"/>
+                                <VisualState x:Name="Off">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="-64" Storyboard.TargetProperty="X" Storyboard.TargetName="CurtainTranslateTransform"/>
+                                    </Storyboard>
+                                </VisualState>
+                                <VisualState x:Name="On">
+                                    <Storyboard>
+                                        <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="X" Storyboard.TargetName="CurtainTranslateTransform"/>
+                                        <DoubleAnimation Duration="0" To="56.5" Storyboard.TargetProperty="X" Storyboard.TargetName="KnobTranslateTransform"/>
+                                    </Storyboard>
+                                </VisualState>
+                            </VisualStateGroup>
+                            <VisualStateGroup x:Name="ContentStates">
+                                <VisualState x:Name="OffContent"/>
+                                <VisualState x:Name="OnContent"/>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
+                        <Grid Background="Transparent">
+                            <Grid ManipulationMode="None" HorizontalAlignment="Right">
+                                <Grid x:Name="SwitchKnobBounds" Height="36">
+                                    <Border x:Name="OuterBorder" BorderThickness="2.5" Margin="3,4.5,3,4.5">
+                                        <Border.BorderBrush>
+                                            <SolidColorBrush Color="#FFC8C8C8"/>
+                                        </Border.BorderBrush>
+                                        <Border x:Name="InnerBorder" BorderBrush="White" BorderThickness="2.5" Background="#FFE6E6E6">
+                                            <ContentPresenter x:Name="SwitchCurtainBounds">
+                                                <ContentPresenter x:Name="SwitchCurtainClip">
+                                                    <Rectangle x:Name="SwitchCurtain" Width="64">
+                                                        <Rectangle.Fill>
+                                                            <SolidColorBrush Color="#FFFF7E7E"/>
+                                                        </Rectangle.Fill>
+                                                        <Rectangle.RenderTransform>
+                                                            <TranslateTransform x:Name="CurtainTranslateTransform" X="-64"/>
+                                                        </Rectangle.RenderTransform>
+                                                    </Rectangle>
+                                                </ContentPresenter>
+                                            </ContentPresenter>
+                                        </Border>
+                                    </Border>
+                                    <Rectangle x:Name="SwitchKnob" HorizontalAlignment="Left" StrokeThickness="3.5" Width="24">
+                                        <Rectangle.Fill>
+                                            <SolidColorBrush Color="#FFC8C8C8"/>
+                                        </Rectangle.Fill>
+                                        <Rectangle.Stroke>
+                                            <SolidColorBrush Color="White"/>
+                                        </Rectangle.Stroke>
+                                        <Rectangle.RenderTransform>
+                                            <TranslateTransform x:Name="KnobTranslateTransform"/>
+                                        </Rectangle.RenderTransform>
+                                    </Rectangle>
+                                </Grid>
+                                <Thumb x:Name="SwitchThumb" AutomationProperties.AccessibilityView="Raw" Margin="-13.5,-15.5,-13.5,-6.5">
+                                    <Thumb.Template>
+                                        <ControlTemplate TargetType="Thumb">
+                                            <Rectangle Fill="Transparent"/>
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
     <!--content button-->
     <Style TargetType="sharedControl:ContentButton">
         <Setter Property="Template">
@@ -444,7 +554,14 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="0,0,0,0"/>
     </Style>
-
+    
+    <Style x:Key="Settings_ItemDesc_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Foreground" Value="#ff2b2b2b"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,0,0,0"/>
+    </Style>
+    
     <!--photo edit page-->
     <Style x:Key="PhotoEditPage_PopMenuContainer_Style" TargetType="Border">
         <Setter Property="Height" Value="64"/>

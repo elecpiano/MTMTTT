@@ -37,16 +37,7 @@ namespace MeiTuTieTie.Pages
 
         void navigationHelper_CanGobackAsked(object sender, ref bool canceled)
         {
-            if (imageSizePopupShown)
-            {
-                HideImageSizePopup();
-                canceled = true;
-            }
-            else if (edgeShadowPopupShown)
-            {
-                HideEdgeShadowPopup();
-                canceled = true;
-            }
+            
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -62,55 +53,7 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
-        #region Popup
-
-        bool imageSizePopupShown = false;
-        bool edgeShadowPopupShown = false;
-
-        private void ShowImageSizePopup()
-        {
-            if (!imageSizePopupShown)
-            {
-                VisualStateManager.GoToState(this, "vsImageSizePopupShown", true);
-                imageSizePopupShown = true;
-            }
-        }
-
-        private void HideImageSizePopup()
-        {
-            if (imageSizePopupShown)
-            {
-                VisualStateManager.GoToState(this, "vsImageSizePopupHidden", true);
-                imageSizePopupShown = false;
-            }
-        }
-
-        private void ShowEdgeShadowPopup()
-        {
-            if (!edgeShadowPopupShown)
-            {
-                VisualStateManager.GoToState(this, "vsEdgeShadowPopupShown", true);
-                edgeShadowPopupShown = true;
-            }
-        }
-
-        private void HideEdgeShadowPopup()
-        {
-            if (edgeShadowPopupShown)
-            {
-                VisualStateManager.GoToState(this, "vsEdgeShadowPopupHidden", true);
-                edgeShadowPopupShown = false;
-            }
-        }
-
-        #endregion
-
         #region Image Size
-
-        private void imageSize_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            ShowImageSizePopup();
-        }
 
         private void imageSizeOption_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -133,35 +76,15 @@ namespace MeiTuTieTie.Pages
             }
 
             App.CurrentInstance.UpdateSetting(Constants.KEY_EXPORT_WIDTH, width);
-            imageSizeCheckMark1.Visibility = tag == "1" ? Visibility.Visible : Visibility.Collapsed;
-            imageSizeCheckMark2.Visibility = tag == "2" ? Visibility.Visible : Visibility.Collapsed;
-            imageSizeCheckMark3.Visibility = tag == "3" ? Visibility.Visible : Visibility.Collapsed;
 
-            HideImageSizePopup();
+            imageSizeRadio1.IsChecked = tag == "1" ? true : false;
+            imageSizeRadio2.IsChecked = tag == "2" ? true : false;
+            imageSizeRadio3.IsChecked = tag == "3" ? true : false;
         }
 
         #endregion
 
-        #region edge, shadow
-
-        private void edgeShadow_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            ShowEdgeShadowPopup();
-        }
-
-        private void edge_CheckStateChanged(Shared.Control.ImageSwitch sender, bool suggestedState)
-        {
-            App.CurrentInstance.UpdateSetting(Constants.KEY_EDGE, suggestedState);
-            sender.Checked = suggestedState;
-        }
-
-        private void shadow_CheckStateChanged(Shared.Control.ImageSwitch sender, bool suggestedState)
-        {
-            App.CurrentInstance.UpdateSetting(Constants.KEY_SHADOW, suggestedState);
-            sender.Checked = suggestedState;
-        }
-
-        #endregion
+        #region others
 
         private void help_Tapped(object sender, TappedRoutedEventArgs e)
         {
@@ -178,24 +101,6 @@ namespace MeiTuTieTie.Pages
             Frame.Navigate(typeof(AboutPage));
         }
 
-        #region Auto Save
-
-        private void autoSave_CheckStateChanged(ImageSwitch sender, bool suggestedState)
-        {
-            App.CurrentInstance.UpdateSetting(Constants.KEY_AUTO_SAVE, suggestedState);
-            sender.Checked = suggestedState;
-        }
-
-        #endregion
-
-        #region SFX
-
-        private void sfx_CheckStateChanged(ImageSwitch sender, bool suggestedState)
-        {
-            App.CurrentInstance.UpdateSetting(Constants.KEY_SFX, suggestedState);
-            sender.Checked = suggestedState;
-        }
-
         #endregion
 
         #region Load Settings
@@ -204,25 +109,56 @@ namespace MeiTuTieTie.Pages
         {
             //image size
             double width = App.CurrentInstance.GetSetting<double>(Constants.KEY_EXPORT_WIDTH, 1248d);
-            imageSizeCheckMark1.Visibility = width == 640d ? Visibility.Visible : Visibility.Collapsed;
-            imageSizeCheckMark2.Visibility = width == 1248d ? Visibility.Visible : Visibility.Collapsed;
-            imageSizeCheckMark3.Visibility = width == 1600d ? Visibility.Visible : Visibility.Collapsed;
+            imageSizeRadio1.IsChecked = width == 640d ? true : false;
+            imageSizeRadio2.IsChecked = width == 1248d ? true : false;
+            imageSizeRadio3.IsChecked = width == 1600d ? true : false;
 
             //edge
-            edgeSwitch.Checked = App.CurrentInstance.GetSetting<bool>(Constants.KEY_EDGE, false);
+            switchEdge.IsOn = App.CurrentInstance.GetSetting<bool>(Constants.KEY_EDGE, false);
+            edgeStatus.Text = switchEdge.IsOn ? "已开启" : "已关闭";
 
             //shadow
-            shadowSwitch.Checked = App.CurrentInstance.GetSetting<bool>(Constants.KEY_SHADOW, false);
+            switchShadow.IsOn = App.CurrentInstance.GetSetting<bool>(Constants.KEY_SHADOW, false);
+            shadowStatus.Text = switchShadow.IsOn ? "已开启" : "已关闭";
 
             //auto save
-            autoSaveSwitch.Checked = App.CurrentInstance.GetSetting<bool>(Constants.KEY_AUTO_SAVE, false);
+            switchAutoSave.IsOn = App.CurrentInstance.GetSetting<bool>(Constants.KEY_AUTO_SAVE, false);
+            autoSaveStatus.Text = switchAutoSave.IsOn ? "已开启" : "已关闭";
 
             //SFX
-            sfxSwitch.Checked = App.CurrentInstance.GetSetting<bool>(Constants.KEY_SFX, false);
+            switchSFX.IsOn = App.CurrentInstance.GetSetting<bool>(Constants.KEY_SFX, false);
+            sfxStatus.Text = switchSFX.IsOn ? "已开启" : "已关闭";
         }
 
         #endregion
 
+        private void switchEdge_Toggled(object sender, RoutedEventArgs e)
+        {
+            bool toggled = (sender as ToggleSwitch).IsOn;
+            App.CurrentInstance.UpdateSetting(Constants.KEY_EDGE, toggled);
+            edgeStatus.Text = toggled ? "已开启" : "已关闭";
+        }
+
+        private void switchShadow_Toggled(object sender, RoutedEventArgs e)
+        {
+            bool toggled = (sender as ToggleSwitch).IsOn;
+            App.CurrentInstance.UpdateSetting(Constants.KEY_SHADOW, toggled);
+            shadowStatus.Text = toggled ? "已开启" : "已关闭";
+        }
+
+        private void switchAutoSave_Toggled(object sender, RoutedEventArgs e)
+        {
+            bool toggled = (sender as ToggleSwitch).IsOn;
+            App.CurrentInstance.UpdateSetting(Constants.KEY_AUTO_SAVE, toggled);
+            autoSaveStatus.Text = toggled ? "已开启" : "已关闭";
+        }
+
+        private void switchSFX_Toggled(object sender, RoutedEventArgs e)
+        {
+            bool toggled = (sender as ToggleSwitch).IsOn;
+            App.CurrentInstance.UpdateSetting(Constants.KEY_SFX, toggled);
+            sfxStatus.Text = toggled ? "已开启" : "已关闭";
+        }
 
 
     }
