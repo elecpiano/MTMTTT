@@ -51,6 +51,19 @@ namespace MeiTuTieTie.Pages
             }
         }
 
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Disabled;
+            }
+            else
+            {
+                this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
+            }
+            base.OnNavigatingFrom(e);
+        }
+
         #endregion
 
         #region Image Size

@@ -7,58 +7,10 @@
     xmlns:sharedControl="using:Shared.Control"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    NavigationCacheMode="Required">
 
     <Page.Resources>
-
-        <Style x:Key="RadioButtonStyle1" TargetType="RadioButton">
-            <Setter Property="MinWidth" Value="25"/>
-            <Setter Property="Margin" Value="0,0,16,0"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="RadioButton">
-                        <Grid Background="Transparent">
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup x:Name="CommonStates">
-                                    <VisualState x:Name="Normal"/>
-                                    <VisualState x:Name="MouseOver"/>
-                                    <VisualState x:Name="PointerOver"/>
-                                    <VisualState x:Name="Pressed">
-                                        <Storyboard>
-                                            <PointerDownThemeAnimation Storyboard.TargetName="Container"/>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Disabled"/>
-                                </VisualStateGroup>
-                                <VisualStateGroup x:Name="CheckStates">
-                                    <VisualState x:Name="Checked">
-                                        <Storyboard>
-                                            <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="Visibility" Storyboard.TargetName="CheckMark">
-                                                <DiscreteObjectKeyFrame KeyTime="0" Value="Visible"/>
-                                            </ObjectAnimationUsingKeyFrames>
-                                        </Storyboard>
-                                    </VisualState>
-                                    <VisualState x:Name="Unchecked"/>
-                                    <VisualState x:Name="Indeterminate"/>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
-                            <Grid x:Name="Container">
-                                <Grid>
-                                    <Ellipse x:Name="CheckBackground" HorizontalAlignment="Center" Height="25.5" IsHitTestVisible="False" VerticalAlignment="Center" Width="25.5" Fill="#FFE5E5E5"/>
-                                    <Ellipse x:Name="CheckMark" HorizontalAlignment="Center" Height="12.5" IsHitTestVisible="False" Visibility="Collapsed" VerticalAlignment="Center" Width="12.5">
-                                        <Ellipse.Fill>
-                                            <SolidColorBrush Color="#FFFF7E7E"/>
-                                        </Ellipse.Fill>
-                                    </Ellipse>
-                                </Grid>
-                            </Grid>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
 
         <Style x:Key="PivotStyle1" TargetType="Pivot">
             <Setter Property="Margin" Value="0"/>
@@ -175,7 +127,23 @@
                     </ScrollViewer>
                 </Grid>
             </PivotItem>
-            <PivotItem x:Name="pivotItem_2" Header="其他" />
+            <PivotItem x:Name="pivotItem_2" Header="其他" >
+                <Grid>
+                    <ScrollViewer>
+                        <StackPanel>
+                            <Grid Background="#00000000" Margin="0,0,0,36" Tapped="help_Tapped">
+                                <TextBlock Text="帮助" Style="{StaticResource Settings_ItemText_Style}"/>
+                            </Grid>
+                            <Grid Background="#00000000" Margin="0,0,0,36" Tapped="feedback_Tapped">
+                                <TextBlock Text="意见反馈" Style="{StaticResource Settings_ItemText_Style}"/>
+                            </Grid>
+                            <Grid Background="#00000000" Margin="0,0,0,36" Tapped="about_Tapped">
+                                <TextBlock Text="关于" Style="{StaticResource Settings_ItemText_Style}"/>
+                            </Grid>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </PivotItem>
         </Pivot>
 
         <!--<Rectangle Fill="Blue" HorizontalAlignment="Left" Height="50" Width="384"/>-->
