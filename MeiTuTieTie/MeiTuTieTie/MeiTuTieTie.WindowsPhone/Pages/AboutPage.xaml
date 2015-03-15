@@ -10,23 +10,40 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-
+        <Style x:Key="AboutPage_Version_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
+            <Setter Property="FontSize" Value="20"/>
+            <Setter Property="FontWeight" Value="Normal"/>
+            <Setter Property="Foreground" Value="#ff8e8e8e"/>
+        </Style>
     </Page.Resources>
 
     <Grid Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        <Grid >
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-        <!--page title-->
-        <Grid Grid.Row="0" Style="{StaticResource PageTitlePanel_Style}">
+            <!--page title-->
             <TextBlock Text="关于" Style="{StaticResource PageTitle_Style}"/>
+
+            <ScrollViewer Grid.Row="1">
+                <StackPanel Margin="16,0,16,0">
+                    <Image HorizontalAlignment="Left" Width="140" 
+                           Stretch="Uniform" Margin="0,24,0,0"
+                           Source="/Assets/Images/AboutLogo.png"/>
+                    <TextBlock Text="美图贴贴" Margin="0,16,0,0" Style="{StaticResource Settings_ItemText_Style}"/>
+                    <TextBlock Margin="0,4,0,0" Style="{StaticResource AboutPage_Version_Style}">
+                        <Run Text="当前版本 V"/>
+                        <Run x:Name="txtVersionNumber" Text="1.0"/>
+                    </TextBlock>
+                </StackPanel>
+            </ScrollViewer>
+
         </Grid>
 
-        <ScrollViewer Grid.Row="1">
-        </ScrollViewer>
-
+        <!--<Rectangle Fill="#80008080" HorizontalAlignment="Left" VerticalAlignment="Top" Height="640" Width="16"/>-->
 
     </Grid>
+
 </Page>

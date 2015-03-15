@@ -143,6 +143,7 @@
     </AppxManifest>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Images\AboutLogo.png" />
     <Content Include="Assets\ImageSwitch\SwitchKnob.png" />
     <Content Include="Assets\Images\CheckMark.png" />
     <Content Include="Assets\Images\HomePageBackground.png" />
@@ -163,7 +164,6 @@
     <Content Include="Assets\Images\Sprite\ShadowT.png" />
     <Content Include="Assets\Logo.scale-240.png" />
     <Content Include="Assets\materials.xml" />
-    <Content Include="Assets\refSettings.png" />
     <Content Include="Assets\SmallLogo.scale-240.png" />
     <Content Include="Assets\SplashScreen.scale-240.png" />
     <Content Include="Assets\Square71x71Logo.scale-240.png" />
