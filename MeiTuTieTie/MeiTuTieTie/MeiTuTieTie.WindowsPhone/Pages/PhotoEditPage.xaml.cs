@@ -32,6 +32,7 @@ namespace MeiTuTieTie.Pages
             this.image.SizeChanged += image_SizeChanged;
             PrepareEditor();
             this.navigationHelper.CanGobackAsked += navigationHelper_CanGobackAsked;
+
         }
 
         void navigationHelper_CanGobackAsked(object sender, ref bool canceled)

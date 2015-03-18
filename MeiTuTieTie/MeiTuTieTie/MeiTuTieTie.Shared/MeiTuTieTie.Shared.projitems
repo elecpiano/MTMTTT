@@ -25,6 +25,8 @@
     <Compile Include="$(MSBuildThisFileDirectory)Common\ObservableDictionary.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\RelayCommand.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Common\SuspensionManager.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Control\AppBar.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Control\BarButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Control\ContentButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Control\ImageButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Control\ContentSwitch.cs" />

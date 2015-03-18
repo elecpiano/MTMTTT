@@ -29,7 +29,7 @@
             <Setter Property="IsHitTestVisible" Value="False"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
-        
+
         <Style x:Key="Knob_H_Style" TargetType="Rectangle">
             <Setter Property="Fill" Value="#ffffffff"/>
             <Setter Property="RadiusX" Value="4"/>
@@ -46,7 +46,7 @@
             <Setter Property="Width" Value="40"/>
             <Setter Property="Margin" Value="-20,0"/>
         </Style>
-        
+
         <Style x:Key="KnobHitArea_H_Style" TargetType="Grid">
             <Setter Property="Background" Value="#00000000"/>
             <Setter Property="Height" Value="40"/>
@@ -71,11 +71,27 @@
             <Setter Property="Height" Value="40"/>
             <Setter Property="Margin" Value="-20"/>
         </Style>
+
+
+        <!--<ControlTemplate x:Key="AppBarTemplate" TargetType="ItemsControl">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ItemsControl">
+                        <Grid/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </ControlTemplate>-->
+
     </Page.Resources>
 
     <Page.BottomAppBar>
-        <CommandBar x:Name="bottomAppBar">
-            <AppBarButton Icon="Accept" Label="确认" Click="ok_Click"/>
+        <CommandBar x:Name="bottomAppBar" Background="#ffff7e7e" Visibility="Visible">
+            <AppBarButton Label="确认" Click="ok_Click">
+                <AppBarButton.Icon>
+                    <BitmapIcon UriSource="/Assets/Images/AppBar/AppBarAccept.png"/>
+                </AppBarButton.Icon>
+            </AppBarButton>
         </CommandBar>
     </Page.BottomAppBar>
 
@@ -109,106 +125,116 @@
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
 
-        <Grid Margin="24,48,24,96" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <Image x:Name="image" Stretch="Uniform"/>
+        <Grid>
 
-            <Path x:Name="pathMask" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+            <Grid Margin="24,48,24,96" VerticalAlignment="Center" HorizontalAlignment="Center">
+                <Image x:Name="image" Stretch="Uniform"/>
 
-            <!--editor panel-->
-            <Grid x:Name="clipGrid" Background="#00000000" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Rectangle Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource EditorBorder_H_Style}" VerticalAlignment="Top"/>
-                <Rectangle Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource EditorBorder_H_Style}" VerticalAlignment="Bottom"/>
-                <Rectangle Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource EditorBorder_V_Style}" HorizontalAlignment="Left"/>
-                <Rectangle Grid.Column="2" Grid.RowSpan="3" Style="{StaticResource EditorBorder_V_Style}" HorizontalAlignment="Right"/>
+                <Path x:Name="pathMask" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
-                <Rectangle Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource EditorGuideLine_H_Style}"/>
-                <Rectangle Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource EditorGuideLine_H_Style}"/>
-                <Rectangle Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource EditorGuideLine_V_Style}"/>
-                <Rectangle Grid.Column="1" Grid.RowSpan="3" Style="{StaticResource EditorGuideLine_V_Style}"/>
+                <!--editor panel-->
+                <Grid x:Name="clipGrid" Background="#00000000" VerticalAlignment="Stretch" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Rectangle Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource EditorBorder_H_Style}" VerticalAlignment="Top"/>
+                    <Rectangle Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource EditorBorder_H_Style}" VerticalAlignment="Bottom"/>
+                    <Rectangle Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource EditorBorder_V_Style}" HorizontalAlignment="Left"/>
+                    <Rectangle Grid.Column="2" Grid.RowSpan="3" Style="{StaticResource EditorBorder_V_Style}" HorizontalAlignment="Right"/>
 
-                <Grid x:Name="knobT" Visibility="Collapsed" Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource KnobHitArea_H_Style}" VerticalAlignment="Top">
-                    <Rectangle Style="{StaticResource Knob_H_Style}" />
+                    <Rectangle Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource EditorGuideLine_H_Style}"/>
+                    <Rectangle Grid.Row="1" Grid.ColumnSpan="3" Style="{StaticResource EditorGuideLine_H_Style}"/>
+                    <Rectangle Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource EditorGuideLine_V_Style}"/>
+                    <Rectangle Grid.Column="1" Grid.RowSpan="3" Style="{StaticResource EditorGuideLine_V_Style}"/>
+
+                    <Grid x:Name="knobT" Visibility="Collapsed" Grid.Row="0" Grid.ColumnSpan="3" Style="{StaticResource KnobHitArea_H_Style}" VerticalAlignment="Top">
+                        <Rectangle Style="{StaticResource Knob_H_Style}" />
+                    </Grid>
+                    <Grid x:Name="knobB" Visibility="Collapsed" Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource KnobHitArea_H_Style}" VerticalAlignment="Bottom">
+                        <Rectangle Style="{StaticResource Knob_H_Style}" />
+                    </Grid>
+                    <Grid x:Name="knobL" Visibility="Collapsed" Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource KnobHitArea_V_Style}" HorizontalAlignment="Left">
+                        <Rectangle Style="{StaticResource Knob_V_Style}" />
+                    </Grid>
+                    <Grid x:Name="knobR" Visibility="Collapsed" Grid.Column="2" Grid.RowSpan="3" Style="{StaticResource KnobHitArea_V_Style}" HorizontalAlignment="Right">
+                        <Rectangle Style="{StaticResource Knob_V_Style}" />
+                    </Grid>
+
                 </Grid>
-                <Grid x:Name="knobB" Visibility="Collapsed" Grid.Row="2" Grid.ColumnSpan="3" Style="{StaticResource KnobHitArea_H_Style}" VerticalAlignment="Bottom">
-                    <Rectangle Style="{StaticResource Knob_H_Style}" />
-                </Grid>
-                <Grid x:Name="knobL" Visibility="Collapsed" Grid.Column="0" Grid.RowSpan="3" Style="{StaticResource KnobHitArea_V_Style}" HorizontalAlignment="Left">
-                    <Rectangle Style="{StaticResource Knob_V_Style}" />
-                </Grid>
-                <Grid x:Name="knobR" Visibility="Collapsed" Grid.Column="2" Grid.RowSpan="3" Style="{StaticResource KnobHitArea_V_Style}" HorizontalAlignment="Right">
-                    <Rectangle Style="{StaticResource Knob_V_Style}" />
-                </Grid>
 
+                <Ellipse x:Name="knobLT" Style="{StaticResource KnobRoundStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                    <Ellipse.RenderTransform>
+                        <CompositeTransform x:Name="knobTransform_LT" TranslateX="0" TranslateY="0"/>
+                    </Ellipse.RenderTransform>
+                </Ellipse>
+                <Ellipse x:Name="knobRT" Style="{StaticResource KnobRoundStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                    <Ellipse.RenderTransform>
+                        <CompositeTransform x:Name="knobTransform_RT" TranslateX="0" TranslateY="0"/>
+                    </Ellipse.RenderTransform>
+                </Ellipse>
+                <Ellipse x:Name="knobLB" Style="{StaticResource KnobRoundStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                    <Ellipse.RenderTransform>
+                        <CompositeTransform x:Name="knobTransform_LB" TranslateX="0" TranslateY="0"/>
+                    </Ellipse.RenderTransform>
+                </Ellipse>
+                <Ellipse x:Name="knobRB" Style="{StaticResource KnobRoundStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
+                    <Ellipse.RenderTransform>
+                        <CompositeTransform x:Name="knobTransform_RB" TranslateX="0" TranslateY="0"/>
+                    </Ellipse.RenderTransform>
+                </Ellipse>
             </Grid>
 
-            <Ellipse x:Name="knobLT" Style="{StaticResource KnobRoundStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
-                <Ellipse.RenderTransform>
-                    <CompositeTransform x:Name="knobTransform_LT" TranslateX="0" TranslateY="0"/>
-                </Ellipse.RenderTransform>
-            </Ellipse>
-            <Ellipse x:Name="knobRT" Style="{StaticResource KnobRoundStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
-                <Ellipse.RenderTransform>
-                    <CompositeTransform x:Name="knobTransform_RT" TranslateX="0" TranslateY="0"/>
-                </Ellipse.RenderTransform>
-            </Ellipse>
-            <Ellipse x:Name="knobLB" Style="{StaticResource KnobRoundStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
-                <Ellipse.RenderTransform>
-                    <CompositeTransform x:Name="knobTransform_LB" TranslateX="0" TranslateY="0"/>
-                </Ellipse.RenderTransform>
-            </Ellipse>
-            <Ellipse x:Name="knobRB" Style="{StaticResource KnobRoundStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" RenderTransformOrigin="0.5,0.5">
-                <Ellipse.RenderTransform>
-                    <CompositeTransform x:Name="knobTransform_RB" TranslateX="0" TranslateY="0"/>
-                </Ellipse.RenderTransform>
-            </Ellipse>
-        </Grid>
+            <Grid x:Name="popupPanel" IsHitTestVisible="False">
+                <Rectangle x:Name="popupMask" Fill="#80000000" Opacity="0"/>
 
-        <Grid x:Name="popupPanel" IsHitTestVisible="False">
-            <Rectangle x:Name="popupMask" Fill="#80000000" Opacity="0"/>
-
-            <!--edge shadow-->
-            <StackPanel x:Name="popupSizeMenu" 
+                <!--edge shadow-->
+                <StackPanel x:Name="popupSizeMenu" 
                         VerticalAlignment="Bottom" Margin="3,0,3,0"
                         Background="#ffffffff" RenderTransformOrigin="0.5,0.5">
-                <StackPanel.RenderTransform>
-                    <CompositeTransform TranslateY="325"/>
-                </StackPanel.RenderTransform>
-                <Border Style="{StaticResource PhotoEditPage_PopMenuContainer_Style}" Tapped="sizeMenuItem_Tapped" Tag="origin">
-                    <TextBlock Style="{StaticResource PhotoEditPage_PopMenuText_Style}" Text="原图"/>
-                </Border>
-                <Border Style="{StaticResource PhotoEditPage_PopMenuContainer_Style}" Tapped="sizeMenuItem_Tapped" Tag="fitApp">
-                    <TextBlock Style="{StaticResource PhotoEditPage_PopMenuText_Style}" Text="适应软件"/>
-                </Border>
-                <Border Style="{StaticResource PhotoEditPage_PopMenuContainer_Style}" Tapped="sizeMenuItem_Tapped" Tag="arbitrary">
-                    <TextBlock Style="{StaticResource PhotoEditPage_PopMenuText_Style}" Text="任意"/>
-                </Border>
-                <Border Style="{StaticResource PhotoEditPage_PopMenuContainer_Style}" Tapped="sizeMenuItem_Tapped" Tag="1x1">
-                    <TextBlock Style="{StaticResource PhotoEditPage_PopMenuText_Style}" Text="1X1"/>
-                </Border>
-                <Border Style="{StaticResource PhotoEditPage_PopMenuContainer_Style}" Tapped="sizeMenuItem_Tapped" Tag="3x4">
-                    <TextBlock Style="{StaticResource PhotoEditPage_PopMenuText_Style}" Text="3X4"/>
-                </Border>
-            </StackPanel>
-        </Grid>
+                    <StackPanel.RenderTransform>
+                        <CompositeTransform TranslateY="325"/>
+                    </StackPanel.RenderTransform>
+                    <Border Style="{StaticResource PhotoEditPage_PopMenuContainer_Style}" Tapped="sizeMenuItem_Tapped" Tag="origin">
+                        <TextBlock Style="{StaticResource PhotoEditPage_PopMenuText_Style}" Text="原图"/>
+                    </Border>
+                    <Border Style="{StaticResource PhotoEditPage_PopMenuContainer_Style}" Tapped="sizeMenuItem_Tapped" Tag="fitApp">
+                        <TextBlock Style="{StaticResource PhotoEditPage_PopMenuText_Style}" Text="适应软件"/>
+                    </Border>
+                    <Border Style="{StaticResource PhotoEditPage_PopMenuContainer_Style}" Tapped="sizeMenuItem_Tapped" Tag="arbitrary">
+                        <TextBlock Style="{StaticResource PhotoEditPage_PopMenuText_Style}" Text="任意"/>
+                    </Border>
+                    <Border Style="{StaticResource PhotoEditPage_PopMenuContainer_Style}" Tapped="sizeMenuItem_Tapped" Tag="1x1">
+                        <TextBlock Style="{StaticResource PhotoEditPage_PopMenuText_Style}" Text="1X1"/>
+                    </Border>
+                    <Border Style="{StaticResource PhotoEditPage_PopMenuContainer_Style}" Tapped="sizeMenuItem_Tapped" Tag="3x4">
+                        <TextBlock Style="{StaticResource PhotoEditPage_PopMenuText_Style}" Text="3X4"/>
+                    </Border>
+                </StackPanel>
+            </Grid>
 
-        <Border Style="{StaticResource PhotoEditPage_PopMenuContainer_Style}" 
+            <Border Style="{StaticResource PhotoEditPage_PopMenuContainer_Style}" 
                 VerticalAlignment="Bottom" Margin="3,0,3,2"
                 Tapped="selectedSize_Tapped">
-            <Grid>
-                <TextBlock x:Name="selectedSizeText" Style="{StaticResource PhotoEditPage_PopMenuText_Style}" Text="原图"/>
-                <TextBlock x:Name="dismissSizeMenuText" Style="{StaticResource PhotoEditPage_PopMenuText_Style}" Text="取消" Opacity="0"/>
-            </Grid>
-        </Border>
+                <Grid>
+                    <TextBlock x:Name="selectedSizeText" Style="{StaticResource PhotoEditPage_PopMenuText_Style}" Text="原图"/>
+                    <TextBlock x:Name="dismissSizeMenuText" Style="{StaticResource PhotoEditPage_PopMenuText_Style}" Text="取消" Opacity="0"/>
+                </Grid>
+            </Border>
+
+        </Grid>
+
+        <sharedControl:AppBar>
+            <sharedControl:BarButton Icon="/Assets/Images/AppBar/AppBarOK.png" 
+                                     Text="确认"
+                                     Click="ok_Click"/>
+        </sharedControl:AppBar>
 
     </Grid>
 </Page>

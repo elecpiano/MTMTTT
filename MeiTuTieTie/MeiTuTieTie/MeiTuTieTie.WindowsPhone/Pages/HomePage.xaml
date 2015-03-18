@@ -8,6 +8,8 @@
     mc:Ignorable="d">
 
     <Page.Resources>
+    <!--content button-->
+
     </Page.Resources>
 
     <!--<Page.BottomAppBar>

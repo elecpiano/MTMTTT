@@ -244,9 +244,9 @@
                                 <VisualState x:Name="Normal"/>
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
-                                        <DoubleAnimation Duration="0" To="{TemplateBinding PressedScaleX}" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="content" />
-                                        <DoubleAnimation Duration="0" To="{TemplateBinding PressedScaleY}" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="content" />
                                         <DoubleAnimation Duration="0" To="0.8" Storyboard.TargetProperty="Opacity" Storyboard.TargetName="content"/>
+                                        <DoubleAnimation Duration="0" To="2" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" Storyboard.TargetName="content" />
+                                        <DoubleAnimation Duration="0" To="2" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="content" />
                                     </Storyboard>
                                 </VisualState>
                             </VisualStateGroup>
@@ -292,6 +292,42 @@
                             <Image x:Name="pressedImage" Opacity="0" Source="{TemplateBinding PressedImage}" Stretch="Uniform" Margin="{TemplateBinding Padding}"/>
                         </Grid>
                     </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <!--app bar-->
+    <Style TargetType="sharedControl:AppBar">
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="ItemsPanel">
+            <Setter.Value>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="sharedControl:AppBar">
+                    <Grid Background="#ffff7e7e" Height="60">
+                        <ItemsPresenter/>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="sharedControl:BarButton">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="sharedControl:BarButton">
+                    <StackPanel>
+                        <sharedControl:ContentButton>
+                            <Image Source="{TemplateBinding Icon}" Height="40" Width="40" Stretch="Uniform"/>
+                        </sharedControl:ContentButton>
+                        <TextBlock Text="{TemplateBinding Text}" FontSize="12" Foreground="#ffffffff" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                    </StackPanel>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -598,14 +634,14 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="0,0,0,0"/>
     </Style>
-    
+
     <Style x:Key="Settings_ItemDesc_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
         <Setter Property="FontSize" Value="18"/>
         <Setter Property="Foreground" Value="#ff2b2b2b"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="0,0,0,0"/>
     </Style>
-    
+
     <!--photo edit page-->
     <Style x:Key="PhotoEditPage_PopMenuContainer_Style" TargetType="Border">
         <Setter Property="Height" Value="64"/>
