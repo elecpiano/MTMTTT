@@ -147,7 +147,9 @@
     <Content Include="Assets\ImageSwitch\SwitchKnob.png" />
     <Content Include="Assets\Images\AppBar\AppBarAccept.png" />
     <Content Include="Assets\Images\AppBar\AppBarCancel.png" />
+    <Content Include="Assets\Images\AppBar\AppBarColor.png" />
     <Content Include="Assets\Images\AppBar\AppBarCrop.png" />
+    <Content Include="Assets\Images\AppBar\AppBarFont.png" />
     <Content Include="Assets\Images\AppBar\AppBarOK.png" />
     <Content Include="Assets\Images\AppBar\AppBarSaveShare.png" />
     <Content Include="Assets\Images\AppBar\AppBarText.png" />

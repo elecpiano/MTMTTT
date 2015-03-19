@@ -9,6 +9,100 @@
     mc:Ignorable="d"
     NavigationCacheMode="Required">
 
+    <Page.Resources>
+        <Style x:Key="ColorListBoxItemContainerStyle" TargetType="ListBoxItem">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBoxItem">
+                        <Border x:Name="LayoutRoot" BorderThickness="{TemplateBinding BorderThickness}" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,10,0">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualStateGroup.Transitions>
+                                        <VisualTransition From="Pressed" To="Normal">
+                                            <Storyboard>
+                                                <PointerUpThemeAnimation Storyboard.TargetName="InnerGrid"/>
+                                            </Storyboard>
+                                        </VisualTransition>
+                                    </VisualStateGroup.Transitions>
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver"/>
+                                    <VisualState x:Name="Disabled"/>
+                                    <VisualState x:Name="Pressed">
+                                        <Storyboard>
+                                            <!--<PointerDownThemeAnimation Storyboard.TargetName="InnerGrid"/>-->
+                                            <DoubleAnimation Duration="0" To="0.5" Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="border" d:IsOptimized="True"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="SelectionStates">
+                                    <VisualState x:Name="Unselected"/>
+                                    <VisualState x:Name="Selected">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="#FF5BA4FF" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Storyboard.TargetName="border" d:IsOptimized="True"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="SelectedUnfocused">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="#FF5BA4FF" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Storyboard.TargetName="border" d:IsOptimized="True"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                    <VisualState x:Name="SelectedDisabled"/>
+                                    <VisualState x:Name="SelectedPointerOver"/>
+                                    <VisualState x:Name="SelectedPressed">
+                                        <Storyboard>
+                                            <ColorAnimation Duration="0" To="#FF5BA4FF" Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)" Storyboard.TargetName="border" d:IsOptimized="True"/>
+                                        </Storyboard>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Grid x:Name="InnerGrid" Background="White">
+                                <Rectangle x:Name="PressedBackground" Opacity="0"/>
+                                <Border x:Name="border" BorderBrush="#ffffffff" BorderThickness="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                    <ContentPresenter x:Name="ContentPresenter" ContentTemplate="{TemplateBinding ContentTemplate}" Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                            </Grid>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="ColorListBoxStyle" TargetType="ListBox">
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal" Margin="10,0,0,0"/>
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border x:Name="LayoutRoot">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="Disabled"/>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <ScrollViewer x:Name="ScrollViewer" 
+                                          IsHorizontalRailEnabled="False" 
+                                          IsVerticalRailEnabled="False" 
+                                          IsDeferredScrollingEnabled="False" 
+                                          ZoomMode="Disabled"
+                                          HorizontalScrollBarVisibility="Hidden" 
+                                          VerticalScrollBarVisibility="Hidden" 
+                                          HorizontalScrollMode="Enabled" 
+                                          VerticalScrollMode="Disabled">
+                                <ItemsPresenter/>
+                            </ScrollViewer>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Page.Resources>
+
     <Page.BottomAppBar>
         <CommandBar x:Name="bottomAppBar" >
         </CommandBar>
@@ -19,57 +113,175 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-    	<VisualStateManager.VisualStateGroups>
-    		<VisualStateGroup x:Name="vsgLayerButtons">
-    			<VisualStateGroup.Transitions>
-    				<VisualTransition GeneratedDuration="0:0:0.2">
-    					<VisualTransition.GeneratedEasingFunction>
-    						<PowerEase EasingMode="EaseInOut"/>
-    					</VisualTransition.GeneratedEasingFunction>
-    				</VisualTransition>
-    			</VisualStateGroup.Transitions>
-    			<VisualState x:Name="vsLayerButtonShown">
-    				<Storyboard>
-    					<DoubleAnimation Duration="0" To="-159" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="btnSpriteDown" d:IsOptimized="True"/>
-    					<DoubleAnimation Duration="0" To="-106" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="btnSpriteDelete" d:IsOptimized="True"/>
-    					<DoubleAnimation Duration="0" To="-212" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="btnSpriteUp" d:IsOptimized="True"/>
-    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Control.FontFamily)" Storyboard.TargetName="btnSpriteUp">
-    						<DiscreteObjectKeyFrame KeyTime="0">
-    							<DiscreteObjectKeyFrame.Value>
-    								<FontFamily>Global User Interface</FontFamily>
-    							</DiscreteObjectKeyFrame.Value>
-    						</DiscreteObjectKeyFrame>
-    					</ObjectAnimationUsingKeyFrames>
-    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Control.FontFamily)" Storyboard.TargetName="btnSpriteFuncOff">
-    						<DiscreteObjectKeyFrame KeyTime="0">
-    							<DiscreteObjectKeyFrame.Value>
-    								<FontFamily>Global User Interface</FontFamily>
-    							</DiscreteObjectKeyFrame.Value>
-    						</DiscreteObjectKeyFrame>
-    					</ObjectAnimationUsingKeyFrames>
-    					<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="btnSpriteFuncOn" d:IsOptimized="True"/>
-    					<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="btnSpriteFuncOn" d:IsOptimized="True"/>
-    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="btnSpriteFuncOn">
-    						<DiscreteObjectKeyFrame KeyTime="0">
-    							<DiscreteObjectKeyFrame.Value>
-    								<x:Boolean>False</x:Boolean>
-    							</DiscreteObjectKeyFrame.Value>
-    						</DiscreteObjectKeyFrame>
-    					</ObjectAnimationUsingKeyFrames>
-    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="btnSpriteFuncOff">
-    						<DiscreteObjectKeyFrame KeyTime="0">
-    							<DiscreteObjectKeyFrame.Value>
-    								<x:Boolean>True</x:Boolean>
-    							</DiscreteObjectKeyFrame.Value>
-    						</DiscreteObjectKeyFrame>
-    					</ObjectAnimationUsingKeyFrames>
-    					<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="btnSpriteFuncOff" d:IsOptimized="True"/>
-    					<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="btnSpriteFuncOff" d:IsOptimized="True"/>
-    				</Storyboard>
-    			</VisualState>
-    			<VisualState x:Name="vsLayerButtonHidden"/>
-    		</VisualStateGroup>
-    	</VisualStateManager.VisualStateGroups>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="vsgLayerButtons">
+                <VisualStateGroup.Transitions>
+                    <VisualTransition GeneratedDuration="0:0:0.2">
+                        <VisualTransition.GeneratedEasingFunction>
+                            <PowerEase EasingMode="EaseInOut"/>
+                        </VisualTransition.GeneratedEasingFunction>
+                    </VisualTransition>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="vsLayerButtonShown">
+                    <Storyboard>
+                        <DoubleAnimation Duration="0" To="-159" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="btnSpriteDown" d:IsOptimized="True"/>
+                        <DoubleAnimation Duration="0" To="-106" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="btnSpriteDelete" d:IsOptimized="True"/>
+                        <DoubleAnimation Duration="0" To="-212" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="btnSpriteUp" d:IsOptimized="True"/>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Control.FontFamily)" Storyboard.TargetName="btnSpriteUp">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <FontFamily>Global User Interface</FontFamily>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Control.FontFamily)" Storyboard.TargetName="btnSpriteFuncOff">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <FontFamily>Global User Interface</FontFamily>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="btnSpriteFuncOn" d:IsOptimized="True"/>
+                        <DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="btnSpriteFuncOn" d:IsOptimized="True"/>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="btnSpriteFuncOn">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <x:Boolean>False</x:Boolean>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="btnSpriteFuncOff">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <x:Boolean>True</x:Boolean>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="btnSpriteFuncOff" d:IsOptimized="True"/>
+                        <DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="btnSpriteFuncOff" d:IsOptimized="True"/>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="vsLayerButtonHidden"/>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="vsgColorFont">
+            	<VisualStateGroup.Transitions>
+            		<VisualTransition GeneratedDuration="0:0:0.2">
+            			<VisualTransition.GeneratedEasingFunction>
+            				<PowerEase EasingMode="EaseInOut"/>
+            			</VisualTransition.GeneratedEasingFunction>
+            		</VisualTransition>
+            	</VisualStateGroup.Transitions>
+            	<VisualState x:Name="vsColorFontHidden"/>
+            	<VisualState x:Name="vsColorListShown">
+            		<Storyboard>
+            			<DoubleAnimation Duration="0" To="-76" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="colorListPanel" d:IsOptimized="True"/>
+            		</Storyboard>
+            	</VisualState>
+            	<VisualState x:Name="vsFontListShown">
+            		<Storyboard>
+            			<DoubleAnimation Duration="0" To="-76" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="fontListPanel" d:IsOptimized="True"/>
+            		</Storyboard>
+            	</VisualState>
+            </VisualStateGroup>
+            <VisualStateGroup x:Name="vsgButtonsByMode">
+            	<VisualState x:Name="vsSingleModeButtons">
+            		<Storyboard>
+            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnPhoto">
+            				<DiscreteObjectKeyFrame KeyTime="0">
+            					<DiscreteObjectKeyFrame.Value>
+            						<Visibility>Collapsed</Visibility>
+            					</DiscreteObjectKeyFrame.Value>
+            				</DiscreteObjectKeyFrame>
+            			</ObjectAnimationUsingKeyFrames>
+            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnBeijing">
+            				<DiscreteObjectKeyFrame KeyTime="0">
+            					<DiscreteObjectKeyFrame.Value>
+            						<Visibility>Collapsed</Visibility>
+            					</DiscreteObjectKeyFrame.Value>
+            				</DiscreteObjectKeyFrame>
+            			</ObjectAnimationUsingKeyFrames>
+            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnColor">
+            				<DiscreteObjectKeyFrame KeyTime="0">
+            					<DiscreteObjectKeyFrame.Value>
+            						<Visibility>Collapsed</Visibility>
+            					</DiscreteObjectKeyFrame.Value>
+            				</DiscreteObjectKeyFrame>
+            			</ObjectAnimationUsingKeyFrames>
+            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnFont">
+            				<DiscreteObjectKeyFrame KeyTime="0">
+            					<DiscreteObjectKeyFrame.Value>
+            						<Visibility>Collapsed</Visibility>
+            					</DiscreteObjectKeyFrame.Value>
+            				</DiscreteObjectKeyFrame>
+            			</ObjectAnimationUsingKeyFrames>
+            		</Storyboard>
+            	</VisualState>
+            	<VisualState x:Name="vsMultiModeButtons">
+            		<Storyboard>
+            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnBiankuang">
+            				<DiscreteObjectKeyFrame KeyTime="0">
+            					<DiscreteObjectKeyFrame.Value>
+            						<Visibility>Collapsed</Visibility>
+            					</DiscreteObjectKeyFrame.Value>
+            				</DiscreteObjectKeyFrame>
+            			</ObjectAnimationUsingKeyFrames>
+            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnColor">
+            				<DiscreteObjectKeyFrame KeyTime="0">
+            					<DiscreteObjectKeyFrame.Value>
+            						<Visibility>Collapsed</Visibility>
+            					</DiscreteObjectKeyFrame.Value>
+            				</DiscreteObjectKeyFrame>
+            			</ObjectAnimationUsingKeyFrames>
+            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnFont">
+            				<DiscreteObjectKeyFrame KeyTime="0">
+            					<DiscreteObjectKeyFrame.Value>
+            						<Visibility>Collapsed</Visibility>
+            					</DiscreteObjectKeyFrame.Value>
+            				</DiscreteObjectKeyFrame>
+            			</ObjectAnimationUsingKeyFrames>
+            		</Storyboard>
+            	</VisualState>
+            	<VisualState x:Name="vsTextModeButtons">
+            		<Storyboard>
+            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnPhoto">
+            				<DiscreteObjectKeyFrame KeyTime="0">
+            					<DiscreteObjectKeyFrame.Value>
+            						<Visibility>Collapsed</Visibility>
+            					</DiscreteObjectKeyFrame.Value>
+            				</DiscreteObjectKeyFrame>
+            			</ObjectAnimationUsingKeyFrames>
+            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnShipin">
+            				<DiscreteObjectKeyFrame KeyTime="0">
+            					<DiscreteObjectKeyFrame.Value>
+            						<Visibility>Collapsed</Visibility>
+            					</DiscreteObjectKeyFrame.Value>
+            				</DiscreteObjectKeyFrame>
+            			</ObjectAnimationUsingKeyFrames>
+            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnText">
+            				<DiscreteObjectKeyFrame KeyTime="0">
+            					<DiscreteObjectKeyFrame.Value>
+            						<Visibility>Collapsed</Visibility>
+            					</DiscreteObjectKeyFrame.Value>
+            				</DiscreteObjectKeyFrame>
+            			</ObjectAnimationUsingKeyFrames>
+            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnBiankuang">
+            				<DiscreteObjectKeyFrame KeyTime="0">
+            					<DiscreteObjectKeyFrame.Value>
+            						<Visibility>Collapsed</Visibility>
+            					</DiscreteObjectKeyFrame.Value>
+            				</DiscreteObjectKeyFrame>
+            			</ObjectAnimationUsingKeyFrames>
+            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnBeijing">
+            				<DiscreteObjectKeyFrame KeyTime="0">
+            					<DiscreteObjectKeyFrame.Value>
+            						<Visibility>Collapsed</Visibility>
+            					</DiscreteObjectKeyFrame.Value>
+            				</DiscreteObjectKeyFrame>
+            			</ObjectAnimationUsingKeyFrames>
+            		</Storyboard>
+            	</VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
 
         <Grid x:Name="stagePanel">
             <Grid x:Name="stagePanelForClipping">
@@ -89,21 +301,21 @@
         <!--layer buttons-->
         <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,20">
             <sharedControl:ContentButton x:Name="btnSpriteUp" Tapped="spriteUp_Click" Margin="0,0,0,5" RenderTransformOrigin="0.5,0.5">
-            	<sharedControl:ContentButton.RenderTransform>
-            		<CompositeTransform TranslateY="-53"/>
-            	</sharedControl:ContentButton.RenderTransform>
+                <sharedControl:ContentButton.RenderTransform>
+                    <CompositeTransform TranslateY="-53"/>
+                </sharedControl:ContentButton.RenderTransform>
                 <Image Stretch="Uniform" Width="48" Height="48" Source="/Assets/Images/LayerUp.png" />
             </sharedControl:ContentButton>
             <sharedControl:ContentButton x:Name="btnSpriteDown" Tapped="spriteDown_Click" Margin="0,0,0,5" RenderTransformOrigin="0.5,0.5">
-            	<sharedControl:ContentButton.RenderTransform>
-            		<CompositeTransform TranslateY="-53"/>
-            	</sharedControl:ContentButton.RenderTransform>
+                <sharedControl:ContentButton.RenderTransform>
+                    <CompositeTransform TranslateY="-53"/>
+                </sharedControl:ContentButton.RenderTransform>
                 <Image Stretch="Uniform" Width="48" Height="48" Source="/Assets/Images/LayerDown.png" />
             </sharedControl:ContentButton>
             <sharedControl:ContentButton x:Name="btnSpriteDelete" Tapped="spriteDelete_Click" Margin="0,0,0,5" RenderTransformOrigin="0.5,0.5">
-            	<sharedControl:ContentButton.RenderTransform>
-            		<CompositeTransform TranslateY="-53"/>
-            	</sharedControl:ContentButton.RenderTransform>
+                <sharedControl:ContentButton.RenderTransform>
+                    <CompositeTransform TranslateY="-53"/>
+                </sharedControl:ContentButton.RenderTransform>
                 <Image Stretch="Uniform" Width="48" Height="48" Source="/Assets/Images/LayerDelete.png" />
             </sharedControl:ContentButton>
 
@@ -113,19 +325,54 @@
             <sharedControl:ContentButton x:Name="btnPhotoLock" Tapped="photoLock_Click" Margin="0,0,0,5" Opacity="0">
                 <Image Stretch="Uniform" Width="48" Height="48" Source="/Assets/Images/LayerUnLocked.png" />
             </sharedControl:ContentButton>
-            
+
             <sharedControl:ContentButton x:Name="btnSpriteFuncOff" Tapped="spriteFuncOff_Click" Margin="0,0,0,5" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
-            	<sharedControl:ContentButton.RenderTransform>
-            		<CompositeTransform TranslateY="-53" ScaleX="0" ScaleY="0"/>
-            	</sharedControl:ContentButton.RenderTransform>
+                <sharedControl:ContentButton.RenderTransform>
+                    <CompositeTransform TranslateY="-53" ScaleX="0" ScaleY="0"/>
+                </sharedControl:ContentButton.RenderTransform>
                 <Image Stretch="Uniform" Width="48" Height="48" Source="/Assets/Images/LayerFuncOff.png" />
             </sharedControl:ContentButton>
             <sharedControl:ContentButton x:Name="btnSpriteFuncOn" Tapped="spriteFuncOn_Click" Margin="0,0,0,5" RenderTransformOrigin="0.5,0.5">
-            	<sharedControl:ContentButton.RenderTransform>
-            		<CompositeTransform TranslateY="-53"/>
-            	</sharedControl:ContentButton.RenderTransform>
+                <sharedControl:ContentButton.RenderTransform>
+                    <CompositeTransform TranslateY="-53"/>
+                </sharedControl:ContentButton.RenderTransform>
                 <Image Stretch="Uniform" Width="48" Height="48" Source="/Assets/Images/LayerFuncOn.png" />
             </sharedControl:ContentButton>
+
+        </Grid>
+
+        <!--color & font-->
+        <Grid x:Name="colorListPanel" VerticalAlignment="Bottom" Background="#ffff7e7e" Grid.Row="1" Height="72" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <CompositeTransform/>
+            </Grid.RenderTransform>
+            <ListBox x:Name="colorListBox" 
+                     ItemContainerStyle="{StaticResource ColorListBoxItemContainerStyle}" 
+                     Style="{StaticResource ColorListBoxStyle}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Rectangle Width="48" Height="48" Fill="{Binding}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ListBox>
+        </Grid>
+
+        <Grid x:Name="fontListPanel" VerticalAlignment="Bottom" Background="#ffff7e7e" Grid.Row="1" Height="72" RenderTransformOrigin="0.5,0.5">
+            <Grid.RenderTransform>
+                <CompositeTransform/>
+            </Grid.RenderTransform>
+            <ListBox x:Name="fontListBox" 
+                     ItemContainerStyle="{StaticResource ColorListBoxItemContainerStyle}" 
+                     Style="{StaticResource ColorListBoxStyle}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Grid Width="48" Height="48" Background="#fff0f0f0">
+                            <TextBlock Text="Aa" FontFamily="{Binding}" FontSize="24"
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Grid>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ListBox>
         </Grid>
 
         <!--app bar-->
@@ -136,7 +383,7 @@
             </Grid.ColumnDefinitions>
             <sharedControl:AppBar x:Name="appBar">
                 <sharedControl:BarButton x:Name="btnPhoto" Icon="/Assets/Images/AppBar/AppBarPhoto.png" 
-                                     Text="照片" Margin="10,0,10,0" Visibility="Collapsed"
+                                     Text="照片" Margin="10,0,10,0" Visibility="Visible"
                                      Click="PickPhoto_Click"/>
                 <sharedControl:BarButton x:Name="btnShipin" Icon="/Assets/Images/AppBar/AppBarShipin.png" 
                                      Text="饰品" Margin="10,0,10,0" Visibility="Visible"
@@ -145,11 +392,18 @@
                                      Text="文字" Margin="10,0,10,0" Visibility="Visible"
                                      Click="Text_Click"/>
                 <sharedControl:BarButton x:Name="btnBiankuang" Icon="/Assets/Images/AppBar/AppBarFrame.png" 
-                                     Text="边框" Margin="10,0,10,0" Visibility="Collapsed"
+                                     Text="边框" Margin="10,0,10,0" Visibility="Visible"
                                      Click="Biankuang_Click"/>
                 <sharedControl:BarButton x:Name="btnBeijing" Icon="/Assets/Images/AppBar/AppBarBeijing.png" 
-                                     Text="背景" Margin="10,0,10,0" Visibility="Collapsed"
+                                     Text="背景" Margin="10,0,10,0" Visibility="Visible"
                                      Click="Beijing_Click"/>
+
+                <sharedControl:BarButton x:Name="btnColor" Icon="/Assets/Images/AppBar/AppBarColor.png" 
+                                     Text="颜色" Margin="10,0,10,0" Visibility="Visible"
+                                     Click="color_Click"/>
+                <sharedControl:BarButton x:Name="btnFont" Icon="/Assets/Images/AppBar/AppBarFont.png" 
+                                     Text="字体" Margin="10,0,10,0" Visibility="Visible"
+                                     Click="font_Click"/>
             </sharedControl:AppBar>
 
             <sharedControl:ContentButton Grid.Column="1" Height="{Binding ActualHeight, ElementName=appBar}"

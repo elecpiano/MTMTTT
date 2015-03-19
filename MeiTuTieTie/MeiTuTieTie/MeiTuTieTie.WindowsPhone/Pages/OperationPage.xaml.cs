@@ -30,6 +30,7 @@ namespace MeiTuTieTie.Pages
         private const string Continuation_Key_Operation = "Operation";
         private const string Continuation_OperationPage_PickPhotos = "PickPhotos";
         private OperationPageType pageType = OperationPageType.Single;
+
         private bool SingleImageLocked
         {
             get
@@ -102,15 +103,12 @@ namespace MeiTuTieTie.Pages
             switch (pageType)
             {
                 case OperationPageType.Single:
-                    btnBiankuang.Visibility = Visibility.Visible;
+                    VisualStateManager.GoToState(this, "vsSingleModeButtons", false);
                     this.Frame.BackStack.RemoveAt(this.Frame.BackStack.Count - 1);
                     PreapreSingleModeImage();
                     break;
                 case OperationPageType.Multi:
-                    btnPhoto.Visibility = Visibility.Visible;
-                    btnBeijing.Visibility = Visibility.Visible;
-                    btnPhotoUnLock.Visibility = Visibility.Collapsed;
-                    btnPhotoLock.Visibility = Visibility.Collapsed;
+                    VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
                     PickPhotos();
                     break;
                 default:
@@ -120,7 +118,9 @@ namespace MeiTuTieTie.Pages
             SpriteControl.Initialize(stage);
             SpriteControl.OnSelected += Sprite_OnSelected;
 
-            VisualStateManager.GoToState(this, "vsLayerButtonShown", false);
+            InitColorFontList();
+
+            VisualStateManager.GoToState(this, "vsLayerButtonShown", true);
             BuildBottomAppBar_Normal();
         }
 
@@ -162,6 +162,14 @@ namespace MeiTuTieTie.Pages
         private void stageBackground_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             SpriteControl.DismissActiveSprite();
+            if (pageType == OperationPageType.Single)
+            {
+                VisualStateManager.GoToState(this, "vsSingleModeButtons", false);
+            }
+            else if (pageType == OperationPageType.Multi)
+            {
+                VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
+            }
         }
 
         void imgSingleMode_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -346,6 +354,8 @@ namespace MeiTuTieTie.Pages
         #region Text
 
         private SpriteTextBox selectedSpriteText = null;
+        private List<string> colorListData = null;
+        private List<string> fontListData = null;
 
         private void Text_Click(object sender, RoutedEventArgs e)
         {
@@ -374,11 +384,18 @@ namespace MeiTuTieTie.Pages
                 if (sprite.SpriteType == SpriteType.Text)
                 {
                     selectedSpriteText = (sender as SpriteControl).spriteText;
-                    //BuildBottomAppBar_TextEditor();
+                    VisualStateManager.GoToState(this, "vsTextModeButtons", false);
                 }
                 else
                 {
-                    //BuildBottomAppBar_Normal();
+                    if (pageType == OperationPageType.Single)
+                    {
+                        VisualStateManager.GoToState(this, "vsSingleModeButtons", false);
+                    }
+                    else if (pageType == OperationPageType.Multi)
+                    {
+                        VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
+                    }
                 }
             }
         }
@@ -386,18 +403,19 @@ namespace MeiTuTieTie.Pages
         void sprite_EditingStarted(object sender, EventArgs e)
         {
             BuildBottomAppBar_TextEditor();
-            Windows.UI.Xaml.DispatcherTimer timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromMilliseconds(100);
-            timer.Tick += (ss, ee) =>
+            DelayExecutor.Delay(20, () =>
                 {
-                    timer.Stop();
                     (sender as SpriteControl).SyncButtonsPosition();
-                };
+                });
         }
 
         void sprite_EditingEnded(object sender, EventArgs e)
         {
             BuildBottomAppBar_Normal();
+            DelayExecutor.Delay(20, () =>
+            {
+                (sender as SpriteControl).SyncButtonsPosition();
+            });
         }
 
         //private void SetFontColorPanelVisibility(bool visible)
@@ -430,13 +448,69 @@ namespace MeiTuTieTie.Pages
             }
         }
 
+        private bool colorListShown = false;
+        private void color_Click(object sender, RoutedEventArgs e)
+        {
+            if (colorListShown)
+            {
+                VisualStateManager.GoToState(this, "vsColorFontHidden", true);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "vsColorListShown", true);
+            }
+
+            colorListShown = !colorListShown;
+        }
+
+        private bool fontListShown = false;
+        private void font_Click(object sender, RoutedEventArgs e)
+        {
+            if (fontListShown)
+            {
+                VisualStateManager.GoToState(this, "vsColorFontHidden", true);
+            }
+            else
+            {
+                VisualStateManager.GoToState(this, "vsFontListShown", true);
+            }
+            fontListShown = !fontListShown;
+        }
+
+        private void InitColorFontList()
+        {
+            if (colorListData == null)
+            {
+                colorListData = new List<string>();
+                colorListData.Add("#ff000000");
+                colorListData.Add("#ffffffff");
+                colorListData.Add("#ffc2393a");
+                colorListData.Add("#fff09fb8");
+                colorListData.Add("#ffeb6195");
+                colorListData.Add("#fff7bfd0");
+                colorListData.Add("#ffb985b6");
+                colorListData.Add("#ff854a92");
+                colorListBox.ItemsSource = colorListData;
+            }
+
+            if (fontListData == null)
+            {
+                fontListData = new List<string>();
+                fontListData.Add(@"ms-appx:/Assets/Fonts/SHOWG.TTF#Showcard Gothic");
+                fontListData.Add(@"ms-appx:/Assets/Fonts/SHOWG.TTF#Showcard Gothic");
+                fontListData.Add(@"ms-appx:/Assets/Fonts/SHOWG.TTF#Showcard Gothic");
+                fontListData.Add(@"ms-appx:/Assets/Fonts/SHOWG.TTF#Showcard Gothic");
+                fontListData.Add(@"ms-appx:/Assets/Fonts/SHOWG.TTF#Showcard Gothic");
+                fontListData.Add(@"ms-appx:/Assets/Fonts/SHOWG.TTF#Showcard Gothic");
+                fontListBox.ItemsSource = fontListData;
+            }
+        }
+
         #endregion
 
         #region AppBar
 
         AppBarButton appBarButton_ok = null;
-        AppBarButton appBarButton_font = null;
-        //AppBarButton appBarButton_color = null;
         int appBarState = -1;//0-normal, 1-font, 
 
         private void BuildBottomAppBar_Normal()
@@ -448,16 +522,6 @@ namespace MeiTuTieTie.Pages
 
             this.bottomAppBar.PrimaryCommands.Clear();
             bottomAppBar.Visibility = Visibility.Collapsed;
-
-            ////ok
-            //if (appBarButton_ok == null)
-            //{
-            //    appBarButton_ok = new AppBarButton();
-            //    appBarButton_ok.Label = "确认";
-            //    appBarButton_ok.Icon = new SymbolIcon(Symbol.Accept);
-            //    appBarButton_ok.Click += AppbarButton_OK_Click;
-            //}
-            //this.bottomAppBar.PrimaryCommands.Add(appBarButton_ok);
 
             appBarState = 0;
         }
@@ -471,26 +535,6 @@ namespace MeiTuTieTie.Pages
 
             this.bottomAppBar.PrimaryCommands.Clear();
             bottomAppBar.Visibility = Visibility.Visible;
-
-            ////font
-            //if (appBarButton_font == null)
-            //{
-            //    appBarButton_font = new AppBarButton();
-            //    appBarButton_font.Label = "字体";
-            //    appBarButton_font.Icon = new SymbolIcon(Symbol.Font);
-            //    appBarButton_font.Click += AppbarButton_Font_Click;
-            //}
-            //this.bottomAppBar.PrimaryCommands.Add(appBarButton_font);
-
-            ////color
-            //if (appBarButton_color == null)
-            //{
-            //    appBarButton_color = new AppBarButton();
-            //    appBarButton_color.Label = "颜色";
-            //    appBarButton_color.Icon = new SymbolIcon(Symbol.FontColor);
-            //    appBarButton_color.Click += AppbarButton_Color_Click;
-            //}
-            //this.bottomAppBar.PrimaryCommands.Add(appBarButton_color);
 
             //ok
             if (appBarButton_ok == null)
@@ -536,7 +580,6 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
-
 
 
     }
