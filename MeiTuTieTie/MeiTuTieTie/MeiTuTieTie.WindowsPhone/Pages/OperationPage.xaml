@@ -15,36 +15,114 @@
     </Page.BottomAppBar>
 
     <Grid x:Name="gridRoot">
+    	<VisualStateManager.VisualStateGroups>
+    		<VisualStateGroup x:Name="vsgLayerButtons">
+    			<VisualStateGroup.Transitions>
+    				<VisualTransition GeneratedDuration="0:0:0.2">
+    					<VisualTransition.GeneratedEasingFunction>
+    						<PowerEase EasingMode="EaseInOut"/>
+    					</VisualTransition.GeneratedEasingFunction>
+    				</VisualTransition>
+    			</VisualStateGroup.Transitions>
+    			<VisualState x:Name="vsLayerButtonShown">
+    				<Storyboard>
+    					<DoubleAnimation Duration="0" To="-159" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="btnSpriteDown" d:IsOptimized="True"/>
+    					<DoubleAnimation Duration="0" To="-106" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="btnSpriteDelete" d:IsOptimized="True"/>
+    					<DoubleAnimation Duration="0" To="-212" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="btnSpriteUp" d:IsOptimized="True"/>
+    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Control.FontFamily)" Storyboard.TargetName="btnSpriteUp">
+    						<DiscreteObjectKeyFrame KeyTime="0">
+    							<DiscreteObjectKeyFrame.Value>
+    								<FontFamily>Global User Interface</FontFamily>
+    							</DiscreteObjectKeyFrame.Value>
+    						</DiscreteObjectKeyFrame>
+    					</ObjectAnimationUsingKeyFrames>
+    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(Control.FontFamily)" Storyboard.TargetName="btnSpriteFuncOff">
+    						<DiscreteObjectKeyFrame KeyTime="0">
+    							<DiscreteObjectKeyFrame.Value>
+    								<FontFamily>Global User Interface</FontFamily>
+    							</DiscreteObjectKeyFrame.Value>
+    						</DiscreteObjectKeyFrame>
+    					</ObjectAnimationUsingKeyFrames>
+    					<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="btnSpriteFuncOn" d:IsOptimized="True"/>
+    					<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="btnSpriteFuncOn" d:IsOptimized="True"/>
+    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="btnSpriteFuncOn">
+    						<DiscreteObjectKeyFrame KeyTime="0">
+    							<DiscreteObjectKeyFrame.Value>
+    								<x:Boolean>False</x:Boolean>
+    							</DiscreteObjectKeyFrame.Value>
+    						</DiscreteObjectKeyFrame>
+    					</ObjectAnimationUsingKeyFrames>
+    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.IsHitTestVisible)" Storyboard.TargetName="btnSpriteFuncOff">
+    						<DiscreteObjectKeyFrame KeyTime="0">
+    							<DiscreteObjectKeyFrame.Value>
+    								<x:Boolean>True</x:Boolean>
+    							</DiscreteObjectKeyFrame.Value>
+    						</DiscreteObjectKeyFrame>
+    					</ObjectAnimationUsingKeyFrames>
+    					<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleX)" Storyboard.TargetName="btnSpriteFuncOff" d:IsOptimized="True"/>
+    					<DoubleAnimation Duration="0" To="1" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.ScaleY)" Storyboard.TargetName="btnSpriteFuncOff" d:IsOptimized="True"/>
+    				</Storyboard>
+    			</VisualState>
+    			<VisualState x:Name="vsLayerButtonHidden"/>
+    		</VisualStateGroup>
+    	</VisualStateManager.VisualStateGroups>
 
         <Grid x:Name="stagePanel">
             <Grid x:Name="stagePanelForClipping">
-                <Grid x:Name="stageBackground" Background="Wheat" PointerPressed="stageBackground_PointerPressed"/>
+                <Grid x:Name="stageBackground" Background="White" PointerPressed="stageBackground_PointerPressed"/>
+                <Image x:Name="imgBeijing" Stretch="UniformToFill" IsHitTestVisible="False"
+                       Source="/Assets/Images/SingleModeBackground.png"/>
                 <Image x:Name="imgSingleMode" Stretch="Uniform" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5">
                     <Image.RenderTransform>
                         <CompositeTransform x:Name="transformSingleModeImage"/>
                     </Image.RenderTransform>
                 </Image>
-                <Image x:Name="imgBiankuangOrBeijing" Stretch="Fill" IsHitTestVisible="False"/>
+                <Image x:Name="imgBiankuang" Stretch="Fill" IsHitTestVisible="False"/>
                 <Grid x:Name="stage"/>
             </Grid>
         </Grid>
 
         <!--layer buttons-->
-        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Center">
-            <Button Content="Up" Click="spriteUp_Click" />
-            <Button Content="Down" Click="spriteDown_Click" />
-            <Button Content="Delete" Click="spriteDelete_Click" />
-            <Button Content="Lock" Click="photoLock_Click" />
-        </StackPanel>
+        <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,90">
+            <sharedControl:ContentButton x:Name="btnSpriteUp" Tapped="spriteUp_Click" Margin="0,0,0,5" RenderTransformOrigin="0.5,0.5">
+            	<sharedControl:ContentButton.RenderTransform>
+            		<CompositeTransform TranslateY="-53"/>
+            	</sharedControl:ContentButton.RenderTransform>
+                <Image Stretch="Uniform" Width="48" Height="48" Source="/Assets/Images/LayerUp.png" />
+            </sharedControl:ContentButton>
+            <sharedControl:ContentButton x:Name="btnSpriteDown" Tapped="spriteDown_Click" Margin="0,0,0,5" RenderTransformOrigin="0.5,0.5">
+            	<sharedControl:ContentButton.RenderTransform>
+            		<CompositeTransform TranslateY="-53"/>
+            	</sharedControl:ContentButton.RenderTransform>
+                <Image Stretch="Uniform" Width="48" Height="48" Source="/Assets/Images/LayerDown.png" />
+            </sharedControl:ContentButton>
+            <sharedControl:ContentButton x:Name="btnSpriteDelete" Tapped="spriteDelete_Click" Margin="0,0,0,5" RenderTransformOrigin="0.5,0.5">
+            	<sharedControl:ContentButton.RenderTransform>
+            		<CompositeTransform TranslateY="-53"/>
+            	</sharedControl:ContentButton.RenderTransform>
+                <Image Stretch="Uniform" Width="48" Height="48" Source="/Assets/Images/LayerDelete.png" />
+            </sharedControl:ContentButton>
 
-        <!--Buttons-->
-        <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-            <Button Visibility="Collapsed" x:Name="btnPhoto" Content="照片" Click="PickPhoto_Click" />
-            <Button Visibility="Visible" x:Name="btnShipin" Content="饰品" Click="Shipin_Click" />
-            <Button Visibility="Visible" x:Name="btnText" Content="文字" Click="Text_Click" />
-            <Button Visibility="Collapsed" x:Name="btnBiankuang" Content="边框" Click="Biankuang_Click" />
-            <Button Visibility="Collapsed" x:Name="btnBeijing" Content="背景" Click="Beijing_Click" />
-        </StackPanel>-->
+            <sharedControl:ContentButton x:Name="btnPhotoUnLock" Tapped="photoLock_Click" Margin="0,0,0,5">
+                <Image Stretch="Uniform" Width="48" Height="48" Source="/Assets/Images/LayerLocked.png" />
+            </sharedControl:ContentButton>
+            <sharedControl:ContentButton x:Name="btnPhotoLock" Tapped="photoLock_Click" Margin="0,0,0,5" Opacity="0">
+                <Image Stretch="Uniform" Width="48" Height="48" Source="/Assets/Images/LayerUnLocked.png" />
+            </sharedControl:ContentButton>
+            
+            <sharedControl:ContentButton x:Name="btnSpriteFuncOff" Tapped="spriteFuncOff_Click" Margin="0,0,0,5" RenderTransformOrigin="0.5,0.5" IsHitTestVisible="False">
+            	<sharedControl:ContentButton.RenderTransform>
+            		<CompositeTransform TranslateY="-53" ScaleX="0" ScaleY="0"/>
+            	</sharedControl:ContentButton.RenderTransform>
+                <Image Stretch="Uniform" Width="48" Height="48" Source="/Assets/Images/LayerFuncOff.png" />
+            </sharedControl:ContentButton>
+            <sharedControl:ContentButton x:Name="btnSpriteFuncOn" Tapped="spriteFuncOn_Click" Margin="0,0,0,5" RenderTransformOrigin="0.5,0.5">
+            	<sharedControl:ContentButton.RenderTransform>
+            		<CompositeTransform TranslateY="-53"/>
+            	</sharedControl:ContentButton.RenderTransform>
+                <Image Stretch="Uniform" Width="48" Height="48" Source="/Assets/Images/LayerFuncOn.png" />
+            </sharedControl:ContentButton>
+        </Grid>
 
         <!--app bar-->
         <Grid VerticalAlignment="Bottom" Background="#ffe64d4a">
@@ -54,7 +132,7 @@
             </Grid.ColumnDefinitions>
             <sharedControl:AppBar x:Name="appBar">
                 <sharedControl:BarButton x:Name="btnPhoto" Icon="/Assets/Images/AppBar/AppBarPhoto.png" 
-                                     Text="照片" Margin="10,0,10,0" Visibility="Visible"
+                                     Text="照片" Margin="10,0,10,0" Visibility="Collapsed"
                                      Click="PickPhoto_Click"/>
                 <sharedControl:BarButton x:Name="btnShipin" Icon="/Assets/Images/AppBar/AppBarShipin.png" 
                                      Text="饰品" Margin="10,0,10,0" Visibility="Visible"
@@ -66,10 +144,10 @@
                                      Text="边框" Margin="10,0,10,0" Visibility="Collapsed"
                                      Click="Biankuang_Click"/>
                 <sharedControl:BarButton x:Name="btnBeijing" Icon="/Assets/Images/AppBar/AppBarBeijing.png" 
-                                     Text="背景" Margin="10,0,10,0" Visibility="Visible"
+                                     Text="背景" Margin="10,0,10,0" Visibility="Collapsed"
                                      Click="Beijing_Click"/>
             </sharedControl:AppBar>
-            
+
             <sharedControl:ContentButton Grid.Column="1" Height="{Binding ActualHeight, ElementName=appBar}"
                                          Tapped="AppbarButton_OK_Tapped">
                 <Image Source="/Assets/Images/AppBar/AppBarSaveShare.png" Stretch="Uniform"/>

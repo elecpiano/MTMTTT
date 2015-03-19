@@ -34,11 +34,11 @@ namespace MeiTuTieTie.Pages
         {
             get
             {
-                return imgSingleMode.IsHitTestVisible;
+                return !imgSingleMode.IsHitTestVisible;
             }
             set
             {
-                imgSingleMode.IsHitTestVisible = value;
+                imgSingleMode.IsHitTestVisible = !value;
             }
         }
         public WidgetPageType MaterialSelectedBy { get; set; }
@@ -63,7 +63,6 @@ namespace MeiTuTieTie.Pages
             {
                 pageType = (OperationPageType)e.Parameter;
                 InitializePage();
-                BuildBottomAppBar_Normal();
             }
             else if (e.NavigationMode == NavigationMode.Back)
             {
@@ -110,6 +109,8 @@ namespace MeiTuTieTie.Pages
                 case OperationPageType.Multi:
                     btnPhoto.Visibility = Visibility.Visible;
                     btnBeijing.Visibility = Visibility.Visible;
+                    btnPhotoUnLock.Visibility = Visibility.Collapsed;
+                    btnPhotoLock.Visibility = Visibility.Collapsed;
                     PickPhotos();
                     break;
                 default:
@@ -118,6 +119,9 @@ namespace MeiTuTieTie.Pages
 
             SpriteControl.Initialize(stage);
             SpriteControl.OnSelected += Sprite_OnSelected;
+
+            VisualStateManager.GoToState(this, "vsLayerButtonShown", false);
+            BuildBottomAppBar_Normal();
         }
 
         #endregion
@@ -147,17 +151,17 @@ namespace MeiTuTieTie.Pages
 
         #region Manipulation
 
-        private void stageBackground_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            SpriteControl.DismissActiveSprite();
-        }
-
         private void PreapreSingleModeImage()
         {
             imgSingleMode.Source = App.CurrentInstance.wbForSingleMode;
             imgSingleMode.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.Scale | ManipulationModes.Rotate;
             imgSingleMode.ManipulationDelta += imgSingleMode_ManipulationDelta;
             imgSingleMode.PointerPressed += stageBackground_PointerPressed;
+        }
+
+        private void stageBackground_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            SpriteControl.DismissActiveSprite();
         }
 
         void imgSingleMode_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -248,9 +252,13 @@ namespace MeiTuTieTie.Pages
                     sprites.Add(sprite);
                     sprite.AddToContainer();
                 }
-                else if (App.CurrentInstance.MaterialSelectedBy == WidgetPageType.BianKuang || App.CurrentInstance.MaterialSelectedBy == WidgetPageType.Beijing)
+                else if (App.CurrentInstance.MaterialSelectedBy == WidgetPageType.BianKuang)
                 {
-                    imgBiankuangOrBeijing.Source = bi;
+                    imgBiankuang.Source = bi;
+                }
+                else if (App.CurrentInstance.MaterialSelectedBy == WidgetPageType.Beijing)
+                {
+                    imgBeijing.Source = bi;
                 }
 
                 App.CurrentInstance.SelectedMaterial = null;
@@ -261,7 +269,7 @@ namespace MeiTuTieTie.Pages
 
         #region Layer Buttons
 
-        private void spriteUp_Click(object sender, RoutedEventArgs e)
+        private void spriteUp_Click(object sender, TappedRoutedEventArgs e)
         {
             if (SpriteControl.SelectedSprite != null)
             {
@@ -269,7 +277,7 @@ namespace MeiTuTieTie.Pages
             }
         }
 
-        private void spriteDown_Click(object sender, RoutedEventArgs e)
+        private void spriteDown_Click(object sender, TappedRoutedEventArgs e)
         {
             if (SpriteControl.SelectedSprite != null)
             {
@@ -277,14 +285,27 @@ namespace MeiTuTieTie.Pages
             }
         }
 
-        private void spriteDelete_Click(object sender, RoutedEventArgs e)
+        private void spriteDelete_Click(object sender, TappedRoutedEventArgs e)
         {
             SpriteControl.RemoveSelectedSprite();
         }
 
-        private void photoLock_Click(object sender, RoutedEventArgs e)
+        private void photoLock_Click(object sender, TappedRoutedEventArgs e)
         {
             SingleImageLocked = !SingleImageLocked;
+
+            btnPhotoUnLock.Opacity = SingleImageLocked ? 1d : 0d;
+            btnPhotoLock.Opacity = SingleImageLocked ? 0d : 1d;
+        }
+
+        private void spriteFuncOff_Click(object sender, TappedRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, "vsLayerButtonHidden", true);
+        }
+
+        private void spriteFuncOn_Click(object sender, TappedRoutedEventArgs e)
+        {
+            VisualStateManager.GoToState(this, "vsLayerButtonShown", true);
         }
 
         #endregion
@@ -334,8 +355,8 @@ namespace MeiTuTieTie.Pages
         private void AddTextSprite()
         {
             SpriteControl sprite = new SpriteControl(SpriteType.Text);
-            //sprite.EditingStarted += sprite_EditingStarted;
-            //sprite.EditingEnded += sprite_EditingEnded;
+            sprite.EditingStarted += sprite_EditingStarted;
+            sprite.EditingEnded += sprite_EditingEnded;
 
             sprites.Add(sprite);
             sprite.AddToContainer();
@@ -353,24 +374,31 @@ namespace MeiTuTieTie.Pages
                 if (sprite.SpriteType == SpriteType.Text)
                 {
                     selectedSpriteText = (sender as SpriteControl).spriteText;
-                    BuildBottomAppBar_TextEditor();
+                    //BuildBottomAppBar_TextEditor();
                 }
                 else
                 {
-                    BuildBottomAppBar_Normal();
+                    //BuildBottomAppBar_Normal();
                 }
             }
         }
 
-        //void sprite_EditingStarted(object sender, EventArgs e)
-        //{
-        //    BuildBottomAppBar_TextEditor();
-        //}
+        void sprite_EditingStarted(object sender, EventArgs e)
+        {
+            BuildBottomAppBar_TextEditor();
+            Windows.UI.Xaml.DispatcherTimer timer = new DispatcherTimer();
+            timer.Interval = TimeSpan.FromMilliseconds(100);
+            timer.Tick += (ss, ee) =>
+                {
+                    timer.Stop();
+                    (sender as SpriteControl).SyncButtonsPosition();
+                };
+        }
 
-        //void sprite_EditingEnded(object sender, EventArgs e)
-        //{
-        //    BuildBottomAppBar_Normal();
-        //}
+        void sprite_EditingEnded(object sender, EventArgs e)
+        {
+            BuildBottomAppBar_Normal();
+        }
 
         //private void SetFontColorPanelVisibility(bool visible)
         //{
@@ -395,7 +423,7 @@ namespace MeiTuTieTie.Pages
                 selectedSpriteText.Font = new FontFamily(App.CurrentInstance.SelectedFont);
                 App.CurrentInstance.SelectedFont = string.Empty;
             }
-            if (App.CurrentInstance.SelectedTextColor!=null)
+            if (App.CurrentInstance.SelectedTextColor != null)
             {
                 selectedSpriteText.TextColor = App.CurrentInstance.SelectedTextColor;
                 App.CurrentInstance.SelectedTextColor = null;
@@ -479,7 +507,7 @@ namespace MeiTuTieTie.Pages
 
         private void AppbarButton_TextOK_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
 
         private void AppbarButton_OK_Tapped(object sender, TappedRoutedEventArgs e)
@@ -508,6 +536,7 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
+
 
 
     }

@@ -534,7 +534,7 @@ namespace Shared.Control
             borderL.Opacity = borderR.Opacity = borderT.Opacity = borderB.Opacity = visible ? 1d : 0d;
         }
 
-        private void SyncButtonsPosition()
+        public void SyncButtonsPosition()
         {
             Point pointLT = LTPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
             Point pointRT = RTPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);

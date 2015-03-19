@@ -163,7 +163,9 @@
     <Content Include="Assets\Images\HomePageSettings.png" />
     <Content Include="Assets\Images\HomePageSettingsButtonBase.png" />
     <Content Include="Assets\Images\HomePageSinglePhoto.png" />
+    <Content Include="Assets\Images\LayerFuncOn.png" />
     <Content Include="Assets\Images\Remove.png" />
+    <Content Include="Assets\Images\SingleModeBackground.png" />
     <Content Include="Assets\Images\Sprite\ShadowB.png" />
     <Content Include="Assets\Images\Sprite\ShadowL.png" />
     <Content Include="Assets\Images\Sprite\ShadowLB.png" />
@@ -172,6 +174,12 @@
     <Content Include="Assets\Images\Sprite\ShadowRB.png" />
     <Content Include="Assets\Images\Sprite\ShadowRT.png" />
     <Content Include="Assets\Images\Sprite\ShadowT.png" />
+    <Content Include="Assets\Images\LayerUp.png" />
+    <Content Include="Assets\Images\LayerDown.png" />
+    <Content Include="Assets\Images\LayerFuncOff.png" />
+    <Content Include="Assets\Images\LayerDelete.png" />
+    <Content Include="Assets\Images\LayerLocked.png" />
+    <Content Include="Assets\Images\LayerUnlocked.png" />
     <Content Include="Assets\Logo.scale-240.png" />
     <Content Include="Assets\materials.xml" />
     <Content Include="Assets\SmallLogo.scale-240.png" />
