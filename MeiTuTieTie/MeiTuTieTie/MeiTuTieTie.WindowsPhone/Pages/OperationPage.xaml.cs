@@ -419,16 +419,17 @@ namespace MeiTuTieTie.Pages
             }
 
             this.bottomAppBar.PrimaryCommands.Clear();
+            bottomAppBar.Visibility = Visibility.Collapsed;
 
-            //ok
-            if (appBarButton_ok == null)
-            {
-                appBarButton_ok = new AppBarButton();
-                appBarButton_ok.Label = "确认";
-                appBarButton_ok.Icon = new SymbolIcon(Symbol.Accept);
-                appBarButton_ok.Click += AppbarButton_OK_Click;
-            }
-            this.bottomAppBar.PrimaryCommands.Add(appBarButton_ok);
+            ////ok
+            //if (appBarButton_ok == null)
+            //{
+            //    appBarButton_ok = new AppBarButton();
+            //    appBarButton_ok.Label = "确认";
+            //    appBarButton_ok.Icon = new SymbolIcon(Symbol.Accept);
+            //    appBarButton_ok.Click += AppbarButton_OK_Click;
+            //}
+            //this.bottomAppBar.PrimaryCommands.Add(appBarButton_ok);
 
             appBarState = 0;
         }
@@ -441,16 +442,17 @@ namespace MeiTuTieTie.Pages
             }
 
             this.bottomAppBar.PrimaryCommands.Clear();
+            bottomAppBar.Visibility = Visibility.Visible;
 
-            //font
-            if (appBarButton_font == null)
-            {
-                appBarButton_font = new AppBarButton();
-                appBarButton_font.Label = "字体";
-                appBarButton_font.Icon = new SymbolIcon(Symbol.Font);
-                appBarButton_font.Click += AppbarButton_Font_Click;
-            }
-            this.bottomAppBar.PrimaryCommands.Add(appBarButton_font);
+            ////font
+            //if (appBarButton_font == null)
+            //{
+            //    appBarButton_font = new AppBarButton();
+            //    appBarButton_font.Label = "字体";
+            //    appBarButton_font.Icon = new SymbolIcon(Symbol.Font);
+            //    appBarButton_font.Click += AppbarButton_Font_Click;
+            //}
+            //this.bottomAppBar.PrimaryCommands.Add(appBarButton_font);
 
             ////color
             //if (appBarButton_color == null)
@@ -462,10 +464,25 @@ namespace MeiTuTieTie.Pages
             //}
             //this.bottomAppBar.PrimaryCommands.Add(appBarButton_color);
 
+            //ok
+            if (appBarButton_ok == null)
+            {
+                appBarButton_ok = new AppBarButton();
+                appBarButton_ok.Label = "确认";
+                appBarButton_ok.Icon = new SymbolIcon(Symbol.Accept);
+                appBarButton_ok.Click += AppbarButton_TextOK_Click;
+            }
+            this.bottomAppBar.PrimaryCommands.Add(appBarButton_ok);
+
             appBarState = 1;
         }
 
-        private void AppbarButton_OK_Click(object sender, RoutedEventArgs e)
+        private void AppbarButton_TextOK_Click(object sender, RoutedEventArgs e)
+        {
+            
+        }
+
+        private void AppbarButton_OK_Tapped(object sender, TappedRoutedEventArgs e)
         {
             GenerateImage();
         }
@@ -491,6 +508,7 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
+
 
     }
 }

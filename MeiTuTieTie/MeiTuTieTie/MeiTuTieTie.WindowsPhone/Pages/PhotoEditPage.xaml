@@ -96,7 +96,7 @@
     </Page.BottomAppBar>-->
 
     <Grid Background="Gray">
-
+        
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="vsgSizeMenuPopup">
                 <VisualStateGroup.Transitions>
@@ -246,6 +246,7 @@
 
         </Grid>
 
+        <!--app bar-->
         <sharedControl:AppBar>
             <sharedControl:BarButton x:Name="btnOK" Icon="/Assets/Images/AppBar/AppBarOK.png" 
                                      Text="确认" Margin="10,0,10,0"

@@ -5,15 +5,16 @@
     xmlns:controls="using:MeiTuTieTie.Controls" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sharedControl="using:Shared.Control"
     mc:Ignorable="d"
     NavigationCacheMode="Required">
 
     <Page.BottomAppBar>
-        <CommandBar x:Name="bottomAppBar">
+        <CommandBar x:Name="bottomAppBar" >
         </CommandBar>
     </Page.BottomAppBar>
 
-    <Grid>
+    <Grid x:Name="gridRoot">
 
         <Grid x:Name="stagePanel">
             <Grid x:Name="stagePanelForClipping">
@@ -37,14 +38,44 @@
         </StackPanel>
 
         <!--Buttons-->
-        <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+        <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
             <Button Visibility="Collapsed" x:Name="btnPhoto" Content="照片" Click="PickPhoto_Click" />
             <Button Visibility="Visible" x:Name="btnShipin" Content="饰品" Click="Shipin_Click" />
             <Button Visibility="Visible" x:Name="btnText" Content="文字" Click="Text_Click" />
             <Button Visibility="Collapsed" x:Name="btnBiankuang" Content="边框" Click="Biankuang_Click" />
             <Button Visibility="Collapsed" x:Name="btnBeijing" Content="背景" Click="Beijing_Click" />
-        </StackPanel>
+        </StackPanel>-->
+
+        <!--app bar-->
+        <Grid VerticalAlignment="Bottom" Background="#ffe64d4a">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+            <sharedControl:AppBar x:Name="appBar">
+                <sharedControl:BarButton x:Name="btnPhoto" Icon="/Assets/Images/AppBar/AppBarPhoto.png" 
+                                     Text="照片" Margin="10,0,10,0" Visibility="Visible"
+                                     Click="PickPhoto_Click"/>
+                <sharedControl:BarButton x:Name="btnShipin" Icon="/Assets/Images/AppBar/AppBarShipin.png" 
+                                     Text="饰品" Margin="10,0,10,0" Visibility="Visible"
+                                     Click="Shipin_Click"/>
+                <sharedControl:BarButton x:Name="btnText" Icon="/Assets/Images/AppBar/AppBarText.png" 
+                                     Text="文字" Margin="10,0,10,0" Visibility="Visible"
+                                     Click="Text_Click"/>
+                <sharedControl:BarButton x:Name="btnBiankuang" Icon="/Assets/Images/AppBar/AppBarFrame.png" 
+                                     Text="边框" Margin="10,0,10,0" Visibility="Collapsed"
+                                     Click="Biankuang_Click"/>
+                <sharedControl:BarButton x:Name="btnBeijing" Icon="/Assets/Images/AppBar/AppBarBeijing.png" 
+                                     Text="背景" Margin="10,0,10,0" Visibility="Visible"
+                                     Click="Beijing_Click"/>
+            </sharedControl:AppBar>
+            
+            <sharedControl:ContentButton Grid.Column="1" Height="{Binding ActualHeight, ElementName=appBar}"
+                                         Tapped="AppbarButton_OK_Tapped">
+                <Image Source="/Assets/Images/AppBar/AppBarSaveShare.png" Stretch="Uniform"/>
+            </sharedControl:ContentButton>
+        </Grid>
 
     </Grid>
-    
+
 </Page>

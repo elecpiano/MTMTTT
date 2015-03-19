@@ -149,6 +149,12 @@
     <Content Include="Assets\Images\AppBar\AppBarCancel.png" />
     <Content Include="Assets\Images\AppBar\AppBarCrop.png" />
     <Content Include="Assets\Images\AppBar\AppBarOK.png" />
+    <Content Include="Assets\Images\AppBar\AppBarSaveShare.png" />
+    <Content Include="Assets\Images\AppBar\AppBarText.png" />
+    <Content Include="Assets\Images\AppBar\AppBarFrame.png" />
+    <Content Include="Assets\Images\AppBar\AppBarShipin.png" />
+    <Content Include="Assets\Images\AppBar\AppBarPhoto.png" />
+    <Content Include="Assets\Images\AppBar\AppBarBeijing.png" />
     <Content Include="Assets\Images\CheckMark.png" />
     <Content Include="Assets\Images\HomePageBackground.png" />
     <Content Include="Assets\Images\HomePageDailyAD.png" />
