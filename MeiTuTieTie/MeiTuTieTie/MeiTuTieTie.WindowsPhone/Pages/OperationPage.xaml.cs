@@ -162,6 +162,10 @@ namespace MeiTuTieTie.Pages
         private void stageBackground_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             SpriteControl.DismissActiveSprite();
+            
+            VisualStateManager.GoToState(this, "vsColorFontHidden", true);
+            colorListShown = fontListShown = false;
+            
             if (pageType == OperationPageType.Single)
             {
                 VisualStateManager.GoToState(this, "vsSingleModeButtons", false);
@@ -454,13 +458,14 @@ namespace MeiTuTieTie.Pages
             if (colorListShown)
             {
                 VisualStateManager.GoToState(this, "vsColorFontHidden", true);
+                colorListShown = fontListShown = false;
             }
             else
             {
                 VisualStateManager.GoToState(this, "vsColorListShown", true);
+                colorListShown = true;
+                fontListShown = false;
             }
-
-            colorListShown = !colorListShown;
         }
 
         private bool fontListShown = false;
@@ -469,12 +474,14 @@ namespace MeiTuTieTie.Pages
             if (fontListShown)
             {
                 VisualStateManager.GoToState(this, "vsColorFontHidden", true);
+                colorListShown = fontListShown = false;
             }
             else
             {
                 VisualStateManager.GoToState(this, "vsFontListShown", true);
+                fontListShown = true;
+                colorListShown = false;
             }
-            fontListShown = !fontListShown;
         }
 
         private void InitColorFontList()
