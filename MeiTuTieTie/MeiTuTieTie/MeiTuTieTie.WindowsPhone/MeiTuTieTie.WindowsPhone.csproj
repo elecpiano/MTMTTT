@@ -146,6 +146,8 @@
     <Content Include="Assets\Images\AboutLogo.png" />
     <Content Include="Assets\ImageSwitch\SwitchKnob.png" />
     <Content Include="Assets\Images\AppBar\AppBarAccept.png" />
+    <Content Include="Assets\Images\AppBar\AppBarCancel.png" />
+    <Content Include="Assets\Images\AppBar\AppBarCrop.png" />
     <Content Include="Assets\Images\AppBar\AppBarOK.png" />
     <Content Include="Assets\Images\CheckMark.png" />
     <Content Include="Assets\Images\HomePageBackground.png" />

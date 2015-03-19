@@ -310,7 +310,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="sharedControl:AppBar">
-                    <Grid Background="#ffff7e7e" Height="60">
+                    <Grid Background="#ffff7e7e" Height="72">
                         <ItemsPresenter/>
                     </Grid>
                 </ControlTemplate>
@@ -326,7 +326,7 @@
                         <sharedControl:ContentButton>
                             <Image Source="{TemplateBinding Icon}" Height="40" Width="40" Stretch="Uniform"/>
                         </sharedControl:ContentButton>
-                        <TextBlock Text="{TemplateBinding Text}" FontSize="12" Foreground="#ffffffff" HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                        <TextBlock Text="{TemplateBinding Text}" FontSize="12" Foreground="#ffffffff" HorizontalAlignment="Center" Margin="0,4,0,-8"/>
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>

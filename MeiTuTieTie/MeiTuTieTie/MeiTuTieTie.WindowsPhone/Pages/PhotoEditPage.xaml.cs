@@ -58,6 +58,10 @@ namespace MeiTuTieTie.Pages
 
                 //prepare for crop
                 PreapreWritableBitmap(stream, bi);
+
+                //highlight selected crop ratio
+                selectedText = menuItem_origin;
+                selectedText.Foreground = selectedBrush;
             }
         }
 
@@ -479,46 +483,59 @@ namespace MeiTuTieTie.Pages
             }
         }
 
-        private void selectedSize_Tapped(object sender, TappedRoutedEventArgs e)
-        {
-            if (sizeMenuPopupShown)
-            {
-                HideSizeMenuPopup();
-            }
-            else
-            {
-                ShowSizeMenuPopup();
-            }
-        }
+        //private void selectedSize_Tapped(object sender, TappedRoutedEventArgs e)
+        //{
+        //    if (sizeMenuPopupShown)
+        //    {
+        //        HideSizeMenuPopup();
+        //    }
+        //    else
+        //    {
+        //        ShowSizeMenuPopup();
+        //    }
+        //}
 
+        SolidColorBrush selectedBrush = new SolidColorBrush(Color.FromArgb(255, 255, 126, 126));// #ffff7e7e
+        SolidColorBrush unselectedBrush = new SolidColorBrush(Color.FromArgb(255, 45, 45, 45));// #ff2d2d2d
+        TextBlock selectedText = null;
+        
         private void sizeMenuItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
             string tag = (sender as FrameworkElement).Tag.ToString();
             currentRatioType = tag;
 
+            selectedText.Foreground = unselectedBrush;
+
             switch (tag)
             {
                 case "origin":
-                    selectedSizeText.Text = "原图";
+                    selectedText = menuItem_origin;
+                    //selectedSizeText.Text = "原图";
                     break;
                 case "fitApp":
                     currentRatio = Window.Current.Bounds.Width / Window.Current.Bounds.Height;
-                    selectedSizeText.Text = "适应软件";
+                    selectedText = menuItem_fitApp;
+                    //selectedSizeText.Text = "适应软件";
                     break;
                 case "arbitrary":
-                    selectedSizeText.Text = "任意";
+                    selectedText = menuItem_arbitrary;
+                    //selectedSizeText.Text = "任意";
                     break;
                 case "1x1":
                     currentRatio = 1d;
-                    selectedSizeText.Text = "1X1";
+                    selectedText = menuItem_1x1;
+                    //selectedSizeText.Text = "1X1";
                     break;
                 case "3x4":
                     currentRatio = 0.75d;
-                    selectedSizeText.Text = "3X4";
+                    selectedText = menuItem_3x4;
+                    //selectedSizeText.Text = "3X4";
                     break;
                 default:
                     break;
             }
+
+            selectedText.Foreground = selectedBrush;
 
             //reset clip area
             if (tag == "origin")
@@ -559,6 +576,16 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
+
+        private void crop_Click(object sender, RoutedEventArgs e)
+        {
+            ShowSizeMenuPopup();
+        }
+
+        private void cancelCrop_Click(object sender, RoutedEventArgs e)
+        {
+            HideSizeMenuPopup();
+        }
 
 
     }
