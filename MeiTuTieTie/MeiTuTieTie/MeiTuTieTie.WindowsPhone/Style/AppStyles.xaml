@@ -55,7 +55,7 @@
         <Setter Property="FontSize" Value="40"/>
         <Setter Property="FontWeight" Value="Normal"/>
         <Setter Property="Foreground" Value="#ffff7e7e"/>
-        <Setter Property="Margin" Value="16,36,0,0"/>
+        <Setter Property="Margin" Value="16,24,0,24"/>
     </Style>
 
     <!--toggle switch-->
@@ -667,5 +667,30 @@
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="0,0,0,0"/>
     </Style>
+    
+    <!--export page-->
+    <Style x:Key="ExportPage_SaveSuccess_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
+        <Setter Property="FontSize" Value="26"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="#ff2d2d2d"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="10,0,0,0"/>
+    </Style>
+
+    <Style x:Key="ExportPage_Tip_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="#ff808080"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="ExportPage_ShareText_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
+        <Setter Property="FontSize" Value="22"/>
+        <Setter Property="FontWeight" Value="Normal"/>
+        <Setter Property="Foreground" Value="#ff2d2d2d"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="10,0,0,0"/>
+    </Style>
+
 
 </ResourceDictionary>

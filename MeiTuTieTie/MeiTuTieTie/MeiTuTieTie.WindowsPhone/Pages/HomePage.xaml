@@ -87,10 +87,10 @@
 
         </Grid>
 
-        <StackPanel Background="White" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="100" Grid.RowSpan="100">
+        <!--<StackPanel Background="White" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="100" Grid.RowSpan="100">
             <TextBlock Text="{Binding}" Foreground="Red" FontSize="32" Margin="10" DataContext="{StaticResource ScreenWidth}" />
             <TextBlock Text="{Binding}" Foreground="Red" FontSize="32" Margin="10" DataContext="{StaticResource ScreenHeight}" />
-        </StackPanel>
+        </StackPanel>-->
 
         <!--<Rectangle Fill="Blue" HorizontalAlignment="Left" Height="50" Width="384"/>
         <Rectangle Fill="Blue" VerticalAlignment="Top" Height="640" Width="50"/>-->

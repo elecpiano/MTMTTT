@@ -30,7 +30,7 @@
             <ScrollViewer Grid.Row="1">
                 <StackPanel Margin="16,0,16,0">
                     <Image HorizontalAlignment="Left" Width="140" 
-                           Stretch="Uniform" Margin="0,24,0,0"
+                           Stretch="Uniform" Margin="0,0,0,0"
                            Source="/Assets/Images/AboutLogo.png"/>
                     <TextBlock Text="美图贴贴" Margin="0,16,0,0" Style="{StaticResource Settings_ItemText_Style}"/>
                     <TextBlock Margin="0,4,0,0" Style="{StaticResource AboutPage_Version_Style}">

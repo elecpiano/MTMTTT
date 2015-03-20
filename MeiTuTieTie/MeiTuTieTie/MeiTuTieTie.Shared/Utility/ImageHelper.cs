@@ -61,6 +61,61 @@ namespace Shared.Utility
             }
         }
 
+        public static async Task<Stream> SaveBitmapToLocal(RenderTargetBitmap renderTargetBitmap, string fileName, bool returnStream = false)
+        {
+            DisplayInformation di = DisplayInformation.GetForCurrentView();
+            var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
+
+            // Encode the image to file
+            StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
+            var file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+            using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+            {
+                var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegXREncoderId, stream);
+
+                encoder.SetPixelData(
+                    BitmapPixelFormat.Bgra8,
+                    BitmapAlphaMode.Ignore,
+                    (uint)renderTargetBitmap.PixelWidth,
+                    (uint)renderTargetBitmap.PixelHeight,
+                    di.LogicalDpi,
+                    di.LogicalDpi,
+                    pixelBuffer.ToArray());
+
+                await encoder.FlushAsync();
+            }
+
+            if (returnStream)
+            {
+                var resultStream = await folder.OpenStreamForReadAsync(fileName);
+                return resultStream;
+            }
+            return null;
+        }
+
+        public static async Task<IRandomAccessStream> BitmapToStream(RenderTargetBitmap renderTargetBitmap)
+        {
+            DisplayInformation di = DisplayInformation.GetForCurrentView();
+            var pixelBuffer = await renderTargetBitmap.GetPixelsAsync();
+
+            // Encode the image to file
+            IRandomAccessStream stream = new MemoryStream().AsRandomAccessStream();
+            var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegXREncoderId, stream);
+
+            encoder.SetPixelData(
+                BitmapPixelFormat.Bgra8,
+                BitmapAlphaMode.Ignore,
+                (uint)renderTargetBitmap.PixelWidth,
+                (uint)renderTargetBitmap.PixelHeight,
+                di.LogicalDpi,
+                di.LogicalDpi,
+                pixelBuffer.ToArray());
+
+            await encoder.FlushAsync();
+
+            return stream;
+        }
+
         public static async void CaptureToMediaLibrary(FrameworkElement uiElement, string fileName, double expectedWidth)
         {
             double scale = 1.0d;

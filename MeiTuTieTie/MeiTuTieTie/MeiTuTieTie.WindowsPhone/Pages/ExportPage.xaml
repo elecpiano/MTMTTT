@@ -20,52 +20,49 @@
         </Grid.RowDefinitions>
 
         <!--page title-->
-        <Grid Grid.Row="0" Style="{StaticResource PageTitlePanel_Style}">
-            <TextBlock Text="保存与分享" Style="{StaticResource PageTitle_Style}"/>
-        </Grid>
+        <TextBlock Text="保存与分享" Style="{StaticResource PageTitle_Style}"/>
 
-        <StackPanel Grid.Row="1">
-            <Grid>
-                <Grid x:Name="saveButtonPanel" Visibility="Collapsed">
-                    <Grid Background="LightGreen" Tapped="saveButton_Tapped"> 
-                        <TextBlock Text="保存到相册" 
+        <ScrollViewer Grid.Row="1">
+            <StackPanel Margin="16,0,16,0">
+                <Grid Height="36">
+                    <StackPanel x:Name="saveResultPanel" Orientation="Horizontal" Visibility="Collapsed">
+                        <Image Width="36" Stretch="Uniform" Source="/Assets/Images/SaveSuccess.png"/>
+                        <TextBlock Text="照片已保存到相册" Style="{StaticResource ExportPage_SaveSuccess_Style}"/>
+                    </StackPanel>
+                    <Grid x:Name="saveButtonPanel" Visibility="Collapsed">
+                        <Grid Background="LightGreen" Tapped="saveButton_Tapped">
+                            <TextBlock Text="保存到相册" 
                                    Style="{StaticResource TextBlockBase}"
                                    HorizontalAlignment="Center" VerticalAlignment="Center"
                                    Foreground="White" FontSize="32"/>
+                        </Grid>
                     </Grid>
                 </Grid>
+                
+                <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                    <sharedControl:ContentButton Margin="0,0,16,0" Tapped="moreApp_Tapped" Tag="meitu">
+                        <Image Width="100" Stretch="Uniform" Source="/Assets/Images/MeiTu.png"/>
+                    </sharedControl:ContentButton>
+                    <sharedControl:ContentButton Margin="0,0,16,0" Tapped="moreApp_Tapped" Tag="meiyan">
+                        <Image Width="100" Stretch="Uniform" Source="/Assets/Images/MeiYan.png"/>
+                    </sharedControl:ContentButton>
+                </StackPanel>
+                
 
-                <Grid x:Name="saveResultPanel" Visibility="Collapsed">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <Image Source="/Assets/Images/CheckMark.png" Stretch="Uniform" Width="64" Height="64" />
-                    <TextBlock Grid.Column="1" Text="已保存到相册" Style="{StaticResource TextBlockBase}" 
-                               FontSize="24" VerticalAlignment="Center" Foreground="#ff000000"/>
-                </Grid>
-            </Grid>
+                <!--subtitle-->
+                <TextBlock Style="{StaticResource ExportPage_Tip_Style}" 
+                               Text="直接用美图贴贴分享，画质更好哦！" Margin="0,40,0,0"/>
 
-            <!--subtitle-->
-            <Grid Style="{StaticResource Settings_GroupHeaderPanel_Style}">
-                <TextBlock Text="直接用美图贴贴分享，画质更好哦！" Style="{StaticResource Settings_GroupTitle_Style}" FontSize="20" HorizontalAlignment="Center"/>
-            </Grid>
+                <!--share buttons-->
+                <sharedControl:ContentButton Margin="0,16,0,0" Tapped="shareToSNS_Tapped" Tag="weibo">
+                    <StackPanel Orientation="Horizontal" Background="#00000000">
+                        <Image Stretch="Uniform" Width="48" Source="/Assets/Images/SNS/SinaWeibo.png"/>
+                        <TextBlock Style="{StaticResource ExportPage_ShareText_Style}" Text="分享到新浪微博"/>
+                    </StackPanel>
+                </sharedControl:ContentButton>
 
-            <!--share buttons-->
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-
-                <Button Content="Wechat" Click="wechat_Click"/>
-            </Grid>
-
-        </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
 
     </Grid>
 </Page>

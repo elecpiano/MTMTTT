@@ -51,7 +51,6 @@ namespace Shared.Utility
             return file;
         }
 
-
         public static async Task<StorageFolder> GetFolderAsync(string folderName)
         {
             //if (!folderName.StartsWith(USER_DATA_FOLDER_NAME + "\\"))

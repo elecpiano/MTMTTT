@@ -3,19 +3,13 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Shared.Utility;
-using Shared.Model;
 using Windows.UI.Xaml.Navigation;
 using Shared.Global;
-using Shared.Animation;
-using Windows.UI.Xaml.Media.Animation;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Shared.Control;
-using Windows.UI.Xaml.Media;
-using Windows.UI;
 using Windows.UI.Xaml.Media.Imaging;
 using System;
+using Shared.SNS;
+using System.IO;
+using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace MeiTuTieTie.Pages
 {
@@ -68,9 +62,32 @@ namespace MeiTuTieTie.Pages
 
         #region Share
 
-        private void wechat_Click(object sender, RoutedEventArgs e)
-        {
+        string shareText = "#美图贴贴Windows Phone版#";
 
+        private void shareToSNS_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            string tag = (sender as FrameworkElement).Tag.ToString();
+            switch (tag)
+            {
+                case "weibo":
+                    ShareToWeibo();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private async void ShareToWeibo()
+        {
+            string fileName = "TempShareWeibo";
+            var stream = await ImageHelper.SaveBitmapToLocal(bitmap, fileName, true);
+
+            ////var stream = await ImageHelper.BitmapToStream(bitmap);
+            //var buffer = await bitmap.GetPixelsAsync();
+            //var arr = buffer.ToArray();
+            //MemoryStream ms = new MemoryStream(arr);
+
+            WeiboHelper.Share(stream, shareText);
         }
 
         #endregion
@@ -99,6 +116,31 @@ namespace MeiTuTieTie.Pages
         {
             autoSave = App.CurrentInstance.GetSetting<bool>(Constants.KEY_AUTO_SAVE, false);
             saveButtonPanel.Visibility = autoSave ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        #endregion
+
+        #region Store
+
+        private const string AppID_meitu = "fd7fcb4d-122c-45cd-952a-efb3a1293963";
+        private const string AppID_meiyan = "fb760ab1-fb6d-4145-9c99-3baaf45f2581";
+
+        private void OpenStore(string appid)
+        {
+            Windows.System.Launcher.LaunchUriAsync(new Uri(string.Format("ms-windows-store:navigate?appid={0}", appid)));
+        }
+
+        private void moreApp_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            string tag = (sender as FrameworkElement).Tag.ToString();
+            if (tag == "meitu")
+            {
+                OpenStore(AppID_meitu);
+            }
+            else if (tag == "meiyan")
+            {
+                OpenStore(AppID_meiyan);
+            }
         }
 
         #endregion
