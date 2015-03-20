@@ -211,7 +211,7 @@ namespace MeiTuTieTie.Pages
             int index = 0;
             int maxIndex = list.Count - 1;
             Triplet<Material> triplet = null;
-            while (index < maxIndex)
+            while (index <= maxIndex)
             {
                 var column = index % 3;
                 if (column == 0)
@@ -250,8 +250,6 @@ namespace MeiTuTieTie.Pages
             App.CurrentInstance.MaterialSelectedBy = this.pageType;
             navigationHelper.GoBack();
         }
-
-
 
     }
 

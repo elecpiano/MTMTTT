@@ -50,10 +50,10 @@
             <sharedControl:ContentButton Grid.Row="2" Grid.Column="3" Tapped="multiPhoto_Tapped">
                 <Image Source="/Assets/Images/HomePageMultiPhoto.png" Stretch="Uniform" />
             </sharedControl:ContentButton>
-            <sharedControl:ContentButton Grid.Row="4" Grid.Column="1" Tapped="boutique_Tapped" >
+            <sharedControl:ContentButton Grid.Row="4" Grid.Column="1" Tapped="boutique_Tapped" Visibility="Visible">
                 <Image Source="/Assets/Images/HomePageMultiPhoto.png" Stretch="Uniform" />
             </sharedControl:ContentButton>
-            <sharedControl:ContentButton Grid.Row="4" Grid.Column="3" Tapped="test_Tapped">
+            <sharedControl:ContentButton Grid.Row="4" Grid.Column="3" Tapped="test_Tapped" Visibility="Collapsed">
                 <Image Source="/Assets/Images/HomePageMultiPhoto.png" Stretch="Uniform" />
             </sharedControl:ContentButton>
 

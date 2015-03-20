@@ -1,4 +1,5 @@
 ﻿using Shared.Enum;
+using Shared.Global;
 using Shared.Model;
 using Shared.Utility;
 using System;
@@ -12,11 +13,9 @@ using Windows.Data.Xml.Dom;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
-using Windows.UI;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
@@ -66,9 +65,14 @@ namespace MeiTuTieTie.Pages
             Frame.Navigate(typeof(BoutiquePage));
         }
 
-        private void more_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        private void dailyAD_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            Frame.Navigate(typeof(TestPage1));
+            InitMaterials();
+        }
+
+        private void test_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            //this.Frame.Navigate(typeof(TestPage1));
         }
 
         #endregion
@@ -288,16 +292,75 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
-        private void dailyAD_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
+        #region Built in materials
 
+        bool builtInMaterialInited = false;
+
+        private async void InitMaterials()
+        {
+            builtInMaterialInited = App.CurrentInstance.GetSetting<bool>(Constants.KEY_BUILT_IN_MATERIAL_INITED, false);
+            if (!builtInMaterialInited)
+            {
+                //copy files
+                List<string> files = new List<string>();
+
+                files.Add("theme/my_theme_data.txt");
+                files.Add("theme/0/beijing_00.jpg");
+                files.Add("theme/0/beijing_01.jpg");
+                files.Add("theme/0/beijing_02.jpg");
+                files.Add("theme/0/biankuang_01.png");
+                files.Add("theme/0/biankuang_02.png");
+                files.Add("theme/0/biankuang_03.png");
+                files.Add("theme/0/gaoxiaobiaoqing_01.png");
+                files.Add("theme/0/gaoxiaobiaoqing_02.png");
+                files.Add("theme/0/gaoxiaobiaoqing_03.png");
+                files.Add("theme/0/katongxingxiang_01.png");
+                files.Add("theme/0/katongxingxiang_02.png");
+                files.Add("theme/0/katongxingxiang_03.png");
+                files.Add("theme/0/keai_01.png");
+                files.Add("theme/0/keai_02.png");
+                files.Add("theme/0/keai_03.png");
+                files.Add("theme/0/thumbnail_beijing_00.png");
+                files.Add("theme/0/thumbnail_beijing_01.png");
+                files.Add("theme/0/thumbnail_beijing_02.png");
+                files.Add("theme/0/thumbnail_biankuang_01.png");
+                files.Add("theme/0/thumbnail_biankuang_02.png");
+                files.Add("theme/0/thumbnail_biankuang_03.png");
+                files.Add("theme/0/thumbnail_gaoxiaobiaoqing_01.png");
+                files.Add("theme/0/thumbnail_gaoxiaobiaoqing_02.png");
+                files.Add("theme/0/thumbnail_gaoxiaobiaoqing_03.png");
+                files.Add("theme/0/thumbnail_katongxingxiang_01.png");
+                files.Add("theme/0/thumbnail_katongxingxiang_02.png");
+                files.Add("theme/0/thumbnail_katongxingxiang_03.png");
+                files.Add("theme/0/thumbnail_keai_01.png");
+                files.Add("theme/0/thumbnail_keai_02.png");
+                files.Add("theme/0/thumbnail_keai_03.png");
+                files.Add("theme/0/thumbnail_wenzi_01.png");
+                files.Add("theme/0/thumbnail_wenzi_02.png");
+                files.Add("theme/0/thumbnail_wenzi_03.png");
+                files.Add("theme/0/thumbnail_zhedang_01.png");
+                files.Add("theme/0/thumbnail_zhedang_02.png");
+                files.Add("theme/0/thumbnail_zhedang_03.png");
+                files.Add("theme/0/wenzi_01.png");
+                files.Add("theme/0/wenzi_02.png");
+                files.Add("theme/0/wenzi_03.png");
+                files.Add("theme/0/zhedang_01.png");
+                files.Add("theme/0/zhedang_02.png");
+                files.Add("theme/0/zhedang_03.png");
+                files.Add("theme/0/material_data.txt");
+
+                foreach (var file in files)
+                {
+                    await IsolatedStorageHelper.CopyContentFileToLocalFolder(file);
+                }
+
+                ////update settings
+                //builtInMaterialInited = true;
+                //App.CurrentInstance.UpdateSetting(Constants.KEY_BUILT_IN_MATERIAL_INITED, builtInMaterialInited);
+            }
         }
 
-        private void test_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(TestPage1));
-        }
-
+        #endregion
 
     }
 }

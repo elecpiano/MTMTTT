@@ -120,6 +120,42 @@ namespace Shared.Utility
             }
         }
 
+        public static async Task WriteToFileAsync(string filePath, IRandomAccessStream sourceStream)
+        {
+            // Get the local folder.
+            StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+
+            // Create a new file
+            var file = await local.CreateFileAsync(filePath, CreationCollisionOption.ReplaceExisting);
+
+            // Write the data
+            using (var stream = await file.OpenAsync(FileAccessMode.ReadWrite))
+            {
+                using (DataWriter writer = new DataWriter(stream))
+                {
+                    byte[] buffer = new byte[sourceStream.Size];
+                    await sourceStream.AsStreamForRead().ReadAsync(buffer, 0, (int)sourceStream.Size);
+                    writer.WriteBytes(buffer);
+                    await writer.StoreAsync();
+                }
+            }
+        }
+
+        public static async Task CopyContentFileToLocalFolder(string path)
+        {
+            string[] arr = path.Split('/');
+            string fileName = string.Empty;
+            for (int i = arr.Length; i > 0; i--)
+            {
+                fileName = Path.Combine(arr[i-1], fileName);
+            }
+
+            string uri = "ms-appx:///" + path;
+            var rass = RandomAccessStreamReference.CreateFromUri(new Uri(uri, UriKind.RelativeOrAbsolute));
+            IRandomAccessStream stream = await rass.OpenReadAsync();
+            await IsolatedStorageHelper.WriteToFileAsync(fileName, stream);
+        }
+
         public static async Task<string> ReadFileAsync(string filePath)
         {
             //if (!filePath.StartsWith(USER_DATA_FOLDER_NAME + "\\"))

@@ -20,6 +20,7 @@ namespace Shared.Global
         public const string KEY_EXPORT_WIDTH = "key_export_width";
         public const string KEY_AUTO_SAVE = "key_auto_save";
         public const string KEY_SFX = "key_sfx";
+        public const string KEY_BUILT_IN_MATERIAL_INITED = "key_built_in_material_inited";
 
     }
 }
