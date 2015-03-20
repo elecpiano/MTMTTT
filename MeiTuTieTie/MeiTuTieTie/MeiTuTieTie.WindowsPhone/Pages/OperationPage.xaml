@@ -346,7 +346,7 @@
             <Grid.RenderTransform>
                 <CompositeTransform/>
             </Grid.RenderTransform>
-            <ListBox x:Name="colorListBox" 
+            <ListBox x:Name="colorListBox" SelectionChanged="colorListBox_SelectionChanged"
                      ItemContainerStyle="{StaticResource ColorListBoxItemContainerStyle}" 
                      Style="{StaticResource ColorListBoxStyle}">
                 <ItemsControl.ItemTemplate>
@@ -361,7 +361,7 @@
             <Grid.RenderTransform>
                 <CompositeTransform/>
             </Grid.RenderTransform>
-            <ListBox x:Name="fontListBox" 
+            <ListBox x:Name="fontListBox" SelectionChanged="fontListBox_SelectionChanged"
                      ItemContainerStyle="{StaticResource ColorListBoxItemContainerStyle}" 
                      Style="{StaticResource ColorListBoxStyle}">
                 <ItemsControl.ItemTemplate>

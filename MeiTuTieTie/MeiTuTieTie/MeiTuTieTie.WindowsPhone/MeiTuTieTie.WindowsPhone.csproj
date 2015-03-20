@@ -98,9 +98,6 @@
       <DependentUpon>FeedbackPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\IFileOpenPickerPageBase.cs" />
-    <Compile Include="Pages\FontPage.xaml.cs">
-      <DependentUpon>FontPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\SettingsPage.xaml.cs">
       <DependentUpon>SettingsPage.xaml</DependentUpon>
     </Compile>
@@ -209,10 +206,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\FeedbackPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\FontPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

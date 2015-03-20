@@ -71,10 +71,10 @@ namespace MeiTuTieTie.Pages
                 {
                     MaterialToSprite();
                 }
-                else if (!string.IsNullOrEmpty(App.CurrentInstance.SelectedFont) || App.CurrentInstance.SelectedTextColor != null)
-                {
-                    SetFont();
-                }
+                //else if (!string.IsNullOrEmpty(App.CurrentInstance.SelectedFont) || App.CurrentInstance.SelectedTextColor != null)
+                //{
+                //    SetFont();
+                //}
             }
 
         }
@@ -162,10 +162,10 @@ namespace MeiTuTieTie.Pages
         private void stageBackground_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             SpriteControl.DismissActiveSprite();
-            
+
             VisualStateManager.GoToState(this, "vsColorFontHidden", true);
             colorListShown = fontListShown = false;
-            
+
             if (pageType == OperationPageType.Single)
             {
                 VisualStateManager.GoToState(this, "vsSingleModeButtons", false);
@@ -422,36 +422,6 @@ namespace MeiTuTieTie.Pages
             });
         }
 
-        //private void SetFontColorPanelVisibility(bool visible)
-        //{
-        //    fontColorPanel.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
-
-        //    double keyboardHeight = 0d;
-        //    var deviceWidth = this.ActualWidth;
-        //    var isHdDevice = (deviceWidth > 500 ? true : false);
-        //    if (isHdDevice)
-
-        //        keyboardHeight = 540;
-        //    else
-        //        keyboardHeight = 336;
-        //    keyboardPlaceholder.Height = keyboardHeight;
-        //}
-
-        private void SetFont()
-        {
-            if (!string.IsNullOrEmpty(App.CurrentInstance.SelectedFont))
-            {
-                //selectedSpriteText.Font = new FontFamily(@"ms-appx:/Assets/Fonts/SHOWG.TTF#Showcard Gothic");
-                selectedSpriteText.Font = new FontFamily(App.CurrentInstance.SelectedFont);
-                App.CurrentInstance.SelectedFont = string.Empty;
-            }
-            if (App.CurrentInstance.SelectedTextColor != null)
-            {
-                selectedSpriteText.TextColor = App.CurrentInstance.SelectedTextColor;
-                App.CurrentInstance.SelectedTextColor = null;
-            }
-        }
-
         private bool colorListShown = false;
         private void color_Click(object sender, RoutedEventArgs e)
         {
@@ -513,6 +483,39 @@ namespace MeiTuTieTie.Pages
             }
         }
 
+        private void colorListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems != null && e.AddedItems.Count == 1)
+            {
+                string hex = e.AddedItems[0].ToString();
+                selectedSpriteText.TextColor = ColorUtil.GetBrushFromHex(hex);
+            }
+        }
+
+        private void fontListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems != null && e.AddedItems.Count == 1)
+            {
+                string font = e.AddedItems[0].ToString();
+                selectedSpriteText.Font = new FontFamily(font);
+            }
+        }
+
+        //private void SetFont()
+        //{
+        //    if (!string.IsNullOrEmpty(App.CurrentInstance.SelectedFont))
+        //    {
+        //        //selectedSpriteText.Font = new FontFamily(@"ms-appx:/Assets/Fonts/SHOWG.TTF#Showcard Gothic");
+        //        selectedSpriteText.Font = new FontFamily(App.CurrentInstance.SelectedFont);
+        //        App.CurrentInstance.SelectedFont = string.Empty;
+        //    }
+        //    if (App.CurrentInstance.SelectedTextColor != null)
+        //    {
+        //        selectedSpriteText.TextColor = App.CurrentInstance.SelectedTextColor;
+        //        App.CurrentInstance.SelectedTextColor = null;
+        //    }
+        //}
+
         #endregion
 
         #region AppBar
@@ -566,13 +569,9 @@ namespace MeiTuTieTie.Pages
             GenerateImage();
         }
 
-        void AppbarButton_Font_Click(object sender, RoutedEventArgs e)
-        {
-            this.Frame.Navigate(typeof(FontPage));
-        }
-
-        //void AppbarButton_Color_Click(object sender, RoutedEventArgs e)
+        //void AppbarButton_Font_Click(object sender, RoutedEventArgs e)
         //{
+        //    this.Frame.Navigate(typeof(FontPage));
         //}
 
         #endregion
@@ -587,6 +586,8 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
+
+
 
 
     }

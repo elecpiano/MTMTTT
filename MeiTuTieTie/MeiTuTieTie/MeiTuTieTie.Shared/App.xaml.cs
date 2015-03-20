@@ -208,8 +208,8 @@ namespace MeiTuTieTie
 
         public WidgetPageType MaterialSelectedBy { get; set; }// = WidgetPageType.Shipin;
 
-        public string SelectedFont { get; set; }
-        public Brush SelectedTextColor { get; set; }
+        //public string SelectedFont { get; set; }
+        //public Brush SelectedTextColor { get; set; }
 
         #endregion
 

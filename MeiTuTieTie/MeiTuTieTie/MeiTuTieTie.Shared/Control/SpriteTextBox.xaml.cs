@@ -40,7 +40,7 @@ namespace Shared.Control
             get { return textBox.Foreground; }
             set
             {
-                textBox.Foreground = value;
+                //textBox.Foreground = value;
                 textBoxVisual.Foreground = value;
             }
         }
