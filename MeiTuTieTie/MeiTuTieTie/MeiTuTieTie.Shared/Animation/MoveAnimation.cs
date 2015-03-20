@@ -86,6 +86,13 @@ namespace Shared.Animation
             _Storyboard.Children.Add(_Animation_Y);
         }
 
+        public static void SetPosition(FrameworkElement cell, double x, double y)
+        {
+            EnsureTransform(cell);
+            cell.RenderTransform.SetValue(CompositeTransform.TranslateXProperty, x);
+            cell.RenderTransform.SetValue(CompositeTransform.TranslateYProperty, y);
+        }
+
         public static MoveAnimation MoveTo(FrameworkElement cell,
             double x, double y,
             double duration,
@@ -103,14 +110,6 @@ namespace Shared.Animation
             }
             animation.InstanceMoveTo(cell, x, y, duration, easing, completed);
             return animation;
-        }
-
-        public static void MoveTo(FrameworkElement cell, double x, double y)
-        {
-            EnsureTransform(cell);
-
-            cell.RenderTransform.SetValue(CompositeTransform.TranslateXProperty, x);
-            cell.RenderTransform.SetValue(CompositeTransform.TranslateYProperty, y);
         }
 
         public static MoveAnimation MoveBy(FrameworkElement cell,
@@ -143,7 +142,7 @@ namespace Shared.Animation
             var fromY = transform.TranslateY;
             var toY = fromY + y;
 
-            MoveTo(cell, toX, toY);
+            SetPosition(cell, toX, toY);
         }
 
         public static MoveAnimation MoveFromTo(FrameworkElement cell,
@@ -193,8 +192,7 @@ namespace Shared.Animation
         {
             EnsureTransform(cell);
 
-            cell.RenderTransform.SetValue(CompositeTransform.TranslateXProperty, from_x);
-            cell.RenderTransform.SetValue(CompositeTransform.TranslateYProperty, from_y);
+            SetPosition(cell, from_x, from_y);
             this.InstanceMoveTo(cell, to_x, to_y, duration, easing, completed);
         }
 
@@ -244,8 +242,7 @@ namespace Shared.Animation
 
         private void _Storyboard_Completed(object sender, object e)
         {
-            AnimationTarget.RenderTransform.SetValue(CompositeTransform.TranslateXProperty, TargetX);
-            AnimationTarget.RenderTransform.SetValue(CompositeTransform.TranslateYProperty, TargetY);
+            SetPosition(AnimationTarget, TargetX, TargetY);
 
             if (AnimationCompleted != null)
             {

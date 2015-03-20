@@ -202,7 +202,7 @@ namespace Shared.Control
                 }
                 else
                 {
-                    MoveAnimation.MoveTo(knob, pos_x, 0);
+                    MoveAnimation.SetPosition(knob, pos_x, 0);
                 }
             }
         }

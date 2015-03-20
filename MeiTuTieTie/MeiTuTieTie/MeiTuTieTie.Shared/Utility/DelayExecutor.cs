@@ -9,7 +9,7 @@ namespace Shared.Utility
     {
         private static DispatcherTimer timer = null;
 
-        public static void Delay(double delayMilliseconds,Action action)
+        public static void Delay(double delayMilliseconds, Action action)
         {
 
             if (timer == null)
@@ -21,9 +21,10 @@ namespace Shared.Utility
             timer.Tick += (ss, ee) =>
             {
                 timer.Stop();
-                if (action!=null)
+                if (action != null)
                 {
                     action();
+                    action = null;
                 }
             };
             timer.Start();

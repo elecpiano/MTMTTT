@@ -117,6 +117,7 @@ namespace MeiTuTieTie.Pages
 
             SpriteControl.Initialize(stage);
             SpriteControl.OnSelected += Sprite_OnSelected;
+            SpriteControl.OnRemoved += Sprite_OnRemoved;
 
             InitColorFontList();
 
@@ -196,8 +197,11 @@ namespace MeiTuTieTie.Pages
 
         #region Load Photo
 
+        private bool initialPick = true;
+
         private void PickPhoto_Click(object sender, RoutedEventArgs e)
         {
+            SpriteControl.DismissActiveSprite();
             PickPhotos();
         }
 
@@ -217,18 +221,32 @@ namespace MeiTuTieTie.Pages
             if (args.ContinuationData.ContainsKey(Continuation_Key_Operation)
                 && args.ContinuationData[Continuation_Key_Operation].ToString() == Continuation_OperationPage_PickPhotos)
             {
-                foreach (var file in args.Files)
+                if (initialPick && args.Files.Count == 0)
                 {
-                    IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
-                    BitmapImage bi = new BitmapImage();
-                    bi.SetSource(stream);
-
-                    //sprite
-                    SpriteControl sprite = new SpriteControl(SpriteType.Photo);
-                    sprite.SetImage(bi);
-                    sprites.Add(sprite);
-                    sprite.AddToContainer();
+                    navigationHelper.GoBack();
                 }
+                else
+                {
+                    initialPick = false;
+                    //AddPhotosToStage(args);
+                    DelayExecutor.Delay(200d, () => AddPhotosToStage(args));
+                }
+            }
+        }
+
+        private async void AddPhotosToStage(FileOpenPickerContinuationEventArgs args)
+        {
+            foreach (var file in args.Files)
+            {
+                IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
+                BitmapImage bi = new BitmapImage();
+                bi.SetSource(stream);
+
+                //sprite
+                SpriteControl sprite = new SpriteControl(SpriteType.Photo);
+                sprite.SetImage(bi);
+                sprites.Add(sprite);
+                sprite.AddToContainer();
             }
         }
 
@@ -403,6 +421,22 @@ namespace MeiTuTieTie.Pages
                 }
             }
         }
+
+        void Sprite_OnRemoved(object sender, EventArgs e)
+        {
+            SpriteControl sprite = sender as SpriteControl;
+            if (sprite.SpriteType == SpriteType.Text)
+            {
+                if (pageType == OperationPageType.Single)
+                {
+                    VisualStateManager.GoToState(this, "vsSingleModeButtons", false);
+                }
+                else if (pageType == OperationPageType.Multi)
+                {
+                    VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
+                }
+            }
+         }
 
         void sprite_EditingStarted(object sender, EventArgs e)
         {
@@ -586,9 +620,6 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
-
-
-
 
     }
 }

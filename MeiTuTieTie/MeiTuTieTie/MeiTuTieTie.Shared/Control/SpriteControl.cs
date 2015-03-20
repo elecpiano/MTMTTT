@@ -10,6 +10,7 @@ using Windows.UI.Xaml.Shapes;
 using Windows.UI;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Media.Animation;
+using MeiTuTieTie;
 
 namespace Shared.Control
 {
@@ -274,7 +275,7 @@ namespace Shared.Control
 
             //LTPoint
             LTPoint = new Ellipse();
-            LTPoint.Fill = new SolidColorBrush(Color.FromArgb(0,0,0,0));
+            LTPoint.Fill = new SolidColorBrush(Color.FromArgb(0, 0, 0, 0));
             LTPoint.Width = 1d;
             LTPoint.Height = 1d;
             LTPoint.VerticalAlignment = VerticalAlignment.Top;
@@ -673,20 +674,33 @@ namespace Shared.Control
             g_rotation = RANDOM.NextDouble() * 90d - 45d;
             g_pos_x = RANDOM.NextDouble() * 160d - 80d;
             g_pos_y = RANDOM.NextDouble() * 240d - 120d;
-            g_scale = RANDOM.NextDouble() * 0.3d + 0.8d;
 
-            double from_x = RANDOM.NextDouble() * 160d - 80d;
-            double from_y = RANDOM.NextDouble() * 240d - 120d;
-            MoveAnimation.MoveFromTo(contentPanel, from_x, from_y, g_pos_x, g_pos_y, APPEAR_DURATION, EASING,
+            if (_SpriteType == Control.SpriteType.Photo)
+            {
+                g_scale = 1d;
+                double from_x = RANDOM.Next(2) == 0 ? -imageWidthInitial : App.SCREEN_WIDTH + imageWidthInitial;
+                double from_y = RANDOM.Next(2) == 0 ? -imageHeightInitial : App.SCREEN_HEIGHT + imageHeightInitial;
+
+                RotateAnimation.RotateFromTo(contentPanel, 0d, g_rotation, APPEAR_DURATION);
+                MoveAnimation.MoveFromTo(contentPanel, from_x, from_y, g_pos_x, g_pos_y, APPEAR_DURATION, EASING,
+                    fe =>
+                    {
+                        PrepareForManipulation();
+                    });
+            }
+            else if (_SpriteType == Control.SpriteType.Material || _SpriteType == Control.SpriteType.Text)
+            {
+                g_scale = RANDOM.NextDouble() * 0.3d + 0.8d;
+                MoveAnimation.SetPosition(contentPanel, g_pos_x, g_pos_y);
+                FadeAnimation.Fade(contentPanel, 0d, 1d, APPEAR_DURATION);
+                RotateAnimation.RotateFromTo(contentPanel, 0d, g_rotation, APPEAR_DURATION);
+                ScaleAnimation.ScaleFromTo(contentPanel, 1.5d, 1.5d, g_scale, g_scale, APPEAR_DURATION,
                 fe =>
                 {
+                    ScaleAnimation.SetScale(fe, 1d, 1d);
                     PrepareForManipulation();
-                    //this.Selected = true;
                 });
-
-            RotateAnimation.RotateFromTo(contentPanel, 0d, g_rotation, APPEAR_DURATION);
-            //ScaleAnimation.ScaleFromTo(contentPanel, 1d, 1d, g_scale, g_scale, APPEAR_DURATION);
-            ScaleAnimation.SetScale(contentPanel, g_scale, g_scale);
+            }
         }
 
 
@@ -703,11 +717,11 @@ namespace Shared.Control
         {
             this.image.Source = bi;
 
-            double width = 150d;
+            double width = 240d;
             double height = width * (double)bi.PixelHeight / (double)bi.PixelWidth;
-            if (height > 200d)
+            if (height > 320d)
             {
-                height = 200d;
+                height = 320d;
                 width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
             }
             contentPanel.Width = imageWidth = imageWidthInitial = width;
@@ -766,7 +780,7 @@ namespace Shared.Control
             int index = Sprites.IndexOf(this);
 
             //contentPanel
-            contentPanel.Name = "contentPanel_" + index.ToString();
+            //contentPanel.Name = "contentPanel_" + index.ToString();
             _container.Children.Add(contentPanel);
 
             //z index
@@ -784,6 +798,8 @@ namespace Shared.Control
                 Sprites.Remove(SelectedSprite);
                 ZIndexStack.Remove(SelectedSprite);
                 SetButtonVisibility(false);
+                RaiseRemoved();
+                SelectedSprite = null;
             }
         }
 
@@ -864,12 +880,21 @@ namespace Shared.Control
         public event EventHandler EditingStarted;
         public event EventHandler EditingEnded;
         public static event EventHandler OnSelected;
+        public static event EventHandler OnRemoved;
 
         private static void RaiseOnSelected()
         {
             if (OnSelected != null)
             {
                 OnSelected(SelectedSprite, EventArgs.Empty);
+            }
+        }
+
+        private static void RaiseRemoved()
+        {
+            if (OnRemoved != null)
+            {
+                OnRemoved(SelectedSprite, EventArgs.Empty);
             }
         }
 
