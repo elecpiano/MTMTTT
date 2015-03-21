@@ -322,9 +322,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\Fonts\SHOWG.TTF" />
-  </ItemGroup>
-  <ItemGroup>
     <Reference Include="WriteableBitmapEx.WinRT, Version=1.0.14.0, Culture=neutral, PublicKeyToken=50375ca6144f1c69, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>Lib\WriteableBitmapEx.WinRT.dll</HintPath>

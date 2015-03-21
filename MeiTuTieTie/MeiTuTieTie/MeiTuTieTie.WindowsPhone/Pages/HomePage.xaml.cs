@@ -15,6 +15,7 @@ using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 namespace MeiTuTieTie.Pages
@@ -67,11 +68,6 @@ namespace MeiTuTieTie.Pages
 
         private void dailyAD_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-        }
-
-        private void test_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-            //this.Frame.Navigate(typeof(TestPage1));
         }
 
         #endregion
@@ -133,6 +129,11 @@ namespace MeiTuTieTie.Pages
         #endregion
 
         #region Test
+        private void test_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+        }
+
+        /* Material XML Test
 
         private async Task<MaterialGroup> Test()
         {
@@ -260,25 +261,111 @@ namespace MeiTuTieTie.Pages
             }
         }
 
-        //private void Test5()
-        //{
-        //    this.imageSwitch.Checked = !this.imageSwitch.Checked;
-        //}
+        */
 
-        //private void ImageSwitch_CheckStateChanged(ImageSwitch sender, bool suggestedState)
-        //{
-        //    ImageSwitch control = sender as ImageSwitch;
-        //    if (control.Checked != suggestedState)
-        //    {
-        //        control.Checked = !control.Checked;
-        //    }
-        //}
+        /* font test
 
-        //private async void Test6()
-        //{
-        //    spriteTextBox.Font = new FontFamily(@"ms-appx:/Assets/Fonts/SHOWG.TTF#Showcard Gothic");
-        //    spriteTextBox.TextColor = new SolidColorBrush(Color.FromArgb(255, 190, 30, 0));
-        //}
+        List<string> fontList = null;
+        int fontIndex = 0;
+        private async void ChangeFont()
+        {
+            if (fontList==null)
+            {
+                fontList = new List<string>();
+                //fontList.Add("");
+                fontList.Add("Arial");
+                fontList.Add("Arial Black");
+                fontList.Add("Arial Unicode MS");
+                fontList.Add("Batang");
+                fontList.Add("BatangChe");
+                fontList.Add("Calibri");
+                fontList.Add("Cambria");
+                fontList.Add("Cambria / Cambria Math");
+                fontList.Add("Cambria Math");
+                fontList.Add("Candara");
+                fontList.Add("Comic Sans MS");
+                fontList.Add("Consolas");
+                fontList.Add("Constantia");
+                fontList.Add("Corbel");
+                fontList.Add("Courier New");
+                fontList.Add("DengXian");
+                fontList.Add("DFKai-SB");
+                fontList.Add("Dotum");
+                fontList.Add("DutumChe");
+                fontList.Add("Ebrima");
+                fontList.Add("Estrangelo Edessa");
+                fontList.Add("FangSong");
+                fontList.Add("Gadugi");
+                fontList.Add("Georgia");
+                fontList.Add("GulimChe");
+                fontList.Add("Gungsuh");
+                fontList.Add("GungsuhChe");
+                fontList.Add("KaiTi");
+                fontList.Add("Khmer UI");
+                fontList.Add("Lao UI");
+                fontList.Add("Leelawadee");
+                fontList.Add("Lucida Sans Unicode");
+                fontList.Add("Malgun Gothic");
+                fontList.Add("Meiryo");
+                fontList.Add("Microsoft Himalaya");
+                fontList.Add("Microsoft JhengHei");
+                fontList.Add("Microsoft Mhei");
+                fontList.Add("Microsoft NeoGothic");
+                fontList.Add("Microsoft New Tai Lue");
+                fontList.Add("Microsoft Tai Le");
+                fontList.Add("Microsoft Uighur");
+                fontList.Add("Microsoft YaHei");
+                fontList.Add("Microsoft Yi Baiti");
+                fontList.Add("MingLiU");
+                fontList.Add("MingLiu_HKSCS");
+                fontList.Add("MingLiu_HKSCS-ExtB");
+                fontList.Add("MingLiu-ExtB");
+                fontList.Add("Mongolian Baiti");
+                fontList.Add("MS Gothic");
+                fontList.Add("MS Mincho");
+                fontList.Add("MS PGothic");
+                fontList.Add("MS PMincho");
+                fontList.Add("MS UI Gothic");
+                fontList.Add("MV Boli");
+                fontList.Add("Nirmala UI");
+                fontList.Add("NSimSun");
+                fontList.Add("NSimSun-18030");
+                fontList.Add("PhagsPa");
+                fontList.Add("PMingLiU");
+                fontList.Add("PMingLiu-ExtB");
+                fontList.Add("Segoe UI");
+                fontList.Add("Segoe UI Symbol");
+                fontList.Add("Segoe WP");
+                fontList.Add("SimHei");
+                fontList.Add("SimSun");
+                fontList.Add("SimSun-18030");
+                fontList.Add("SimSun-ExtB");
+                fontList.Add("Symbol");
+                fontList.Add("Tahoma");
+                fontList.Add("Times New Roman");
+                fontList.Add("Trebuchet MS");
+                fontList.Add("Urdu Typesetting");
+                fontList.Add("Verdana");
+                fontList.Add("Webdings");
+                fontList.Add("Wingdings");
+                fontList.Add("Wingdings 2");
+                fontList.Add("Wingdings 3");
+                fontList.Add("Yu Gothic");
+            }
+
+            if (fontIndex>=fontList.Count)
+            {
+                fontIndex = 0;
+            }
+
+            string font = fontList[fontIndex];
+            fontText.FontFamily = new FontFamily(font);
+            fontIndexText.Text = fontIndex.ToString();
+
+            fontIndex++;
+        }
+
+        */
 
         #endregion
 
@@ -360,6 +447,8 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
+
+
 
     }
 }
