@@ -13,7 +13,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Xml.Serialization;
 using Shared.Enum;
-using Shared.Control;
 
 namespace MeiTuTieTie.Pages
 {
@@ -32,7 +31,6 @@ namespace MeiTuTieTie.Pages
         {
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
-            appBar.Visibility = Visibility.Collapsed;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -45,7 +43,6 @@ namespace MeiTuTieTie.Pages
                 {
                     case WidgetPageType.Shipin:
                         pageTitle.Text = "饰品";
-                        appBar.Visibility = Visibility.Visible;
                         break;
                     case WidgetPageType.BianKuang:
                         pageTitle.Text = "边框";
@@ -151,18 +148,25 @@ namespace MeiTuTieTie.Pages
                 }
             }
 
+            //populate list itemsources
             if (pageType == WidgetPageType.Shipin)
             {
-                materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.keai.ToString()]);
-                VisualStateManager.GoToState(this, "vsKeai", true);
+                shipinPanel.Visibility = Visibility.Visible;
+                pivotItem_1.DataContext = GetTriplets(material_dict[MaterialType.keai.ToString()]);
+                pivotItem_2.DataContext = GetTriplets(material_dict[MaterialType.wenzi.ToString()]);
+                pivotItem_3.DataContext = GetTriplets(material_dict[MaterialType.gaoxiaobiaoqing.ToString()]);
+                pivotItem_4.DataContext = GetTriplets(material_dict[MaterialType.zhedang.ToString()]);
+                pivotItem_5.DataContext = GetTriplets(material_dict[MaterialType.katongxingxiang.ToString()]);
             }
             else if (pageType == WidgetPageType.BianKuang)
             {
-                materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.biankuang.ToString()]);
+                biankuangPanel.Visibility = Visibility.Visible;
+                biankuangPanel.DataContext = GetTriplets(material_dict[MaterialType.biankuang.ToString()]);
             }
             else if (pageType == WidgetPageType.Beijing)
             {
-                materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.beijing.ToString()]);
+                beijingPanel.Visibility = Visibility.Visible;
+                beijingPanel.DataContext = GetTriplets(material_dict[MaterialType.beijing.ToString()]);
             }
         }
 
@@ -246,37 +250,6 @@ namespace MeiTuTieTie.Pages
             App.CurrentInstance.MaterialSelectedBy = this.pageType;
             navigationHelper.GoBack();
         }
-
-        private void appBarButton_Click(object sender, RoutedEventArgs e)
-        {
-            string type = (sender as BarButton).Text;
-            switch (type)
-            {
-                case "可爱":
-                    materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.keai.ToString()]);
-                    VisualStateManager.GoToState(this, "vsKeai", true);
-                    break;
-                case "文字模板":
-                    materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.wenzi.ToString()]);
-                    VisualStateManager.GoToState(this, "vsWenzi", true);
-                    break;
-                case "搞笑表情":
-                    materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.gaoxiaobiaoqing.ToString()]);
-                    VisualStateManager.GoToState(this, "vsGaoxiao", true);
-                    break;
-                case "遮挡物":
-                    materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.zhedang.ToString()]);
-                    VisualStateManager.GoToState(this, "vsZhedang", true);
-                    break;
-                case "卡通形象":
-                    materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.katongxingxiang.ToString()]);
-                    VisualStateManager.GoToState(this, "vsKatong", true);
-                    break;
-                default:
-                    break;
-            }
-        }
-
 
     }
 

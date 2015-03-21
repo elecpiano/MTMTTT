@@ -79,6 +79,12 @@ namespace MeiTuTieTie.Pages
 
         }
 
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            PreventStrangeSFXBehavior();
+            base.OnNavigatingFrom(e);
+        }
+
         protected override void OnNavigatedFrom(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             if (e.NavigationMode == NavigationMode.Back)
@@ -638,15 +644,31 @@ namespace MeiTuTieTie.Pages
         private bool sfxEnabled = false;
         MediaElement mediaElement = null;
 
-        private void PlaySFX()
+        private async void PlaySFX()
         {
             if (mediaElement == null)
             {
                 mediaElement = new MediaElement();
+                //mediaElement.AutoPlay = false;
                 mediaElement.Source = new Uri("ms-appx:///Assets/Audio/MaterialSFX.mp3", UriKind.Absolute);
                 this.gridRoot.Children.Add(mediaElement);
+
+                //string uri = "ms-appx:///Assets/Audio/MaterialSFX.mp3";
+                //var rass = RandomAccessStreamReference.CreateFromUri(new Uri(uri, UriKind.RelativeOrAbsolute));
+                //IRandomAccessStream stream = await rass.OpenReadAsync();
+                //mediaElement.SetSource(stream, "");
             }
+
+            mediaElement.AutoPlay = true;
             mediaElement.Play();
+        }
+
+        private void PreventStrangeSFXBehavior()
+        {
+            if (mediaElement!=null)
+            {
+                mediaElement.AutoPlay = false;
+            }
         }
 
         #endregion

@@ -142,6 +142,7 @@
     <Content Include="Assets\Images\AppBar\AppBarColor.png" />
     <Content Include="Assets\Images\AppBar\AppBarCrop.png" />
     <Content Include="Assets\Images\AppBar\AppBarFont.png" />
+    <Content Include="Assets\Images\AppBar\AppBarKeai.png" />
     <Content Include="Assets\Images\AppBar\AppBarOK.png" />
     <Content Include="Assets\Images\AppBar\AppBarSaveShare.png" />
     <Content Include="Assets\Images\AppBar\AppBarText.png" />
@@ -150,6 +151,11 @@
     <Content Include="Assets\Images\AppBar\AppBarPhoto.png" />
     <Content Include="Assets\Images\AppBar\AppBarBeijing.png" />
     <Content Include="Assets\Images\AppBar\AppBarSend.png" />
+    <Content Include="Assets\Images\AppBar\AppBarKatong.png" />
+    <Content Include="Assets\Images\AppBar\AppBarGaoxiao.png" />
+    <Content Include="Assets\Images\AppBar\AppBarWenzi.png" />
+    <Content Include="Assets\Images\AppBar\AppBarZhedang.png" />
+    <Content Include="Assets\Images\DefaultBackground.jpg" />
     <Content Include="Assets\Images\CheckMark.png" />
     <Content Include="Assets\Images\HomePageBackground.png" />
     <Content Include="Assets\Images\HomePageDailyAD.png" />
@@ -171,7 +177,6 @@
     <Content Include="Assets\Images\Logo\Logo71.scale-100.png" />
     <Content Include="Assets\Images\Logo\Logo71.scale-140.png" />
     <Content Include="Assets\Images\Logo\Logo71.scale-240.png" />
-    <Content Include="Assets\Images\SingleModeBackground.png" />
     <Content Include="Assets\Images\SNS\SinaWeibo.png" />
     <Content Include="Assets\Images\Sprite\ShadowB.png" />
     <Content Include="Assets\Images\Sprite\ShadowL.png" />

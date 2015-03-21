@@ -288,7 +288,7 @@
             <Grid x:Name="stagePanelForClipping">
                 <Grid x:Name="stageBackground" Background="White" PointerPressed="stageBackground_PointerPressed"/>
                 <Image x:Name="imgBeijing" Stretch="UniformToFill" IsHitTestVisible="False"
-                       Source="/Assets/Images/SingleModeBackground.png"/>
+                       Source="/Assets/Images/DefaultBackground.jpg"/>
                 <Image x:Name="imgSingleMode" Stretch="Uniform" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5">
                     <Image.RenderTransform>
                         <CompositeTransform x:Name="transformSingleModeImage"/>
