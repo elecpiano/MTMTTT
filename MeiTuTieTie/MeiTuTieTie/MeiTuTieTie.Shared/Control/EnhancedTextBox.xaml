@@ -1,0 +1,19 @@
+﻿<UserControl
+    x:Class="Shared.Control.EnhancedTextBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    mc:Ignorable="d"
+    d:DesignHeight="64"
+    d:DesignWidth="400">
+
+    <Grid Tapped="RootGrid_Tapped" Background="#00000000">
+        <TextBlock x:Name="watermarkTextBlock"/>
+        <TextBlock x:Name="messageTextBlock" Visibility="Visible"/>
+        <TextBox x:Name="mainTextBox" 
+                 TextChanged="MainTextBox_TextChanged" 
+                 KeyDown="mainTextBox_KeyDown"
+                 GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"/>
+    </Grid>
+</UserControl>

@@ -93,7 +93,7 @@ namespace Shared.Control
             rootGrid.Background = TransparentBrush;
             mask.IsHitTestVisible = true;
 
-            if (EditingEnded!=null)
+            if (EditingEnded != null)
             {
                 EditingEnded(this, EventArgs.Empty);
             }
@@ -106,7 +106,7 @@ namespace Shared.Control
             this.textBox.Focus(FocusState.Programmatic);
             rootGrid.Background = EditBackgroundBrush;
 
-            if (EditingStarted!=null)
+            if (EditingStarted != null)
             {
                 EditingStarted(this, EventArgs.Empty);
             }

@@ -14,103 +14,108 @@
     </Page.Resources>
 
     <Page.BottomAppBar>
-        <CommandBar x:Name="bottomAppBar">
-            <AppBarButton Icon="Send" Label="发送" Click="send_Click"/>
-            <AppBarButton Icon="Send" Label="发送" Click="send_Click"/>
-            <AppBarButton Icon="Send" Label="发送" Click="send_Click"/>
-            <AppBarButton Icon="Send" Label="发送" Click="send_Click"/>
+        <CommandBar x:Name="bottomAppBar" Background="#ffff7e7e">
             <AppBarButton Icon="Send" Label="发送" Click="send_Click"/>
         </CommandBar>
     </Page.BottomAppBar>
-    
+
     <Grid Background="White">
-    	<VisualStateManager.VisualStateGroups>
-    		<VisualStateGroup x:Name="VisualStateGroup">
-    			<VisualState x:Name="vsFeedbackType1">
-    				<Storyboard>
-    					<ColorAnimation Duration="0" To="Gray" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackType1" d:IsOptimized="True"/>
-    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.FontFamily)" Storyboard.TargetName="feedbackTypeText1">
-    						<DiscreteObjectKeyFrame KeyTime="0">
-    							<DiscreteObjectKeyFrame.Value>
-    								<FontFamily>Global User Interface</FontFamily>
-    							</DiscreteObjectKeyFrame.Value>
-    						</DiscreteObjectKeyFrame>
-    					</ObjectAnimationUsingKeyFrames>
-    					<ColorAnimation Duration="0" To="White" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackTypeText1" d:IsOptimized="True"/>
-    				</Storyboard>
-    			</VisualState>
-    			<VisualState x:Name="vsFeedbackType2">
-    				<Storyboard>
-    					<ColorAnimation Duration="0" To="Gray" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackType2" d:IsOptimized="True"/>
-    					<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.FontFamily)" Storyboard.TargetName="feedbackTypeText2">
-    						<DiscreteObjectKeyFrame KeyTime="0">
-    							<DiscreteObjectKeyFrame.Value>
-    								<FontFamily>Global User Interface</FontFamily>
-    							</DiscreteObjectKeyFrame.Value>
-    						</DiscreteObjectKeyFrame>
-    					</ObjectAnimationUsingKeyFrames>
-    					<ColorAnimation Duration="0" To="White" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackTypeText2" d:IsOptimized="True"/>
-    				</Storyboard>
-    			</VisualState>
-    			<VisualState x:Name="vsFeedbackType3">
-    				<Storyboard>
-    					<ColorAnimation Duration="0" To="White" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackTypeText3" d:IsOptimized="True"/>
-    					<ColorAnimation Duration="0" To="Gray" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackType3" d:IsOptimized="True"/>
-    				</Storyboard>
-    			</VisualState>
-    		</VisualStateGroup>
-    	</VisualStateManager.VisualStateGroups>
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup x:Name="VisualStateGroup">
+                <VisualState x:Name="vsFeedbackType1">
+                    <Storyboard>
+                        <ColorAnimation Duration="0" To="Gray" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackType1" d:IsOptimized="True"/>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.FontFamily)" Storyboard.TargetName="feedbackTypeText1">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <FontFamily>Global User Interface</FontFamily>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ColorAnimation Duration="0" To="White" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackTypeText1" d:IsOptimized="True"/>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="vsFeedbackType2">
+                    <Storyboard>
+                        <ColorAnimation Duration="0" To="Gray" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackType2" d:IsOptimized="True"/>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(TextBlock.FontFamily)" Storyboard.TargetName="feedbackTypeText2">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <FontFamily>Global User Interface</FontFamily>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ColorAnimation Duration="0" To="White" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackTypeText2" d:IsOptimized="True"/>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="vsFeedbackType3">
+                    <Storyboard>
+                        <ColorAnimation Duration="0" To="White" Storyboard.TargetProperty="(TextBlock.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackTypeText3" d:IsOptimized="True"/>
+                        <ColorAnimation Duration="0" To="Gray" Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)" Storyboard.TargetName="feedbackType3" d:IsOptimized="True"/>
+                    </Storyboard>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-
-        <!--page title-->
-        <Grid Grid.Row="0" Style="{StaticResource PageTitlePanel_Style}">
-            <TextBlock Text="意见反馈" Style="{StaticResource PageTitle_Style}"/>
-        </Grid>
-
-        <!--feedback type-->
-        <Grid Grid.Row="1" Height="48" Margin="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-
-            <Rectangle Grid.Column="0" Width="1" Fill="#ff808080"/>
-            <Rectangle Grid.Column="2" Width="1" Fill="#ff808080"/>
-            <Rectangle Grid.Column="4" Width="1" Fill="#ff808080"/>
-            <Rectangle Grid.Column="6" Width="1" Fill="#ff808080"/>
-
-            <Border Grid.Column="1" x:Name="feedbackType1" BorderBrush="#ff808080" BorderThickness="0,1,0,1" Background="#fff0f0f0" Tapped="feedbackType_Tapped" Tag="1">
-                <TextBlock x:Name="feedbackTypeText1" Text="错误崩溃" Style="{StaticResource FeedbackPage_FeedbackType_Style}" Foreground="#ff2d2d2d"/>
-            </Border>
-
-            <Border Grid.Column="3" x:Name="feedbackType2" BorderBrush="#ff808080" BorderThickness="0,1,0,1" Background="#fff0f0f0" Tapped="feedbackType_Tapped" Tag="2">
-                <TextBlock x:Name="feedbackTypeText2" Text="改进建议" Style="{StaticResource FeedbackPage_FeedbackType_Style}" Foreground="#ff2d2d2d"/>
-            </Border>
-
-            <Border Grid.Column="5" x:Name="feedbackType3" BorderBrush="#ff808080" BorderThickness="0,1,0,1" Background="#fff0f0f0" Tapped="feedbackType_Tapped" Tag="3">
-                <TextBlock x:Name="feedbackTypeText3" Text="其他" Style="{StaticResource FeedbackPage_FeedbackType_Style}" Foreground="#ff2d2d2d"/>
-            </Border>
-            
-        </Grid>
         
-        <TextBox Grid.Row="2" x:Name="feedbackTextBox" Margin="12,0,12,0" AcceptsReturn="True" TextWrapping="Wrap" VerticalAlignment="Stretch" 
+        <StackPanel Grid.Row="0" Margin="0,0,0,0">
+
+            <!--page title-->
+            <TextBlock Text="意见反馈" Style="{StaticResource PageTitle_Style}"/>
+
+            <!--feedback type-->
+            <Grid Height="48" Margin="16,0,16,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Rectangle Grid.Column="0" Width="1" Fill="#ff808080"/>
+                <Rectangle Grid.Column="2" Width="1" Fill="#ff808080"/>
+                <Rectangle Grid.Column="4" Width="1" Fill="#ff808080"/>
+                <Rectangle Grid.Column="6" Width="1" Fill="#ff808080"/>
+
+                <Border Grid.Column="1" x:Name="feedbackType1" BorderBrush="#ff808080" BorderThickness="0,1,0,1" Background="#fff0f0f0" Tapped="feedbackType_Tapped" Tag="error">
+                    <TextBlock x:Name="feedbackTypeText1" Text="错误崩溃" Style="{StaticResource FeedbackPage_FeedbackType_Style}" Foreground="#ff2d2d2d"/>
+                </Border>
+
+                <Border Grid.Column="3" x:Name="feedbackType2" BorderBrush="#ff808080" BorderThickness="0,1,0,1" Background="#fff0f0f0" Tapped="feedbackType_Tapped" Tag="suggestion">
+                    <TextBlock x:Name="feedbackTypeText2" Text="改进建议" Style="{StaticResource FeedbackPage_FeedbackType_Style}" Foreground="#ff2d2d2d"/>
+                </Border>
+
+                <Border Grid.Column="5" x:Name="feedbackType3" BorderBrush="#ff808080" BorderThickness="0,1,0,1" Background="#fff0f0f0" Tapped="feedbackType_Tapped" Tag="other">
+                    <TextBlock x:Name="feedbackTypeText3" Text="其他" Style="{StaticResource FeedbackPage_FeedbackType_Style}" Foreground="#ff2d2d2d"/>
+                </Border>
+
+            </Grid>
+
+            <TextBlock Text="内容" Style="{StaticResource FeedbackPage_SubTitle_Style}"/>
+
+            <TextBox x:Name="feedbackTextBox" Margin="16,0,16,0" AcceptsReturn="True" TextWrapping="Wrap" VerticalAlignment="Stretch" 
+                 BorderBrush="#ff808080" BorderThickness="2" Height="150"/>
+
+            <TextBlock Text="联系方式(QQ/邮箱)" Style="{StaticResource FeedbackPage_SubTitle_Style}"/>
+
+            <TextBox x:Name="contactTextBox" Margin="16,0,16,0"
                  BorderBrush="#ff808080" BorderThickness="2"/>
 
-        <TextBox Grid.Row="3" x:Name="contactTextBox" Margin="12,10,12,10"
-                 BorderBrush="#ff808080" BorderThickness="2"/>
+        </StackPanel>
 
-        <Rectangle Grid.Row="4" Fill="#00000000" Height="{StaticResource KeyboardHeightWithAppBar}"/>
-
+        <!--app bar-->
+        <!--<sharedControl:AppBar Grid.Row="1">
+            <sharedControl:BarButton Icon="/Assets/Images/AppBar/AppBarSend.png" 
+                                     Text="发送" Margin="10,0,10,0"
+                                     Click="send_Click"/>
+        </sharedControl:AppBar>-->
+        
     </Grid>
 </Page>

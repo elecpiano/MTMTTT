@@ -38,6 +38,7 @@ namespace MeiTuTieTie.Pages
 
             if (e.NavigationMode == NavigationMode.New)
             {
+                BuildInMaterials();
             }
             else if (e.NavigationMode == NavigationMode.Back && App.CurrentInstance.ComingBackFromPhotoEditPage)
             {
@@ -62,12 +63,12 @@ namespace MeiTuTieTie.Pages
 
         private void boutique_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
+            return;
             Frame.Navigate(typeof(BoutiquePage));
         }
 
         private void dailyAD_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            InitMaterials();
         }
 
         private void test_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
@@ -294,12 +295,12 @@ namespace MeiTuTieTie.Pages
 
         #region Built in materials
 
-        bool builtInMaterialInited = false;
+        bool materialBuiltIn = false;
 
-        private async void InitMaterials()
+        private async void BuildInMaterials()
         {
-            builtInMaterialInited = App.CurrentInstance.GetSetting<bool>(Constants.KEY_BUILT_IN_MATERIAL_INITED, false);
-            if (!builtInMaterialInited)
+            materialBuiltIn = App.CurrentInstance.GetSetting<bool>(Constants.KEY_MATERIAL_BUILT_IN, false);
+            if (!materialBuiltIn)
             {
                 //copy files
                 List<string> files = new List<string>();
@@ -354,9 +355,9 @@ namespace MeiTuTieTie.Pages
                     await IsolatedStorageHelper.CopyContentFileToLocalFolder(file);
                 }
 
-                ////update settings
-                //builtInMaterialInited = true;
-                //App.CurrentInstance.UpdateSetting(Constants.KEY_BUILT_IN_MATERIAL_INITED, builtInMaterialInited);
+                //update settings
+                materialBuiltIn = true;
+                App.CurrentInstance.UpdateSetting(Constants.KEY_MATERIAL_BUILT_IN, materialBuiltIn);
             }
         }
 

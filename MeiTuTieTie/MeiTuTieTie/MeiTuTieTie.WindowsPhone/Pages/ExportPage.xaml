@@ -34,7 +34,7 @@
                             <TextBlock Text="保存到相册" 
                                    Style="{StaticResource TextBlockBase}"
                                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   Foreground="White" FontSize="32"/>
+                                   Foreground="White" FontSize="24"/>
                         </Grid>
                     </Grid>
                 </Grid>

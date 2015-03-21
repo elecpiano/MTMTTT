@@ -109,6 +109,7 @@ namespace MeiTuTieTie.Pages
                     break;
                 case OperationPageType.Multi:
                     VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
+                    btnPhotoLock.Visibility = Visibility.Collapsed;
                     PickPhotos();
                     break;
                 default:

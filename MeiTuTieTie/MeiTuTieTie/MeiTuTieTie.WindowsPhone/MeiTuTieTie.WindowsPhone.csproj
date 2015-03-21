@@ -148,6 +148,7 @@
     <Content Include="Assets\Images\AppBar\AppBarShipin.png" />
     <Content Include="Assets\Images\AppBar\AppBarPhoto.png" />
     <Content Include="Assets\Images\AppBar\AppBarBeijing.png" />
+    <Content Include="Assets\Images\AppBar\AppBarSend.png" />
     <Content Include="Assets\Images\CheckMark.png" />
     <Content Include="Assets\Images\HomePageBackground.png" />
     <Content Include="Assets\Images\HomePageDailyAD.png" />
