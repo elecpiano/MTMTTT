@@ -18,7 +18,8 @@
         </CommandBar>
     </Page.BottomAppBar>-->
 
-    <Grid>
+    <Grid x:Name="rootGrid">
+
         <Image Source="/Assets/Images/HomePageBackground.png" Stretch="UniformToFill" />
 
         <Grid >

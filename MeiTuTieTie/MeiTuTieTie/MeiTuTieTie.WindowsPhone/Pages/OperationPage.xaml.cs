@@ -109,7 +109,7 @@ namespace MeiTuTieTie.Pages
                     break;
                 case OperationPageType.Multi:
                     VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
-                    btnPhotoLock.Visibility = Visibility.Collapsed;
+                    btnPhotoLock.Visibility = btnPhotoUnLock.Visibility = Visibility.Collapsed;
                     PickPhotos();
                     break;
                 default:
@@ -293,6 +293,11 @@ namespace MeiTuTieTie.Pages
                 }
 
                 App.CurrentInstance.SelectedMaterial = null;
+
+                if (sfxEnabled)
+                {
+                    PlaySFX();
+                }
             }
         }
 
@@ -393,6 +398,11 @@ namespace MeiTuTieTie.Pages
 
             sprites.Add(sprite);
             sprite.AddToContainer();
+
+            if (sfxEnabled)
+            {
+                PlaySFX();
+            }
         }
 
         void Sprite_OnSelected(object sender, EventArgs e)
@@ -437,7 +447,7 @@ namespace MeiTuTieTie.Pages
                     VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
                 }
             }
-         }
+        }
 
         void sprite_EditingStarted(object sender, EventArgs e)
         {
@@ -618,6 +628,25 @@ namespace MeiTuTieTie.Pages
             SpriteControl.EdgeEnabled = App.CurrentInstance.GetSetting<bool>(Constants.KEY_EDGE, false);
             SpriteControl.ShadowEnabled = App.CurrentInstance.GetSetting<bool>(Constants.KEY_SHADOW, false);
             exportWidth = App.CurrentInstance.GetSetting<double>(Constants.KEY_EXPORT_WIDTH, 1248d);
+            sfxEnabled = App.CurrentInstance.GetSetting<bool>(Constants.KEY_SFX, false);
+        }
+
+        #endregion
+
+        #region SFX
+
+        private bool sfxEnabled = false;
+        MediaElement mediaElement = null;
+
+        private void PlaySFX()
+        {
+            if (mediaElement == null)
+            {
+                mediaElement = new MediaElement();
+                mediaElement.Source = new Uri("ms-appx:///Assets/Audio/MaterialSFX.mp3", UriKind.Absolute);
+                this.gridRoot.Children.Add(mediaElement);
+            }
+            mediaElement.Play();
         }
 
         #endregion

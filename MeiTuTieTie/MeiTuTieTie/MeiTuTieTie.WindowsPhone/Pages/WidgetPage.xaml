@@ -62,8 +62,9 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        
         <Grid Grid.Row="0" >
-            <TextBlock x:Name="pageTitle" Style="{StaticResource PageTitle_Style}"/>
+            <TextBlock x:Name="pageTitle" Style="{StaticResource PageTitle_Style}" Margin="16,16,0,16"/>
         </Grid>
         
         <!--shipin-->

@@ -32,6 +32,7 @@ namespace Shared.Control
         private const int BORDER_Z_INDEX = 999;
         private const int BUTTON_Z_INDEX = 9999;
         private const double BORDER_THICKNESS = 2d;
+        private const double HANDLE_BUTTON_WIDTH = 40d;
 
         private static Grid _container = null;
 
@@ -226,9 +227,9 @@ namespace Shared.Control
                 removeButton.Visibility = Visibility.Collapsed;
                 removeButton.VerticalAlignment = VerticalAlignment.Top;
                 removeButton.HorizontalAlignment = HorizontalAlignment.Left;
-                removeButton.Width = 32d;
-                removeButton.Height = 32d;
-                removeButton.Margin = new Thickness(-16, -16, 0, 0);
+                removeButton.Width = HANDLE_BUTTON_WIDTH;
+                removeButton.Height = HANDLE_BUTTON_WIDTH;
+                removeButton.Margin = new Thickness(-HANDLE_BUTTON_WIDTH / 2, -HANDLE_BUTTON_WIDTH / 2, 0, 0);
                 removeButton.Tapped += removeButton_Tapped;
                 EnsureTransform(removeButton);
 
@@ -243,9 +244,9 @@ namespace Shared.Control
                 handle.Visibility = Visibility.Collapsed;
                 handle.VerticalAlignment = VerticalAlignment.Top;
                 handle.HorizontalAlignment = HorizontalAlignment.Left;
-                handle.Width = 32d;
-                handle.Height = 32d;
-                handle.Margin = new Thickness(-16, -16, 0, 0);
+                handle.Width = HANDLE_BUTTON_WIDTH;
+                handle.Height = HANDLE_BUTTON_WIDTH;
+                handle.Margin = new Thickness(-HANDLE_BUTTON_WIDTH / 2, -HANDLE_BUTTON_WIDTH / 2, 0, 0);
                 handle.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY;
                 handle.ManipulationDelta += handle_ManipulationDelta;
                 handle.ManipulationCompleted += handle_ManipulationCompleted;
@@ -717,11 +718,12 @@ namespace Shared.Control
         {
             this.image.Source = bi;
 
-            double width = 240d;
+            double width = _SpriteType == SpriteType.Photo ? 240d : 160;
+            double maxHeight = _SpriteType == SpriteType.Photo ? 320d : 240;
             double height = width * (double)bi.PixelHeight / (double)bi.PixelWidth;
-            if (height > 320d)
+            if (height > maxHeight)
             {
-                height = 320d;
+                height = maxHeight;
                 width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
             }
             contentPanel.Width = imageWidth = imageWidthInitial = width;
