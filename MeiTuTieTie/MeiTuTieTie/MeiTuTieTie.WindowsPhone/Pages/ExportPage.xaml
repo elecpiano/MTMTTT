@@ -39,7 +39,7 @@
                     </Grid>
                 </Grid>
                 
-                <StackPanel Orientation="Horizontal" Margin="0,16,0,0">
+                <StackPanel Orientation="Horizontal" Margin="0,16,0,0" Visibility="Collapsed">
                     <sharedControl:ContentButton Margin="0,0,16,0" Tapped="moreApp_Tapped" Tag="meitu">
                         <Image Width="100" Stretch="Uniform" Source="/Assets/Images/MeiTu.png"/>
                     </sharedControl:ContentButton>
