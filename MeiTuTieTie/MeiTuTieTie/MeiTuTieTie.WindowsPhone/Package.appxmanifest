@@ -19,7 +19,7 @@
       <m3:VisualElements DisplayName="美图贴贴" Square150x150Logo="Assets\Images\Logo\Logo150.png" Square44x44Logo="Assets\SmallLogo.png" Description="美图贴贴" ForegroundText="light" BackgroundColor="#ff7e7e">
         <m3:DefaultTile Square71x71Logo="Assets\Images\Logo\Logo71.png">
         </m3:DefaultTile>
-        <m3:SplashScreen Image="Assets\SplashScreen.png" BackgroundColor="#ff7e7e" />
+        <m3:SplashScreen Image="Assets\Images\Logo\SplashScreen.jpg" BackgroundColor="#ff7e7e" />
       </m3:VisualElements>
     </Application>
   </Applications>
