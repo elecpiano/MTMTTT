@@ -90,6 +90,9 @@
     <Compile Include="Pages\AboutPage.xaml.cs">
       <DependentUpon>AboutPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\HelpPage.xaml.cs">
+      <DependentUpon>HelpPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\ExportPage.xaml.cs">
       <DependentUpon>ExportPage.xaml</DependentUpon>
     </Compile>
@@ -137,6 +140,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Audio\MaterialSFX.mp3" />
+    <Content Include="Assets\Audio\MaterialSFX.wav" />
     <Content Include="Assets\Images\AboutLogo.png" />
     <Content Include="Assets\ImageSwitch\SwitchKnob.png" />
     <Content Include="Assets\Images\AppBar\AppBarAccept.png" />
@@ -157,8 +161,11 @@
     <Content Include="Assets\Images\AppBar\AppBarGaoxiao.png" />
     <Content Include="Assets\Images\AppBar\AppBarWenzi.png" />
     <Content Include="Assets\Images\AppBar\AppBarZhedang.png" />
-    <Content Include="Assets\Images\DefaultBackground.jpg" />
     <Content Include="Assets\Images\CheckMark.png" />
+    <Content Include="Assets\Images\DefaultBackground.jpg" />
+    <Content Include="Assets\Images\Help\Help1.jpg" />
+    <Content Include="Assets\Images\Help\Help2.jpg" />
+    <Content Include="Assets\Images\Help\Help3.jpg" />
     <Content Include="Assets\Images\HomePageBackground.png" />
     <Content Include="Assets\Images\HomePageDailyAD.png" />
     <Content Include="Assets\Images\HomePageHeader.png" />
@@ -182,6 +189,7 @@
     <Content Include="Assets\Images\Logo\SplashScreen.scale-100.jpg" />
     <Content Include="Assets\Images\Logo\SplashScreen.scale-140.jpg" />
     <Content Include="Assets\Images\Logo\SplashScreen.scale-240.jpg" />
+    <Content Include="Assets\Images\SaveImage.png" />
     <Content Include="Assets\Images\SNS\SinaWeibo.png" />
     <Content Include="Assets\Images\Sprite\ShadowB.png" />
     <Content Include="Assets\Images\Sprite\ShadowL.png" />
@@ -257,6 +265,10 @@
   </ItemGroup>
   <ItemGroup>
     <Page Include="Pages\AboutPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Pages\HelpPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

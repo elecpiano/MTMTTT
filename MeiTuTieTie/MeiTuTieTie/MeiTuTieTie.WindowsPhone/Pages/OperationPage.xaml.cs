@@ -18,6 +18,7 @@ using Shared.Control;
 using Shared.Enum;
 using Shared.Global;
 using Windows.UI;
+using Windows.Media.Playback;
 
 namespace MeiTuTieTie.Pages
 {
@@ -81,7 +82,7 @@ namespace MeiTuTieTie.Pages
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
-            PreventStrangeSFXBehavior();
+            //PreventStrangeSFXBehavior();
             base.OnNavigatingFrom(e);
         }
 
@@ -512,20 +513,31 @@ namespace MeiTuTieTie.Pages
                 colorListData = new List<string>();
                 colorListData.Add("#ff000000");
                 colorListData.Add("#ffffffff");
-                colorListData.Add("#ffc2393a");
-                colorListData.Add("#fff09fb8");
-                colorListData.Add("#ffeb6195");
-                colorListData.Add("#fff7bfd0");
-                colorListData.Add("#ffb985b6");
-                colorListData.Add("#ff854a92"); 
-                colorListData.Add("#ff000000");
-                colorListData.Add("#ffffffff");
-                colorListData.Add("#ffc2393a");
-                colorListData.Add("#fff09fb8");
-                colorListData.Add("#ffeb6195");
-                colorListData.Add("#fff7bfd0");
-                colorListData.Add("#ffb985b6");
-                colorListData.Add("#ff854a92");
+                colorListData.Add("#ffbf3334");
+                colorListData.Add("#fff6b9cb");
+                colorListData.Add("#ffe95289");
+                colorListData.Add("#ffef99b4");
+                colorListData.Add("#ffc596c2");
+                colorListData.Add("#ff9559a1");
+                colorListData.Add("#ff087cc7");
+                colorListData.Add("#ff28c0ff");
+                colorListData.Add("#ff6cc9f1");
+                colorListData.Add("#ffd2ecf9");
+                colorListData.Add("#ff26d7b3");
+                colorListData.Add("#ff3de99f");
+                colorListData.Add("#ff36c829");
+                colorListData.Add("#ff67ba5e");
+                colorListData.Add("#ffb0f14b");
+                colorListData.Add("#ffe7f581");
+                colorListData.Add("#ffaaa447");
+                colorListData.Add("#ffe6e9b4");
+                colorListData.Add("#fffedf13");
+                colorListData.Add("#fff59f0e");
+                colorListData.Add("#ff7c6b5b");
+                colorListData.Add("#ffc6bbb5");
+                colorListData.Add("#ff969593");
+                colorListData.Add("#ffbec6c2");
+
                 colorListBox.ItemsSource = colorListData;
             }
 
@@ -714,33 +726,39 @@ namespace MeiTuTieTie.Pages
 
         private bool sfxEnabled = false;
         MediaElement mediaElement = null;
-
+        
         private async void PlaySFX()
         {
-            if (mediaElement == null)
-            {
-                mediaElement = new MediaElement();
-                //mediaElement.AutoPlay = false;
-                mediaElement.Source = new Uri("ms-appx:///Assets/Audio/MaterialSFX.mp3", UriKind.Absolute);
-                this.gridRoot.Children.Add(mediaElement);
-
-                //string uri = "ms-appx:///Assets/Audio/MaterialSFX.mp3";
-                //var rass = RandomAccessStreamReference.CreateFromUri(new Uri(uri, UriKind.RelativeOrAbsolute));
-                //IRandomAccessStream stream = await rass.OpenReadAsync();
-                //mediaElement.SetSource(stream, "");
-            }
-
-            mediaElement.AutoPlay = true;
-            mediaElement.Play();
+            BackgroundMediaPlayer.Current.SetUriSource(new Uri("ms-appx:///Assets/Audio/MaterialSFX.wav"));
+            BackgroundMediaPlayer.Current.Play();
         }
 
-        private void PreventStrangeSFXBehavior()
-        {
-            if (mediaElement!=null)
-            {
-                mediaElement.AutoPlay = false;
-            }
-        }
+        //private async void PlaySFX()
+        //{
+        //    if (mediaElement == null)
+        //    {
+        //        mediaElement = new MediaElement();
+        //        //mediaElement.AutoPlay = false;
+        //        mediaElement.Source = new Uri("ms-appx:///Assets/Audio/MaterialSFX.wav", UriKind.Absolute);
+        //        this.gridRoot.Children.Add(mediaElement);
+
+        //        //string uri = "ms-appx:///Assets/Audio/MaterialSFX.mp3";
+        //        //var rass = RandomAccessStreamReference.CreateFromUri(new Uri(uri, UriKind.RelativeOrAbsolute));
+        //        //IRandomAccessStream stream = await rass.OpenReadAsync();
+        //        //mediaElement.SetSource(stream, "");
+        //    }
+
+        //    mediaElement.AutoPlay = true;
+        //    mediaElement.Play();
+        //}
+
+        //private void PreventStrangeSFXBehavior()
+        //{
+        //    if (mediaElement != null)
+        //    {
+        //        mediaElement.AutoPlay = false;
+        //    }
+        //}
 
         #endregion
 

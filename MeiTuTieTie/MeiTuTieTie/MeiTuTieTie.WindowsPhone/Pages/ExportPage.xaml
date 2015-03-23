@@ -24,22 +24,26 @@
 
         <ScrollViewer Grid.Row="1">
             <StackPanel Margin="16,0,16,0">
-                <Grid Height="36">
-                    <StackPanel x:Name="saveResultPanel" Orientation="Horizontal" Visibility="Collapsed">
-                        <Image Width="36" Stretch="Uniform" Source="/Assets/Images/SaveSuccess.png"/>
+                <Grid Height="48">
+                    <StackPanel x:Name="saveResultPanel" Orientation="Horizontal" Visibility="Visible">
+                        <Image Width="36" Stretch="Uniform" Source="/Assets/Images/SaveSuccess.png" VerticalAlignment="Center"/>
                         <TextBlock Text="照片已保存到相册" Style="{StaticResource ExportPage_SaveSuccess_Style}"/>
                     </StackPanel>
                     <Grid x:Name="saveButtonPanel" Visibility="Collapsed">
-                        <Grid Background="LightGreen" Tapped="saveButton_Tapped">
-                            <TextBlock Text="保存到相册" 
-                                   Style="{StaticResource TextBlockBase}"
-                                   HorizontalAlignment="Center" VerticalAlignment="Center"
-                                   Foreground="White" FontSize="24"/>
-                        </Grid>
+                        <sharedControl:ContentButton Margin="0,0,0,0" Tapped="saveButton_Tapped">
+                            <Grid  Background="#ffff7e7e">
+                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                    <Image Width="36" Stretch="Uniform" Source="/Assets/Images/SaveImage.png" VerticalAlignment="Center"/>
+                                    <TextBlock Text="保存到相册" Style="{StaticResource TextBlockBase}"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               Foreground="White" FontSize="24" Margin="10,0,0,0"/>
+                                </StackPanel>
+                            </Grid>
+                        </sharedControl:ContentButton>
                     </Grid>
                 </Grid>
-                
-                <StackPanel Orientation="Horizontal" Margin="0,16,0,0" Visibility="Collapsed">
+
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Visibility="Collapsed">
                     <sharedControl:ContentButton Margin="0,0,16,0" Tapped="moreApp_Tapped" Tag="meitu">
                         <Image Width="100" Stretch="Uniform" Source="/Assets/Images/MeiTu.png"/>
                     </sharedControl:ContentButton>
@@ -47,7 +51,7 @@
                         <Image Width="100" Stretch="Uniform" Source="/Assets/Images/MeiYan.png"/>
                     </sharedControl:ContentButton>
                 </StackPanel>
-                
+
 
                 <!--subtitle-->
                 <TextBlock Style="{StaticResource ExportPage_Tip_Style}" 

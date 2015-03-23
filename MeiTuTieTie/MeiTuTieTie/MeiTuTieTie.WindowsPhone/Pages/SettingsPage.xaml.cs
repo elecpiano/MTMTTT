@@ -101,7 +101,7 @@ namespace MeiTuTieTie.Pages
 
         private void help_Tapped(object sender, TappedRoutedEventArgs e)
         {
-
+            Frame.Navigate(typeof(HelpPage));
         }
 
         private void feedback_Tapped(object sender, TappedRoutedEventArgs e)
