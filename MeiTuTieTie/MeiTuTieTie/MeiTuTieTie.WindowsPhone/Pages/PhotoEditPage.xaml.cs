@@ -498,7 +498,7 @@ namespace MeiTuTieTie.Pages
         SolidColorBrush selectedBrush = new SolidColorBrush(Color.FromArgb(255, 255, 126, 126));// #ffff7e7e
         SolidColorBrush unselectedBrush = new SolidColorBrush(Color.FromArgb(255, 45, 45, 45));// #ff2d2d2d
         TextBlock selectedText = null;
-        
+
         private void sizeMenuItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
             string tag = (sender as FrameworkElement).Tag.ToString();
@@ -513,7 +513,7 @@ namespace MeiTuTieTie.Pages
                     //selectedSizeText.Text = "原图";
                     break;
                 case "fitApp":
-                    currentRatio = Window.Current.Bounds.Width / Window.Current.Bounds.Height;
+                    currentRatio = Window.Current.Bounds.Width / (Window.Current.Bounds.Height - 72d);
                     selectedText = menuItem_fitApp;
                     //selectedSizeText.Text = "适应软件";
                     break;
