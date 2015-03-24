@@ -17,7 +17,6 @@ using Windows.UI.Xaml.Navigation;
 using Shared.Control;
 using Shared.Enum;
 using Shared.Global;
-using Windows.UI;
 using Windows.Media.Playback;
 
 namespace MeiTuTieTie.Pages
@@ -126,11 +125,14 @@ namespace MeiTuTieTie.Pages
             SpriteControl.Initialize(stage);
             SpriteControl.OnSelected += Sprite_OnSelected;
             SpriteControl.OnRemoved += Sprite_OnRemoved;
+            SpriteControl.OnSpriteChanged += Sprite_OnSpriteChanged;
 
             InitColorFontList();
 
             VisualStateManager.GoToState(this, "vsLayerButtonShown", true);
             BuildBottomAppBar_Normal();
+
+            App.CurrentInstance.OpertationPageChanged = true;
         }
 
         #endregion
@@ -199,6 +201,8 @@ namespace MeiTuTieTie.Pages
                 transformSingleModeImage.ScaleX *= e.Delta.Scale;
                 transformSingleModeImage.ScaleY *= e.Delta.Scale;
             }
+
+            App.CurrentInstance.OpertationPageChanged = true;
         }
 
         #endregion
@@ -255,6 +259,8 @@ namespace MeiTuTieTie.Pages
                 sprite.SetImage(bi);
                 sprites.Add(sprite);
                 sprite.AddToContainer();
+
+                App.CurrentInstance.OpertationPageChanged = true;
             }
         }
 
@@ -300,6 +306,7 @@ namespace MeiTuTieTie.Pages
                 }
 
                 App.CurrentInstance.SelectedMaterial = null;
+                App.CurrentInstance.OpertationPageChanged = true;
 
                 if (sfxEnabled)
                 {
@@ -355,34 +362,34 @@ namespace MeiTuTieTie.Pages
 
         #region Test
 
-        private void InsertSprites()
-        {
-            SpriteControl sprite = null;
+        //private void InsertSprites()
+        //{
+        //    SpriteControl sprite = null;
 
-            for (int i = 0; i < 1; i++)
-            {
-                sprite = new SpriteControl(SpriteType.Photo);
-                sprite.SetImage("ms-appx:///Assets/TestImages/TestImage001.jpg");
-                sprites.Add(sprite);
+        //    for (int i = 0; i < 1; i++)
+        //    {
+        //        sprite = new SpriteControl(SpriteType.Photo);
+        //        sprite.SetImage("ms-appx:///Assets/TestImages/TestImage001.jpg");
+        //        sprites.Add(sprite);
 
-                SpriteControl.Initialize(stage);
-            }
-        }
+        //        SpriteControl.Initialize(stage);
+        //    }
+        //}
 
-        ObservableCollection<BitmapImage> photoList = new ObservableCollection<BitmapImage>();
-        private async void LoadPhotos()
-        {
-            //picListBox.ItemsSource = photoList;
-            StorageFolder PictureFolder = KnownFolders.CameraRoll;
-            var files = await PictureFolder.GetFilesAsync();
-            foreach (var file in files)
-            {
-                BitmapImage bm = new BitmapImage();
-                var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.PicturesView);
-                bm.SetSource(thumbnail);
-                photoList.Add(bm);
-            };
-        }
+        //ObservableCollection<BitmapImage> photoList = new ObservableCollection<BitmapImage>();
+        //private async void LoadPhotos()
+        //{
+        //    //picListBox.ItemsSource = photoList;
+        //    StorageFolder PictureFolder = KnownFolders.CameraRoll;
+        //    var files = await PictureFolder.GetFilesAsync();
+        //    foreach (var file in files)
+        //    {
+        //        BitmapImage bm = new BitmapImage();
+        //        var thumbnail = await file.GetThumbnailAsync(Windows.Storage.FileProperties.ThumbnailMode.PicturesView);
+        //        bm.SetSource(thumbnail);
+        //        photoList.Add(bm);
+        //    };
+        //}
 
         #endregion
 
@@ -405,6 +412,7 @@ namespace MeiTuTieTie.Pages
 
             sprites.Add(sprite);
             sprite.AddToContainer();
+            App.CurrentInstance.OpertationPageChanged = true;
 
             if (sfxEnabled)
             {
@@ -454,6 +462,11 @@ namespace MeiTuTieTie.Pages
                     VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
                 }
             }
+        }
+
+        void Sprite_OnSpriteChanged(object sender, EventArgs e)
+        {
+            App.CurrentInstance.OpertationPageChanged = true;
         }
 
         void sprite_EditingStarted(object sender, EventArgs e)

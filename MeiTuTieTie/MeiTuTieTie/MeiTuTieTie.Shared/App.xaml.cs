@@ -200,13 +200,15 @@ namespace MeiTuTieTie
 
         #endregion
 
-        #region opertaion page
+        #region Opertaion Page
 
         public WriteableBitmap wbForSingleMode { get; set; }
 
         public Material SelectedMaterial { get; set; }
 
         public WidgetPageType MaterialSelectedBy { get; set; }// = WidgetPageType.Shipin;
+
+        public bool OpertationPageChanged { get; set; }
 
         //public string SelectedFont { get; set; }
         //public Brush SelectedTextColor { get; set; }

@@ -12,6 +12,7 @@ namespace Shared.Control
         #region Property
 
         private bool _IsVirgin = true;
+
         private bool IsVirgin
         {
             get { return _IsVirgin; }
@@ -32,6 +33,10 @@ namespace Shared.Control
             {
                 textBox.FontFamily = value;
                 textBoxVisual.FontFamily = value;
+                if (ContainerSpriteControl!=null)
+                {
+                    ContainerSpriteControl.RaiseSpriteChanged();
+                }
             }
         }
 
@@ -42,8 +47,14 @@ namespace Shared.Control
             {
                 //textBox.Foreground = value;
                 textBoxVisual.Foreground = value;
+                if (ContainerSpriteControl != null)
+                {
+                    ContainerSpriteControl.RaiseSpriteChanged();
+                }
             }
         }
+
+        public SpriteControl ContainerSpriteControl { get; set; }
 
         #endregion
 

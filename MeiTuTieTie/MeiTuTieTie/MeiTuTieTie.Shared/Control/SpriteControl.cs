@@ -164,6 +164,7 @@ namespace Shared.Control
                 if (ZIndex != value)
                 {
                     contentPanel.SetValue(Canvas.ZIndexProperty, value);
+                    RaiseSpriteChanged();
                 }
             }
         }
@@ -350,7 +351,7 @@ namespace Shared.Control
             }
             else if (this.SpriteType == SpriteType.Text)
             {
-                spriteText = new SpriteTextBox();
+                spriteText = new SpriteTextBox() { ContainerSpriteControl = this };
                 spriteText.TextChanged += spriteText_TextChanged;
                 spriteText.EditingStarted += spriteText_EditingStarted;
                 spriteText.EditingEnded += spriteText_EditingEnded;
@@ -450,6 +451,7 @@ namespace Shared.Control
             {
                 sprite.Manipulatable = true; //.contentPanel.IsHitTestVisible = true;
             }
+            RaiseSpriteChanged();
         }
 
         private void contentPanel_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -503,10 +505,12 @@ namespace Shared.Control
         static void handle_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             handleDrag = false;
+            SelectedSprite.RaiseSpriteChanged();
         }
 
         private static void removeButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            SelectedSprite.RaiseSpriteChanged();
             RemoveSelectedSprite();
         }
 
@@ -627,6 +631,7 @@ namespace Shared.Control
         {
             SetButtonVisibility(true);
             SyncButtonsPosition();
+            RaiseSpriteChanged();
         }
 
         void spriteText_EditingStarted(object sender, EventArgs e)
@@ -805,7 +810,6 @@ namespace Shared.Control
             }
         }
 
-
         public static void DismissActiveSprite()
         {
             if (SelectedSprite != null)
@@ -883,6 +887,7 @@ namespace Shared.Control
         public event EventHandler EditingEnded;
         public static event EventHandler OnSelected;
         public static event EventHandler OnRemoved;
+        public static event EventHandler OnSpriteChanged;
 
         private static void RaiseOnSelected()
         {
@@ -897,6 +902,14 @@ namespace Shared.Control
             if (OnRemoved != null)
             {
                 OnRemoved(SelectedSprite, EventArgs.Empty);
+            }
+        }
+
+        public void RaiseSpriteChanged()
+        {
+            if (OnSpriteChanged != null)
+            {
+                OnSpriteChanged(SelectedSprite, EventArgs.Empty);
             }
         }
 

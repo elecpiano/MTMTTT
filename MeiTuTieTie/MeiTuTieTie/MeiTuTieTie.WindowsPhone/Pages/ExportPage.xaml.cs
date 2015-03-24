@@ -45,7 +45,24 @@ namespace MeiTuTieTie.Pages
                 LoadSettings();
                 if (autoSave)
                 {
-                    Save();
+                    if (App.CurrentInstance.OpertationPageChanged)
+                    {
+                        saveButtonPanel.Visibility = Visibility.Collapsed;
+                        saveResultPanel.Visibility = Visibility.Collapsed;
+                        Save();
+                    }
+                    else
+                    {
+                        saveButtonPanel.Visibility = Visibility.Collapsed;
+                        saveResultPanel.Visibility = Visibility.Visible;
+                    }
+
+                    App.CurrentInstance.OpertationPageChanged = false;
+                }
+                else
+                {
+                    saveButtonPanel.Visibility = Visibility.Visible;
+                    saveResultPanel.Visibility = Visibility.Collapsed;
                 }
             }
         }
@@ -94,10 +111,9 @@ namespace MeiTuTieTie.Pages
 
         #region Save
 
-        private void saveButton_Tapped(object sender, TappedRoutedEventArgs e)
+        private async void saveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Save();
-            saveButtonPanel.Visibility = Visibility.Collapsed;
         }
 
         private async void Save()
@@ -105,6 +121,7 @@ namespace MeiTuTieTie.Pages
             string fileName = "MeiTuTieTie_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".jpg";
             await ImageHelper.SaveBitmapToMediaLibrary(bitmap, fileName);
 
+            saveButtonPanel.Visibility = Visibility.Collapsed;
             saveResultPanel.Visibility = Visibility.Visible;
         }
 
