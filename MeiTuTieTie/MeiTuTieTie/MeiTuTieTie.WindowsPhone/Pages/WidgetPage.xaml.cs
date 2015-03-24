@@ -52,6 +52,7 @@ namespace MeiTuTieTie.Pages
                         break;
                     case WidgetPageType.Beijing:
                         pageTitle.Text = "背景";
+                        btnDIY.Visibility = Visibility.Visible;
                         break;
                     default:
                         break;
@@ -275,6 +276,11 @@ namespace MeiTuTieTie.Pages
                 default:
                     break;
             }
+        }
+
+        private void diy_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+
         }
 
 

@@ -52,13 +52,26 @@
     	</VisualStateManager.VisualStateGroups>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <TextBlock x:Name="pageTitle" Style="{StaticResource PageTitle_Style}" Margin="16,16,0,16"/>
 
-        <ScrollViewer x:Name="scrollViewer" Grid.Row="1">
+        <sharedControl:ContentButton Grid.Row="1" Height="48" Margin="16,0,16,16" Tapped="diy_Tapped"
+                                     x:Name="btnDIY" Visibility="Collapsed">
+            <Grid  Background="#ffff7e7e">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                    <!--<Image Width="36" Stretch="Uniform" Source="/Assets/Images/SaveImage.png" VerticalAlignment="Center"/>-->
+                    <TextBlock Text="自定义背景" Style="{StaticResource TextBlockBase}"
+                                               HorizontalAlignment="Center" VerticalAlignment="Center"
+                                               Foreground="White" FontSize="24" Margin="10,0,0,0"/>
+                </StackPanel>
+            </Grid>
+        </sharedControl:ContentButton>
+
+        <ScrollViewer x:Name="scrollViewer" Grid.Row="2">
             <ItemsControl x:Name="materialListBox" Margin="16,0,16,0">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -73,13 +86,13 @@
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
-                            <Border Background="#fff0f0f0" Grid.Column="0" Margin="16,0,0,10" Tapped="material_Tapped" Tag="one">
+                            <Border Background="#fff0f0f0" Grid.Column="0" Margin="0,0,0,10" Tapped="material_Tapped" Tag="one">
                                 <Image Stretch="Uniform" util:IsoImg.Path="{Binding ItemOne.thumbnail}" Margin="0,0,0,0"/>
                             </Border>
                             <Border Background="#fff0f0f0" Grid.Column="1" Margin="10,0,0,10" Tapped="material_Tapped" Tag="two">
                                 <Image Stretch="Uniform" util:IsoImg.Path="{Binding ItemTwo.thumbnail}" Margin="0,0,0,0"/>
                             </Border>
-                            <Border Background="#fff0f0f0" Grid.Column="2" Margin="10,0,16,10" Tapped="material_Tapped" Tag="three">
+                            <Border Background="#fff0f0f0" Grid.Column="2" Margin="10,0,0,10" Tapped="material_Tapped" Tag="three">
                                 <Image Stretch="Uniform" util:IsoImg.Path="{Binding ItemThree.thumbnail}" Margin="0,0,0,0"/>
                             </Border>
                         </Grid>
@@ -88,7 +101,7 @@
             </ItemsControl>
         </ScrollViewer>
 
-        <Grid x:Name="appBar" Grid.Row="2" Height="72" Background="#ffff7e7e">
+        <Grid x:Name="appBar" Grid.Row="3" Height="72" Background="#ffff7e7e">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
