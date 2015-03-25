@@ -287,8 +287,15 @@
         <Grid x:Name="stagePanel">
             <Grid x:Name="stagePanelForClipping">
                 <Grid x:Name="stageBackground" Background="White" PointerPressed="stageBackground_PointerPressed"/>
-                <Image x:Name="imgBeijing" Stretch="UniformToFill" IsHitTestVisible="False"
-                       Source="/Assets/Images/DefaultBackground.jpg"/>
+                <!--<Image x:Name="imgBeijing" Stretch="UniformToFill" IsHitTestVisible="False"
+                       Source="/Assets/Images/DefaultBackground.jpg"/>-->
+
+                <Grid IsHitTestVisible="False">
+                    <Grid.Background>
+                        <ImageBrush x:Name="imgBeijingBrush" ImageSource="/Assets/Images/DefaultBackground.jpg" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"/>
+                    </Grid.Background>
+                </Grid>
+
                 <Image x:Name="imgSingleMode" Stretch="Uniform" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5">
                     <Image.RenderTransform>
                         <CompositeTransform x:Name="transformSingleModeImage"/>

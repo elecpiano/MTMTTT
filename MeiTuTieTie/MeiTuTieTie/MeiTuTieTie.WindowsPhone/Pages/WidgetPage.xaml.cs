@@ -14,10 +14,14 @@ using System.IO;
 using System.Xml.Serialization;
 using Shared.Enum;
 using Shared.Control;
+using Windows.ApplicationModel.Activation;
+using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
+using Windows.UI.Xaml.Media.Imaging;
 
 namespace MeiTuTieTie.Pages
 {
-    public sealed partial class WidgetPage : Page
+    public sealed partial class WidgetPage : Page, IFileOpenPickerPageBase
     {
         #region Property
 
@@ -224,6 +228,48 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
+        #region DIY Background
+
+        private const string Continuation_Key_Operation = "Operation";
+        private const string Continuation_WidgetPage_DIY = "PickPhotos";
+
+        private void diy_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
+        {
+            DIYBackground();
+        }
+
+        private void DIYBackground()
+        {
+            var picker = new FileOpenPicker();
+            picker.FileTypeFilter.Add(".jpg");
+            picker.FileTypeFilter.Add(".jpeg");
+            picker.FileTypeFilter.Add(".png");
+            picker.FileTypeFilter.Add(".gif");
+            picker.ContinuationData[Continuation_Key_Operation] = Continuation_WidgetPage_DIY;
+            //picker.PickMultipleFilesAndContinue();
+            picker.PickSingleFileAndContinue();
+        }
+
+        public async void PickPhotosContiue(FileOpenPickerContinuationEventArgs args)
+        {
+            if (args.ContinuationData.ContainsKey(Continuation_Key_Operation)
+                && args.ContinuationData[Continuation_Key_Operation].ToString() == Continuation_WidgetPage_DIY)
+            {
+                if (args.Files != null && args.Files.Count == 1)
+                {
+                    var file = args.Files[0];
+                    IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
+                    BitmapImage bi = new BitmapImage();
+                    bi.SetSource(stream);
+                    App.CurrentInstance.SelectedDIYBackground = bi;
+
+                    navigationHelper.GoBack();
+                }
+            }
+        }
+
+        #endregion
+
         private void material_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             string tag = ((FrameworkElement)sender).Tag.ToString();
@@ -278,10 +324,6 @@ namespace MeiTuTieTie.Pages
             }
         }
 
-        private void diy_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
-        {
-
-        }
 
 
     }

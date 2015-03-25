@@ -208,6 +208,8 @@ namespace MeiTuTieTie
 
         public WidgetPageType MaterialSelectedBy { get; set; }// = WidgetPageType.Shipin;
 
+        public BitmapImage SelectedDIYBackground { get; set; }
+
         public bool OpertationPageChanged { get; set; }
 
         //public string SelectedFont { get; set; }

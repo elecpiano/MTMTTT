@@ -8,7 +8,8 @@ namespace Shared.Enum
     {
         Shipin,
         BianKuang,
-        Beijing
+        Beijing,
+        DIYBeijing
     }
 
     public enum OperationPageType

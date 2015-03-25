@@ -67,14 +67,14 @@ namespace MeiTuTieTie.Pages
             }
             else if (e.NavigationMode == NavigationMode.Back)
             {
-                if (App.CurrentInstance.SelectedMaterial != null)
+                if (App.CurrentInstance.SelectedDIYBackground != null)
+                {
+                    DIYBackground();
+                }
+                else if (App.CurrentInstance.SelectedMaterial != null)
                 {
                     MaterialToSprite();
                 }
-                //else if (!string.IsNullOrEmpty(App.CurrentInstance.SelectedFont) || App.CurrentInstance.SelectedTextColor != null)
-                //{
-                //    SetFont();
-                //}
             }
 
         }
@@ -144,6 +144,17 @@ namespace MeiTuTieTie.Pages
         private async void GenerateImage()
         {
             SpriteControl.DismissActiveSprite();
+            VisualStateManager.GoToState(this, "vsColorFontHidden", true);
+            colorListShown = fontListShown = false;
+
+            if (pageType == OperationPageType.Single)
+            {
+                VisualStateManager.GoToState(this, "vsSingleModeButtons", false);
+            }
+            else if (pageType == OperationPageType.Multi)
+            {
+                VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
+            }
 
             //http://social.technet.microsoft.com/wiki/contents/articles/20648.using-the-rendertargetbitmap-in-windows-store-apps-with-xaml-and-c.aspx
             RectangleGeometry cropArea = new RectangleGeometry() { Rect = new Rect(0d, 0d, stagePanel.ActualWidth, stagePanel.ActualHeight) };
@@ -173,7 +184,6 @@ namespace MeiTuTieTie.Pages
         private void stageBackground_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             SpriteControl.DismissActiveSprite();
-
             VisualStateManager.GoToState(this, "vsColorFontHidden", true);
             colorListShown = fontListShown = false;
 
@@ -214,6 +224,9 @@ namespace MeiTuTieTie.Pages
         private void PickPhoto_Click(object sender, RoutedEventArgs e)
         {
             SpriteControl.DismissActiveSprite();
+            VisualStateManager.GoToState(this, "vsColorFontHidden", true);
+            colorListShown = fontListShown = false;
+
             PickPhotos();
         }
 
@@ -302,10 +315,26 @@ namespace MeiTuTieTie.Pages
                 }
                 else if (App.CurrentInstance.MaterialSelectedBy == WidgetPageType.Beijing)
                 {
-                    imgBeijing.Source = bi;
+                    //imgBeijing.Source = bi;
+                    imgBeijingBrush.ImageSource = bi;
                 }
 
                 App.CurrentInstance.SelectedMaterial = null;
+                App.CurrentInstance.OpertationPageChanged = true;
+
+                if (sfxEnabled)
+                {
+                    PlaySFX();
+                }
+            }
+        }
+
+        private void DIYBackground()
+        {
+            if (App.CurrentInstance.SelectedDIYBackground!=null)
+            {
+                imgBeijingBrush.ImageSource = App.CurrentInstance.SelectedDIYBackground;
+                App.CurrentInstance.SelectedDIYBackground = null;
                 App.CurrentInstance.OpertationPageChanged = true;
 
                 if (sfxEnabled)
@@ -433,6 +462,11 @@ namespace MeiTuTieTie.Pages
                 {
                     selectedSpriteText = (sender as SpriteControl).spriteText;
                     VisualStateManager.GoToState(this, "vsTextModeButtons", false);
+
+                    //display the color list by defualt
+                    VisualStateManager.GoToState(this, "vsColorListShown", true);
+                    colorListShown = true;
+                    fontListShown = false;
                 }
                 else
                 {
@@ -739,7 +773,7 @@ namespace MeiTuTieTie.Pages
 
         private bool sfxEnabled = false;
         MediaElement mediaElement = null;
-        
+
         private async void PlaySFX()
         {
             BackgroundMediaPlayer.Current.SetUriSource(new Uri("ms-appx:///Assets/Audio/MaterialSFX.wav"));
