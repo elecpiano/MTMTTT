@@ -27,6 +27,7 @@ namespace MeiTuTieTie.Pages
 
         private readonly NavigationHelper navigationHelper;
         private WidgetPageType pageType = WidgetPageType.Shipin;
+        private string CurrentListKey = "keai";
 
         #endregion
 
@@ -68,6 +69,7 @@ namespace MeiTuTieTie.Pages
 
         protected override void OnNavigatedFrom(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
+            SaveScrollPositon(CurrentListKey);
             if (e.NavigationMode == NavigationMode.Back)
             {
                 this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Disabled;
@@ -160,15 +162,20 @@ namespace MeiTuTieTie.Pages
             {
                 materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.keai.ToString()]);
                 VisualStateManager.GoToState(this, "vsKeai", true);
+                CurrentListKey = "keai";
             }
             else if (pageType == WidgetPageType.BianKuang)
             {
                 materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.biankuang.ToString()]);
+                CurrentListKey = "biankuang";
             }
             else if (pageType == WidgetPageType.Beijing)
             {
                 materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.beijing.ToString()]);
+                CurrentListKey = "beijing";
             }
+
+            RestoreScrollPosition(CurrentListKey);
         }
 
         private async Task LoadMaterial(MyTheme theme)
@@ -270,6 +277,26 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
+        #region Scroll Position
+
+        private void SaveScrollPositon(string key)
+        {
+            double pos = scrollViewer.VerticalOffset;
+            App.CurrentInstance.UpdateSetting(key, pos);
+        }
+
+        private void RestoreScrollPosition(string key)
+        {
+            double pos = App.CurrentInstance.GetSetting<double>(key, 0d);
+            DelayExecutor.Delay(200, 
+                () =>
+                {
+                    scrollViewer.ChangeView(null,pos,null,true);
+                });
+        }
+
+        #endregion
+
         private void material_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
             string tag = ((FrameworkElement)sender).Tag.ToString();
@@ -296,32 +323,35 @@ namespace MeiTuTieTie.Pages
 
         private void appBarButton_Click(object sender, RoutedEventArgs e)
         {
-            string type = (sender as BarButton).Text;
+            SaveScrollPositon(CurrentListKey);
+            string type = (sender as FrameworkElement).Tag.ToString();
             switch (type)
             {
-                case "可爱":
+                case "keai":
                     materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.keai.ToString()]);
                     VisualStateManager.GoToState(this, "vsKeai", true);
                     break;
-                case "文字模板":
+                case "wenzi":
                     materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.wenzi.ToString()]);
                     VisualStateManager.GoToState(this, "vsWenzi", true);
                     break;
-                case "搞笑表情":
+                case "gaoxiaobiaoqing":
                     materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.gaoxiaobiaoqing.ToString()]);
                     VisualStateManager.GoToState(this, "vsGaoxiao", true);
                     break;
-                case "遮挡物":
+                case "zhedangwu":
                     materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.zhedang.ToString()]);
                     VisualStateManager.GoToState(this, "vsZhedang", true);
                     break;
-                case "卡通形象":
+                case "katongxingxiang":
                     materialListBox.ItemsSource = GetTriplets(material_dict[MaterialType.katongxingxiang.ToString()]);
                     VisualStateManager.GoToState(this, "vsKatong", true);
                     break;
                 default:
                     break;
             }
+            CurrentListKey = type;
+            RestoreScrollPosition(CurrentListKey);
         }
 
 

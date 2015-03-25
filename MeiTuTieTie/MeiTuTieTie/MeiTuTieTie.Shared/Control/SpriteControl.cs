@@ -26,7 +26,7 @@ namespace Shared.Control
         #region Property
 
         private static Random RANDOM = new Random();
-        private static List<SpriteControl> Sprites = new List<SpriteControl>();
+        public static List<SpriteControl> Sprites = new List<SpriteControl>();
         private const double APPEAR_DURATION = 500d;
         private static PowerEase EASING = new PowerEase();
         private const int BORDER_Z_INDEX = 999;
@@ -179,6 +179,8 @@ namespace Shared.Control
 
         public static bool EdgeEnabled { get; set; }
         public static bool ShadowEnabled { get; set; }
+
+        public BitmapImage ImageSource { get; set; }
 
         #endregion
 
@@ -381,6 +383,9 @@ namespace Shared.Control
             contentPanel.ManipulationStarting += contentPanel_ManipulationStarting;
             contentPanel.ManipulationCompleted += contentPanel_ManipulationCompleted;
 
+            contentPanel.IsHoldingEnabled = true;
+            contentPanel.Holding += contentPanel_Holding;
+
             //for the property which had been accessed by Storyboard, seems like reclaiming is necessary in order to change the property manually again 
             _contentTransform = contentPanel.RenderTransform as CompositeTransform;
             _LTTransform = LTPoint.RenderTransform as CompositeTransform;
@@ -391,6 +396,11 @@ namespace Shared.Control
             SetPosition();
             SetScale();
             SyncButtonsPosition();
+        }
+
+        void contentPanel_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            RaiseSpriteHolding(e);
         }
 
         private void SetPosition(double delta_x = 0d, double delta_y = 0d)
@@ -719,18 +729,43 @@ namespace Shared.Control
             this.image.Source = new BitmapImage(new Uri(source, UriKind.Absolute));
         }
 
+        private const double PhotoAppearWidthMax = 240d;
+        private const double PhotoAppearHeightMax = 240d;
+        private const double MaterialAppearWidthMax = 120d;
+        private const double MaterialAppearHeightMax = 120d;
+
         public void SetImage(BitmapImage bi)
         {
-            this.image.Source = bi;
-
-            double width = _SpriteType == SpriteType.Photo ? 240d : 160;
-            double maxHeight = _SpriteType == SpriteType.Photo ? 320d : 240;
-            double height = width * (double)bi.PixelHeight / (double)bi.PixelWidth;
-            if (height > maxHeight)
+            this.image.Source = this.ImageSource = bi;
+            double width = 100d;
+            double height = 100d;
+            if (_SpriteType == SpriteType.Material)
             {
-                height = maxHeight;
-                width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
+                width = MaterialAppearWidthMax;
+                height = MaterialAppearHeightMax;
             }
+            else if (_SpriteType == SpriteType.Photo)
+            {
+                double WtoH = (double)bi.PixelWidth / (double)bi.PixelHeight;
+                if (WtoH > 1d)//width is longer
+                {
+                    width = PhotoAppearWidthMax;
+                    height = width * (double)bi.PixelHeight / (double)bi.PixelWidth;
+                }
+                else//height is longer
+                {
+                    height = PhotoAppearHeightMax;
+                    width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
+                }
+            }
+            //double width = widthIsLonger ? 240d : 100d;// _SpriteType == SpriteType.Photo ? 160d : 160;
+            //double maxHeight = _SpriteType == SpriteType.Photo ? 240d : 240;
+            //double height = width * (double)bi.PixelHeight / (double)bi.PixelWidth;
+            //if (height > maxHeight)
+            //{
+            //    height = maxHeight;
+            //    width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
+            //}
             contentPanel.Width = imageWidth = imageWidthInitial = width;
             contentPanel.Height = imageHeight = imageHeightInitial = height;
         }
@@ -825,7 +860,7 @@ namespace Shared.Control
             RaiseOnSelected();
         }
 
-        public void ChangeZIndex(bool up)
+        public void MoveZIndex(bool up)
         {
             int index = ZIndexStack.IndexOf(this);
 
@@ -843,6 +878,32 @@ namespace Shared.Control
                     index--;
                 }
             }
+            ZIndexStack.Remove(this);
+            ZIndexStack.Insert(index, this);
+
+            foreach (var sprite in ZIndexStack)
+            {
+                sprite.ZIndex = ZIndexStack.IndexOf(sprite);
+            }
+        }
+
+        public void ZIndexUpMost()
+        {
+            int index = ZIndexStack.Count - 1;
+            
+            ZIndexStack.Remove(this);
+            ZIndexStack.Insert(index, this);
+
+            foreach (var sprite in ZIndexStack)
+            {
+                sprite.ZIndex = ZIndexStack.IndexOf(sprite);
+            }
+        }
+
+        public void ZIndexDownMost()
+        {
+            int index = 0;
+
             ZIndexStack.Remove(this);
             ZIndexStack.Insert(index, this);
 
@@ -885,6 +946,7 @@ namespace Shared.Control
 
         public event EventHandler EditingStarted;
         public event EventHandler EditingEnded;
+        public static event HoldingEventHandler Holding;
         public static event EventHandler OnSelected;
         public static event EventHandler OnRemoved;
         public static event EventHandler OnSpriteChanged;
@@ -910,6 +972,14 @@ namespace Shared.Control
             if (OnSpriteChanged != null)
             {
                 OnSpriteChanged(SelectedSprite, EventArgs.Empty);
+            }
+        }
+
+        public void RaiseSpriteHolding(HoldingRoutedEventArgs e)
+        {
+            if (Holding != null)
+            {
+                Holding(SelectedSprite, e);
             }
         }
 

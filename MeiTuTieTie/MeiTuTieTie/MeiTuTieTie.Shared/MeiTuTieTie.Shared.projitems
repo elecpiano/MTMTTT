@@ -34,6 +34,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Control\ImageButton.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Control\ContentSwitch.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Control\ImageSwitch.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Control\LightTip.xaml.cs">
+      <DependentUpon>LightTip.xaml</DependentUpon>
+    </Compile>
     <Compile Include="$(MSBuildThisFileDirectory)Control\SpriteControl.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Control\SpriteFrame.xaml.cs">
       <DependentUpon>SpriteFrame.xaml</DependentUpon>
@@ -73,6 +76,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="$(MSBuildThisFileDirectory)Control\SpriteFrame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="$(MSBuildThisFileDirectory)Control\LightTip.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -18,6 +18,9 @@ using Shared.Control;
 using Shared.Enum;
 using Shared.Global;
 using Windows.Media.Playback;
+using Shared.Animation;
+using Windows.UI.Popups;
+using System.Linq;
 
 namespace MeiTuTieTie.Pages
 {
@@ -44,6 +47,14 @@ namespace MeiTuTieTie.Pages
         }
         public WidgetPageType MaterialSelectedBy { get; set; }
 
+        CompositeTransform transformSingleModeImage
+        {
+            get
+            {
+                return imgSingleMode.RenderTransform as CompositeTransform;
+            }
+        }
+
         #endregion
 
         #region Lifecycle
@@ -52,6 +63,7 @@ namespace MeiTuTieTie.Pages
         {
             this.InitializeComponent();
             this.navigationHelper = new NavigationHelper(this);
+            this.navigationHelper.CanGobackAsked += navigationHelper_CanGobackAsked;
         }
 
         protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
@@ -79,10 +91,24 @@ namespace MeiTuTieTie.Pages
 
         }
 
-        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        private void navigationHelper_CanGobackAsked(object sender, ref bool canceled)
         {
-            //PreventStrangeSFXBehavior();
-            base.OnNavigatingFrom(e);
+            if (App.CurrentInstance.OpertationPageChanged)
+            {
+                canceled = true;
+                CheckQuit();
+            }
+        }
+
+        private async void CheckQuit()
+        {
+            var dialog = new MessageDialog("是否放弃当前编辑的图片？");
+            var cmdOK = new UICommand("确定", (cmd) => navigationHelper.GoBack());
+            var cmdCancel = new UICommand("取消");
+            dialog.Commands.Add(cmdOK);
+            dialog.Commands.Add(cmdCancel);
+            dialog.CancelCommandIndex = 1;
+            dialog.ShowAsync();
         }
 
         protected override void OnNavigatedFrom(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
@@ -126,11 +152,12 @@ namespace MeiTuTieTie.Pages
             SpriteControl.OnSelected += Sprite_OnSelected;
             SpriteControl.OnRemoved += Sprite_OnRemoved;
             SpriteControl.OnSpriteChanged += Sprite_OnSpriteChanged;
+            SpriteControl.Holding += SpriteControl_Holding;
 
             InitColorFontList();
 
             VisualStateManager.GoToState(this, "vsLayerButtonShown", true);
-            BuildBottomAppBar_Normal();
+            HideSystemAppBar();
 
             App.CurrentInstance.OpertationPageChanged = true;
         }
@@ -144,17 +171,8 @@ namespace MeiTuTieTie.Pages
         private async void GenerateImage()
         {
             SpriteControl.DismissActiveSprite();
-            VisualStateManager.GoToState(this, "vsColorFontHidden", true);
-            colorListShown = fontListShown = false;
-
-            if (pageType == OperationPageType.Single)
-            {
-                VisualStateManager.GoToState(this, "vsSingleModeButtons", false);
-            }
-            else if (pageType == OperationPageType.Multi)
-            {
-                VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
-            }
+            AppBarNormal();
+            HideContextMenu();
 
             //http://social.technet.microsoft.com/wiki/contents/articles/20648.using-the-rendertargetbitmap-in-windows-store-apps-with-xaml-and-c.aspx
             RectangleGeometry cropArea = new RectangleGeometry() { Rect = new Rect(0d, 0d, stagePanel.ActualWidth, stagePanel.ActualHeight) };
@@ -171,30 +189,38 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
-        #region Manipulation
+        #region Single Mode Image Manipulation
+
+        private double SingleModeImageScaleMin = 0.1d;
+        private double SingleModeImageScaleMax = 2d;
+        private double SingleModeImageTranslateX = 0d;
+        private double SingleModeImageTranslateY = 0d;
+
+        private void imgSingleMode_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double width = imgSingleModeGhost.Width = imgSingleMode.ActualWidth;
+            double height = imgSingleModeGhost.Height = imgSingleMode.ActualHeight;
+            double scaleMinX = 120d / width;
+            double scaleMinY = 120d / height;
+            SingleModeImageScaleMin = scaleMinX > scaleMinY ? scaleMinX : scaleMinY;
+
+            SingleModeImageCenterPoint = new Point(imgSingleMode.ActualWidth / 2d, imgSingleMode.ActualHeight / 2d);
+        }
 
         private void PreapreSingleModeImage()
         {
             imgSingleMode.Source = App.CurrentInstance.wbForSingleMode;
             imgSingleMode.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.Scale | ManipulationModes.Rotate;
             imgSingleMode.ManipulationDelta += imgSingleMode_ManipulationDelta;
+            imgSingleMode.ManipulationCompleted += imgSingleMode_ManipulationCompleted;
             imgSingleMode.PointerPressed += stageBackground_PointerPressed;
         }
 
         private void stageBackground_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
             SpriteControl.DismissActiveSprite();
-            VisualStateManager.GoToState(this, "vsColorFontHidden", true);
-            colorListShown = fontListShown = false;
-
-            if (pageType == OperationPageType.Single)
-            {
-                VisualStateManager.GoToState(this, "vsSingleModeButtons", false);
-            }
-            else if (pageType == OperationPageType.Multi)
-            {
-                VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
-            }
+            AppBarNormal();
+            HideContextMenu();
         }
 
         void imgSingleMode_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
@@ -202,17 +228,50 @@ namespace MeiTuTieTie.Pages
             bool isDrag = e.Delta.Rotation == 0 && e.Delta.Expansion == 0;
             if (isDrag)
             {
-                transformSingleModeImage.TranslateX += e.Delta.Translation.X;
-                transformSingleModeImage.TranslateY += e.Delta.Translation.Y;
+                transformSingleModeImageGhost.TranslateX += e.Delta.Translation.X;
+                transformSingleModeImageGhost.TranslateY += e.Delta.Translation.Y;
+
+                var transform = imgSingleModeGhost.TransformToVisual(stagePanel);
+                var p = transform.TransformPoint(SingleModeImageCenterPoint);
+                if (p.X < 0 || p.X > stagePanel.ActualWidth || p.Y < 0 || p.Y > stagePanel.ActualHeight)
+                {
+                    transformSingleModeImageGhost.TranslateX = transformSingleModeImage.TranslateX;
+                    transformSingleModeImageGhost.TranslateY = transformSingleModeImage.TranslateY;
+                    return;
+                }
+
+                transformSingleModeImage.TranslateX = transformSingleModeImageGhost.TranslateX;//+= e.Delta.Translation.X;
+                transformSingleModeImage.TranslateY = transformSingleModeImageGhost.TranslateY;//+= e.Delta.Translation.Y;
             }
             else
             {
-                transformSingleModeImage.Rotation += e.Delta.Rotation;
-                transformSingleModeImage.ScaleX *= e.Delta.Scale;
-                transformSingleModeImage.ScaleY *= e.Delta.Scale;
+                transformSingleModeImageGhost.Rotation = transformSingleModeImage.Rotation += e.Delta.Rotation;
+                transformSingleModeImageGhost.ScaleX = transformSingleModeImage.ScaleX *= e.Delta.Scale;
+                transformSingleModeImageGhost.ScaleY = transformSingleModeImage.ScaleY *= e.Delta.Scale;
+            }
+
+            Test();
+        }
+
+        private void imgSingleMode_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
+        {
+            if (transformSingleModeImage.ScaleX > SingleModeImageScaleMax)
+            {
+                ScaleAnimation.ScaleTo(imgSingleMode, SingleModeImageScaleMax, SingleModeImageScaleMax, 200);
+                transformSingleModeImageGhost.ScaleX = transformSingleModeImageGhost.ScaleY = SingleModeImageScaleMax;
+            }
+            else if (transformSingleModeImage.ScaleX < SingleModeImageScaleMin)
+            {
+                ScaleAnimation.ScaleTo(imgSingleMode, SingleModeImageScaleMin, SingleModeImageScaleMin, 200);
+                transformSingleModeImageGhost.ScaleX = transformSingleModeImageGhost.ScaleY = SingleModeImageScaleMin;
             }
 
             App.CurrentInstance.OpertationPageChanged = true;
+        }
+
+        Point SingleModeImageCenterPoint = new Point(0, 0);
+        private void Test()
+        {
         }
 
         #endregion
@@ -223,11 +282,14 @@ namespace MeiTuTieTie.Pages
 
         private void PickPhoto_Click(object sender, RoutedEventArgs e)
         {
-            SpriteControl.DismissActiveSprite();
-            VisualStateManager.GoToState(this, "vsColorFontHidden", true);
-            colorListShown = fontListShown = false;
+            //var photoSprites = SpriteControl.Sprites.Where(x => x.SpriteType == SpriteType.Photo);
+            //if (photoSprites.Count() >= 9)
+            //{
+            //}
 
+            SpriteControl.DismissActiveSprite();
             PickPhotos();
+            HideContextMenu();
         }
 
         private void PickPhotos()
@@ -284,16 +346,19 @@ namespace MeiTuTieTie.Pages
         private void Shipin_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(WidgetPage), WidgetPageType.Shipin);
+            HideContextMenu();
         }
 
         private void Biankuang_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(WidgetPage), WidgetPageType.BianKuang);
+            HideContextMenu();
         }
 
         private void Beijing_Click(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(WidgetPage), WidgetPageType.Beijing);
+            HideContextMenu();
         }
 
         private async void MaterialToSprite()
@@ -331,7 +396,7 @@ namespace MeiTuTieTie.Pages
 
         private void DIYBackground()
         {
-            if (App.CurrentInstance.SelectedDIYBackground!=null)
+            if (App.CurrentInstance.SelectedDIYBackground != null)
             {
                 imgBeijingBrush.ImageSource = App.CurrentInstance.SelectedDIYBackground;
                 App.CurrentInstance.SelectedDIYBackground = null;
@@ -352,21 +417,24 @@ namespace MeiTuTieTie.Pages
         {
             if (SpriteControl.SelectedSprite != null)
             {
-                SpriteControl.SelectedSprite.ChangeZIndex(true);
+                SpriteControl.SelectedSprite.MoveZIndex(true);
             }
+            HideContextMenu();
         }
 
         private void spriteDown_Click(object sender, TappedRoutedEventArgs e)
         {
             if (SpriteControl.SelectedSprite != null)
             {
-                SpriteControl.SelectedSprite.ChangeZIndex(false);
+                SpriteControl.SelectedSprite.MoveZIndex(false);
             }
+            HideContextMenu();
         }
 
         private void spriteDelete_Click(object sender, TappedRoutedEventArgs e)
         {
             SpriteControl.RemoveSelectedSprite();
+            HideContextMenu();
         }
 
         private void photoLock_Click(object sender, TappedRoutedEventArgs e)
@@ -375,16 +443,105 @@ namespace MeiTuTieTie.Pages
 
             btnPhotoUnLock.Opacity = SingleImageLocked ? 1d : 0d;
             btnPhotoLock.Opacity = SingleImageLocked ? 0d : 1d;
+
+            if (SingleImageLocked)
+            {
+                lightTip.ShowTip("当前图片已锁定");
+            }
+            HideContextMenu();
         }
 
         private void spriteFuncOff_Click(object sender, TappedRoutedEventArgs e)
         {
             VisualStateManager.GoToState(this, "vsLayerButtonHidden", true);
+            HideContextMenu();
         }
 
         private void spriteFuncOn_Click(object sender, TappedRoutedEventArgs e)
         {
             VisualStateManager.GoToState(this, "vsLayerButtonShown", true);
+            HideContextMenu();
+        }
+
+        private void spriteUpMost_Click(object sender, TappedRoutedEventArgs e)
+        {
+            if (SpriteControl.SelectedSprite != null)
+            {
+                SpriteControl.SelectedSprite.ZIndexUpMost();
+            }
+            HideContextMenu();
+        }
+
+        private void spriteDownMost_Click(object sender, TappedRoutedEventArgs e)
+        {
+            if (SpriteControl.SelectedSprite != null)
+            {
+                SpriteControl.SelectedSprite.ZIndexDownMost();
+            }
+            HideContextMenu();
+        }
+
+        private void spriteCopy_Click(object sender, TappedRoutedEventArgs e)
+        {
+            CopySprite();
+            HideContextMenu();
+        }
+
+        #endregion
+
+        #region Context Menu
+
+        private void SpriteControl_Holding(object sender, HoldingRoutedEventArgs e)
+        {
+            contextMenuTransform.TranslateX = e.GetPosition(stagePanel).X / 2d;
+            contextMenuTransform.TranslateY = e.GetPosition(stagePanel).Y / 2d;
+            ShowContextMenu();
+        }
+
+        private void ShowContextMenu()
+        {
+            contextMenu.Opacity = 1d;
+            contextMenu.IsHitTestVisible = true;
+        }
+
+        private void HideContextMenu()
+        {
+            contextMenu.Opacity = 0d;
+            contextMenu.IsHitTestVisible = false;
+        }
+
+        private void CopySprite()
+        {
+            SpriteControl sprite = null;
+            if (SpriteControl.SelectedSprite.SpriteType == SpriteType.Photo)
+            {
+                sprite = new SpriteControl(SpriteType.Photo);
+                sprite.SetImage(SpriteControl.SelectedSprite.ImageSource);
+            }
+            else if (SpriteControl.SelectedSprite.SpriteType == SpriteType.Material)
+            {
+                sprite = new SpriteControl(SpriteType.Material);
+                sprite.SetImage(SpriteControl.SelectedSprite.ImageSource);
+            }
+            else if (SpriteControl.SelectedSprite.SpriteType == SpriteType.Text)
+            {
+                sprite = new SpriteControl(SpriteType.Text);
+                sprite.EditingStarted += sprite_EditingStarted;
+                sprite.EditingEnded += sprite_EditingEnded;
+                sprite.spriteText.Text = selectedSpriteText.Text;
+                sprite.spriteText.TextColor = selectedSpriteText.TextColor;
+                sprite.spriteText.Font = selectedSpriteText.Font;
+            }
+
+            sprites.Add(sprite);
+            sprite.AddToContainer();
+
+            App.CurrentInstance.OpertationPageChanged = true;
+
+            if (sfxEnabled)
+            {
+                PlaySFX();
+            }
         }
 
         #endregion
@@ -431,6 +588,7 @@ namespace MeiTuTieTie.Pages
         private void Text_Click(object sender, RoutedEventArgs e)
         {
             AddTextSprite();
+            HideContextMenu();
         }
 
         private void AddTextSprite()
@@ -438,9 +596,9 @@ namespace MeiTuTieTie.Pages
             SpriteControl sprite = new SpriteControl(SpriteType.Text);
             sprite.EditingStarted += sprite_EditingStarted;
             sprite.EditingEnded += sprite_EditingEnded;
-
             sprites.Add(sprite);
             sprite.AddToContainer();
+
             App.CurrentInstance.OpertationPageChanged = true;
 
             if (sfxEnabled)
@@ -454,7 +612,7 @@ namespace MeiTuTieTie.Pages
             SpriteControl sprite = sender as SpriteControl;
             if (sprite == null)
             {
-                BuildBottomAppBar_Normal();
+                HideSystemAppBar();
             }
             else
             {
@@ -487,14 +645,7 @@ namespace MeiTuTieTie.Pages
             SpriteControl sprite = sender as SpriteControl;
             if (sprite.SpriteType == SpriteType.Text)
             {
-                if (pageType == OperationPageType.Single)
-                {
-                    VisualStateManager.GoToState(this, "vsSingleModeButtons", false);
-                }
-                else if (pageType == OperationPageType.Multi)
-                {
-                    VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
-                }
+                AppBarNormal();
             }
         }
 
@@ -505,7 +656,7 @@ namespace MeiTuTieTie.Pages
 
         void sprite_EditingStarted(object sender, EventArgs e)
         {
-            BuildBottomAppBar_TextEditor();
+            BuildSystemAppBar_TextEditor();
             DelayExecutor.Delay(20, () =>
                 {
                     (sender as SpriteControl).SyncButtonsPosition();
@@ -514,7 +665,7 @@ namespace MeiTuTieTie.Pages
 
         void sprite_EditingEnded(object sender, EventArgs e)
         {
-            BuildBottomAppBar_Normal();
+            HideSystemAppBar();
             DelayExecutor.Delay(20, () =>
             {
                 (sender as SpriteControl).SyncButtonsPosition();
@@ -535,6 +686,7 @@ namespace MeiTuTieTie.Pages
                 colorListShown = true;
                 fontListShown = false;
             }
+            HideContextMenu();
         }
 
         private bool fontListShown = false;
@@ -551,6 +703,7 @@ namespace MeiTuTieTie.Pages
                 fontListShown = true;
                 colorListShown = false;
             }
+            HideContextMenu();
         }
 
         private void InitColorFontList()
@@ -702,28 +855,15 @@ namespace MeiTuTieTie.Pages
         #region AppBar
 
         AppBarButton appBarButton_ok = null;
-        int appBarState = -1;//0-normal, 1-font, 
 
-        private void BuildBottomAppBar_Normal()
+        private void HideSystemAppBar()
         {
-            if (appBarState == 0)
-            {
-                return;
-            }
-
             this.bottomAppBar.PrimaryCommands.Clear();
             bottomAppBar.Visibility = Visibility.Collapsed;
-
-            appBarState = 0;
         }
 
-        private void BuildBottomAppBar_TextEditor()
+        private void BuildSystemAppBar_TextEditor()
         {
-            if (appBarState == 1)
-            {
-                return;
-            }
-
             this.bottomAppBar.PrimaryCommands.Clear();
             bottomAppBar.Visibility = Visibility.Visible;
 
@@ -736,18 +876,31 @@ namespace MeiTuTieTie.Pages
                 appBarButton_ok.Click += AppbarButton_TextOK_Click;
             }
             this.bottomAppBar.PrimaryCommands.Add(appBarButton_ok);
-
-            appBarState = 1;
         }
 
         private void AppbarButton_TextOK_Click(object sender, RoutedEventArgs e)
         {
-
+            //no need to do anything
         }
 
         private void AppbarButton_OK_Tapped(object sender, TappedRoutedEventArgs e)
         {
             GenerateImage();
+        }
+
+        private void AppBarNormal()
+        {
+            VisualStateManager.GoToState(this, "vsColorFontHidden", true);
+            colorListShown = fontListShown = false;
+
+            if (pageType == OperationPageType.Single)
+            {
+                VisualStateManager.GoToState(this, "vsSingleModeButtons", false);
+            }
+            else if (pageType == OperationPageType.Multi)
+            {
+                VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
+            }
         }
 
         //void AppbarButton_Font_Click(object sender, RoutedEventArgs e)

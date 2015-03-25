@@ -57,5 +57,10 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
+        private void welcome_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            Frame.Navigate(typeof(WelcomePage));
+        }
+
     }
 }

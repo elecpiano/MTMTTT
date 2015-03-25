@@ -50,7 +50,7 @@ namespace MeiTuTieTie.Pages
 
         private void go_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            Frame.Navigate(typeof(HomePage));
+            navigationHelper.GoBack();
         }
 
     }

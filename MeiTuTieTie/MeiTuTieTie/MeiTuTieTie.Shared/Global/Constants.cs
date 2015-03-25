@@ -21,6 +21,7 @@ namespace Shared.Global
         public const string KEY_AUTO_SAVE = "key_auto_save";
         public const string KEY_SFX = "key_sfx";
         public const string KEY_MATERIAL_BUILT_IN = "key_material_built_in";
+        public const string KEY_WELCOME_SHOWN = "key_welcome_shown";
 
     }
 }

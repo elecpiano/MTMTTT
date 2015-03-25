@@ -37,6 +37,11 @@
                         <Run Text="当前版本 V"/>
                         <Run x:Name="txtVersionNumber" Text="1.0"/>
                     </TextBlock>
+                    <sharedControl:ContentButton Height="48" Margin="0,24,0,0" Tapped="welcome_Tapped">
+                        <Grid  Background="#00000000">
+                            <TextBlock Text="欢迎页" Style="{StaticResource Settings_ItemText_Style}" Margin="0,0,0,0"/>
+                        </Grid>
+                    </sharedControl:ContentButton>
                 </StackPanel>
             </ScrollViewer>
 

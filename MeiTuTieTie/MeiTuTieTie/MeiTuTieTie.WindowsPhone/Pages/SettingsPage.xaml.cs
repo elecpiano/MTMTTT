@@ -71,7 +71,7 @@ namespace MeiTuTieTie.Pages
         private void imageSizeOption_Tapped(object sender, TappedRoutedEventArgs e)
         {
             string tag = (sender as FrameworkElement).Tag.ToString();
-            double width = 1248d;
+            double width = 960d;
 
             switch (tag)
             {
@@ -79,10 +79,10 @@ namespace MeiTuTieTie.Pages
                     width = 640d;
                     break;
                 case "2":
-                    width = 1248d;
+                    width = 960d;
                     break;
                 case "3":
-                    width = 1600d;
+                    width = 1024d;
                     break;
                 default:
                     break;
@@ -121,10 +121,10 @@ namespace MeiTuTieTie.Pages
         private void LoadSettings()
         {
             //image size
-            double width = App.CurrentInstance.GetSetting<double>(Constants.KEY_EXPORT_WIDTH, 1248d);
+            double width = App.CurrentInstance.GetSetting<double>(Constants.KEY_EXPORT_WIDTH, 960d);
             imageSizeRadio1.IsChecked = width == 640d ? true : false;
-            imageSizeRadio2.IsChecked = width == 1248d ? true : false;
-            imageSizeRadio3.IsChecked = width == 1600d ? true : false;
+            imageSizeRadio2.IsChecked = width == 960d ? true : false;
+            imageSizeRadio3.IsChecked = width == 1024d ? true : false;
 
             //edge
             switchEdge.IsOn = App.CurrentInstance.GetSetting<bool>(Constants.KEY_EDGE, false);
@@ -135,7 +135,7 @@ namespace MeiTuTieTie.Pages
             shadowStatus.Text = switchShadow.IsOn ? "已开启" : "已关闭";
 
             //auto save
-            switchAutoSave.IsOn = App.CurrentInstance.GetSetting<bool>(Constants.KEY_AUTO_SAVE, false);
+            switchAutoSave.IsOn = App.CurrentInstance.GetSetting<bool>(Constants.KEY_AUTO_SAVE, true);
             autoSaveStatus.Text = switchAutoSave.IsOn ? "已开启" : "已关闭";
 
             //SFX

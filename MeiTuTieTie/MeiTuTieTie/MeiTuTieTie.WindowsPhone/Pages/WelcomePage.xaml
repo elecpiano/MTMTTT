@@ -19,30 +19,30 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Grid Background="#ff666666" Grid.RowSpan="2"/>
+        <!--<Grid Background="#ff666666" Grid.RowSpan="2"/>-->
 
         <Hub Grid.Row="1">
             <HubSection>
                 <DataTemplate>
-                    <Grid>
-                        <Image Source="/Assets/Images/Help/Help1.jpg" Stretch="Uniform" Margin="15,-36,-12,36"/>
+                    <Grid Background="LightBlue">
+                        <!--<Image Source="/Assets/Images/Help/Help1.jpg" Stretch="Uniform" Margin="15,-36,-12,36"/>-->
                     </Grid>
                 </DataTemplate>
             </HubSection>
             <HubSection>
                 <DataTemplate>
-                    <Grid>
-                        <Image Source="/Assets/Images/Help/Help2.jpg" Stretch="Uniform" Margin="15,-36,-12,36"/>
+                    <Grid Background="LightBlue">
+                        <!--<Image Source="/Assets/Images/Help/Help2.jpg" Stretch="Uniform" Margin="15,-36,-12,36"/>-->
                     </Grid>
                 </DataTemplate>
             </HubSection>
             <HubSection>
                 <DataTemplate>
-                    <Grid>
-                        <Image Source="/Assets/Images/Help/Help3.jpg" Stretch="Uniform" Margin="15,-36,-12,36"/>
+                    <Grid Background="LightBlue">
+                        <!--<Image Source="/Assets/Images/Help/Help3.jpg" Stretch="Uniform" Margin="15,-36,-12,36"/>-->
                         <sharedControl:ContentButton Height="48" Margin="16,200,16,0" Tapped="go_Tapped">
                             <Grid  Background="#ffff7e7e">
-                                    <TextBlock Text="yiqimaimeng" Style="{StaticResource TextBlockBase}"
+                                    <TextBlock Text="一起来卖萌吧！" Style="{StaticResource TextBlockBase}"
                                                HorizontalAlignment="Center" VerticalAlignment="Center"
                                                Foreground="White" FontSize="24" Margin="10,0,0,0"/>
                             </Grid>

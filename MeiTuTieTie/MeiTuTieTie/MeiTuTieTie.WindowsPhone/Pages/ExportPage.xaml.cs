@@ -18,7 +18,7 @@ namespace MeiTuTieTie.Pages
         #region Property
 
         private readonly NavigationHelper navigationHelper;
-        private bool autoSave = false;
+        private bool autoSave = true;
         RenderTargetBitmap bitmap = null;
 
         #endregion
@@ -131,7 +131,7 @@ namespace MeiTuTieTie.Pages
 
         private void LoadSettings()
         {
-            autoSave = App.CurrentInstance.GetSetting<bool>(Constants.KEY_AUTO_SAVE, false);
+            autoSave = App.CurrentInstance.GetSetting<bool>(Constants.KEY_AUTO_SAVE, true);
             saveButtonPanel.Visibility = autoSave ? Visibility.Collapsed : Visibility.Visible;
         }
 

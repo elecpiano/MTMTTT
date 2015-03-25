@@ -75,7 +75,7 @@
             <ItemsControl x:Name="materialListBox" Margin="16,0,16,0">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
-                        <VirtualizingStackPanel/>
+                        <StackPanel/>
                     </ItemsPanelTemplate>
                 </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
@@ -162,15 +162,15 @@
             </Rectangle>
             
             <sharedControl:BarButton Grid.Column="0" x:Name="appBarButton1" Icon="/Assets/Images/AppBar/AppBarKeai.png" Margin="10,0,10,0" 
-                                     Text="可爱" Click="appBarButton_Click"/>
+                                     Text="可爱" Click="appBarButton_Click" Tag="keai"/>
             <sharedControl:BarButton Grid.Column="1" x:Name="appBarButton2" Icon="/Assets/Images/AppBar/AppBarWenzi.png" Margin="10,0,10,0" 
-                                     Text="文字模板" Click="appBarButton_Click"/>
+                                     Text="文字模板" Click="appBarButton_Click" Tag="wenzi"/>
             <sharedControl:BarButton Grid.Column="2" x:Name="appBarButton3" Icon="/Assets/Images/AppBar/AppBarGaoxiao.png" Margin="10,0,10,0" 
-                                     Text="搞笑表情" Click="appBarButton_Click"/>
+                                     Text="搞笑表情" Click="appBarButton_Click" Tag="gaoxiaobiaoqing"/>
             <sharedControl:BarButton Grid.Column="3" x:Name="appBarButton4" Icon="/Assets/Images/AppBar/AppBarZhedang.png" Margin="10,0,10,0" 
-                                     Text="遮挡物" Click="appBarButton_Click"/>
+                                     Text="遮挡物" Click="appBarButton_Click" Tag="zhedangwu"/>
             <sharedControl:BarButton Grid.Column="4" x:Name="appBarButton5" Icon="/Assets/Images/AppBar/AppBarKatong.png" Margin="10,0,10,0" 
-                                     Text="卡通形象" Click="appBarButton_Click"/>
+                                     Text="卡通形象" Click="appBarButton_Click" Tag="katongxingxiang"/>
         </Grid>
 
     </Grid>

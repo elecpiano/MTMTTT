@@ -85,15 +85,15 @@
                             <TextBlock Text="画质设置" Style="{StaticResource Settings_ItemText_Style}"/>
                             <StackPanel Background="#00000000" Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="1" Margin="0,12,0,12">
                                 <RadioButton x:Name="imageSizeRadio1" IsChecked="False" Style="{StaticResource RadioButtonStyle1}"/>
-                                <TextBlock Text="一般 (640px)" Style="{StaticResource Settings_ItemText_Style}"/>
+                                <TextBlock Text="小图 (640px)" Style="{StaticResource Settings_ItemText_Style}"/>
                             </StackPanel>
                             <StackPanel Background="#00000000" Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="2" Margin="0,12,0,12">
                                 <RadioButton x:Name="imageSizeRadio2" IsChecked="True" Style="{StaticResource RadioButtonStyle1}"/>
-                                <TextBlock Text="普通 (1248px)" Style="{StaticResource Settings_ItemText_Style}"/>
+                                <TextBlock Text="中图 (960px)" Style="{StaticResource Settings_ItemText_Style}"/>
                             </StackPanel>
                             <StackPanel  Background="#00000000" Orientation="Horizontal" Tapped="imageSizeOption_Tapped" Tag="3" Margin="0,12,0,0">
                                 <RadioButton x:Name="imageSizeRadio3" IsChecked="False" Style="{StaticResource RadioButtonStyle1}"/>
-                                <TextBlock Text="高清 (1600px)" Style="{StaticResource Settings_ItemText_Style}"/>
+                                <TextBlock Text="大图 (1024px)" Style="{StaticResource Settings_ItemText_Style}"/>
                             </StackPanel>
 
                             <Rectangle Style="{StaticResource ItemSplitBar}" Margin="0,24,0,0"/>

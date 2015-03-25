@@ -80,40 +80,40 @@ namespace MeiTuTieTie
 
         #region Edge & Shadow
 
-        private bool _EdgeEnabled = false;
-        public bool EdgeEnabled
-        {
-            get
-            {
-                return _EdgeEnabled;
-            }
-            set
-            {
-                if (_EdgeEnabled != value)
-                {
-                    _EdgeEnabled = value;
-                    UpdateSetting(Constants.KEY_EDGE, value);
-                }
-            }
-        }
+        //private bool _EdgeEnabled = false;
+        //public bool EdgeEnabled
+        //{
+        //    get
+        //    {
+        //        return _EdgeEnabled;
+        //    }
+        //    set
+        //    {
+        //        if (_EdgeEnabled != value)
+        //        {
+        //            _EdgeEnabled = value;
+        //            UpdateSetting(Constants.KEY_EDGE, value);
+        //        }
+        //    }
+        //}
 
        
-        private bool _ShadowEnabled = false;
-        public bool ShadowEnabled
-        {
-            get
-            {
-                return _ShadowEnabled;
-            }
-            set
-            {
-                if (_ShadowEnabled != value)
-                {
-                    _ShadowEnabled = value;
-                    UpdateSetting(Constants.KEY_SHADOW, value);
-                }
-            }
-        }
+        //private bool _ShadowEnabled = false;
+        //public bool ShadowEnabled
+        //{
+        //    get
+        //    {
+        //        return _ShadowEnabled;
+        //    }
+        //    set
+        //    {
+        //        if (_ShadowEnabled != value)
+        //        {
+        //            _ShadowEnabled = value;
+        //            UpdateSetting(Constants.KEY_SHADOW, value);
+        //        }
+        //    }
+        //}
 
         #endregion
     }

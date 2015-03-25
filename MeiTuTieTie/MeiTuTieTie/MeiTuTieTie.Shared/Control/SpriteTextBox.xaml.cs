@@ -42,11 +42,26 @@ namespace Shared.Control
 
         public Brush TextColor
         {
-            get { return textBox.Foreground; }
+            get { return textBoxVisual.Foreground; }
             set
             {
                 //textBox.Foreground = value;
                 textBoxVisual.Foreground = value;
+                if (ContainerSpriteControl != null)
+                {
+                    ContainerSpriteControl.RaiseSpriteChanged();
+                }
+            }
+        }
+
+        public string Text
+        {
+            get { return textBox.Text; }
+            set
+            {
+                textBox.Text = value;
+                textBoxVisual.Text = value;
+                StopEdit();
                 if (ContainerSpriteControl != null)
                 {
                     ContainerSpriteControl.RaiseSpriteChanged();

@@ -51,7 +51,7 @@
             <sharedControl:ContentButton Grid.Row="2" Grid.Column="3" Tapped="multiPhoto_Tapped">
                 <Image Source="/Assets/Images/HomePageMultiPhoto.png" Stretch="Uniform" />
             </sharedControl:ContentButton>
-            <sharedControl:ContentButton Grid.Row="4" Grid.Column="1" Tapped="boutique_Tapped" Visibility="Visible">
+            <sharedControl:ContentButton Grid.Row="4" Grid.Column="1" Tapped="boutique_Tapped" Visibility="Collapsed">
                 <Grid Background="LightBlue">
                     <Image Source="/Assets/Images/HomePageMultiPhoto.png" Stretch="Uniform" Opacity="0"/>
                 </Grid>

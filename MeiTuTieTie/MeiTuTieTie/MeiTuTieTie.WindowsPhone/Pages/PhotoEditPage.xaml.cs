@@ -60,8 +60,10 @@ namespace MeiTuTieTie.Pages
                 PreapreWritableBitmap(stream, bi);
 
                 //highlight selected crop ratio
-                selectedText = menuItem_origin;
+                selectedText = menuItem_arbitrary;
                 selectedText.Foreground = selectedBrush;
+
+                SetCropMode("arbitrary");
             }
         }
 
@@ -381,6 +383,11 @@ namespace MeiTuTieTie.Pages
 
         private void Draw()
         {
+            if (geoGroup==null)
+            {
+                return;
+            }
+
             geoGroup.Children.Clear();
 
             rectIn.X = clip_L;
@@ -502,6 +509,12 @@ namespace MeiTuTieTie.Pages
         private void sizeMenuItem_Tapped(object sender, TappedRoutedEventArgs e)
         {
             string tag = (sender as FrameworkElement).Tag.ToString();
+            SetCropMode(tag);
+            HideSizeMenuPopup();
+        }
+
+        private void SetCropMode(string tag)
+        {
             currentRatioType = tag;
 
             selectedText.Foreground = unselectedBrush;
@@ -572,7 +585,6 @@ namespace MeiTuTieTie.Pages
             }
 
             Draw();
-            HideSizeMenuPopup();
         }
 
         #endregion

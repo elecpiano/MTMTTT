@@ -113,7 +113,7 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
+
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="vsgLayerButtons">
                 <VisualStateGroup.Transitions>
@@ -165,125 +165,125 @@
                 <VisualState x:Name="vsLayerButtonHidden"/>
             </VisualStateGroup>
             <VisualStateGroup x:Name="vsgColorFont">
-            	<VisualStateGroup.Transitions>
-            		<VisualTransition GeneratedDuration="0:0:0.2">
-            			<VisualTransition.GeneratedEasingFunction>
-            				<PowerEase EasingMode="EaseInOut"/>
-            			</VisualTransition.GeneratedEasingFunction>
-            		</VisualTransition>
-            	</VisualStateGroup.Transitions>
-            	<VisualState x:Name="vsColorFontHidden"/>
-            	<VisualState x:Name="vsColorListShown">
-            		<Storyboard>
-            			<DoubleAnimation Duration="0" To="-76" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="colorListPanel" d:IsOptimized="True"/>
-            		</Storyboard>
-            	</VisualState>
-            	<VisualState x:Name="vsFontListShown">
-            		<Storyboard>
-            			<DoubleAnimation Duration="0" To="-76" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="fontListPanel" d:IsOptimized="True"/>
-            		</Storyboard>
-            	</VisualState>
+                <VisualStateGroup.Transitions>
+                    <VisualTransition GeneratedDuration="0:0:0.2">
+                        <VisualTransition.GeneratedEasingFunction>
+                            <PowerEase EasingMode="EaseInOut"/>
+                        </VisualTransition.GeneratedEasingFunction>
+                    </VisualTransition>
+                </VisualStateGroup.Transitions>
+                <VisualState x:Name="vsColorFontHidden"/>
+                <VisualState x:Name="vsColorListShown">
+                    <Storyboard>
+                        <DoubleAnimation Duration="0" To="-76" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="colorListPanel" d:IsOptimized="True"/>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="vsFontListShown">
+                    <Storyboard>
+                        <DoubleAnimation Duration="0" To="-76" Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateY)" Storyboard.TargetName="fontListPanel" d:IsOptimized="True"/>
+                    </Storyboard>
+                </VisualState>
             </VisualStateGroup>
             <VisualStateGroup x:Name="vsgButtonsByMode">
-            	<VisualState x:Name="vsSingleModeButtons">
-            		<Storyboard>
-            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnPhoto">
-            				<DiscreteObjectKeyFrame KeyTime="0">
-            					<DiscreteObjectKeyFrame.Value>
-            						<Visibility>Collapsed</Visibility>
-            					</DiscreteObjectKeyFrame.Value>
-            				</DiscreteObjectKeyFrame>
-            			</ObjectAnimationUsingKeyFrames>
-            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnBeijing">
-            				<DiscreteObjectKeyFrame KeyTime="0">
-            					<DiscreteObjectKeyFrame.Value>
-            						<Visibility>Collapsed</Visibility>
-            					</DiscreteObjectKeyFrame.Value>
-            				</DiscreteObjectKeyFrame>
-            			</ObjectAnimationUsingKeyFrames>
-            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnColor">
-            				<DiscreteObjectKeyFrame KeyTime="0">
-            					<DiscreteObjectKeyFrame.Value>
-            						<Visibility>Collapsed</Visibility>
-            					</DiscreteObjectKeyFrame.Value>
-            				</DiscreteObjectKeyFrame>
-            			</ObjectAnimationUsingKeyFrames>
-            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnFont">
-            				<DiscreteObjectKeyFrame KeyTime="0">
-            					<DiscreteObjectKeyFrame.Value>
-            						<Visibility>Collapsed</Visibility>
-            					</DiscreteObjectKeyFrame.Value>
-            				</DiscreteObjectKeyFrame>
-            			</ObjectAnimationUsingKeyFrames>
-            		</Storyboard>
-            	</VisualState>
-            	<VisualState x:Name="vsMultiModeButtons">
-            		<Storyboard>
-            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnBiankuang">
-            				<DiscreteObjectKeyFrame KeyTime="0">
-            					<DiscreteObjectKeyFrame.Value>
-            						<Visibility>Collapsed</Visibility>
-            					</DiscreteObjectKeyFrame.Value>
-            				</DiscreteObjectKeyFrame>
-            			</ObjectAnimationUsingKeyFrames>
-            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnColor">
-            				<DiscreteObjectKeyFrame KeyTime="0">
-            					<DiscreteObjectKeyFrame.Value>
-            						<Visibility>Collapsed</Visibility>
-            					</DiscreteObjectKeyFrame.Value>
-            				</DiscreteObjectKeyFrame>
-            			</ObjectAnimationUsingKeyFrames>
-            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnFont">
-            				<DiscreteObjectKeyFrame KeyTime="0">
-            					<DiscreteObjectKeyFrame.Value>
-            						<Visibility>Collapsed</Visibility>
-            					</DiscreteObjectKeyFrame.Value>
-            				</DiscreteObjectKeyFrame>
-            			</ObjectAnimationUsingKeyFrames>
-            		</Storyboard>
-            	</VisualState>
-            	<VisualState x:Name="vsTextModeButtons">
-            		<Storyboard>
-            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnPhoto">
-            				<DiscreteObjectKeyFrame KeyTime="0">
-            					<DiscreteObjectKeyFrame.Value>
-            						<Visibility>Collapsed</Visibility>
-            					</DiscreteObjectKeyFrame.Value>
-            				</DiscreteObjectKeyFrame>
-            			</ObjectAnimationUsingKeyFrames>
-            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnShipin">
-            				<DiscreteObjectKeyFrame KeyTime="0">
-            					<DiscreteObjectKeyFrame.Value>
-            						<Visibility>Collapsed</Visibility>
-            					</DiscreteObjectKeyFrame.Value>
-            				</DiscreteObjectKeyFrame>
-            			</ObjectAnimationUsingKeyFrames>
-            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnText">
-            				<DiscreteObjectKeyFrame KeyTime="0">
-            					<DiscreteObjectKeyFrame.Value>
-            						<Visibility>Collapsed</Visibility>
-            					</DiscreteObjectKeyFrame.Value>
-            				</DiscreteObjectKeyFrame>
-            			</ObjectAnimationUsingKeyFrames>
-            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnBiankuang">
-            				<DiscreteObjectKeyFrame KeyTime="0">
-            					<DiscreteObjectKeyFrame.Value>
-            						<Visibility>Collapsed</Visibility>
-            					</DiscreteObjectKeyFrame.Value>
-            				</DiscreteObjectKeyFrame>
-            			</ObjectAnimationUsingKeyFrames>
-            			<ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnBeijing">
-            				<DiscreteObjectKeyFrame KeyTime="0">
-            					<DiscreteObjectKeyFrame.Value>
-            						<Visibility>Collapsed</Visibility>
-            					</DiscreteObjectKeyFrame.Value>
-            				</DiscreteObjectKeyFrame>
-            			</ObjectAnimationUsingKeyFrames>
-            		</Storyboard>
-            	</VisualState>
+                <VisualState x:Name="vsSingleModeButtons">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnPhoto">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnBeijing">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnColor">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnFont">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="vsMultiModeButtons">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnBiankuang">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnColor">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnFont">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
+                <VisualState x:Name="vsTextModeButtons">
+                    <Storyboard>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnPhoto">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnShipin">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnText">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnBiankuang">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                        <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" Storyboard.TargetName="btnBeijing">
+                            <DiscreteObjectKeyFrame KeyTime="0">
+                                <DiscreteObjectKeyFrame.Value>
+                                    <Visibility>Collapsed</Visibility>
+                                </DiscreteObjectKeyFrame.Value>
+                            </DiscreteObjectKeyFrame>
+                        </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                </VisualState>
             </VisualStateGroup>
         </VisualStateManager.VisualStateGroups>
-        
+
         <Grid x:Name="stagePanel">
             <Grid x:Name="stagePanelForClipping">
                 <Grid x:Name="stageBackground" Background="White" PointerPressed="stageBackground_PointerPressed"/>
@@ -296,15 +296,45 @@
                     </Grid.Background>
                 </Grid>
 
-                <Image x:Name="imgSingleMode" Stretch="Uniform" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5">
+                <Image x:Name="imgSingleMode" Stretch="Uniform" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5" SizeChanged="imgSingleMode_SizeChanged">
                     <Image.RenderTransform>
-                        <CompositeTransform x:Name="transformSingleModeImage"/>
+                        <CompositeTransform />
                     </Image.RenderTransform>
                 </Image>
+
+                <Rectangle Opacity="0" x:Name="imgSingleModeGhost" IsHitTestVisible="False" RenderTransformOrigin="0.5,0.5" >
+                    <Rectangle.RenderTransform>
+                        <CompositeTransform x:Name="transformSingleModeImageGhost"/>
+                    </Rectangle.RenderTransform>
+                </Rectangle>
+
                 <Image x:Name="imgBiankuang" Stretch="Fill" IsHitTestVisible="False"/>
                 <Grid x:Name="stage"/>
+
+                <StackPanel x:Name="contextMenu" Orientation="Horizontal" 
+                            HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-80,-20" 
+                            RenderTransformOrigin="0.5,0.5"
+                            IsHitTestVisible="False" Opacity="0">
+                    <StackPanel.RenderTransform>
+                        <CompositeTransform x:Name="contextMenuTransform"/>
+                    </StackPanel.RenderTransform>
+                    <Grid Background="#ff2d2d2d" Margin="0,0,1,0" Tapped="spriteUpMost_Click">
+                        <TextBlock Text="置顶" Style="{StaticResource OperationPage_ContextMenu_Text_Style}"/>
+                    </Grid>
+                    <Grid Background="#ff2d2d2d" Margin="0,0,1,0" Tapped="spriteDownMost_Click">
+                        <TextBlock Text="置底" Style="{StaticResource OperationPage_ContextMenu_Text_Style}"/>
+                    </Grid>
+                    <Grid Background="#ff2d2d2d" Margin="0,0,1,0" Tapped="spriteCopy_Click">
+                        <TextBlock Text="复制" Style="{StaticResource OperationPage_ContextMenu_Text_Style}"/>
+                    </Grid>
+                    <Grid Background="#ff2d2d2d" Margin="0,0,1,0" Tapped="spriteDelete_Click">
+                        <TextBlock Text="删除" Style="{StaticResource OperationPage_ContextMenu_Text_Style}"/>
+                    </Grid>
+                </StackPanel>
             </Grid>
         </Grid>
+
+        <sharedControl:LightTip x:Name="lightTip"/>
 
         <!--layer buttons-->
         <Grid HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0,0,20,20">
@@ -420,6 +450,11 @@
             </sharedControl:ContentButton>
         </Grid>
 
+
+        <!--<StackPanel Background="White" VerticalAlignment="Top" HorizontalAlignment="Left" Grid.ColumnSpan="100" Grid.RowSpan="100" IsHitTestVisible="False" Opacity="0.5">
+            <TextBlock x:Name="testText1" Foreground="Red" FontSize="32" Margin="10" />
+            <TextBlock x:Name="testText2" Foreground="Red" FontSize="32" Margin="10" />
+        </StackPanel>-->
     </Grid>
 
 </Page>

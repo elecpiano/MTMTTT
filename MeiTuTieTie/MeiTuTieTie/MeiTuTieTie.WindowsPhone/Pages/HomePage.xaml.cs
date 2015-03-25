@@ -1,4 +1,5 @@
-﻿using Shared.Enum;
+﻿using Shared.Common;
+using Shared.Enum;
 using Shared.Global;
 using Shared.Model;
 using Shared.Utility;
@@ -22,22 +23,32 @@ namespace MeiTuTieTie.Pages
 {
     public sealed partial class HomePage : Page, IFileOpenPickerPageBase
     {
+        #region Property
+
+        #endregion
+
         #region Lifecycle
 
         public HomePage()
         {
             this.InitializeComponent();
+            this.Loaded += HomePage_Loaded;
             HideStatusBar();
+        }
+
+        void HomePage_Loaded(object sender, Windows.UI.Xaml.RoutedEventArgs e)
+        {
+            TryShowWelcome();
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            //UpdateScreenSize();
+            LoadSettings();
 
             if (e.NavigationMode == NavigationMode.New)
             {
-                BuildInMaterials();
+                TryBuildInMaterials();
             }
             else if (e.NavigationMode == NavigationMode.Back && App.CurrentInstance.ComingBackFromPhotoEditPage)
             {
@@ -378,13 +389,22 @@ namespace MeiTuTieTie.Pages
 
         #endregion
 
-        #region Built in materials
+        #region Load Settings
 
-        bool materialBuiltIn = false;
-
-        private async void BuildInMaterials()
+        private void LoadSettings()
         {
             materialBuiltIn = App.CurrentInstance.GetSetting<bool>(Constants.KEY_MATERIAL_BUILT_IN, false);
+            welcomeShown = App.CurrentInstance.GetSetting<bool>(Constants.KEY_WELCOME_SHOWN, false);
+        }
+
+        #endregion
+
+        #region Built in materials
+
+        private bool materialBuiltIn = false;
+
+        private async void TryBuildInMaterials()
+        {
             if (!materialBuiltIn)
             {
                 //copy files
@@ -440,13 +460,27 @@ namespace MeiTuTieTie.Pages
                     await IsolatedStorageHelper.CopyContentFileToLocalFolder(file);
                 }
 
-                //update settings
                 materialBuiltIn = true;
-                App.CurrentInstance.UpdateSetting(Constants.KEY_MATERIAL_BUILT_IN, materialBuiltIn);
+                App.CurrentInstance.UpdateSetting(Constants.KEY_MATERIAL_BUILT_IN, true);
             }
         }
 
         #endregion
 
+        #region Welcome
+
+        private bool welcomeShown = false;
+
+        private void TryShowWelcome()
+        {
+            if (!welcomeShown)
+            {
+                Frame.Navigate(typeof(WelcomePage));
+                welcomeShown = true;
+                App.CurrentInstance.UpdateSetting(Constants.KEY_WELCOME_SHOWN, true);
+            }
+        }
+
+        #endregion
     }
 }
