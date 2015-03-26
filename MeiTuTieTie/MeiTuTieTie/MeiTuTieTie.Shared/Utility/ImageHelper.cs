@@ -266,5 +266,51 @@ namespace Shared.Utility
             return fullPath;
         }
 
+        public static async Task<StorageFile> MakeResizedImage(StorageFile oldFile, string newFileName, double maxWidth)
+        {
+            StorageFile newFile = null;
+            using (var sourceStream = await oldFile.OpenAsync(FileAccessMode.Read))
+            {
+                BitmapImage bi = new BitmapImage();
+                bi.SetSource(sourceStream);
+
+                double WtoH = (double)bi.PixelWidth / (double)bi.PixelHeight;
+                double width = 100d;
+                double height = 100d;
+                if (WtoH > 1d)//width is longer
+                {
+                    width = maxWidth;
+                    height = width * (double)bi.PixelHeight / (double)bi.PixelWidth;
+                }
+                else//height is longer
+                {
+                    height = maxWidth;
+                    width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
+                }
+
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(sourceStream);
+                BitmapTransform transform = new BitmapTransform() { ScaledWidth = (uint)width, ScaledHeight = (uint)height };
+                PixelDataProvider pixelData = await decoder.GetPixelDataAsync(
+                    BitmapPixelFormat.Rgba8,
+                    BitmapAlphaMode.Straight,
+                    transform,
+                    ExifOrientationMode.RespectExifOrientation,
+                    ColorManagementMode.DoNotColorManage);
+
+                //create new file
+                StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+                newFile = await local.CreateFileAsync(newFileName, CreationCollisionOption.ReplaceExisting);
+                DisplayInformation di = DisplayInformation.GetForCurrentView();
+
+                using (var destinationStream = await newFile.OpenAsync(FileAccessMode.ReadWrite))
+                {
+                    BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, destinationStream);
+                    encoder.SetPixelData(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Premultiplied, (uint)width, (uint)height, di.LogicalDpi, di.LogicalDpi, pixelData.DetachPixelData());
+                    await encoder.FlushAsync();
+                }
+            }
+            return newFile;
+        }
+
     }
 }

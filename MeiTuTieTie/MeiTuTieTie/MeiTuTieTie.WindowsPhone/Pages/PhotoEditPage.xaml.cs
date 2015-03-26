@@ -453,21 +453,18 @@ namespace MeiTuTieTie.Pages
                 width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
             }
 
-            App.CurrentInstance.WidthForPhtoEditor = width;
-            App.CurrentInstance.HeightForPhtoEditor = height;
-
             BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
             BitmapTransform transform = new BitmapTransform()
             {
-                ScaledWidth = (uint)App.CurrentInstance.WidthForPhtoEditor,
-                ScaledHeight = (uint)App.CurrentInstance.HeightForPhtoEditor
+                ScaledWidth = (uint)width,
+                ScaledHeight = (uint)height
             };
 
             PixelDataProvider pixelData = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight,
                 transform, ExifOrientationMode.IgnoreExifOrientation, ColorManagementMode.DoNotColorManage);
             byte[] pixelBuffer = pixelData.DetachPixelData();
 
-            wbOrigin = new WriteableBitmap((int)App.CurrentInstance.WidthForPhtoEditor, (int)App.CurrentInstance.HeightForPhtoEditor);
+            wbOrigin = new WriteableBitmap((int)width, (int)height);
             wbOrigin = wbOrigin.FromByteArray(pixelBuffer);
             image.Source = wbOrigin;
 

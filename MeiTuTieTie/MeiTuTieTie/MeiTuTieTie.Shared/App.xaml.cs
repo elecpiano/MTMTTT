@@ -201,9 +201,6 @@ namespace MeiTuTieTie
 
         public string ComingBackFrom { get; set; }
 
-        public double WidthForPhtoEditor { get; set; }
-        public double HeightForPhtoEditor { get; set; }
-
         public IReadOnlyList<StorageFile> HomePageMultiPhotoFiles { get; set; }
 
         #endregion

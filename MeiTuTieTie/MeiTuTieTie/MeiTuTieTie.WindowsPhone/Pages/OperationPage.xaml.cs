@@ -337,6 +337,8 @@ namespace MeiTuTieTie.Pages
         {
             foreach (var file in files)
             {
+                //var smallFile = await ImageHelper.MakeResizedImage(file, "temp.jpg", 480d);
+
                 IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
                 BitmapImage bi = new BitmapImage();
                 bi.SetSource(stream);

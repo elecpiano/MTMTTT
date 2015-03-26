@@ -34,6 +34,12 @@ namespace Shared.Control
         private const double BORDER_THICKNESS = 2d;
         private const double HANDLE_BUTTON_WIDTH = 40d;
 
+        private const double PhotoAppearWidthMax = 240d;
+        private const double PhotoAppearHeightMax = 240d;
+        private const double MaterialAppearWidthMax = 120d;
+        private const double MaterialAppearHeightMax = 120d;
+        private const double ImageSpriteWidthMin = 40d;
+
         private static Grid _container = null;
 
         private static Grid handle = null;
@@ -65,9 +71,6 @@ namespace Shared.Control
         private CompositeTransform _LTTransform = null;
         private CompositeTransform _RBTransform = null;
         private CompositeTransform _centerPointTransform = null;
-
-        private double imageWidth = 0d;
-        private double imageHeight = 0d;
 
         private double imageWidthInitial = 0d;
         private double imageHeightInitial = 0d;
@@ -201,18 +204,6 @@ namespace Shared.Control
             //border
             if (borderL == null)
             {
-                //border = new Border();
-                //border.IsHitTestVisible = false;
-                //border.Opacity = 0d;
-                //border.BorderThickness = new Thickness(BORDER_THICKNESS);
-                //border.BorderBrush = new SolidColorBrush(Colors.Orange);
-                //border.Background = new SolidColorBrush(Color.FromArgb(0, 255, 255, 255));
-                //EnsureTransform(border);
-                //_borderTransform = border.RenderTransform as CompositeTransform;
-                //border.HorizontalAlignment = HorizontalAlignment.Center;
-                //border.VerticalAlignment = VerticalAlignment.Center;
-                //border.Margin = new Thickness(-99999);
-
                 borderL = new Line();
                 borderR = new Line();
                 borderT = new Line();
@@ -424,10 +415,11 @@ namespace Shared.Control
 
             if (SpriteType == SpriteType.Photo || SpriteType == SpriteType.Material)
             {
-                imageWidth = imageWidthInitial * g_scale;
-                imageHeight = imageHeightInitial * g_scale;
-                contentPanel.Width = imageWidth;
-                contentPanel.Height = imageHeight;
+                var width = imageWidthInitial * g_scale;
+                var height = imageHeightInitial * g_scale;
+
+                contentPanel.Width = width;
+                contentPanel.Height = height;
             }
             else if (SpriteType == SpriteType.Text)
             {
@@ -441,6 +433,24 @@ namespace Shared.Control
                 _LTTransform.ScaleX = _LTTransform.ScaleY = 1d / g_scale;
                 _RBTransform.ScaleX = _RBTransform.ScaleY = 1d / g_scale;
                 _centerPointTransform.ScaleX = _centerPointTransform.ScaleY = 1d / g_scale;
+            }
+        }
+
+        private void EnsureMinimumScale()
+        {
+            if (_SpriteType == SpriteType.Photo || _SpriteType == SpriteType.Material)
+            {
+                var scaleW = ImageSpriteWidthMin / imageWidthInitial;
+                var scaleH = ImageSpriteWidthMin / imageHeightInitial;
+                var scale = scaleW > scaleH ? scaleW : scaleH;
+
+                if (g_scale < scale)
+                {
+                    g_scale = scale;
+                    SetScale();
+                    contentPanel.UpdateLayout();
+                    SyncButtonsPosition();
+                }
             }
         }
 
@@ -515,6 +525,7 @@ namespace Shared.Control
         static void handle_ManipulationCompleted(object sender, ManipulationCompletedRoutedEventArgs e)
         {
             handleDrag = false;
+            SelectedSprite.EnsureMinimumScale();
             SelectedSprite.RaiseSpriteChanged();
         }
 
@@ -529,18 +540,6 @@ namespace Shared.Control
             Selected = true;
             e.Handled = true;
         }
-
-        //public static void SetButtonVisibility2(bool visible)
-        //{
-        //    handle.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
-        //    removeButton.Visibility = visible ? Visibility.Visible : Visibility.Collapsed;
-        //    border.Opacity = visible ? 1d : 0d;
-        //    if (visible)
-        //    {
-        //        border.Width = SelectedSprite.imageWidthInitial;// SelectedSprite.contentPanel.ActualWidth;
-        //        border.Height = SelectedSprite.imageHeightInitial;// SelectedSprite.contentPanel.ActualHeight;
-        //    }
-        //}
 
         public static void SetButtonVisibility(bool visible)
         {
@@ -566,13 +565,6 @@ namespace Shared.Control
             _removeTransform.TranslateX = pointLT.X;
             _removeTransform.TranslateY = pointLT.Y;
 
-            ////border
-            //_borderTransform.TranslateX = g_pos_x;
-            //_borderTransform.TranslateY = g_pos_y;
-            //_borderTransform.Rotation = g_rotation;
-            //border.Width = image.ActualWidth;
-            //border.Height = image.ActualHeight;
-
             borderL.X1 = pointLT.X;
             borderL.Y1 = pointLT.Y;
             borderL.X2 = pointLB.X;
@@ -593,27 +585,6 @@ namespace Shared.Control
             borderB.X2 = pointRB.X;
             borderB.Y2 = pointRB.Y;
         }
-
-        //private void SyncButtonsPosition2()
-        //{
-        //    Point point = RBPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
-        //    _handleTransform.TranslateX = point.X;
-        //    _handleTransform.TranslateY = point.Y;
-
-        //    point = LTPoint.TransformToVisual(_container).TransformPoint(ZERO_POINT);
-        //    _removeTransform.TranslateX = point.X;
-        //    _removeTransform.TranslateY = point.Y;
-
-        //    //border
-        //    _borderTransform.TranslateX = g_pos_x;
-        //    _borderTransform.TranslateY = g_pos_y;
-        //    _borderTransform.Rotation = g_rotation;
-        //    _borderTransform.ScaleX = _borderTransform.ScaleY = g_scale;
-
-        //    //keep borderWhite thickness unchanged
-        //    double thickness = BORDER_THICKNESS / g_scale;
-        //    border.BorderThickness = new Thickness(thickness);
-        //}
 
         private static double GetAngle(double x, double y)
         {
@@ -729,11 +700,6 @@ namespace Shared.Control
             this.image.Source = new BitmapImage(new Uri(source, UriKind.Absolute));
         }
 
-        private const double PhotoAppearWidthMax = 240d;
-        private const double PhotoAppearHeightMax = 240d;
-        private const double MaterialAppearWidthMax = 120d;
-        private const double MaterialAppearHeightMax = 120d;
-
         public void SetImage(BitmapImage bi)
         {
             this.image.Source = this.ImageSource = bi;
@@ -766,8 +732,8 @@ namespace Shared.Control
             //    height = maxHeight;
             //    width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
             //}
-            contentPanel.Width = imageWidth = imageWidthInitial = width;
-            contentPanel.Height = imageHeight = imageHeightInitial = height;
+            contentPanel.Width = imageWidthInitial = width;
+            contentPanel.Height = imageHeightInitial = height;
         }
 
         public void SetImage(WriteableBitmap wb)
@@ -890,7 +856,7 @@ namespace Shared.Control
         public void ZIndexUpMost()
         {
             int index = ZIndexStack.Count - 1;
-            
+
             ZIndexStack.Remove(this);
             ZIndexStack.Insert(index, this);
 
