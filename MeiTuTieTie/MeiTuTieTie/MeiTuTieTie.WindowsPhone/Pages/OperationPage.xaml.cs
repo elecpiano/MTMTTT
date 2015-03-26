@@ -153,11 +153,13 @@ namespace MeiTuTieTie.Pages
                 case OperationPageType.Single:
                     VisualStateManager.GoToState(this, "vsSingleModeButtons", false);
                     this.Frame.BackStack.RemoveAt(this.Frame.BackStack.Count - 1);
+                    imgBeijingBrush.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/Images/DefaultBackgroundSingle.jpg", UriKind.Absolute));
                     PreapreSingleModeImage();
                     break;
                 case OperationPageType.Multi:
                     VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
                     btnPhotoLock.Visibility = btnPhotoUnLock.Visibility = Visibility.Collapsed;
+                    imgBeijingBrush.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/Images/DefaultBackgroundMulti.jpg", UriKind.Absolute));
                     DelayExecutor.Delay(200d, () => AddPhotosToStage(App.CurrentInstance.HomePageMultiPhotoFiles));
                     break;
                 default:

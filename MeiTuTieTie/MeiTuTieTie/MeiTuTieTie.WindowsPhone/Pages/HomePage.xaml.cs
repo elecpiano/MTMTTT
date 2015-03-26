@@ -435,49 +435,56 @@ namespace MeiTuTieTie.Pages
                 List<string> files = new List<string>();
 
                 files.Add("theme/my_theme_data.txt");
-                files.Add("theme/0/beijing_00.jpg");
-                files.Add("theme/0/beijing_01.jpg");
-                files.Add("theme/0/beijing_02.jpg");
-                files.Add("theme/0/biankuang_01.png");
-                files.Add("theme/0/biankuang_02.png");
-                files.Add("theme/0/biankuang_03.png");
-                files.Add("theme/0/gaoxiaobiaoqing_01.png");
-                files.Add("theme/0/gaoxiaobiaoqing_02.png");
-                files.Add("theme/0/gaoxiaobiaoqing_03.png");
-                files.Add("theme/0/katongxingxiang_01.png");
-                files.Add("theme/0/katongxingxiang_02.png");
-                files.Add("theme/0/katongxingxiang_03.png");
-                files.Add("theme/0/keai_01.png");
-                files.Add("theme/0/keai_02.png");
-                files.Add("theme/0/keai_03.png");
-                files.Add("theme/0/thumbnail_beijing_00.png");
-                files.Add("theme/0/thumbnail_beijing_01.png");
-                files.Add("theme/0/thumbnail_beijing_02.png");
-                files.Add("theme/0/thumbnail_biankuang_01.png");
-                files.Add("theme/0/thumbnail_biankuang_02.png");
-                files.Add("theme/0/thumbnail_biankuang_03.png");
-                files.Add("theme/0/thumbnail_gaoxiaobiaoqing_01.png");
-                files.Add("theme/0/thumbnail_gaoxiaobiaoqing_02.png");
-                files.Add("theme/0/thumbnail_gaoxiaobiaoqing_03.png");
-                files.Add("theme/0/thumbnail_katongxingxiang_01.png");
-                files.Add("theme/0/thumbnail_katongxingxiang_02.png");
-                files.Add("theme/0/thumbnail_katongxingxiang_03.png");
-                files.Add("theme/0/thumbnail_keai_01.png");
-                files.Add("theme/0/thumbnail_keai_02.png");
-                files.Add("theme/0/thumbnail_keai_03.png");
-                files.Add("theme/0/thumbnail_wenzi_01.png");
-                files.Add("theme/0/thumbnail_wenzi_02.png");
-                files.Add("theme/0/thumbnail_wenzi_03.png");
-                files.Add("theme/0/thumbnail_zhedang_01.png");
-                files.Add("theme/0/thumbnail_zhedang_02.png");
-                files.Add("theme/0/thumbnail_zhedang_03.png");
-                files.Add("theme/0/wenzi_01.png");
-                files.Add("theme/0/wenzi_02.png");
-                files.Add("theme/0/wenzi_03.png");
-                files.Add("theme/0/zhedang_01.png");
-                files.Add("theme/0/zhedang_02.png");
-                files.Add("theme/0/zhedang_03.png");
                 files.Add("theme/0/material_data.txt");
+
+                for (int i = 1; i <= 18; i++)
+                {
+                    string index = i.ToString().PadLeft(2, '0');
+                    files.Add(string.Format("theme/0/biankuang_{0}.png", index));
+                    files.Add(string.Format("theme/0/thumbnail_biankuang_{0}.png", index));
+                }
+
+                for (int i = 0; i <= 17; i++)
+                {
+                    string index = i.ToString().PadLeft(2, '0');
+                    files.Add(string.Format("theme/0/beijing_{0}.jpg", index));
+                    files.Add(string.Format("theme/0/thumbnail_beijing_{0}.png", index));
+                }
+
+                for (int i = 1; i <= 27; i++)
+                {
+                    string index = i.ToString().PadLeft(2, '0');
+                    files.Add(string.Format("theme/0/gaoxiaobiaoqing_{0}.png", index));
+                    files.Add(string.Format("theme/0/thumbnail_gaoxiaobiaoqing_{0}.png", index));
+                }
+
+                for (int i = 1; i <= 42; i++)
+                {
+                    string index = i.ToString().PadLeft(2, '0');
+                    files.Add(string.Format("theme/0/keai_{0}.png", index));
+                    files.Add(string.Format("theme/0/thumbnail_keai_{0}.png", index));
+                }
+
+                for (int i = 1; i <= 12; i++)
+                {
+                    string index = i.ToString().PadLeft(2, '0');
+                    files.Add(string.Format("theme/0/zhedang_{0}.png", index));
+                    files.Add(string.Format("theme/0/thumbnail_zhedang_{0}.png", index));
+                }
+
+                for (int i = 1; i <= 27; i++)
+                {
+                    string index = i.ToString().PadLeft(2, '0');
+                    files.Add(string.Format("theme/0/wenzi_{0}.png", index));
+                    files.Add(string.Format("theme/0/thumbnail_wenzi_{0}.png", index));
+                }
+
+                for (int i = 1; i <= 15; i++)
+                {
+                    string index = i.ToString().PadLeft(2, '0');
+                    files.Add(string.Format("theme/0/katongxingxiang_{0}.png", index));
+                    files.Add(string.Format("theme/0/thumbnail_katongxingxiang_{0}.png", index));
+                }
 
                 foreach (var file in files)
                 {

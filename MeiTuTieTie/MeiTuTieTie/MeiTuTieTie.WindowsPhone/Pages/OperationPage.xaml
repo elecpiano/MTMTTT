@@ -292,7 +292,7 @@
 
                 <Grid IsHitTestVisible="False">
                     <Grid.Background>
-                        <ImageBrush x:Name="imgBeijingBrush" ImageSource="/Assets/Images/DefaultBackground.jpg" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"/>
+                        <ImageBrush x:Name="imgBeijingBrush" Stretch="UniformToFill" AlignmentX="Center" AlignmentY="Center"/>
                     </Grid.Background>
                 </Grid>
 
