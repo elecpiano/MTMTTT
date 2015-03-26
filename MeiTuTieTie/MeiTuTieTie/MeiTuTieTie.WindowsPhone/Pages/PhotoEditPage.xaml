@@ -95,7 +95,7 @@
         </CommandBar>
     </Page.BottomAppBar>-->
 
-    <Grid Background="Gray">
+    <Grid Background="#ff2d2d2d">
         
         <VisualStateManager.VisualStateGroups>
             <VisualStateGroup x:Name="vsgSizeMenuPopup">
@@ -153,7 +153,9 @@
 
         <Grid>
 
-            <Grid Margin="24,48,24,96" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="加载中..." Style="{StaticResource PhotoEditPage_LoadingText_Style}"/>
+            
+            <Grid x:Name="editorPanel" Margin="24,48,24,96" VerticalAlignment="Center" HorizontalAlignment="Center" Opacity="0">
                 <Image x:Name="image" Stretch="Uniform"/>
 
                 <Path x:Name="pathMask" HorizontalAlignment="Left" VerticalAlignment="Top"/>
@@ -248,16 +250,17 @@
 
         <!--app bar-->
         <sharedControl:AppBar>
-            <sharedControl:BarButton x:Name="btnOK" Icon="/Assets/Images/AppBar/AppBarOK.png" 
-                                     Text="确认" Margin="10,0,10,0"
-                                     Click="ok_Click"/>
             <sharedControl:BarButton x:Name="btnCrop" Icon="/Assets/Images/AppBar/AppBarCrop.png" 
                                      Text="裁剪" Margin="10,0,10,0"
                                      Click="crop_Click"/>
+            <sharedControl:BarButton x:Name="btnOK" Icon="/Assets/Images/AppBar/AppBarOK.png" 
+                                     Text="确认" Margin="10,0,10,0"
+                                     Click="ok_Click"/>
             <sharedControl:BarButton x:Name="btnCancelCrop" Icon="/Assets/Images/AppBar/AppBarCancel.png" 
                                      Text="取消" Margin="10,0,10,0" Visibility="Collapsed"
                                      Click="cancelCrop_Click"/>
         </sharedControl:AppBar>
 
     </Grid>
+    
 </Page>

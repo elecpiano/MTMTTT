@@ -53,10 +53,16 @@ namespace MeiTuTieTie.Pages
             {
                 TryBuildInMaterials();
             }
-            else if (e.NavigationMode == NavigationMode.Back && App.CurrentInstance.ComingBackFromPhotoEditPage)
+            else if (e.NavigationMode == NavigationMode.Back)
             {
-                App.CurrentInstance.ComingBackFromPhotoEditPage = false;
-                PickPhoto();
+                if (App.CurrentInstance.ComingBackFrom == "PhotoEditPage" || App.CurrentInstance.ComingBackFrom == "OperationPage_Single")
+                {
+                    PickPhotos(true);
+                }
+                else if (App.CurrentInstance.ComingBackFrom == "OperationPage_Multi")
+                {
+                    PickPhotos(false);
+                }
             }
         }
 
@@ -66,12 +72,12 @@ namespace MeiTuTieTie.Pages
 
         private void singlePhoto_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            PickPhoto();
+            PickPhotos(true);
         }
 
         private void multiPhoto_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            Frame.Navigate(typeof(OperationPage), OperationPageType.Multi);
+            PickPhotos(false);
         }
 
         private void boutique_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
@@ -110,89 +116,47 @@ namespace MeiTuTieTie.Pages
         #region Load Photo
 
         private const string Continuation_Key_Operation = "Operation";
-        private const string Continuation_HomePage_PickPhoto = "PickPhotos";
-        private double PhotoImportWidthMax = 1024d;
+        private const string Continuation_HomePage_PickPhotoSingle = "PickPhotoForSingle";
+        private const string Continuation_HomePage_PickPhotoMulti = "PickPhotoForMulti";
 
-        private void PickPhoto()
+        private void PickPhotos(bool single)
         {
             var picker = new FileOpenPicker();
             picker.FileTypeFilter.Add(".jpg");
             picker.FileTypeFilter.Add(".jpeg");
             picker.FileTypeFilter.Add(".png");
             picker.FileTypeFilter.Add(".gif");
-            picker.ContinuationData[Continuation_Key_Operation] = Continuation_HomePage_PickPhoto;
-            //picker.PickMultipleFilesAndContinue();
-            picker.PickSingleFileAndContinue();
+            if (single)
+            {
+                picker.ContinuationData[Continuation_Key_Operation] = Continuation_HomePage_PickPhotoSingle;
+                picker.PickSingleFileAndContinue();
+            }
+            else
+            {
+                picker.ContinuationData[Continuation_Key_Operation] = Continuation_HomePage_PickPhotoMulti;
+                picker.PickMultipleFilesAndContinue();
+            }
         }
 
         public async void PickPhotosContiue(FileOpenPickerContinuationEventArgs args)
         {
-            if (args.ContinuationData.ContainsKey(Continuation_Key_Operation)
-                && args.ContinuationData[Continuation_Key_Operation].ToString() == Continuation_HomePage_PickPhoto)
+            if (args.ContinuationData.ContainsKey(Continuation_Key_Operation))
             {
-                if (args.Files != null && args.Files.Count == 1)
+                if (args.ContinuationData[Continuation_Key_Operation].ToString() == Continuation_HomePage_PickPhotoSingle)
                 {
-                    var file = args.Files[0];
-                    IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
-                    //BitmapImage bi = new BitmapImage();
-                    //bi.SetSource(stream);
-
-                    BitmapImage bi = new BitmapImage();
-                    bi.SetSource(stream);
-
-                    double WtoH = (double)bi.PixelWidth / (double)bi.PixelHeight;
-                    double width = 100d;
-                    double height = 100d;
-                    if (WtoH > 1d)//width is longer
+                    if (args.Files != null && args.Files.Count == 1)
                     {
-                        width = PhotoImportWidthMax;
-                        height = width * (double)bi.PixelHeight / (double)bi.PixelWidth;
+                        App.CurrentInstance.HomePageMultiPhotoFiles = args.Files;
+                        Frame.Navigate(typeof(PhotoEditPage));
                     }
-                    else//height is longer
+                }
+                else if (args.ContinuationData[Continuation_Key_Operation].ToString() == Continuation_HomePage_PickPhotoMulti)
+                {
+                    if (args.Files != null && args.Files.Count > 0)
                     {
-                        height = PhotoImportWidthMax;
-                        width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
+                        App.CurrentInstance.HomePageMultiPhotoFiles = args.Files;
+                        Frame.Navigate(typeof(OperationPage), OperationPageType.Multi);
                     }
-
-                    //save
-                    BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
-                    BitmapTransform transform = new BitmapTransform()
-                    {
-                        ScaledWidth = (uint)width,
-                        ScaledHeight = (uint)height
-                    };
-
-                    PixelDataProvider pixelData = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, 
-                        transform, ExifOrientationMode.IgnoreExifOrientation, ColorManagementMode.DoNotColorManage);
-                    byte[] pixelBuffer = pixelData.DetachPixelData();
-
-                    App.CurrentInstance.PixelBufferForPhotoEditor = pixelBuffer;
-
-                    ////
-                    //DisplayInformation di = DisplayInformation.GetForCurrentView();
-                    //StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
-                    //var savefile = await folder.CreateFileAsync("tempimg.jpg", CreationCollisionOption.ReplaceExisting);
-                    //using (var newStream = await savefile.OpenAsync(FileAccessMode.ReadWrite))
-                    //{
-                    //    var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegXREncoderId, newStream);
-
-                    //    encoder.SetPixelData(
-                    //        BitmapPixelFormat.Bgra8,
-                    //        BitmapAlphaMode.Ignore,
-                    //        (uint)width,
-                    //        (uint)height,
-                    //        di.LogicalDpi,
-                    //        di.LogicalDpi,
-                    //        pixelBuffer);
-
-                    //    await encoder.FlushAsync();
-                    //}
-
-                    //App.CurrentInstance.SingleModePicStream = stream;
-                    App.CurrentInstance.WidthForPhtoEditor = width;
-                    App.CurrentInstance.HeightForPhtoEditor = height;
-
-                    Frame.Navigate(typeof(PhotoEditPage));
                 }
             }
         }

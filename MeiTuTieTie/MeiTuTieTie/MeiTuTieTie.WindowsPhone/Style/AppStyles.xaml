@@ -660,6 +660,14 @@
         <Setter Property="Margin" Value="0,0,0,0"/>
     </Style>
 
+    <Style x:Key="PhotoEditPage_LoadingText_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
+        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="Foreground" Value="#ffffffff"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="0,0,0,0"/>
+    </Style>
+
     <!--feedback page-->
     <Style x:Key="FeedbackPage_FeedbackType_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
         <Setter Property="FontSize" Value="20"/>

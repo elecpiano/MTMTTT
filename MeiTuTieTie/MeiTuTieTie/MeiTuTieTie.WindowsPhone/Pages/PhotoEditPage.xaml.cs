@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Shared.Enum;
 using Windows.Storage;
 using System.Linq;
+using Windows.Graphics.Imaging;
 
 namespace MeiTuTieTie.Pages
 {
@@ -51,15 +52,7 @@ namespace MeiTuTieTie.Pages
 
             if (e.NavigationMode == NavigationMode.New)
             {
-                //IRandomAccessStream stream = (IRandomAccessStream)e.Parameter;
-                //prepare for crop
-                PreapreWritableBitmap();
-
-                //highlight selected crop ratio
-                selectedText = menuItem_arbitrary;
-                selectedText.Foreground = selectedBrush;
-
-                SetCropMode("arbitrary");
+                Initialize();
             }
         }
 
@@ -68,10 +61,28 @@ namespace MeiTuTieTie.Pages
             base.OnNavigatingFrom(e);
             if (e.NavigationMode == NavigationMode.Back)
             {
-                App.CurrentInstance.ComingBackFromPhotoEditPage = true;
+                App.CurrentInstance.ComingBackFrom = "PhotoEditPage";
             }
         }
 
+        #endregion
+
+        #region Initialization
+
+        private async void Initialize()
+        {
+            var file = App.CurrentInstance.HomePageMultiPhotoFiles[0];
+            IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
+
+            //prepare for crop
+            PreapreWritableBitmap(stream);
+
+            //highlight selected crop ratio
+            selectedText = menuItem_arbitrary;
+            selectedText.Foreground = selectedBrush;
+
+            SetCropMode("arbitrary");
+        }
 
         #endregion
 
@@ -103,7 +114,10 @@ namespace MeiTuTieTie.Pages
             clip_B = image.ActualHeight;
 
             PrepareMask(image.ActualWidth, image.ActualHeight);
+
             Draw();
+
+            editorPanel.Opacity = 1d;
         }
 
         private void PrepareEditor()
@@ -418,23 +432,47 @@ namespace MeiTuTieTie.Pages
         #region Crop
 
         private WriteableBitmap wbOrigin = null;
-        private async void PreapreWritableBitmap()//IRandomAccessStream stream)
+        private double PhotoImportWidthMax = 1024d;
+
+        private async void PreapreWritableBitmap(IRandomAccessStream stream)
         {
-            //StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
-            //var file = await local.CreateFileAsync("tempimg.jpg", CreationCollisionOption.OpenIfExists);
+            BitmapImage bi = new BitmapImage();
+            bi.SetSource(stream);
+
+            double WtoH = (double)bi.PixelWidth / (double)bi.PixelHeight;
+            double width = 100d;
+            double height = 100d;
+            if (WtoH > 1d)//width is longer
+            {
+                width = PhotoImportWidthMax;
+                height = width * (double)bi.PixelHeight / (double)bi.PixelWidth;
+            }
+            else//height is longer
+            {
+                height = PhotoImportWidthMax;
+                width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
+            }
+
+            App.CurrentInstance.WidthForPhtoEditor = width;
+            App.CurrentInstance.HeightForPhtoEditor = height;
+
+            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+            BitmapTransform transform = new BitmapTransform()
+            {
+                ScaledWidth = (uint)App.CurrentInstance.WidthForPhtoEditor,
+                ScaledHeight = (uint)App.CurrentInstance.HeightForPhtoEditor
+            };
+
+            PixelDataProvider pixelData = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight,
+                transform, ExifOrientationMode.IgnoreExifOrientation, ColorManagementMode.DoNotColorManage);
+            byte[] pixelBuffer = pixelData.DetachPixelData();
+
             wbOrigin = new WriteableBitmap((int)App.CurrentInstance.WidthForPhtoEditor, (int)App.CurrentInstance.HeightForPhtoEditor);
-            wbOrigin = wbOrigin.FromByteArray(App.CurrentInstance.PixelBufferForPhotoEditor);
+            wbOrigin = wbOrigin.FromByteArray(pixelBuffer);
             image.Source = wbOrigin;
-
-
-            return;
-            wbOrigin = new WriteableBitmap((int)App.CurrentInstance.WidthForPhtoEditor, (int)App.CurrentInstance.HeightForPhtoEditor);
-            wbOrigin = await wbOrigin.FromStream(App.CurrentInstance.SingleModePicStream);
 
             //await wbTemp.FromStream(stream);
             //wbOrigin = wbOrigin.Resize((int)width, (int)height, WriteableBitmapExtensions.Interpolation.Bilinear);
-
-            image.Source = wbOrigin;
         }
 
         private async void Crop()

@@ -111,6 +111,22 @@ namespace MeiTuTieTie.Pages
             dialog.ShowAsync();
         }
 
+        protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
+        {
+            base.OnNavigatingFrom(e);
+            if (e.NavigationMode == NavigationMode.Back)
+            {
+                if (pageType == OperationPageType.Single)
+                {
+                    App.CurrentInstance.ComingBackFrom = "OperationPage_Single";
+                }
+                else if (pageType == OperationPageType.Multi)
+                {
+                    App.CurrentInstance.ComingBackFrom = "OperationPage_Multi";
+                }
+            }
+        }
+
         protected override void OnNavigatedFrom(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
             if (e.NavigationMode == NavigationMode.Back)
@@ -142,7 +158,7 @@ namespace MeiTuTieTie.Pages
                 case OperationPageType.Multi:
                     VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
                     btnPhotoLock.Visibility = btnPhotoUnLock.Visibility = Visibility.Collapsed;
-                    PickPhotos();
+                    DelayExecutor.Delay(200d, () => AddPhotosToStage(App.CurrentInstance.HomePageMultiPhotoFiles));
                     break;
                 default:
                     break;
@@ -282,16 +298,12 @@ namespace MeiTuTieTie.Pages
 
         private void PickPhoto_Click(object sender, RoutedEventArgs e)
         {
-            //var photoSprites = SpriteControl.Sprites.Where(x => x.SpriteType == SpriteType.Photo);
-            //if (photoSprites.Count() >= 9)
-            //{
-            //}
-
             SpriteControl.DismissActiveSprite();
             PickPhotos();
             HideContextMenu();
         }
 
+        //this method is ONLY used by the PickPhoto button, not for the initial photo picking under multi mode
         private void PickPhotos()
         {
             var picker = new FileOpenPicker();
@@ -316,14 +328,14 @@ namespace MeiTuTieTie.Pages
                 {
                     initialPick = false;
                     //AddPhotosToStage(args);
-                    DelayExecutor.Delay(200d, () => AddPhotosToStage(args));
+                    DelayExecutor.Delay(200d, () => AddPhotosToStage(args.Files));
                 }
             }
         }
 
-        private async void AddPhotosToStage(FileOpenPickerContinuationEventArgs args)
+        private async void AddPhotosToStage(IReadOnlyList<StorageFile> files)
         {
-            foreach (var file in args.Files)
+            foreach (var file in files)
             {
                 IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
                 BitmapImage bi = new BitmapImage();
