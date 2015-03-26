@@ -11,12 +11,15 @@ using System.Xml.Linq;
 using System.Xml.Serialization;
 using Windows.ApplicationModel.Activation;
 using Windows.Data.Xml.Dom;
+using Windows.Graphics.Display;
+using Windows.Graphics.Imaging;
 using Windows.Storage;
 using Windows.Storage.Pickers;
 using Windows.Storage.Streams;
 using Windows.UI.ViewManagement;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 namespace MeiTuTieTie.Pages
@@ -79,6 +82,7 @@ namespace MeiTuTieTie.Pages
 
         private void dailyAD_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
+            Frame.Navigate(typeof(PhotoPickerPage));
         }
 
         #endregion
@@ -107,6 +111,7 @@ namespace MeiTuTieTie.Pages
 
         private const string Continuation_Key_Operation = "Operation";
         private const string Continuation_HomePage_PickPhoto = "PickPhotos";
+        private double PhotoImportWidthMax = 1024d;
 
         private void PickPhoto()
         {
@@ -132,7 +137,62 @@ namespace MeiTuTieTie.Pages
                     //BitmapImage bi = new BitmapImage();
                     //bi.SetSource(stream);
 
-                    Frame.Navigate(typeof(PhotoEditPage), stream);
+                    BitmapImage bi = new BitmapImage();
+                    bi.SetSource(stream);
+
+                    double WtoH = (double)bi.PixelWidth / (double)bi.PixelHeight;
+                    double width = 100d;
+                    double height = 100d;
+                    if (WtoH > 1d)//width is longer
+                    {
+                        width = PhotoImportWidthMax;
+                        height = width * (double)bi.PixelHeight / (double)bi.PixelWidth;
+                    }
+                    else//height is longer
+                    {
+                        height = PhotoImportWidthMax;
+                        width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
+                    }
+
+                    //save
+                    BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+                    BitmapTransform transform = new BitmapTransform()
+                    {
+                        ScaledWidth = (uint)width,
+                        ScaledHeight = (uint)height
+                    };
+
+                    PixelDataProvider pixelData = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight, 
+                        transform, ExifOrientationMode.IgnoreExifOrientation, ColorManagementMode.DoNotColorManage);
+                    byte[] pixelBuffer = pixelData.DetachPixelData();
+
+                    App.CurrentInstance.PixelBufferForPhotoEditor = pixelBuffer;
+
+                    ////
+                    //DisplayInformation di = DisplayInformation.GetForCurrentView();
+                    //StorageFolder folder = Windows.Storage.ApplicationData.Current.LocalFolder;
+                    //var savefile = await folder.CreateFileAsync("tempimg.jpg", CreationCollisionOption.ReplaceExisting);
+                    //using (var newStream = await savefile.OpenAsync(FileAccessMode.ReadWrite))
+                    //{
+                    //    var encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.JpegXREncoderId, newStream);
+
+                    //    encoder.SetPixelData(
+                    //        BitmapPixelFormat.Bgra8,
+                    //        BitmapAlphaMode.Ignore,
+                    //        (uint)width,
+                    //        (uint)height,
+                    //        di.LogicalDpi,
+                    //        di.LogicalDpi,
+                    //        pixelBuffer);
+
+                    //    await encoder.FlushAsync();
+                    //}
+
+                    //App.CurrentInstance.SingleModePicStream = stream;
+                    App.CurrentInstance.WidthForPhtoEditor = width;
+                    App.CurrentInstance.HeightForPhtoEditor = height;
+
+                    Frame.Navigate(typeof(PhotoEditPage));
                 }
             }
         }

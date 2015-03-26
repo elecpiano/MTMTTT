@@ -6,6 +6,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
 using Windows.Graphics.Display;
+using Windows.Storage.Streams;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -197,6 +198,12 @@ namespace MeiTuTieTie
         #region HomePage
 
         public bool ComingBackFromPhotoEditPage { get; set; }
+
+        public IRandomAccessStream SingleModePicStream { get; set; }
+        public double WidthForPhtoEditor { get; set; }
+        public double HeightForPhtoEditor { get; set; }
+
+        public byte[] PixelBufferForPhotoEditor;
 
         #endregion
 

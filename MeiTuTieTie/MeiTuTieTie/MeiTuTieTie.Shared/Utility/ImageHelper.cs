@@ -265,5 +265,6 @@ namespace Shared.Utility
             string fullPath = Path.Combine(Constants.THUMBNAIL_FOLDER, fileName);
             return fullPath;
         }
+
     }
 }
