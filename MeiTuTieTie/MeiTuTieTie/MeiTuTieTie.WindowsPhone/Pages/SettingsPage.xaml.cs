@@ -53,6 +53,11 @@ namespace MeiTuTieTie.Pages
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
         {
+            App.CurrentInstance.ComingBackFrom = "SettingsPage";
+        }
+
+        protected override void OnNavigatedFrom(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
+        {
             if (e.NavigationMode == NavigationMode.Back)
             {
                 this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Disabled;
@@ -61,7 +66,8 @@ namespace MeiTuTieTie.Pages
             {
                 this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
             }
-            base.OnNavigatingFrom(e);
+
+            base.OnNavigatedFrom(e);
         }
 
         #endregion

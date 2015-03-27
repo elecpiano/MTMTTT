@@ -369,6 +369,7 @@ namespace Shared.Control
         private void PrepareForManipulation()
         {
             contentPanel.PointerPressed += contentPanel_PointerPressed;
+            contentPanel.PointerReleased += contentPanel_PointerReleased;
             contentPanel.ManipulationMode = ManipulationModes.TranslateX | ManipulationModes.TranslateY | ManipulationModes.Rotate | ManipulationModes.Scale;
             contentPanel.ManipulationDelta += contentPanel_ManipulationDelta;
             contentPanel.ManipulationStarting += contentPanel_ManipulationStarting;
@@ -474,6 +475,21 @@ namespace Shared.Control
             RaiseSpriteChanged();
         }
 
+        void contentPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            Selected = true;
+            e.Handled = true;
+        }
+
+        //this method is to ensure all the sprites become manipulatable again after a tap
+        void contentPanel_PointerReleased(object sender, PointerRoutedEventArgs e)
+        {
+            foreach (var sprite in Sprites)
+            {
+                sprite.Manipulatable = true; //.contentPanel.IsHitTestVisible = true;
+            }
+        }
+
         private void contentPanel_ManipulationDelta(object sender, ManipulationDeltaRoutedEventArgs e)
         {
             bool isDrag = e.Delta.Rotation == 0 && e.Delta.Expansion == 0;
@@ -533,12 +549,6 @@ namespace Shared.Control
         {
             SelectedSprite.RaiseSpriteChanged();
             RemoveSelectedSprite();
-        }
-
-        void contentPanel_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            Selected = true;
-            e.Handled = true;
         }
 
         public static void SetButtonVisibility(bool visible)

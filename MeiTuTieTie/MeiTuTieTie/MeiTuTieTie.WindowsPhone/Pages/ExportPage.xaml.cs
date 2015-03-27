@@ -121,6 +121,8 @@ namespace MeiTuTieTie.Pages
             string fileName = "MeiTuTieTie_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".jpg";
             await ImageHelper.SaveBitmapToMediaLibrary(bitmap, fileName);
 
+            App.CurrentInstance.OpertationPageChanged = false;
+
             saveButtonPanel.Visibility = Visibility.Collapsed;
             saveResultPanel.Visibility = Visibility.Visible;
         }

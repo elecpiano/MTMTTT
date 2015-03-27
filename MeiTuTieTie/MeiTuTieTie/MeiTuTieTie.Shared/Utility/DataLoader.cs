@@ -37,7 +37,7 @@ namespace Shared.Utility
             moduleName = module;
             fileName = file;
 
-            if (!NetworkHelper.Current.IsInternetConnectionAvaiable)
+            if (!NetworkHelper2.Current.IsInternetConnectionAvaiable)
             {
                 //load cache
                 if (cacheData)

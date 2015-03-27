@@ -75,6 +75,18 @@ namespace MeiTuTieTie.Pages
             if (string.IsNullOrEmpty(feedbackTextBox.Text.Trim()))
             {
                 var dialog = new MessageDialog("反馈不能为空哦！");
+                var cmdOK = new UICommand("确定");
+                dialog.Commands.Add(cmdOK);
+                dialog.CancelCommandIndex = 0;
+                var result = await dialog.ShowAsync();
+                return;
+            }
+            else if (!NetworkHelper.CheckInternet())
+            {
+                var dialog = new MessageDialog("当前无网络！");
+                var cmdOK = new UICommand("确定");
+                dialog.Commands.Add(cmdOK);
+                dialog.CancelCommandIndex = 0;
                 var result = await dialog.ShowAsync();
                 return;
             }
@@ -108,6 +120,9 @@ namespace MeiTuTieTie.Pages
         private async void OnSent()
         {
             var dialog = new MessageDialog("发送成功！");
+            var cmdOK = new UICommand("确定");
+            dialog.Commands.Add(cmdOK);
+            dialog.CancelCommandIndex = 0;
             var result = await dialog.ShowAsync();
             navigationHelper.GoBack();
         }

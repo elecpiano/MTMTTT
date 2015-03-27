@@ -63,6 +63,7 @@ namespace MeiTuTieTie.Pages
                 {
                     PickPhotos(false);
                 }
+                App.CurrentInstance.ComingBackFrom = string.Empty;
             }
         }
 
@@ -88,7 +89,7 @@ namespace MeiTuTieTie.Pages
 
         private void dailyAD_Tapped(object sender, Windows.UI.Xaml.Input.TappedRoutedEventArgs e)
         {
-            Frame.Navigate(typeof(PhotoPickerPage));
+            //Frame.Navigate(typeof(PhotoPickerPage));
         }
 
         #endregion
@@ -513,5 +514,21 @@ namespace MeiTuTieTie.Pages
         }
 
         #endregion
+
+        private void Grid_PointerPressed(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void Grid_PointerPressed_1(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void Grid_PointerPressed_2(object sender, Windows.UI.Xaml.Input.PointerRoutedEventArgs e)
+        {
+            e.Handled = true;
+        }
+
     }
 }

@@ -8,7 +8,6 @@ using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media.Imaging;
-using System.Collections.ObjectModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Storage.Streams;
 using Shared.Utility;
@@ -20,7 +19,6 @@ using Shared.Global;
 using Windows.Media.Playback;
 using Shared.Animation;
 using Windows.UI.Popups;
-using System.Linq;
 
 namespace MeiTuTieTie.Pages
 {
@@ -30,8 +28,6 @@ namespace MeiTuTieTie.Pages
 
         private readonly NavigationHelper navigationHelper;
         private List<SpriteControl> sprites = new List<SpriteControl>();
-        private const string Continuation_Key_Operation = "Operation";
-        private const string Continuation_OperationPage_PickPhotos = "PickPhotos";
         private OperationPageType pageType = OperationPageType.Single;
 
         private bool SingleImageLocked
@@ -174,7 +170,7 @@ namespace MeiTuTieTie.Pages
 
             InitColorFontList();
 
-            VisualStateManager.GoToState(this, "vsLayerButtonShown", true);
+            VisualStateManager.GoToState(this, "vsLayerButtonShown", false);
             HideSystemAppBar();
 
             App.CurrentInstance.OpertationPageChanged = true;
@@ -209,6 +205,7 @@ namespace MeiTuTieTie.Pages
 
         #region Single Mode Image Manipulation
 
+        private double SingleImageSizeMin = 120d;
         private double SingleModeImageScaleMin = 0.1d;
         private double SingleModeImageScaleMax = 2d;
         private double SingleModeImageTranslateX = 0d;
@@ -218,9 +215,9 @@ namespace MeiTuTieTie.Pages
         {
             double width = imgSingleModeGhost.Width = imgSingleMode.ActualWidth;
             double height = imgSingleModeGhost.Height = imgSingleMode.ActualHeight;
-            double scaleMinX = 120d / width;
-            double scaleMinY = 120d / height;
-            SingleModeImageScaleMin = scaleMinX > scaleMinY ? scaleMinX : scaleMinY;
+            double scaleMinX = SingleImageSizeMin / width;
+            double scaleMinY = SingleImageSizeMin / height;
+            SingleModeImageScaleMin = scaleMinX < scaleMinY ? scaleMinX : scaleMinY;
 
             SingleModeImageCenterPoint = new Point(imgSingleMode.ActualWidth / 2d, imgSingleMode.ActualHeight / 2d);
         }
@@ -296,8 +293,6 @@ namespace MeiTuTieTie.Pages
 
         #region Load Photo
 
-        private bool initialPick = true;
-
         private void PickPhoto_Click(object sender, RoutedEventArgs e)
         {
             SpriteControl.DismissActiveSprite();
@@ -305,6 +300,8 @@ namespace MeiTuTieTie.Pages
             HideContextMenu();
         }
 
+        private const string Continuation_Key_Operation = "Operation";
+        private const string Continuation_OperationPage_PickPhotos = "PickPhotos";
         //this method is ONLY used by the PickPhoto button, not for the initial photo picking under multi mode
         private void PickPhotos()
         {
@@ -322,16 +319,8 @@ namespace MeiTuTieTie.Pages
             if (args.ContinuationData.ContainsKey(Continuation_Key_Operation)
                 && args.ContinuationData[Continuation_Key_Operation].ToString() == Continuation_OperationPage_PickPhotos)
             {
-                if (initialPick && args.Files.Count == 0)
-                {
-                    navigationHelper.GoBack();
-                }
-                else
-                {
-                    initialPick = false;
-                    //AddPhotosToStage(args);
-                    DelayExecutor.Delay(200d, () => AddPhotosToStage(args.Files));
-                }
+                //AddPhotosToStage(args);
+                DelayExecutor.Delay(200d, () => AddPhotosToStage(args.Files));
             }
         }
 

@@ -8,7 +8,7 @@
     mc:Ignorable="d">
 
     <Page.Resources>
-    <!--content button-->
+        <!--content button-->
 
     </Page.Resources>
 
@@ -61,7 +61,8 @@
             </sharedControl:ContentButton>
 
             <!--bottom buttons-->
-            <sharedControl:ContentButton Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" Tapped="dailyAD_Tapped">
+            <sharedControl:ContentButton Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" Tapped="dailyAD_Tapped"
+                                         Visibility="Collapsed">
                 <Grid>
                     <Image Source="/Assets/Images/HomePageSettingsButtonBase.png" Stretch="Uniform"/>
                     <Grid HorizontalAlignment="Center">
@@ -107,6 +108,13 @@
                 <CompositeTransform Rotation="-12"/>
             </sharedControl:SpriteTextBox.RenderTransform>
         </sharedControl:SpriteTextBox>-->
+
+
+        <Grid Visibility="Collapsed">
+            <Grid Background="LightGray" PointerPressed="Grid_PointerPressed"/>
+            <Grid Width="100" Height="100" Background="LightBlue" PointerPressed="Grid_PointerPressed_1" Margin="84,112,216,428"/>
+            <Grid Width="100" Height="100" Background="LightCoral" PointerPressed="Grid_PointerPressed_2" Margin="232,397,68,143"/>
+        </Grid>
 
     </Grid>
 

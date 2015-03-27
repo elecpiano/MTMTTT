@@ -41,7 +41,6 @@ namespace MeiTuTieTie
             //custom code
             CurrentInstance = this;
             this.UnhandledException += App_UnhandledException;
-            Shared.Utility.NetworkHelper.Current.StartListening();
         }
 
         /// <summary>

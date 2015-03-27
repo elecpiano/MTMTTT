@@ -4,11 +4,20 @@ namespace Shared.Utility
 {
     public class NetworkHelper
     {
+        public static bool CheckInternet()
+        {
+                ConnectionProfile profile = NetworkInformation.GetInternetConnectionProfile();
+                return profile != null;
+        }
+    }
+
+    public class NetworkHelper2
+    {
         #region Singleton
 
-        private static NetworkHelper instance = new NetworkHelper();
+        private static NetworkHelper2 instance = new NetworkHelper2();
 
-        public static NetworkHelper Current
+        public static NetworkHelper2 Current
         {
             get { return instance; }
         }
@@ -46,7 +55,7 @@ namespace Shared.Utility
 
             ConnectionProfile internetConnectionProfile = NetworkInformation.GetInternetConnectionProfile();
 
-            if(internetConnectionProfile == null)
+            if (internetConnectionProfile == null)
             {
                 _isInternetConnectionAvailable = false;
                 return;
@@ -55,7 +64,7 @@ namespace Shared.Utility
             {
                 _isInternetConnectionAvailable = true;
 
-                if(internetConnectionProfile.IsWlanConnectionProfile)
+                if (internetConnectionProfile.IsWlanConnectionProfile)
                 {
                     _IsWifiConnectionAvailable = true;
                 }

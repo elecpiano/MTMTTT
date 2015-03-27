@@ -432,28 +432,32 @@ namespace MeiTuTieTie.Pages
         #region Crop
 
         private WriteableBitmap wbOrigin = null;
-        private double PhotoImportWidthMax = 1024d;
+        private double PhotoImportSizeMax = 1920d;
 
         private async void PreapreWritableBitmap(IRandomAccessStream stream)
         {
-            BitmapImage bi = new BitmapImage();
-            bi.SetSource(stream);
+            //BitmapImage bi = new BitmapImage();
+            //bi.SetSource(stream);
 
-            double WtoH = (double)bi.PixelWidth / (double)bi.PixelHeight;
+            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
+            
+            double sourceWidth = (double)decoder.PixelWidth;
+            double sourceHeight = (double)decoder.PixelHeight;
             double width = 100d;
             double height = 100d;
+
+            double WtoH = sourceWidth / sourceHeight;// (double)bi.PixelWidth / (double)bi.PixelHeight;
             if (WtoH > 1d)//width is longer
             {
-                width = PhotoImportWidthMax;
-                height = width * (double)bi.PixelHeight / (double)bi.PixelWidth;
+                width = PhotoImportSizeMax;
+                height = width * sourceHeight / sourceWidth;// (double)bi.PixelHeight / (double)bi.PixelWidth;
             }
             else//height is longer
             {
-                height = PhotoImportWidthMax;
-                width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
+                height = PhotoImportSizeMax;
+                width = height * sourceWidth / sourceHeight; //(double)bi.PixelWidth / (double)bi.PixelHeight;
             }
 
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
             BitmapTransform transform = new BitmapTransform()
             {
                 ScaledWidth = (uint)width,
@@ -461,7 +465,7 @@ namespace MeiTuTieTie.Pages
             };
 
             PixelDataProvider pixelData = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight,
-                transform, ExifOrientationMode.IgnoreExifOrientation, ColorManagementMode.DoNotColorManage);
+                transform, ExifOrientationMode.RespectExifOrientation, ColorManagementMode.DoNotColorManage);
             byte[] pixelBuffer = pixelData.DetachPixelData();
 
             wbOrigin = new WriteableBitmap((int)width, (int)height);

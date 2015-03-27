@@ -33,6 +33,8 @@ namespace Shared.Control
             {
                 textBox.FontFamily = value;
                 textBoxVisual.FontFamily = value;
+                virginTextBlock.FontFamily = value;
+
                 if (ContainerSpriteControl!=null)
                 {
                     ContainerSpriteControl.RaiseSpriteChanged();
@@ -47,6 +49,8 @@ namespace Shared.Control
             {
                 //textBox.Foreground = value;
                 textBoxVisual.Foreground = value;
+                virginTextBlock.Foreground = value;
+
                 if (ContainerSpriteControl != null)
                 {
                     ContainerSpriteControl.RaiseSpriteChanged();
