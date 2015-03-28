@@ -40,10 +40,12 @@ namespace MeiTuTieTie.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            NavigationHelper.ActivePage = this.GetType();
+
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.New)
             {
-                Test();
+                //Test();
             }
         }
 

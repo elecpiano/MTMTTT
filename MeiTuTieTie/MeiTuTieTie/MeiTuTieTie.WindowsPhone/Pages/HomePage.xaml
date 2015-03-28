@@ -61,7 +61,8 @@
             </sharedControl:ContentButton>
 
             <!--bottom buttons-->
-            <sharedControl:ContentButton Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" Tapped="dailyAD_Tapped"
+            <sharedControl:ContentButton Grid.Row="6" Grid.Column="1" HorizontalAlignment="Stretch" 
+                                         Tapped="dailyAD_Tapped"
                                          Visibility="Collapsed">
                 <Grid>
                     <Image Source="/Assets/Images/HomePageSettingsButtonBase.png" Stretch="Uniform"/>
@@ -75,7 +76,8 @@
                     </Grid>
                 </Grid>
             </sharedControl:ContentButton>
-            <sharedControl:ContentButton Grid.Row="6" Grid.Column="3" HorizontalAlignment="Stretch" Tapped="settings_Tapped">
+            <sharedControl:ContentButton Grid.Row="6" Grid.Column="3" HorizontalAlignment="Stretch" 
+                                         Tapped="settings_Tapped">
                 <Grid Background="#ffffafb4">
                     <Image Source="/Assets/Images/HomePageSettingsButtonBase.png" Stretch="Uniform"/>
                     <Grid HorizontalAlignment="Center">

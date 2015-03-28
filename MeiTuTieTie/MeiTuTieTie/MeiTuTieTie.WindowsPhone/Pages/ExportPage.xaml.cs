@@ -38,6 +38,8 @@ namespace MeiTuTieTie.Pages
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            NavigationHelper.ActivePage = this.GetType();
+
             base.OnNavigatedTo(e);
             if (e.NavigationMode == NavigationMode.New)
             {
@@ -111,6 +113,8 @@ namespace MeiTuTieTie.Pages
 
         #region Save
 
+        private bool busy = false;
+
         private async void saveButton_Tapped(object sender, TappedRoutedEventArgs e)
         {
             Save();
@@ -118,6 +122,12 @@ namespace MeiTuTieTie.Pages
 
         private async void Save()
         {
+            if (busy)
+            {
+                return;
+            }
+            busy = true;
+
             string fileName = "MeiTuTieTie_" + DateTime.Now.ToString("yyyy_MM_dd_hh_mm_ss") + ".jpg";
             await ImageHelper.SaveBitmapToMediaLibrary(bitmap, fileName);
 

@@ -52,6 +52,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)JumpList\JumpListHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\Material.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\MyTheme.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Model\Candidate.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Model\ThemePack.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)SNS\WeiboHelper.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Utility\ColorHelper.cs" />

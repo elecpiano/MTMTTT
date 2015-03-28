@@ -85,7 +85,6 @@
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
     <Folder Include="Controls\" />
     <Folder Include="Converters\" />
-    <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Pages\AboutPage.xaml.cs">
@@ -138,6 +137,7 @@
       <DependentUpon>OperationPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Util\ImageHelperEx.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
@@ -167,6 +167,7 @@
     <Content Include="Assets\Images\AppBar\AppBarGaoxiao.png" />
     <Content Include="Assets\Images\AppBar\AppBarWenzi.png" />
     <Content Include="Assets\Images\AppBar\AppBarZhedang.png" />
+    <Content Include="Assets\Images\ArrowDown.png" />
     <Content Include="Assets\Images\DefaultBackgroundSingle.jpg" />
     <Content Include="Assets\Images\CheckMark.png" />
     <Content Include="Assets\Images\DefaultBackgroundMulti.jpg" />
@@ -197,6 +198,7 @@
     <Content Include="Assets\Images\Logo\SplashScreen.scale-140.jpg" />
     <Content Include="Assets\Images\Logo\SplashScreen.scale-240.jpg" />
     <Content Include="Assets\Images\SaveImage.png" />
+    <Content Include="Assets\Images\Select.png" />
     <Content Include="Assets\Images\SNS\SinaWeibo.png" />
     <Content Include="Assets\Images\Sprite\ShadowB.png" />
     <Content Include="Assets\Images\Sprite\ShadowL.png" />

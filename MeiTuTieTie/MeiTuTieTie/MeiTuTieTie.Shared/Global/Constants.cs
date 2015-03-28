@@ -6,6 +6,7 @@ namespace Shared.Global
 {
     public class Constants
     {
+        //files
         public const string THEME_MODULE = "theme";
         public const string THUMBNAIL_FOLDER = "thumbnails";
         public const string THEME_DATA_FILE = "theme_data.txt";
@@ -13,6 +14,10 @@ namespace Shared.Global
         public const string MY_MATERIAL_FILE = "my_materials_data.txt";
         public const string MATERIAL_DATA_FILE = "material_data.txt";
         public const string MY_THEME_DATA_FILE = "my_theme_data.txt";
+        //public const string TEMP_RESIZED_IMAGE = "temp_resized_image";
+
+        //numbers
+        public const double PHOTO_IMPORT_SIZE_MAX = 1024d;
 
         //settings key
         public const string KEY_EDGE = "key_edge";

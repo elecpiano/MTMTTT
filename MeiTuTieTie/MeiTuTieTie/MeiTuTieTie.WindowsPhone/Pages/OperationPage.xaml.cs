@@ -19,6 +19,8 @@ using Shared.Global;
 using Windows.Media.Playback;
 using Shared.Animation;
 using Windows.UI.Popups;
+using System.Linq;
+using Shared.Model;
 
 namespace MeiTuTieTie.Pages
 {
@@ -27,9 +29,15 @@ namespace MeiTuTieTie.Pages
         #region Property
 
         private readonly NavigationHelper navigationHelper;
-        private List<SpriteControl> sprites = new List<SpriteControl>();
         private OperationPageType pageType = OperationPageType.Single;
 
+        private int ExistingPhotoCount
+        {
+            get
+            {
+                return SpriteControl.Sprites.Count(x => x.SpriteType == SpriteType.Photo);
+            }
+        }
         private bool SingleImageLocked
         {
             get
@@ -41,13 +49,33 @@ namespace MeiTuTieTie.Pages
                 imgSingleMode.IsHitTestVisible = !value;
             }
         }
-        public WidgetPageType MaterialSelectedBy { get; set; }
 
-        CompositeTransform transformSingleModeImage
+        private CompositeTransform transformSingleModeImage
         {
             get
             {
                 return imgSingleMode.RenderTransform as CompositeTransform;
+            }
+        }
+
+        private bool _busy = true;
+        private bool Busy
+        {
+            get
+            {
+                return _busy;
+            }
+            set
+            {
+                if (_busy != value)
+                {
+                    _busy = value;
+                    busyMask.Visibility = _busy ? Visibility.Visible : Visibility.Collapsed;
+                    //if (!_busy)
+                    //{
+                    //    VisualStateManager.GoToState(this, "vsAppBarShown", true);
+                    //}
+                }
             }
         }
 
@@ -85,11 +113,18 @@ namespace MeiTuTieTie.Pages
                 }
             }
 
+            NavigationHelper.ActivePage = this.GetType();
         }
 
         private void navigationHelper_CanGobackAsked(object sender, ref bool canceled)
         {
-            if (App.CurrentInstance.OpertationPageChanged)
+            if (candidatePanelShown)
+            {
+                canceled = true;
+                HideCandidatePanel();
+                Busy = false;
+            }
+            else if (App.CurrentInstance.OpertationPageChanged)
             {
                 canceled = true;
                 CheckQuit();
@@ -144,23 +179,8 @@ namespace MeiTuTieTie.Pages
 
         private void InitializePage()
         {
-            switch (pageType)
-            {
-                case OperationPageType.Single:
-                    VisualStateManager.GoToState(this, "vsSingleModeButtons", false);
-                    this.Frame.BackStack.RemoveAt(this.Frame.BackStack.Count - 1);
-                    imgBeijingBrush.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/Images/DefaultBackgroundSingle.jpg", UriKind.Absolute));
-                    PreapreSingleModeImage();
-                    break;
-                case OperationPageType.Multi:
-                    VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
-                    btnPhotoLock.Visibility = btnPhotoUnLock.Visibility = Visibility.Collapsed;
-                    imgBeijingBrush.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/Images/DefaultBackgroundMulti.jpg", UriKind.Absolute));
-                    DelayExecutor.Delay(200d, () => AddPhotosToStage(App.CurrentInstance.HomePageMultiPhotoFiles));
-                    break;
-                default:
-                    break;
-            }
+            HideSystemAppBar();
+            InitColorFontList();
 
             SpriteControl.Initialize(stage);
             SpriteControl.OnSelected += Sprite_OnSelected;
@@ -168,11 +188,27 @@ namespace MeiTuTieTie.Pages
             SpriteControl.OnSpriteChanged += Sprite_OnSpriteChanged;
             SpriteControl.Holding += SpriteControl_Holding;
 
-            InitColorFontList();
-
             VisualStateManager.GoToState(this, "vsLayerButtonShown", false);
-            HideSystemAppBar();
 
+            switch (pageType)
+            {
+                case OperationPageType.Single:
+                    VisualStateManager.GoToState(this, "vsSingleModeButtons", false);
+                    this.Frame.BackStack.RemoveAt(this.Frame.BackStack.Count - 1);
+                    imgBeijingBrush.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/Images/DefaultBackgroundSingle.jpg", UriKind.Absolute));
+                    PreapreSingleModeImage();
+                    Busy = false;
+                    break;
+                case OperationPageType.Multi:
+                    VisualStateManager.GoToState(this, "vsMultiModeButtons", false);
+                    btnPhotoLock.Visibility = btnPhotoUnLock.Visibility = Visibility.Collapsed;
+                    imgBeijingBrush.ImageSource = new BitmapImage(new Uri("ms-appx:///Assets/Images/DefaultBackgroundMulti.jpg", UriKind.Absolute));
+                    CheckAndAddPhotos(App.CurrentInstance.HomePageMultiPhotoFiles);
+                    break;
+                default:
+                    break;
+            }
+            
             App.CurrentInstance.OpertationPageChanged = true;
         }
 
@@ -293,6 +329,9 @@ namespace MeiTuTieTie.Pages
 
         #region Load Photo
 
+        private const int PhotoCountMax = 9;
+        private int photoToProcess = 0;
+
         private void PickPhoto_Click(object sender, RoutedEventArgs e)
         {
             SpriteControl.DismissActiveSprite();
@@ -319,29 +358,138 @@ namespace MeiTuTieTie.Pages
             if (args.ContinuationData.ContainsKey(Continuation_Key_Operation)
                 && args.ContinuationData[Continuation_Key_Operation].ToString() == Continuation_OperationPage_PickPhotos)
             {
-                //AddPhotosToStage(args);
-                DelayExecutor.Delay(200d, () => AddPhotosToStage(args.Files));
+                CheckAndAddPhotos(args.Files);
             }
         }
 
-        private async void AddPhotosToStage(IReadOnlyList<StorageFile> files)
+        private void CheckAndAddPhotos(IReadOnlyList<StorageFile> files)
         {
+            int newPhotoCount = files.Count;
+            if (newPhotoCount>0)
+            {
+                Busy = true;
+            }
+
+            if ((ExistingPhotoCount + newPhotoCount) > PhotoCountMax)
+            {
+                ShowCandidateList(files);
+            }
+            else
+            {
+                //AddPhotosToStage(args);
+                DelayExecutor.Delay(200d, () =>
+                    {
+                        AddPhotosToStage(files);
+                    });
+            }
+        }
+
+        private async void AddPhotosToStage(IEnumerable<StorageFile> files)
+        {
+            photoToProcess = files.Count();
             foreach (var file in files)
             {
-                //var smallFile = await ImageHelper.MakeResizedImage(file, "temp.jpg", 480d);
-
-                IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
-                BitmapImage bi = new BitmapImage();
-                bi.SetSource(stream);
-
-                //sprite
-                SpriteControl sprite = new SpriteControl(SpriteType.Photo);
-                sprite.SetImage(bi);
-                sprites.Add(sprite);
-                sprite.AddToContainer();
-
-                App.CurrentInstance.OpertationPageChanged = true;
+                AddPhotoToStage(file);
             }
+            App.CurrentInstance.OpertationPageChanged = true;
+        }
+
+        private async void AddPhotoToStage(StorageFile file)
+        {
+            string tempFileName = Guid.NewGuid().ToString();
+            var resizedFile = await ImageHelper.MakeResizedImage(file, tempFileName, Constants.PHOTO_IMPORT_SIZE_MAX);
+
+            IRandomAccessStream stream = await resizedFile.OpenAsync(FileAccessMode.Read);
+            BitmapImage bi = new BitmapImage();
+            bi.SetSource(stream);
+
+            //sprite
+            SpriteControl sprite = new SpriteControl(SpriteType.Photo);
+            sprite.SetImage(bi);
+            sprite.AddToContainer();
+
+            //delete tempfile
+            if (resizedFile != file)
+            {
+                await resizedFile.DeleteAsync();
+            }
+
+            photoToProcess--;
+            if (photoToProcess==0)
+            {
+                Busy = false;
+            }
+        }
+
+        #endregion
+
+        #region Candidate
+
+        List<Candidate> candidates = new List<Candidate>();
+        private bool candidatePanelShown = false;
+
+        private async void ShowCandidateList(IReadOnlyList<StorageFile> files)
+        {
+            candidates.Clear();
+            foreach (var file in files)
+            {
+                WriteableBitmap wb = await ImageHelper.Resize(file, 100);
+                Candidate data = new Candidate();
+                data.File = file;
+                data.Thumbnail = wb;
+                data.Selected = 0d;
+                candidates.Add(data);
+            }
+            candidateListBox.ItemsSource = candidates;
+            int availableCount = PhotoCountMax - ExistingPhotoCount - candidates.Count(x => x.Selected == 1);
+            txtPhotoCount.Text = availableCount.ToString();
+
+            ShowCandidatePanel();
+        }
+
+        private void candidateSelect_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            int photoCount = ExistingPhotoCount + candidates.Count(x => x.Selected == 1);
+
+            var data = sender.GetDataContext<Candidate>();
+            if (data != null)
+            {
+                if (data.Selected == 0 && photoCount >= PhotoCountMax)
+                {
+                    return;
+                }
+                else
+                {
+                    data.Selected = data.Selected == 0d ? 1d : 0d;
+                }
+            }
+
+            int availableCount = PhotoCountMax - ExistingPhotoCount - candidates.Count(x => x.Selected == 1);
+            txtPhotoCount.Text = availableCount.ToString();
+        }
+
+        private void candidateOK_Tapped(object sender, TappedRoutedEventArgs e)
+        {
+            var selectedCandidates = candidates.Where(x => x.Selected == 1d).Select(x => x.File).ToList();
+            AddPhotosToStage(selectedCandidates);
+            HideCandidatePanel();
+        }
+
+        private void ShowCandidatePanel()
+        {
+            candidatePanelShown = true;
+            VisualStateManager.GoToState(this, "vsCandidateShown", true);
+        }
+
+        private void HideCandidatePanel()
+        {
+            candidatePanelShown = false;
+            VisualStateManager.GoToState(this, "vsCandidateHidden", true);
+            DelayExecutor.Delay(200,
+                () => {
+                    candidateListBox.ItemsSource = null;
+                    candidates.Clear();
+                });
         }
 
         #endregion
@@ -376,7 +524,6 @@ namespace MeiTuTieTie.Pages
                 {
                     SpriteControl sprite = new SpriteControl(SpriteType.Material);
                     sprite.SetImage(bi);
-                    sprites.Add(sprite);
                     sprite.AddToContainer();
                 }
                 else if (App.CurrentInstance.MaterialSelectedBy == WidgetPageType.BianKuang)
@@ -538,7 +685,6 @@ namespace MeiTuTieTie.Pages
                 sprite.spriteText.Font = selectedSpriteText.Font;
             }
 
-            sprites.Add(sprite);
             sprite.AddToContainer();
 
             App.CurrentInstance.OpertationPageChanged = true;
@@ -601,7 +747,6 @@ namespace MeiTuTieTie.Pages
             SpriteControl sprite = new SpriteControl(SpriteType.Text);
             sprite.EditingStarted += sprite_EditingStarted;
             sprite.EditingEnded += sprite_EditingEnded;
-            sprites.Add(sprite);
             sprite.AddToContainer();
 
             App.CurrentInstance.OpertationPageChanged = true;

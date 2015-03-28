@@ -13,7 +13,7 @@ using Shared.Global;
 
 namespace Shared.Utility
 {
-    public class ImageHelper
+    public partial class ImageHelper
     {
         public static async Task<RenderTargetBitmap> Capture(FrameworkElement uiElement, double expectedWidth)
         {
@@ -266,50 +266,82 @@ namespace Shared.Utility
             return fullPath;
         }
 
-        public static async Task<StorageFile> MakeResizedImage(StorageFile oldFile, string newFileName, double maxWidth)
+        public static async Task<StorageFile> MakeResizedImage(StorageFile oldFile, string newFileName, double sizeMax)
         {
             StorageFile newFile = null;
             using (var sourceStream = await oldFile.OpenAsync(FileAccessMode.Read))
             {
-                BitmapImage bi = new BitmapImage();
-                bi.SetSource(sourceStream);
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(sourceStream);
 
-                double WtoH = (double)bi.PixelWidth / (double)bi.PixelHeight;
-                double width = 100d;
-                double height = 100d;
+                double sourceWidth = (double)decoder.PixelWidth;
+                double sourceHeight = (double)decoder.PixelHeight;
+                double width = sourceWidth;
+                double height = sourceHeight;
+
+                bool needResize = false;
+                double WtoH = sourceWidth / sourceHeight;
                 if (WtoH > 1d)//width is longer
                 {
-                    width = maxWidth;
-                    height = width * (double)bi.PixelHeight / (double)bi.PixelWidth;
+                    if (sourceWidth > sizeMax)
+                    {
+                        width = sizeMax;
+                        height = width * sourceHeight / sourceWidth;
+                        needResize = true;
+                    }
                 }
                 else//height is longer
                 {
-                    height = maxWidth;
-                    width = height * (double)bi.PixelWidth / (double)bi.PixelHeight;
+                    if (sourceHeight > sizeMax)
+                    {
+                        height = sizeMax;
+                        width = height * sourceWidth / sourceHeight;
+                        needResize = true;
+                    }
                 }
 
-                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(sourceStream);
-                BitmapTransform transform = new BitmapTransform() { ScaledWidth = (uint)width, ScaledHeight = (uint)height };
-                PixelDataProvider pixelData = await decoder.GetPixelDataAsync(
-                    BitmapPixelFormat.Rgba8,
-                    BitmapAlphaMode.Straight,
-                    transform,
-                    ExifOrientationMode.RespectExifOrientation,
-                    ColorManagementMode.DoNotColorManage);
-
-                //create new file
-                StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
-                newFile = await local.CreateFileAsync(newFileName, CreationCollisionOption.ReplaceExisting);
-                DisplayInformation di = DisplayInformation.GetForCurrentView();
-
-                using (var destinationStream = await newFile.OpenAsync(FileAccessMode.ReadWrite))
+                if (needResize)
                 {
-                    BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, destinationStream);
-                    encoder.SetPixelData(BitmapPixelFormat.Rgba8, BitmapAlphaMode.Premultiplied, (uint)width, (uint)height, di.LogicalDpi, di.LogicalDpi, pixelData.DetachPixelData());
-                    await encoder.FlushAsync();
+                    BitmapTransform transform = new BitmapTransform()
+                    {
+                        ScaledWidth = (uint)width,
+                        ScaledHeight = (uint)height
+                    };
+
+                    PixelDataProvider pixelData = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore,
+                        transform, ExifOrientationMode.IgnoreExifOrientation, ColorManagementMode.DoNotColorManage);
+                    byte[] pixelBuffer = pixelData.DetachPixelData();
+
+                    //create new file
+                    StorageFolder local = Windows.Storage.ApplicationData.Current.LocalFolder;
+                    newFile = await local.CreateFileAsync(newFileName, CreationCollisionOption.ReplaceExisting);
+                    DisplayInformation di = DisplayInformation.GetForCurrentView();
+
+                    using (var destinationStream = await newFile.OpenAsync(FileAccessMode.ReadWrite))
+                    {
+                        BitmapEncoder encoder = await BitmapEncoder.CreateAsync(BitmapEncoder.PngEncoderId, destinationStream);
+                        encoder.SetPixelData(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Ignore, (uint)width, (uint)height, di.LogicalDpi, di.LogicalDpi, pixelBuffer);
+                        await encoder.FlushAsync();
+                    }
+                }
+                else
+                {
+                    newFile = oldFile;
                 }
             }
             return newFile;
+        }
+
+        public static async Task<BitmapImage> GetThumbnail(StorageFile file)
+        {
+            BitmapImage bi = null;
+            using (var sourceStream = await file.OpenAsync(FileAccessMode.Read))
+            {
+                BitmapDecoder decoder = await BitmapDecoder.CreateAsync(sourceStream);
+                var stream = await decoder.GetThumbnailAsync();
+                bi = new BitmapImage();
+                bi.SetSource(stream);
+            }
+            return bi;
         }
 
     }

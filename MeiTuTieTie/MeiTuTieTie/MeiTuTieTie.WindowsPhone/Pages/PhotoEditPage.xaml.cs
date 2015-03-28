@@ -15,6 +15,8 @@ using Shared.Enum;
 using Windows.Storage;
 using System.Linq;
 using Windows.Graphics.Imaging;
+using Shared.Global;
+using Shared.Utility;
 
 namespace MeiTuTieTie.Pages
 {
@@ -48,8 +50,8 @@ namespace MeiTuTieTie.Pages
 
         protected override void OnNavigatedTo(Windows.UI.Xaml.Navigation.NavigationEventArgs e)
         {
+            NavigationHelper.ActivePage = this.GetType();
             base.OnNavigatedTo(e);
-
             if (e.NavigationMode == NavigationMode.New)
             {
                 Initialize();
@@ -72,10 +74,9 @@ namespace MeiTuTieTie.Pages
         private async void Initialize()
         {
             var file = App.CurrentInstance.HomePageMultiPhotoFiles[0];
-            IRandomAccessStream stream = await file.OpenAsync(FileAccessMode.Read);
 
             //prepare for crop
-            PreapreWritableBitmap(stream);
+            PreapreWritableBitmap(file);
 
             //highlight selected crop ratio
             selectedText = menuItem_arbitrary;
@@ -432,48 +433,11 @@ namespace MeiTuTieTie.Pages
         #region Crop
 
         private WriteableBitmap wbOrigin = null;
-        private double PhotoImportSizeMax = 1920d;
 
-        private async void PreapreWritableBitmap(IRandomAccessStream stream)
+        private async void PreapreWritableBitmap(StorageFile file)
         {
-            //BitmapImage bi = new BitmapImage();
-            //bi.SetSource(stream);
-
-            BitmapDecoder decoder = await BitmapDecoder.CreateAsync(stream);
-            
-            double sourceWidth = (double)decoder.PixelWidth;
-            double sourceHeight = (double)decoder.PixelHeight;
-            double width = 100d;
-            double height = 100d;
-
-            double WtoH = sourceWidth / sourceHeight;// (double)bi.PixelWidth / (double)bi.PixelHeight;
-            if (WtoH > 1d)//width is longer
-            {
-                width = PhotoImportSizeMax;
-                height = width * sourceHeight / sourceWidth;// (double)bi.PixelHeight / (double)bi.PixelWidth;
-            }
-            else//height is longer
-            {
-                height = PhotoImportSizeMax;
-                width = height * sourceWidth / sourceHeight; //(double)bi.PixelWidth / (double)bi.PixelHeight;
-            }
-
-            BitmapTransform transform = new BitmapTransform()
-            {
-                ScaledWidth = (uint)width,
-                ScaledHeight = (uint)height
-            };
-
-            PixelDataProvider pixelData = await decoder.GetPixelDataAsync(BitmapPixelFormat.Bgra8, BitmapAlphaMode.Straight,
-                transform, ExifOrientationMode.RespectExifOrientation, ColorManagementMode.DoNotColorManage);
-            byte[] pixelBuffer = pixelData.DetachPixelData();
-
-            wbOrigin = new WriteableBitmap((int)width, (int)height);
-            wbOrigin = wbOrigin.FromByteArray(pixelBuffer);
+            wbOrigin = await ImageHelper.Resize(file, Constants.PHOTO_IMPORT_SIZE_MAX);
             image.Source = wbOrigin;
-
-            //await wbTemp.FromStream(stream);
-            //wbOrigin = wbOrigin.Resize((int)width, (int)height, WriteableBitmapExtensions.Interpolation.Bilinear);
         }
 
         private async void Crop()

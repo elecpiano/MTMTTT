@@ -59,6 +59,24 @@ namespace Shared.Common
     [Windows.Foundation.Metadata.WebHostHidden]
     public class NavigationHelper : DependencyObject
     {
+        //private static bool _Busy = false;
+        //public static bool Busy
+        //{
+        //    get
+        //    {
+        //        return _Busy;
+        //    }
+        //    set
+        //    {
+        //        if (_Busy!=value)
+        //        {
+        //            _Busy = value;
+        //        }
+        //    }
+        //}
+
+        public static Type ActivePage { get; set; }
+
         private Page Page { get; set; }
         private Frame Frame { get { return this.Page.Frame; } }
 
@@ -169,12 +187,12 @@ namespace Shared.Common
         public virtual bool CanGoBack()
         {
             bool canceled = false;
-            if (CanGobackAsked!=null)
+            if (CanGobackAsked != null)
             {
                 CanGobackAsked(this, ref canceled);
             }
 
-            return this.Frame != null && this.Frame.CanGoBack && !canceled;
+            return this.Frame != null && this.Frame.CanGoBack && !canceled && this.Page.GetType() == ActivePage;
         }
         /// <summary>
         /// Virtual method used by the <see cref="GoForwardCommand"/> property
@@ -195,7 +213,10 @@ namespace Shared.Common
         /// </summary>
         public virtual void GoBack()
         {
-            if (this.Frame != null && this.Frame.CanGoBack) this.Frame.GoBack();
+            if (this.Frame != null && this.Frame.CanGoBack)
+            {
+                this.Frame.GoBack();
+            }
         }
         /// <summary>
         /// Virtual method used by the <see cref="GoForwardCommand"/> property
