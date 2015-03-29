@@ -496,7 +496,7 @@
                     <Run Text="张。"/>
                 </TextBlock>
                 <ScrollViewer Style="{StaticResource HorizontalScrollViewer_Style}" Height="100"
-                              Margin="16,0,6,0">
+                              Margin="16,0,16,0">
                     <ItemsControl x:Name="candidateListBox">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
