@@ -387,6 +387,10 @@ namespace MeiTuTieTie.Pages
         private async void AddPhotosToStage(IEnumerable<StorageFile> files)
         {
             photoToProcess = files.Count();
+            if (photoToProcess==0)
+            {
+                Busy = false;
+            }
             foreach (var file in files)
             {
                 AddPhotoToStage(file);
