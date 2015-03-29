@@ -344,27 +344,6 @@
 
                 <Image x:Name="imgBiankuang" Stretch="Fill" IsHitTestVisible="False"/>
                 <Grid x:Name="stage"/>
-
-                <StackPanel x:Name="contextMenu" Orientation="Horizontal" 
-                            HorizontalAlignment="Left" VerticalAlignment="Top" Margin="-80,-20" 
-                            RenderTransformOrigin="0.5,0.5"
-                            IsHitTestVisible="False" Opacity="0">
-                    <StackPanel.RenderTransform>
-                        <CompositeTransform x:Name="contextMenuTransform"/>
-                    </StackPanel.RenderTransform>
-                    <Grid Background="#ff2d2d2d" Margin="0,0,1,0" Tapped="spriteUpMost_Click">
-                        <TextBlock Text="置顶" Style="{StaticResource OperationPage_ContextMenu_Text_Style}"/>
-                    </Grid>
-                    <Grid Background="#ff2d2d2d" Margin="0,0,1,0" Tapped="spriteDownMost_Click">
-                        <TextBlock Text="置底" Style="{StaticResource OperationPage_ContextMenu_Text_Style}"/>
-                    </Grid>
-                    <Grid Background="#ff2d2d2d" Margin="0,0,1,0" Tapped="spriteCopy_Click">
-                        <TextBlock Text="复制" Style="{StaticResource OperationPage_ContextMenu_Text_Style}"/>
-                    </Grid>
-                    <Grid Background="#ff2d2d2d" Margin="0,0,1,0" Tapped="spriteDelete_Click">
-                        <TextBlock Text="删除" Style="{StaticResource OperationPage_ContextMenu_Text_Style}"/>
-                    </Grid>
-                </StackPanel>
             </Grid>
         </Grid>
 
@@ -412,6 +391,8 @@
             </sharedControl:ContentButton>
 
         </Grid>
+
+        <sharedControl:SpriteContextMenu x:Name="spriteContextMenu" MenuTapped="spriteContextMenu_Tapped"/>
 
         <!--color & font-->
         <Grid x:Name="colorListPanel" VerticalAlignment="Bottom" Background="#ffffbfbf" Grid.Row="1" Height="72" RenderTransformOrigin="0.5,0.5">

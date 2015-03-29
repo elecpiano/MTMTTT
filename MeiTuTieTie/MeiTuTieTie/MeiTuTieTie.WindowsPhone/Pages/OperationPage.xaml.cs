@@ -187,6 +187,7 @@ namespace MeiTuTieTie.Pages
             SpriteControl.OnRemoved += Sprite_OnRemoved;
             SpriteControl.OnSpriteChanged += Sprite_OnSpriteChanged;
             SpriteControl.Holding += SpriteControl_Holding;
+            SpriteControl.OnSpritePressed += SpriteControl_OnSpritePressed;
 
             VisualStateManager.GoToState(this, "vsLayerButtonShown", false);
 
@@ -208,7 +209,7 @@ namespace MeiTuTieTie.Pages
                 default:
                     break;
             }
-            
+
             App.CurrentInstance.OpertationPageChanged = true;
         }
 
@@ -365,7 +366,7 @@ namespace MeiTuTieTie.Pages
         private void CheckAndAddPhotos(IReadOnlyList<StorageFile> files)
         {
             int newPhotoCount = files.Count;
-            if (newPhotoCount>0)
+            if (newPhotoCount > 0)
             {
                 Busy = true;
             }
@@ -387,7 +388,7 @@ namespace MeiTuTieTie.Pages
         private async void AddPhotosToStage(IEnumerable<StorageFile> files)
         {
             photoToProcess = files.Count();
-            if (photoToProcess==0)
+            if (photoToProcess == 0)
             {
                 Busy = false;
             }
@@ -419,7 +420,7 @@ namespace MeiTuTieTie.Pages
             }
 
             photoToProcess--;
-            if (photoToProcess==0)
+            if (photoToProcess == 0)
             {
                 Busy = false;
             }
@@ -490,7 +491,8 @@ namespace MeiTuTieTie.Pages
             candidatePanelShown = false;
             VisualStateManager.GoToState(this, "vsCandidateHidden", true);
             DelayExecutor.Delay(200,
-                () => {
+                () =>
+                {
                     candidateListBox.ItemsSource = null;
                     candidates.Clear();
                 });
@@ -590,7 +592,6 @@ namespace MeiTuTieTie.Pages
         private void spriteDelete_Click(object sender, TappedRoutedEventArgs e)
         {
             SpriteControl.RemoveSelectedSprite();
-            HideContextMenu();
         }
 
         private void photoLock_Click(object sender, TappedRoutedEventArgs e)
@@ -619,27 +620,30 @@ namespace MeiTuTieTie.Pages
             HideContextMenu();
         }
 
-        private void spriteUpMost_Click(object sender, TappedRoutedEventArgs e)
+        private void spriteContextMenu_Tapped(object sender, string type)
         {
-            if (SpriteControl.SelectedSprite != null)
+            if (SpriteControl.SelectedSprite == null)
             {
-                SpriteControl.SelectedSprite.ZIndexUpMost();
+                return;
             }
-            HideContextMenu();
-        }
 
-        private void spriteDownMost_Click(object sender, TappedRoutedEventArgs e)
-        {
-            if (SpriteControl.SelectedSprite != null)
+            switch (type)
             {
-                SpriteControl.SelectedSprite.ZIndexDownMost();
+                case "up_most":
+                    SpriteControl.SelectedSprite.ZIndexUpMost();
+                    break;
+                case "down_most":
+                    SpriteControl.SelectedSprite.ZIndexDownMost();
+                    break;
+                case "copy":
+                    CopySprite();
+                    break;
+                case "delete":
+                    SpriteControl.RemoveSelectedSprite();
+                    break;
+                default:
+                    break;
             }
-            HideContextMenu();
-        }
-
-        private void spriteCopy_Click(object sender, TappedRoutedEventArgs e)
-        {
-            CopySprite();
             HideContextMenu();
         }
 
@@ -649,21 +653,19 @@ namespace MeiTuTieTie.Pages
 
         private void SpriteControl_Holding(object sender, HoldingRoutedEventArgs e)
         {
-            contextMenuTransform.TranslateX = e.GetPosition(stagePanel).X / 2d;
-            contextMenuTransform.TranslateY = e.GetPosition(stagePanel).Y / 2d;
-            ShowContextMenu();
+            var x = e.GetPosition(stagePanel).X;
+            var y = e.GetPosition(stagePanel).Y;
+            spriteContextMenu.Show(stagePanel, x, y);
         }
 
-        private void ShowContextMenu()
+        void SpriteControl_OnSpritePressed(object sender, PointerRoutedEventArgs e)
         {
-            contextMenu.Opacity = 1d;
-            contextMenu.IsHitTestVisible = true;
+            HideContextMenu();
         }
 
         private void HideContextMenu()
         {
-            contextMenu.Opacity = 0d;
-            contextMenu.IsHitTestVisible = false;
+            spriteContextMenu.Hide();
         }
 
         private void CopySprite()

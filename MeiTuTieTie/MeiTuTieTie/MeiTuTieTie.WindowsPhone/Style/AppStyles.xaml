@@ -710,12 +710,12 @@
 
     <!--operataion page-->
     <Style x:Key="OperationPage_ContextMenu_Text_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">
-        <Setter Property="FontSize" Value="24"/>
+        <Setter Property="FontSize" Value="22"/>
         <Setter Property="FontWeight" Value="Normal"/>
-        <Setter Property="Foreground" Value="#ffffffff"/>
+        <Setter Property="Foreground" Value="#ffff7e7e"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Margin" Value="20,10,20,10"/>
+        <Setter Property="Margin" Value="20,12,20,12"/>
     </Style>
 
     <Style x:Key="OperationPage_CandidateHint_Text_Style" TargetType="TextBlock" BasedOn="{StaticResource TextBlockBase}">

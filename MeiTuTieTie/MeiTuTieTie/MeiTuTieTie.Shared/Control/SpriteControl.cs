@@ -479,6 +479,7 @@ namespace Shared.Control
         {
             Selected = true;
             e.Handled = true;
+            RaiseSpritePressed(e);
         }
 
         //this method is to ensure all the sprites become manipulatable again after a tap
@@ -926,6 +927,7 @@ namespace Shared.Control
         public static event EventHandler OnSelected;
         public static event EventHandler OnRemoved;
         public static event EventHandler OnSpriteChanged;
+        public static event PointerEventHandler OnSpritePressed;
 
         private static void RaiseOnSelected()
         {
@@ -956,6 +958,14 @@ namespace Shared.Control
             if (Holding != null)
             {
                 Holding(SelectedSprite, e);
+            }
+        }
+
+        public void RaiseSpritePressed(PointerRoutedEventArgs e)
+        {
+            if (OnSpritePressed != null)
+            {
+                OnSpritePressed(SelectedSprite, e);
             }
         }
 

@@ -1,0 +1,60 @@
+﻿<UserControl
+    x:Class="Shared.Control.SpriteContextMenu"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:MeiTuTieTie.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:sharedControl="using:Shared.Control"
+    mc:Ignorable="d"
+    d:DesignHeight="64"
+    d:DesignWidht="100"
+    HorizontalAlignment="Left" VerticalAlignment="Top"
+    RenderTransformOrigin="0.5,0.5">
+
+    <UserControl.RenderTransform>
+        <CompositeTransform x:Name="transform"/>
+    </UserControl.RenderTransform>
+
+    <Grid x:Name="rootGrid" Background="Transparent" >
+        <Image x:Name="arrowColor" Source="/Assets/Images/ArrowDown.png" Stretch="Uniform" 
+               Height="9" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+               Margin="-10,0,-10,-10" RenderTransformOrigin="0.5,0.5">
+            <Image.RenderTransform>
+                <CompositeTransform x:Name="arrowTransform" TranslateX="0"/>
+            </Image.RenderTransform>
+        </Image>
+        <StackPanel x:Name="contextMenu" Orientation="Horizontal" Background="#ffffffff">
+            <sharedControl:ContentButton Margin="0,0,-1,0" Tapped="UpMost_Tapped">
+                <Grid Background="#00000000">
+                    <TextBlock Text="置顶" Style="{StaticResource OperationPage_ContextMenu_Text_Style}"/>
+                </Grid>
+            </sharedControl:ContentButton>
+
+            <Rectangle Fill="#ffff7e7e" Width="1" Margin="0,10" VerticalAlignment="Stretch"/>
+
+            <sharedControl:ContentButton Margin="0,0,-1,0" Tapped="DownMost_Tapped">
+                <Grid Background="#00000000">
+                    <TextBlock Text="置底" Style="{StaticResource OperationPage_ContextMenu_Text_Style}"/>
+                </Grid>
+            </sharedControl:ContentButton>
+
+            <Rectangle Fill="#ffff7e7e" Width="1" Margin="0,10" VerticalAlignment="Stretch"/>
+
+            <sharedControl:ContentButton Margin="0,0,-1,0" Tapped="Copy_Tapped">
+                <Grid Background="#00000000">
+                    <TextBlock Text="复制" Style="{StaticResource OperationPage_ContextMenu_Text_Style}"/>
+                </Grid>
+            </sharedControl:ContentButton>
+
+            <Rectangle Fill="#ffff7e7e" Width="1" Margin="0,10" VerticalAlignment="Stretch"/>
+
+            <sharedControl:ContentButton Margin="0,0,0,0" Tapped="Delete_Tapped">
+                <Grid Background="#00000000">
+                    <TextBlock Text="删除" Style="{StaticResource OperationPage_ContextMenu_Text_Style}"/>
+                </Grid>
+            </sharedControl:ContentButton>
+
+        </StackPanel>
+    </Grid>
+</UserControl>
