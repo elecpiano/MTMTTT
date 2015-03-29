@@ -17,9 +17,9 @@
     </UserControl.RenderTransform>
 
     <Grid x:Name="rootGrid" Background="Transparent" >
-        <Image x:Name="arrowColor" Source="/Assets/Images/ArrowDown.png" Stretch="Uniform" 
-               Height="9" VerticalAlignment="Bottom" HorizontalAlignment="Left"
-               Margin="-10,0,-10,-10" RenderTransformOrigin="0.5,0.5">
+        <Image x:Name="arrowColor" Source="/Assets/Images/ContextMenuArrow.png" Stretch="Uniform" 
+               Height="16" VerticalAlignment="Bottom" HorizontalAlignment="Left"
+               Margin="-16,0,-16,-15" RenderTransformOrigin="0.5,0.5">
             <Image.RenderTransform>
                 <CompositeTransform x:Name="arrowTransform" TranslateX="0"/>
             </Image.RenderTransform>

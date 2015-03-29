@@ -12,7 +12,7 @@ namespace Shared.Control
     {
         #region Property
 
-        const double ARROW_HALF_WIDTH = 10d;
+        const double ARROW_HALF_WIDTH = 16d;
         double half_W = 0d;
         double half_H = 0d;
 

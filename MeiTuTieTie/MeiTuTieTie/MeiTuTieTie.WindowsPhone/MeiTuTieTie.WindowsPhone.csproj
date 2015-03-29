@@ -173,6 +173,7 @@
     <Content Include="Assets\Images\DefaultBackgroundSingle.jpg" />
     <Content Include="Assets\Images\CheckMark.png" />
     <Content Include="Assets\Images\DefaultBackgroundMulti.jpg" />
+    <Content Include="Assets\Images\ContextMenuArrow.png" />
     <Content Include="Assets\Images\Help\Help1.jpg" />
     <Content Include="Assets\Images\Help\Help2.jpg" />
     <Content Include="Assets\Images\Help\Help3.jpg" />
