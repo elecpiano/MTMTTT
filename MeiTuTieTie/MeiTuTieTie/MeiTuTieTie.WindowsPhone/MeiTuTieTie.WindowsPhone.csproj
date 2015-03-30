@@ -150,7 +150,6 @@
     <Content Include="Assets\Audio\MaterialSFX.mp3" />
     <Content Include="Assets\Audio\MaterialSFX.wav" />
     <Content Include="Assets\Images\AboutLogo.png" />
-    <Content Include="Assets\ImageSwitch\SwitchKnob.png" />
     <Content Include="Assets\Images\AppBar\AppBarAccept.png" />
     <Content Include="Assets\Images\AppBar\AppBarCancel.png" />
     <Content Include="Assets\Images\AppBar\AppBarColor.png" />
@@ -222,14 +221,16 @@
     <Content Include="Assets\Images\MeiYan.png" />
     <Content Include="Assets\Images\Remove.png" />
     <Content Include="Assets\Images\Rotate.png" />
+    <Content Include="Assets\Images\Welcome\Welcome1.jpg" />
+    <Content Include="Assets\Images\Welcome\Welcome2.jpg" />
+    <Content Include="Assets\Images\Welcome\Welcome3.jpg" />
+    <Content Include="Assets\Images\Welcome\Welcome4.jpg" />
+    <Content Include="Assets\Images\Welcome\WelcomeGoButton.png" />
     <Content Include="Assets\materials.xml" />
     <Content Include="Assets\SmallLogo.scale-100.png" />
     <Content Include="Assets\SmallLogo.scale-140.png" />
     <Content Include="Assets\SmallLogo.scale-240.png" />
     <Content Include="Assets\TestImages\TestImage001.jpg" />
-    <Content Include="Assets\ImageSwitch\SwitchHide.png" />
-    <Content Include="Assets\ImageSwitch\SwitchShow.png" />
-    <Content Include="Assets\ImageSwitch\SwitchDisabledShow.png" />
     <Content Include="theme\0\beijing_00.jpg" />
     <Content Include="theme\0\beijing_01.jpg" />
     <Content Include="theme\0\beijing_02.jpg" />

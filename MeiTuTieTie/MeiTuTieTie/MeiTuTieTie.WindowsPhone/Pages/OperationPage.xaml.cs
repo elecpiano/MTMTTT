@@ -217,10 +217,16 @@ namespace MeiTuTieTie.Pages
 
         #region Image Processing
 
-        double exportWidth = 1248d;
+        double exportWidth = 960d;
 
         private async void GenerateImage()
         {
+            if (Busy)
+            {
+                return;
+            }
+            Busy = true;
+
             SpriteControl.DismissActiveSprite();
             AppBarNormal();
             HideContextMenu();
@@ -236,6 +242,7 @@ namespace MeiTuTieTie.Pages
             var bitmap = await ImageHelper.Capture(this.stagePanel, exportWidth);
 
             Frame.Navigate(typeof(ExportPage), bitmap);
+            Busy = false;
         }
 
         #endregion
@@ -777,6 +784,25 @@ namespace MeiTuTieTie.Pages
                     selectedSpriteText = (sender as SpriteControl).spriteText;
                     VisualStateManager.GoToState(this, "vsTextModeButtons", false);
 
+                    //set font list index
+                    int index = 0;
+                    string fontName = selectedSpriteText.Font.Source;
+                    if (fontListData.Contains(fontName))
+                    {
+                        index = fontListData.IndexOf(fontName);
+                    }
+                    fontListBox.SelectedIndex = index;
+                    fontListBox.ScrollIntoView(fontName);
+
+                    //set color list index
+                    string colorHex = ColorUtil.GetHexFromBrush(selectedSpriteText.TextColor as SolidColorBrush).ToLower();
+                    if (colorListData.Contains(colorHex))
+                    {
+                        index = colorListData.IndexOf(colorHex);
+                    }
+                    colorListBox.SelectedIndex = index;
+                    colorListBox.ScrollIntoView(colorHex);
+
                     //display the color list by defualt
                     VisualStateManager.GoToState(this, "vsColorListShown", true);
                     colorListShown = true;
@@ -1016,6 +1042,10 @@ namespace MeiTuTieTie.Pages
         {
             this.bottomAppBar.PrimaryCommands.Clear();
             bottomAppBar.Visibility = Visibility.Collapsed;
+
+            appBarPanel.Visibility = Visibility.Visible;
+            colorListPanel.Visibility = Visibility.Visible;
+            fontListPanel.Visibility = Visibility.Visible;
         }
 
         private void BuildSystemAppBar_TextEditor()
@@ -1032,6 +1062,10 @@ namespace MeiTuTieTie.Pages
                 appBarButton_ok.Click += AppbarButton_TextOK_Click;
             }
             this.bottomAppBar.PrimaryCommands.Add(appBarButton_ok);
+
+            appBarPanel.Visibility = Visibility.Collapsed;
+            colorListPanel.Visibility = Visibility.Collapsed;
+            fontListPanel.Visibility = Visibility.Collapsed;
         }
 
         private void AppbarButton_TextOK_Click(object sender, RoutedEventArgs e)
@@ -1072,7 +1106,7 @@ namespace MeiTuTieTie.Pages
         {
             SpriteControl.EdgeEnabled = App.CurrentInstance.GetSetting<bool>(Constants.KEY_EDGE, false);
             SpriteControl.ShadowEnabled = App.CurrentInstance.GetSetting<bool>(Constants.KEY_SHADOW, false);
-            exportWidth = App.CurrentInstance.GetSetting<double>(Constants.KEY_EXPORT_WIDTH, 1248d);
+            exportWidth = App.CurrentInstance.GetSetting<double>(Constants.KEY_EXPORT_WIDTH, 960d);
             sfxEnabled = App.CurrentInstance.GetSetting<bool>(Constants.KEY_SFX, false);
         }
 

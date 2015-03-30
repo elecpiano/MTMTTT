@@ -478,9 +478,9 @@
             </Grid>
         </Grid>
 
-        <Grid x:Name="busyMask" Background="#BF000000" Grid.RowSpan="2">
-            <TextBlock Text="加载中..." 
-                       Style="{StaticResource TextBlockBase}" Foreground="#ffffffff" FontSize="22"
+        <Grid x:Name="busyMask" Background="#66ffffff" Grid.RowSpan="2">
+            <TextBlock Text="..." 
+                       Style="{StaticResource TextBlockBase}" Foreground="#ffff7e7e" FontSize="22"
                        VerticalAlignment="Center" HorizontalAlignment="Center"/>
         </Grid>
 

@@ -81,6 +81,7 @@ namespace Shared.Control
         {
             this.InitializeComponent();
             this.textBox.LostFocus += textBox_LostFocus;
+            this.Font = new FontFamily("Arial");
         }
 
         #region Mask

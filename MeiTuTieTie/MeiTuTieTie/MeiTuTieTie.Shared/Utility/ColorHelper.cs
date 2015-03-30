@@ -33,5 +33,16 @@ namespace Shared.Utility
             SolidColorBrush brush = new SolidColorBrush(color);
             return brush;
         }
+
+        public static string GetHexFromBrush(SolidColorBrush brush)
+        {
+            if (brush == null)
+            {
+                return string.Empty;
+            }
+            string hex = string.Empty;
+            hex = brush.Color.ToString();
+            return hex;
+        }
     }
 }

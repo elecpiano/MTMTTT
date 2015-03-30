@@ -387,6 +387,7 @@ namespace Shared.Control
             SetRotation();
             SetPosition();
             SetScale();
+            this.contentPanel.UpdateLayout();
             SyncButtonsPosition();
         }
 

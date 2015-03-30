@@ -14,37 +14,43 @@
     </Page.Resources>
 
     <Grid Background="White">
-        <Grid.RowDefinitions>
+        <!--<Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
+        </Grid.RowDefinitions>-->
 
         <!--<Grid Background="#ff666666" Grid.RowSpan="2"/>-->
 
-        <Hub Grid.Row="1">
+        <Hub>
             <HubSection>
                 <DataTemplate>
-                    <Grid Background="LightBlue">
-                        <!--<Image Source="/Assets/Images/Help/Help1.jpg" Stretch="Uniform" Margin="15,-36,-12,36"/>-->
+                    <Grid>
+                        <!--Margin="-20,-10,-40,0"-->
+                        <Image Source="/Assets/Images/Welcome/Welcome1.jpg" Stretch="Uniform"/>
                     </Grid>
                 </DataTemplate>
             </HubSection>
             <HubSection>
                 <DataTemplate>
-                    <Grid Background="LightBlue">
-                        <!--<Image Source="/Assets/Images/Help/Help2.jpg" Stretch="Uniform" Margin="15,-36,-12,36"/>-->
+                    <Grid>
+                        <Image Source="/Assets/Images/Welcome/Welcome2.jpg" Stretch="Uniform"/>
                     </Grid>
                 </DataTemplate>
             </HubSection>
             <HubSection>
                 <DataTemplate>
-                    <Grid Background="LightBlue">
-                        <!--<Image Source="/Assets/Images/Help/Help3.jpg" Stretch="Uniform" Margin="15,-36,-12,36"/>-->
-                        <sharedControl:ContentButton Height="48" Margin="16,200,16,0" Tapped="go_Tapped">
-                            <Grid  Background="#ffff7e7e">
-                                    <TextBlock Text="一起来卖萌吧！" Style="{StaticResource TextBlockBase}"
-                                               HorizontalAlignment="Center" VerticalAlignment="Center"
-                                               Foreground="White" FontSize="24" Margin="10,0,0,0"/>
+                    <Grid>
+                        <Image Source="/Assets/Images/Welcome/Welcome3.jpg" Stretch="Uniform"/>
+                    </Grid>
+                </DataTemplate>
+            </HubSection>
+            <HubSection>
+                <DataTemplate>
+                    <Grid>
+                        <Image Source="/Assets/Images/Welcome/Welcome4.jpg" Stretch="Uniform"/>
+                        <sharedControl:ContentButton Height="64" Margin="24,200,0,0" Tapped="go_Tapped">
+                            <Grid>
+                                <Image Source="/Assets/Images/Welcome/WelcomeGoButton.png" Stretch="Uniform"/>
                             </Grid>
                         </sharedControl:ContentButton>
                     </Grid>
@@ -53,7 +59,7 @@
         </Hub>
 
         <!--page title-->
-        <TextBlock Text="Welcome" Style="{StaticResource PageTitle_Style}"/>
+        <!--<TextBlock Text="Welcome" Style="{StaticResource PageTitle_Style}"/>-->
 
     </Grid>
 </Page>
