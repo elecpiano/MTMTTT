@@ -7,6 +7,8 @@ using Shared.Utility;
 using Windows.UI.Xaml.Navigation;
 using System.Collections.Generic;
 using Windows.UI.Popups;
+using System.Text;
+using Shared.Model;
 
 namespace MeiTuTieTie.Pages
 {
@@ -47,7 +49,7 @@ namespace MeiTuTieTie.Pages
 
         private void feedbackType_Tapped(object sender, TappedRoutedEventArgs e)
         {
-            string feedbackType = (sender as FrameworkElement).Tag.ToString();
+            feedbackType = (sender as FrameworkElement).Tag.ToString();
             if (feedbackType == "error")
             {
                 VisualStateManager.GoToState(this, "vsFeedbackType1", true);
@@ -69,7 +71,7 @@ namespace MeiTuTieTie.Pages
 
         #region Send Data
 
-        private DataSender dataSender = null;
+        DataLoader dataLoader = null;
 
         private async void send_Click(object sender, RoutedEventArgs e)
         {
@@ -92,40 +94,43 @@ namespace MeiTuTieTie.Pages
                 return;
             }
 
-            if (dataSender==null)
+            if (dataLoader == null)
             {
-                dataSender = new DataSender();
+                dataLoader = new DataLoader();
             }
 
-            string url = "http://data.meitu.com/feedback_iphone.php";
-            string data = "MTTT WP 1.0.0.0";
-            Dictionary<string, string> param = new Dictionary<string, string>();
+            string url = "http://data.meitu.com/feedback_iphone.php&";
+            string param = string.Empty;
+            param += "&" + "software" + "=" + "AMTTT";
+            param += "&" + "version" + "=" + "1.0.0.0";
+            param += "&" + "module" + "=" + "WindowsPhone8.1";
+            param += "&" + "message" + "=" + feedbackTextBox.Text.Trim();
+            param += "&" + "contact" + "=" + contactTextBox.Text.Trim();
+            param += "&" + "itype" + "=" + feedbackType;
+            url = string.Format("http://data.meitu.com/feedback_iphone.php?{0}", param);
 
-            param.Add("software", "AMTTT");
-            param.Add("version", "1.0.0.0");
-            param.Add("module", "Windows Phone");
-            //param.Add("os", "Windows Phone 8.1");
-            //param.Add("nickname", "");
-            //param.Add("from", "");
-            param.Add("message", feedbackTextBox.Text.Trim());
-            param.Add("contact", contactTextBox.Text.Trim());
-            param.Add("itype", feedbackType);
-
-            dataSender.POSTAsync(url, data, param, 
-                result =>
-                {
-                    OnSent();
-                });
+            dataLoader.Load(url, OnSent);
         }
 
-        private async void OnSent()
+        private async void OnSent(string message)
         {
-            var dialog = new MessageDialog("发送成功！");
-            var cmdOK = new UICommand("确定");
-            dialog.Commands.Add(cmdOK);
-            dialog.CancelCommandIndex = 0;
-            var result = await dialog.ShowAsync();
-            navigationHelper.GoBack();
+            if (message.ToLower() == "ok")
+            {
+                var dialog = new MessageDialog("发送成功！");
+                var cmdOK = new UICommand("确定");
+                dialog.Commands.Add(cmdOK);
+                dialog.CancelCommandIndex = 0;
+                var result = await dialog.ShowAsync();
+                navigationHelper.GoBack();
+            }
+            else
+            {
+                var dialog = new MessageDialog("发送失败，请重新尝试。");
+                var cmdOK = new UICommand("确定");
+                dialog.Commands.Add(cmdOK);
+                dialog.CancelCommandIndex = 0;
+                dialog.ShowAsync();
+            }
         }
 
         #endregion

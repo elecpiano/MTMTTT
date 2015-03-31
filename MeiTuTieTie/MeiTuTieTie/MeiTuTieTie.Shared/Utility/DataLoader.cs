@@ -37,7 +37,7 @@ namespace Shared.Utility
             moduleName = module;
             fileName = file;
 
-            if (!NetworkHelper2.Current.IsInternetConnectionAvaiable)
+            if (!NetworkHelper.CheckInternet())
             {
                 //load cache
                 if (cacheData)
@@ -166,7 +166,64 @@ namespace Shared.Utility
 
             return result;
         }
+    }
 
+    public class DataLoader
+    {
+        public bool Busy = false;
+        public bool Loaded = false;
+
+        private Action<string> onCallback;
+        string moduleName = string.Empty;
+        string fileName = string.Empty;
+
+        public async void Load(string dataURL, Action<string> callback)
+        {
+            onCallback = callback;
+
+            try
+            {
+                HttpWebRequest request = HttpWebRequest.CreateHttp(new Uri(dataURL));
+                request.Method = "GET";
+                request.BeginGetResponse(GetData_Callback, request);
+
+                Loaded = false;
+                Busy = true;
+            }
+            catch (WebException e)
+            {
+            }
+            catch (Exception e)
+            {
+            }
+        }
+
+        private async void GetData_Callback(IAsyncResult result)
+        {
+            try
+            {
+                HttpWebRequest request = (HttpWebRequest)result.AsyncState;
+                WebResponse response = request.EndGetResponse(result);
+
+                using (Stream stream = response.GetResponseStream())
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string message = reader.ReadToEnd();
+                    App.CurrentInstance.RunAsync(() =>
+                    {
+                        onCallback(message);
+                    });
+                }
+                Loaded = true;
+            }
+            catch (Exception)
+            {
+            }
+            finally
+            {
+                Busy = false;
+            }
+        }
     }
 
 }
