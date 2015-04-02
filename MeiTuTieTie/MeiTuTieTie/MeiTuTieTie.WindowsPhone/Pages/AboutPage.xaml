@@ -44,7 +44,6 @@
                     </sharedControl:ContentButton>
                 </StackPanel>
             </ScrollViewer>
-
         </Grid>
 
         <!--<Rectangle Fill="#80008080" HorizontalAlignment="Left" VerticalAlignment="Top" Height="640" Width="16"/>-->

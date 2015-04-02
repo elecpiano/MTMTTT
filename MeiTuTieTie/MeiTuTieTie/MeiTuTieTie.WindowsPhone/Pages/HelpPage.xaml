@@ -20,8 +20,20 @@
         </Grid.RowDefinitions>
 
         <Grid Background="#ff666666" Grid.RowSpan="2"/>
-        
-        <Hub Grid.Row="1">
+
+        <FlipView Grid.Row="1" Margin="0,-24,0,24">
+            <FlipViewItem>
+                <Image Source="/Assets/Images/Help/Help1.jpg" Stretch="Uniform"/>
+            </FlipViewItem>
+            <FlipViewItem>
+                <Image Source="/Assets/Images/Help/Help2.jpg" Stretch="Uniform"/>
+            </FlipViewItem>
+            <FlipViewItem>
+                <Image Source="/Assets/Images/Help/Help3.jpg" Stretch="Uniform"/>
+            </FlipViewItem>
+        </FlipView>
+
+        <Hub Grid.Row="1" Visibility="Collapsed">
             <HubSection>
                 <DataTemplate>
                     <Grid>
