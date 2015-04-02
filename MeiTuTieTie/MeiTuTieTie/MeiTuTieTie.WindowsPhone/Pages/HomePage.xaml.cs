@@ -129,6 +129,7 @@ namespace MeiTuTieTie.Pages
             picker.FileTypeFilter.Add(".jpeg");
             picker.FileTypeFilter.Add(".png");
             picker.FileTypeFilter.Add(".gif");
+            picker.FileTypeFilter.Add(".bmp");
             if (single)
             {
                 picker.ContinuationData[Continuation_Key_Operation] = Continuation_HomePage_PickPhotoSingle;

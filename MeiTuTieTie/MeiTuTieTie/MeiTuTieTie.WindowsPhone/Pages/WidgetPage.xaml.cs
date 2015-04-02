@@ -253,6 +253,7 @@ namespace MeiTuTieTie.Pages
             picker.FileTypeFilter.Add(".jpeg");
             picker.FileTypeFilter.Add(".png");
             picker.FileTypeFilter.Add(".gif");
+            picker.FileTypeFilter.Add(".bmp");
             picker.ContinuationData[Continuation_Key_Operation] = Continuation_WidgetPage_DIY;
             //picker.PickMultipleFilesAndContinue();
             picker.PickSingleFileAndContinue();

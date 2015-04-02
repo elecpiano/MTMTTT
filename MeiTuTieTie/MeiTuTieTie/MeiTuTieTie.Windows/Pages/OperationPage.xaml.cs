@@ -25,6 +25,7 @@ namespace MeiTuTieTie.Pages
             picker.FileTypeFilter.Add(".jpeg");
             picker.FileTypeFilter.Add(".png");
             picker.FileTypeFilter.Add(".gif");
+            picker.FileTypeFilter.Add(".bmp");
 
             var files = await picker.PickMultipleFilesAsync();
             if (files != null)
