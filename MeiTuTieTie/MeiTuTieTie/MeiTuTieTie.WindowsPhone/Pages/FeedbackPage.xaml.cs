@@ -99,11 +99,16 @@ namespace MeiTuTieTie.Pages
                 dataLoader = new DataLoader();
             }
 
+            if (dataLoader.Busy)
+            {
+                return;
+            }
+
             string url = "http://data.meitu.com/feedback_iphone.php&";
             string param = string.Empty;
-            param += "&" + "software" + "=" + "AMTTT";
+            param += "&" + "software" + "=" + "WPMTTT";
             param += "&" + "version" + "=" + "1.0.0.0";
-            param += "&" + "module" + "=" + "WindowsPhone8.1";
+            param += "&" + "module" + "=" + "WindowsPhone";
             param += "&" + "message" + "=" + feedbackTextBox.Text.Trim();
             param += "&" + "contact" + "=" + contactTextBox.Text.Trim();
             param += "&" + "itype" + "=" + feedbackType;
