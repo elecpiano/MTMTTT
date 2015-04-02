@@ -661,6 +661,10 @@ namespace MeiTuTieTie.Pages
 
         private void SpriteControl_Holding(object sender, HoldingRoutedEventArgs e)
         {
+            if (textEditing)
+            {
+                return;
+            }
             var x = e.GetPosition(stagePanel).X;
             var y = e.GetPosition(stagePanel).Y;
             spriteContextMenu.Show(stagePanel, x, y);
@@ -749,6 +753,7 @@ namespace MeiTuTieTie.Pages
         private SpriteTextBox selectedSpriteText = null;
         private List<string> colorListData = null;
         private List<string> fontListData = null;
+        private bool textEditing = false;
 
         private void Text_Click(object sender, RoutedEventArgs e)
         {
@@ -839,6 +844,7 @@ namespace MeiTuTieTie.Pages
 
         void sprite_EditingStarted(object sender, EventArgs e)
         {
+            textEditing = true;
             BuildSystemAppBar_TextEditor();
             DelayExecutor.Delay(20, () =>
                 {
@@ -852,6 +858,7 @@ namespace MeiTuTieTie.Pages
             DelayExecutor.Delay(20, () =>
             {
                 (sender as SpriteControl).SyncButtonsPosition();
+                textEditing = false;
             });
         }
 
