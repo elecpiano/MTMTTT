@@ -352,7 +352,7 @@ namespace Shared.Control
                 contentPanel.Children.Add(spriteText);
                 contentPanel.MaxWidth = 300d;
                 contentPanel.MinHeight = 80d;
-                contentPanel.Background = new SolidColorBrush(Colors.Yellow);
+                //contentPanel.Background = new SolidColorBrush(Colors.Yellow);
             }
 
             //AttachManipulationEvents();
