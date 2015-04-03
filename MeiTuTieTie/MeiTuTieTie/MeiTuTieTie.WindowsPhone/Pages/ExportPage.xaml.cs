@@ -82,9 +82,15 @@ namespace MeiTuTieTie.Pages
         #region Share
 
         string shareText = "#美图贴贴Windows Phone版#";
+        bool snsSharingBusy = false;
 
         private void shareToSNS_Tapped(object sender, TappedRoutedEventArgs e)
         {
+            if (snsSharingBusy)
+            {
+                return;
+            }
+
             string tag = (sender as FrameworkElement).Tag.ToString();
             switch (tag)
             {
@@ -98,6 +104,7 @@ namespace MeiTuTieTie.Pages
 
         private async void ShareToWeibo()
         {
+            snsSharingBusy = true;
             string fileName = "TempShareWeibo";
             var stream = await ImageHelper.SaveBitmapToLocal(bitmap, fileName, true);
 
@@ -106,7 +113,8 @@ namespace MeiTuTieTie.Pages
             //var arr = buffer.ToArray();
             //MemoryStream ms = new MemoryStream(arr);
 
-            WeiboHelper.Share(stream, shareText);
+            await WeiboHelper.Share(stream, shareText);
+            snsSharingBusy = false;
         }
 
         #endregion
@@ -135,6 +143,8 @@ namespace MeiTuTieTie.Pages
 
             saveButtonPanel.Visibility = Visibility.Collapsed;
             saveResultPanel.Visibility = Visibility.Visible;
+
+            busy = false;
         }
 
         #endregion

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Xml.Linq;
 using Windows.Storage;
 
@@ -30,7 +31,7 @@ namespace Shared.SNS
         /// <param name="latitude">纬度，长度不能超过50个字符</param>
         /// <param name="longtitude">经度，长度不能超过50个字符</param>
         /// </summary>
-        public async static void Share(Stream imageStream = null, string text = "", string latitude = "", string longitude = "")
+        public async static Task Share(Stream imageStream = null, string text = "", string latitude = "", string longitude = "")
         {
             if (imageStream == null && string.IsNullOrEmpty(text) && string.IsNullOrEmpty(latitude) && string.IsNullOrEmpty(longitude))
             {
