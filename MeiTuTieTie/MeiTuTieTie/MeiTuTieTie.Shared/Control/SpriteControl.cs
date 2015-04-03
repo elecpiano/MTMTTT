@@ -11,6 +11,7 @@ using Windows.UI;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Media.Animation;
 using MeiTuTieTie;
+using Shared.Utility;
 
 namespace Shared.Control
 {
@@ -351,6 +352,7 @@ namespace Shared.Control
                 contentPanel.Children.Add(spriteText);
                 contentPanel.MaxWidth = 300d;
                 contentPanel.MinHeight = 80d;
+                contentPanel.Background = new SolidColorBrush(Colors.Yellow);
             }
 
             //AttachManipulationEvents();
@@ -622,9 +624,12 @@ namespace Shared.Control
 
         void spriteText_TextChanged(object sender, TextChangedEventArgs e)
         {
-            SetButtonVisibility(true);
-            SyncButtonsPosition();
-            RaiseSpriteChanged();
+            DelayExecutor.Delay(99d, () =>
+                {
+                    SetButtonVisibility(true);
+                    SyncButtonsPosition();
+                    RaiseSpriteChanged();
+                });
         }
 
         void spriteText_EditingStarted(object sender, EventArgs e)

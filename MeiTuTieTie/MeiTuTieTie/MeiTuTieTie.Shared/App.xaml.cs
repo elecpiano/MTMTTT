@@ -129,7 +129,10 @@ namespace MeiTuTieTie
                 //    page = rootFrame.Content as MeiTuTieTie.Pages.OperationPage;
                 //}
 
-                page.PickPhotosContiue((FileOpenPickerContinuationEventArgs)args);
+                if (page != null)
+                {
+                    page.PickPhotosContiue((FileOpenPickerContinuationEventArgs)args);
+                }
 
                 //ensure the current window is active
                 Window.Current.Activate();
