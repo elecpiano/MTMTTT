@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest" xmlns:m2="http://schemas.microsoft.com/appx/2013/manifest" xmlns:m3="http://schemas.microsoft.com/appx/2014/manifest" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest">
-  <Identity Name="499e159e-aa8e-4e4a-96d4-9ff14c46026e" Publisher="CN=jasoli" Version="1.0.0.0" />
-  <mp:PhoneIdentity PhoneProductId="499e159e-aa8e-4e4a-96d4-9ff14c46026e" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
+  <Identity Name="729ABAD7.417147508C696" Publisher="CN=E0388F02-A04E-449A-A622-1CD1A578B894" Version="1.1.0.0" />
+  <mp:PhoneIdentity PhoneProductId="65de02b1-44c8-4e7d-a256-b0fb2ae54dad" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
-    <DisplayName>MeiTuTieTie.WindowsPhone</DisplayName>
-    <PublisherDisplayName>jasoli</PublisherDisplayName>
+    <DisplayName>美图贴贴</DisplayName>
+    <PublisherDisplayName>厦门美图网科技有限公司</PublisherDisplayName>
     <Logo>Assets\Images\Logo\StoreLogo.png</Logo>
   </Properties>
   <Prerequisites>

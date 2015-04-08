@@ -1,4 +1,4 @@
-MainPackage=C:\Users\jasoli\Documents\GitHub\MTMTTT\MeiTuTieTie\MeiTuTieTie\MeiTuTieTie.WindowsPhone\bin\ARM\Debug\MeiTuTieTie.WindowsPhone_1.0.0.0_Bundle\MeiTuTieTie.WindowsPhone_1.0.0.0_ARM_Debug.appx
-SymbolPackage=C:\Users\jasoli\Documents\GitHub\MTMTTT\MeiTuTieTie\MeiTuTieTie\MeiTuTieTie.WindowsPhone\AppPackages\MeiTuTieTie.WindowsPhone_1.0.0.0_Debug_Test\MeiTuTieTie.WindowsPhone_1.0.0.0_ARM_Debug.appxsym
-ResourcePack=C:\Users\jasoli\Documents\GitHub\MTMTTT\MeiTuTieTie\MeiTuTieTie\MeiTuTieTie.WindowsPhone\bin\ARM\Debug\MeiTuTieTie.WindowsPhone_1.0.0.0_Bundle\MeiTuTieTie.WindowsPhone_1.0.0.0_scale-100.appx
-ResourcePack=C:\Users\jasoli\Documents\GitHub\MTMTTT\MeiTuTieTie\MeiTuTieTie\MeiTuTieTie.WindowsPhone\bin\ARM\Debug\MeiTuTieTie.WindowsPhone_1.0.0.0_Bundle\MeiTuTieTie.WindowsPhone_1.0.0.0_scale-140.appx
+MainPackage=C:\Users\jasoli\Documents\GitHub\MTMTTT\MeiTuTieTie\MeiTuTieTie\MeiTuTieTie.WindowsPhone\bin\ARM\Release\MeiTuTieTie.WindowsPhone_1.1.0.0_Bundle\MeiTuTieTie.WindowsPhone_1.1.0.0_ARM.appx
+SymbolPackage=C:\Users\jasoli\Documents\GitHub\MTMTTT\MeiTuTieTie\MeiTuTieTie\MeiTuTieTie.WindowsPhone\AppPackages\MeiTuTieTie.WindowsPhone_1.1.0.0_Test\MeiTuTieTie.WindowsPhone_1.1.0.0_ARM.appxsym
+ResourcePack=C:\Users\jasoli\Documents\GitHub\MTMTTT\MeiTuTieTie\MeiTuTieTie\MeiTuTieTie.WindowsPhone\bin\ARM\Release\MeiTuTieTie.WindowsPhone_1.1.0.0_Bundle\MeiTuTieTie.WindowsPhone_1.1.0.0_scale-100.appx
+ResourcePack=C:\Users\jasoli\Documents\GitHub\MTMTTT\MeiTuTieTie\MeiTuTieTie\MeiTuTieTie.WindowsPhone\bin\ARM\Release\MeiTuTieTie.WindowsPhone_1.1.0.0_Bundle\MeiTuTieTie.WindowsPhone_1.1.0.0_scale-140.appx

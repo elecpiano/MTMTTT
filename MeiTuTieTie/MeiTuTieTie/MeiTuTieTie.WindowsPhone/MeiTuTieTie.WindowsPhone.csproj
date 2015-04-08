@@ -16,7 +16,7 @@
     <ProjectTypeGuids>{76F1466A-8B6D-4E39-A767-685A06062A39};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <SynthesizeLinkMetadata>true</SynthesizeLinkMetadata>
     <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
-    <AppxBundlePlatforms>neutral</AppxBundlePlatforms>
+    <AppxBundlePlatforms>arm</AppxBundlePlatforms>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -226,6 +226,7 @@
     <Content Include="Assets\Images\Welcome\Welcome3.jpg" />
     <Content Include="Assets\Images\Welcome\Welcome4.jpg" />
     <Content Include="Assets\Images\Welcome\WelcomeGoButton.png" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="theme\0\beijing_00.jpg" />
     <Content Include="theme\0\beijing_01.jpg" />
     <Content Include="theme\0\beijing_02.jpg" />
