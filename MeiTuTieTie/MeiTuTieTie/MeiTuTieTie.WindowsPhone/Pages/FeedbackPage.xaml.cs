@@ -41,6 +41,14 @@ namespace MeiTuTieTie.Pages
             {
                 VisualStateManager.GoToState(this, "vsFeedbackType1", true);
             }
+
+            UmengSDK.UmengAnalytics.TrackPageStart(this.GetType().ToString());
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            UmengSDK.UmengAnalytics.TrackPageEnd(this.GetType().ToString());
         }
 
         #endregion

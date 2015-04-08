@@ -115,6 +115,8 @@ namespace MeiTuTieTie.Pages
             }
 
             NavigationHelper.ActivePage = this.GetType();
+
+            UmengSDK.UmengAnalytics.TrackPageStart(this.GetType().ToString());
         }
 
         private void navigationHelper_CanGobackAsked(object sender, ref bool canceled)
@@ -172,6 +174,8 @@ namespace MeiTuTieTie.Pages
             }
 
             base.OnNavigatedFrom(e);
+
+            UmengSDK.UmengAnalytics.TrackPageEnd(this.GetType().ToString());
         }
 
         #endregion

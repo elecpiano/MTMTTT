@@ -36,6 +36,14 @@ namespace MeiTuTieTie.Pages
             base.OnNavigatedTo(e);
 
             LoadData(e.Parameter);
+
+            UmengSDK.UmengAnalytics.TrackPageStart(this.GetType().ToString());
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            UmengSDK.UmengAnalytics.TrackPageEnd(this.GetType().ToString());
         }
 
         #endregion

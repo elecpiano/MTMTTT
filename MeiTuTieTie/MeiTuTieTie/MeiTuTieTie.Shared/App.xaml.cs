@@ -3,6 +3,7 @@ using Shared.Enum;
 using Shared.Model;
 using System;
 using System.Collections.Generic;
+using UmengSDK;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.Core;
@@ -37,6 +38,7 @@ namespace MeiTuTieTie
         {
             this.InitializeComponent();
             this.Suspending += this.OnSuspending;
+            this.Resuming += this.App_Resuming;
 
             //custom code
             CurrentInstance = this;
@@ -49,7 +51,7 @@ namespace MeiTuTieTie
         /// search results, and so forth.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
 #if DEBUG
             if (System.Diagnostics.Debugger.IsAttached)
@@ -109,9 +111,11 @@ namespace MeiTuTieTie
 
             // Ensure the current window is active
             Window.Current.Activate();
+
+            await UmengAnalytics.StartTrackAsync(Shared.Global.Constants.UMENG_APP_KEY);
         }
 
-        protected override void OnActivated(IActivatedEventArgs args)
+        protected override async void OnActivated(IActivatedEventArgs args)
         {
             base.OnActivated(args);
 
@@ -139,6 +143,7 @@ namespace MeiTuTieTie
             }
 #endif
 
+            await UmengAnalytics.StartTrackAsync(Shared.Global.Constants.UMENG_APP_KEY);
         }
 
 #if WINDOWS_PHONE_APP
@@ -162,14 +167,19 @@ namespace MeiTuTieTie
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
+        private async void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();
 
             // TODO: Save application state and stop any background activity
+            await UmengAnalytics.EndTrackAsync();
             deferral.Complete();
         }
 
+        async void App_Resuming(object sender, object e)
+        {
+            await UmengAnalytics.StartTrackAsync(Shared.Global.Constants.UMENG_APP_KEY);
+        }
 
         /************************ custom code from here on ************************/
 
@@ -268,7 +278,7 @@ namespace MeiTuTieTie
 
         void App_UnhandledException(object sender, UnhandledExceptionEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
     }

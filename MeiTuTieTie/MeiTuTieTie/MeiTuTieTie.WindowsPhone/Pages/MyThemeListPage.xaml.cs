@@ -48,6 +48,8 @@ namespace MeiTuTieTie.Pages
                 LoadData();
                 BuildBottomAppBar_Normal();
             }
+
+            UmengSDK.UmengAnalytics.TrackPageStart(this.GetType().ToString());
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -61,6 +63,12 @@ namespace MeiTuTieTie.Pages
                 this.NavigationCacheMode = Windows.UI.Xaml.Navigation.NavigationCacheMode.Required;
             }
             base.OnNavigatingFrom(e);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            UmengSDK.UmengAnalytics.TrackPageEnd(this.GetType().ToString());
         }
 
         #endregion

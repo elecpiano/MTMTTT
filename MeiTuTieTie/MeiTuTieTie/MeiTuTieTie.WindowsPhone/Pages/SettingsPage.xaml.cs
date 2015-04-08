@@ -49,6 +49,8 @@ namespace MeiTuTieTie.Pages
             if (e.NavigationMode == NavigationMode.New)
             {
             }
+
+            UmengSDK.UmengAnalytics.TrackPageStart(this.GetType().ToString());
         }
 
         protected override void OnNavigatingFrom(NavigatingCancelEventArgs e)
@@ -68,6 +70,8 @@ namespace MeiTuTieTie.Pages
             }
 
             base.OnNavigatedFrom(e);
+
+            UmengSDK.UmengAnalytics.TrackPageEnd(this.GetType().ToString());
         }
 
         #endregion

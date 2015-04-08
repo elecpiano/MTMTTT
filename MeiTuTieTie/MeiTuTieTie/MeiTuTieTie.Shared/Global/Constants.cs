@@ -6,6 +6,9 @@ namespace Shared.Global
 {
     public class Constants
     {
+        //app key
+        public const string UMENG_APP_KEY = "5524f8f9fd98c5dcb9000700";
+
         //files
         public const string THEME_MODULE = "theme";
         public const string THUMBNAIL_FOLDER = "thumbnails";

@@ -67,6 +67,14 @@ namespace MeiTuTieTie.Pages
                     saveResultPanel.Visibility = Visibility.Collapsed;
                 }
             }
+
+            UmengSDK.UmengAnalytics.TrackPageStart(this.GetType().ToString());
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            UmengSDK.UmengAnalytics.TrackPageEnd(this.GetType().ToString());
         }
 
         #endregion
