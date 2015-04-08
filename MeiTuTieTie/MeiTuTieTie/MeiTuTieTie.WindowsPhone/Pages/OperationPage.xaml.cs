@@ -39,6 +39,7 @@ namespace MeiTuTieTie.Pages
                 return SpriteControl.Sprites.Count(x => x.SpriteType == SpriteType.Photo);
             }
         }
+
         private bool SingleImageLocked
         {
             get
@@ -690,6 +691,12 @@ namespace MeiTuTieTie.Pages
             SpriteControl sprite = null;
             if (SpriteControl.SelectedSprite.SpriteType == SpriteType.Photo)
             {
+                if (ExistingPhotoCount >= PhotoCountMax)
+                {
+                    lightTip.ShowTip("最多 9 张照片哦！");
+                    return;
+                }
+
                 sprite = new SpriteControl(SpriteType.Photo);
                 sprite.SetImage(SpriteControl.SelectedSprite.ImageSource);
             }
