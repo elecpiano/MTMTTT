@@ -104,9 +104,6 @@
     <Compile Include="Pages\ExportPage.xaml.cs">
       <DependentUpon>ExportPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\EmptyPage.xaml.cs">
-      <DependentUpon>EmptyPage.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\FeedbackPage.xaml.cs">
       <DependentUpon>FeedbackPage.xaml</DependentUpon>
     </Compile>
@@ -570,10 +567,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\ExportPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Pages\EmptyPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
